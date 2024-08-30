@@ -16,7 +16,7 @@ const ImageCarousel = ({ images, onImageClick }) => {
             <img
                 src={images[currentImageIndex]}
                 alt="Product"
-                className="h-[35vh] object-cover aspect-video"
+                className="h-[50vh] object-cover aspect-video"
                 onClick={onImageClick}
             />
         </div>
