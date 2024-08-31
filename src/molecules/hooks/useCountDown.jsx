@@ -12,11 +12,12 @@ const useCountdown = (targetDate, currentTime) => {
         setTimeLeft(formatDistanceStrict(targetDate, currentTime));
       } else {
         setTimeLeft('Time is up!');
-        clearInterval(interval);
+        clearInterval(interval); // Use the interval variable after it's defined
       }
     };
 
     updateCountdown();
+
     const interval = setInterval(() => {
       currentTime.setSeconds(currentTime.getSeconds() + 1);
       updateCountdown();

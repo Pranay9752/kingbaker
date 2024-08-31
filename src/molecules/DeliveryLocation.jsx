@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import BottomSheet from "../atom/popovers/BottomSheet";
 import CountryModal from "../components/product_detail/modals/CountryModal";
 import Cookies from "js-cookie";
 import PincodeModal from "../components/product_detail/modals/PincodeModal";
 import DeliveryLocationComponent from "../components/product_detail/modals/DeliveryLocationComponent";
+import getCookie from "../atom/utils/getCookies";
 
 const DeliveryLocation = ({ country, pincode, location }) => {
   const [countryModal, setCountryModal] = useState(false);
@@ -22,9 +23,9 @@ const DeliveryLocation = ({ country, pincode, location }) => {
   };
 
   const handleSwitchToLocation = (e) => {
-    handleTogglePincodeModal(e, false)
-    handleToggleLocationModal(e, true)
-  }
+    handleTogglePincodeModal(e, false);
+    handleToggleLocationModal(e, true);
+  };
 
   const selectedCountry = JSON.parse(Cookies.get("country"));
 
@@ -88,7 +89,10 @@ const DeliveryLocation = ({ country, pincode, location }) => {
           </svg>
         </div>
       </div>
-      <button onClick={handleToggleLocationModal} className="text-blue-600 text-sm mt-2 text-left">
+      <button
+        onClick={handleToggleLocationModal}
+        className="text-blue-600 text-sm mt-2 text-left"
+      >
         Don't Know Pincode?
       </button>
       <BottomSheet

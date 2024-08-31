@@ -5,6 +5,7 @@ import Rating from "../../molecules/Rating";
 import OffersAvailable from "../../molecules/OffersAvailable";
 import ProductMetaDetail from "../../molecules/ProductMetaDetail";
 import ProductCarousel from "../../molecules/carousal/ProductCarousal";
+import ReviewCarousel from "../../molecules/carousal/ReviewCarousal";
 
 const ProductDetails = ({
   title,
@@ -86,6 +87,7 @@ const ProductDetails = ({
         <OffersAvailable />
         <ProductMetaDetail />
 
+        <ReviewCarousel title={"What customers are saying"} />
         <ProductCarousel
           title="Recently viewed by you"
           products={products}
@@ -104,8 +106,7 @@ const ProductDetails = ({
           className="my-custom-class"
           cardClassName="my-card-class"
         />
-      <div className="h-32" />
-
+        <div className="h-32" />
       </div>
     </div>
   );

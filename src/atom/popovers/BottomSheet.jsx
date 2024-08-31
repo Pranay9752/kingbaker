@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-const BottomSheet = ({ isOpen, onClose, children }) => {
+const BottomSheet = ({ isOpen, onClose, children, maxHeight, className }) => {
     return (
       <AnimatePresence>
         {isOpen && (
@@ -18,8 +18,8 @@ const BottomSheet = ({ isOpen, onClose, children }) => {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 40, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 p-4"
-              style={{ maxHeight: "99vh", overflowY: "auto" }}
+              className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 p-4 ${className}`}
+              style={{ maxHeight: maxHeight ?? "99vh", overflowY: "auto" }}
             >
               {/* <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" /> */}
               {children}

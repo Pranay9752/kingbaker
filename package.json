@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
+    "axios": "^1.7.6",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.29",
     "js-cookie": "^3.0.5",

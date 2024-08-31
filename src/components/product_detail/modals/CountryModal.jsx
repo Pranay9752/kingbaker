@@ -72,8 +72,8 @@ const CountryModal = ({ closeModal }) => {
   );
 
   return (
-    <section className="h-[90vh] flex flex-col justify-start item-center w-full pt-2 ">
-      <div className="p-4 border-b flex justify-between items-center">
+    <section className="h-[90vh] flex flex-col justify-start item-center w-full  ">
+      <div className="pb-3 border-b flex justify-between items-center">
         <h2 className="text-lg font-semibold">All Countries</h2>
         <button onClick={closeModal} className="text-gray-500">
           <svg

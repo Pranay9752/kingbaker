@@ -4,8 +4,8 @@ const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
   const [pincode, setPincode] = useState("");
 
   return (
-    <section className="h-[90vh] flex flex-col justify-start item-center w-full pt-2 ">
-      <div className="p-4 border-b flex justify-between items-center">
+    <section className="h-[90vh] flex flex-col justify-start item-center w-full  ">
+      <div className="pb-3 border-b flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Deliver To</h2>{" "}
         <button onClick={closeModal} className="text-gray-500">
           <svg
