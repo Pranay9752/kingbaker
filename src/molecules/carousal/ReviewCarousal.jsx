@@ -111,7 +111,7 @@ const ReviewCarousel = ({
   cardClassName = "",
 }) => {
   return (
-    <div className={`w-full  ${className}`}>
+    <div id="productReview" className={`w-full  ${className}`}>
       <h2 className="text-lg font-semibold my-3 text-gray-700 whitespace-nowrap truncate ">
         {title}
       </h2>

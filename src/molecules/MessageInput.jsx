@@ -11,6 +11,7 @@ const MessageInput = () => {
             onChange={(e) => setMessage(e.target.value)}
             className="w-full py-3 mt-3 border-2 rounded-lg  "
         />
+
     );
 };
 
