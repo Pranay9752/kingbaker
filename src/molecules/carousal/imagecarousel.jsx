@@ -1,5 +1,65 @@
 import { useEffect, useRef, useState } from "react";
 
+const ImageMagnifier = ({ imageSrc, altText }) => {
+  const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 });
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const imageRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (imageRef.current) {
+      const { left, top } = imageRef.current.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+      setMagnifierPosition({ x, y });
+    }
+  };
+
+  const handleMouseEnter = () => setShowMagnifier(true);
+  const handleMouseLeave = () => setShowMagnifier(false);
+
+  return (
+    <div className="relative h-[428px] w-[428px]">
+      <img
+        ref={imageRef}
+        src={imageSrc}
+        alt={altText}
+        className="h-full w-full object-cover"
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
+      {showMagnifier && (
+        <>
+          <div
+            className="absolute border-2 border-white/80 bg-white/30 pointer-events-none"
+            style={{
+              left: magnifierPosition.x - 38,
+              top: magnifierPosition.y - 38,
+              width: "76px",
+              height: "76px",
+              zIndex:9999
+            }}
+          />
+          <div className="absolute left-full  top-0 border border-gray-300">
+            <div
+              className="w-[500px] h-[500px] overflow-hidden"
+              style={{
+                backgroundImage: `url(${imageSrc})`,
+                backgroundPosition: `-${magnifierPosition.x * 10 - 50}px -${
+                  magnifierPosition.y * 10 - 50
+                }px`,
+                backgroundSize: `${imageRef.current?.width * 10}px ${
+                  imageRef.current?.height * 10
+                }px`,
+              }}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 const ImageCarousel = ({
   images,
   onImageClick,
@@ -11,10 +71,10 @@ const ImageCarousel = ({
 
   const scrollImages = (direction) => {
     const container = scrollContainerRef.current;
-    const scrollAmount = 64; // Height of one image button
+    const scrollAmount = 70; // Height of one image button
 
     if (container) {
-      if (direction === 'up') {
+      if (direction === "up") {
         container.scrollTop -= scrollAmount;
       } else {
         container.scrollTop += scrollAmount;
@@ -88,9 +148,13 @@ const ImageCarousel = ({
           ))}
         </div>
       </div>
-      <div className="hidden md:flex w-full gap-4  h-[428px]">
+      <div className="hidden md:flex md:sticky w-fit gap-4  h-[428px]">
         <div className="flex flex-col justify-start items-start gap-1 w-fit">
-          <button type="button" className="w-full bg-gray-700">
+          <button
+            type="button"
+            className="w-full bg-gray-700"
+            onClick={() => scrollImages("up")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -104,49 +168,39 @@ const ImageCarousel = ({
               />
             </svg>
           </button>
-          <div className="h-[388px] flex flex-col overflow-auto">
-            {[
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-              ...images,
-            ].map((image, index) => (
-              <div
-                key={index}
-                type="button"
-                className={` h-16 w-16 border-2 overflow-hidden ${
-                  currentImageIndex === index
-                    ? "grayscale  border-[#797e42]"
-                    : "border-transparent"
-                }`}
-                aria-current={currentImageIndex === index}
-                aria-label={`Slide ${index + 1}`}
-                data-carousel-slide-to={index}
-                onClick={() => setCurrentImageIndex(index % 3)}
-              >
-                <img
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                  className=" h-16 object-cover aspect-square"
-                  onClick={() => onImageClick(index)}
-                />
-              </div>
-            ))}
+          <div
+            ref={scrollContainerRef}
+            className="h-[388px] overflow-y-auto hide-scrollbar"
+          >
+            <div className="flex flex-col gap-1 ">
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className={` h-16 w-16 border-2 overflow-hidden bg-red-500 ${
+                    currentImageIndex === index
+                      ? "grayscale  border-[#797e42]"
+                      : "border-white transparent"
+                  }`}
+                  aria-current={currentImageIndex === index}
+                  aria-label={`Slide ${index + 1}`}
+                  data-carousel-slide-to={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                >
+                  <img
+                    src={image}
+                    alt={`Slide ${index + 1}`}
+                    className=" h-16 object-cover aspect-square"
+                    onClick={() => onImageClick(index)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <button type="button" className="w-full bg-gray-700">
+          <button
+            type="button"
+            className="w-full bg-gray-700"
+            onClick={() => scrollImages("down")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -161,88 +215,12 @@ const ImageCarousel = ({
             </svg>
           </button>
         </div>
-        <div>
-          <img
-            src={images[currentImageIndex]}
-            alt={`Selected Image`}
-            className=" h-full object-cover aspect-square"
-            onClick={() => onImageClick(index)}
-          />
-        </div>
-      </div>
-      <div className="hidden md:flex w-full gap-4 h-[428px]">
-      <div className="flex flex-col justify-start items-start gap-1 w-fit">
-        <button
-          type="button"
-          className="w-full bg-gray-700 p-2"
-          onClick={() => scrollImages('up')}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 mx-auto"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-        <div
-          ref={scrollContainerRef}
-          className="h-[388px] flex flex-col overflow-y-scroll"
-        >
-          {[...images,...images,...images].map((image, index) => (
-            <button
-              key={index}
-              type="button"
-              className={`h-16 w-16 border-2 overflow-hidden ${
-                currentImageIndex === index
-                  ? "grayscale border-[#797e42]"
-                  : "border-transparent"
-              }`}
-              aria-current={currentImageIndex === index}
-              aria-label={`Slide ${index + 1}`}
-              data-carousel-slide-to={index}
-              onClick={() => onImageClick(index)}
-            >
-              <img
-                src={image}
-                alt={`Slide ${index + 1}`}
-                className="h-16 object-cover aspect-square"
-              />
-            </button>
-          ))}
-        </div>
-        <button
-          type="button"
-          className="w-full bg-gray-700 p-2"
-          onClick={() => scrollImages('down')}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 mx-auto"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-      <div>
-        <img
-          src={images[currentImageIndex]}
-          alt={`Selected Image`}
-          className="h-full object-cover aspect-square"
+        <ImageMagnifier
+          onClick={() => onImageClick(index)}
+          imageSrc={images[currentImageIndex]}
+          altText={`Selected Image`}
         />
       </div>
-    </div>
     </>
   );
 };

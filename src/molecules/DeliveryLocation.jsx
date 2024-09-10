@@ -35,7 +35,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
         {/* Left section */}
         <div
           onClick={handleToggleCountryModal}
-          className="flex items-center border py-2 px-3 bg-slate-100 select-none"
+          className="flex items-center border py-2 px-3 md:py-0 bg-slate-100 select-none"
         >
           <img
             src={selectedCountry?.flag ?? ""}
@@ -91,7 +91,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
       </div>
       <button
         onClick={handleToggleLocationModal}
-        className="text-blue-600 text-sm mt-2 text-left"
+        className="text-blue-600 text-sm mt-2 text-left md:hidden"
       >
         Don't Know Pincode?
       </button>

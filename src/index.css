@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* *{
+    background-color: #fafafa;
+} */
+.hide-scrollbar::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
