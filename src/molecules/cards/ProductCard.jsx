@@ -10,7 +10,7 @@ const ProductCard = ({
   className = '',
 }) => {
   return (
-    <div className={`flex-none w-40 bg-white px-2 py-2 border rounded-xl hover:bg-slate-50 cursor-pointer  active:scale-95 ease-in-out ${className}`}>
+    <div className={`flex-none w-40 bg-white px-2 py-2 border rounded-xl hover:bg-slate-50 cursor-pointer  active:scale-95 ease-in-out text-left ${className}`}>
       <img src={imageUrl} alt={title} className="w-full h-40 object-cover rounded-lg mb-2" />
       <h3 className="text-sm font-medium">{title}</h3>
       <p className="text-sm font-bold text-gray-900">{price}</p>
