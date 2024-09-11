@@ -3,6 +3,7 @@ import BasicButton from "../atom/button/BasicButton";
 import { useState } from "react";
 import BottomSheet from "../atom/popovers/BottomSheet";
 import ProductAddOns from "../components/product_detail/modals/AddonModal";
+import ModalWrapper from "./wrappers/ModalWrapper";
 
 const ActionButtons = () => {
   const [isAddonOpen, setIsAddonOpen] = useState(false);
@@ -52,14 +53,22 @@ const ActionButtons = () => {
           </BasicButton>
         </div>
       </div>
-      <BottomSheet
+      {/* <BottomSheet
         maxHeight={"101vh"}
         className={"rounded-t-none top-0"}
         isOpen={isAddonOpen}
         onClose={(e) => handleAddonChange(e, false)}
       >
         <ProductAddOns closeModal={(e) => handleAddonChange(e, false)} />
-      </BottomSheet>
+      </BottomSheet> */}
+      <ModalWrapper
+        maxHeight={"101vh"}
+        className={"rounded-t-none md:rounded-t-lg top-0"}
+        isOpen={isAddonOpen}
+        onClose={(e) => handleAddonChange(e, false)}
+      >
+        <ProductAddOns closeModal={(e) => handleAddonChange(e, false)} />
+      </ModalWrapper>
     </>
   );
 };

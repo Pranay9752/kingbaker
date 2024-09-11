@@ -1,13 +1,15 @@
 import React from "react";
 
-const ReviewCard = ({ review, className }) => (
-  <div className={`bg-white rounded-lg shadow-md border px-4 py-2  mx-2 text-left ${className}`}>
+const ReviewCard = ({ key, review, className }) => (
+  <div
+    className={`bg-white rounded-lg shadow-md border px-4 py-2  mx-2 text-left ${className}`}
+  >
     <div className="flex items-center mb-2 w-[250px]">
       <div className="bg-yellow-400 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold mr-2">
-        {review.initial}
+        {review?.initial ?? "U"}
       </div>
       <div>
-        <p className="font-semibold">{review.name}</p>
+        <p className="font-semibold">{review?.name ?? `User`}</p>
         <div className="flex items-center">
           {[...Array(5)].map((_, i) => (
             <svg
@@ -25,11 +27,11 @@ const ReviewCard = ({ review, className }) => (
               />
             </svg>
           ))}
-          <span className="ml-1 text-sm text-gray-600">{review.rating}.0</span>
+          <span className="ml-1 text-sm text-gray-600">{review.rating ?? 0}</span>
         </div>
       </div>
     </div>
-    <p className="text-gray-700 mb-2 text-sm line-clamp-3">{review.comment}</p>
+    <p className="text-gray-700 mb-2 text-sm line-clamp-3">{review.reviews}</p>
     <p className="text-sm text-gray-500">{review.date}</p>
     <p className="text-sm text-gray-500">Delivered At: {review.deliveredAt}</p>
     <p className="text-sm text-gray-500">Occasion: {review.occasion}</p>

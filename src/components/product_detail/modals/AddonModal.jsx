@@ -126,7 +126,7 @@ const ProductAddOns = ({ closeModal }) => {
     [quantities]
   );
   return (
-    <section className=" h-[110vh] overflow-hidden ">
+    <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden ">
       <div className="flex items-center mb-4">
         <svg
           onClick={closeModal}
@@ -153,7 +153,7 @@ const ProductAddOns = ({ closeModal }) => {
         onCategoryChange={setActiveCategory}
       />
 
-      <div className="mt-4 grid grid-cols-2 gap-2 overflow-y-auto h-[67vh] ">
+      <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[67vh] ">
         {filteredProducts.map((product) => (
           <AddonCard
             key={product.id}

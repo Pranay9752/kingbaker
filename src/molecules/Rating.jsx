@@ -1,6 +1,5 @@
 import scrollToDiv from "../atom/utils/scrollToDiv";
 
-import BasicButton from "../atom/button/BasicButton";
 
 const Rating = ({ score, reviews }) => (
   <div className="flex justify-between">
@@ -16,7 +15,7 @@ const Rating = ({ score, reviews }) => (
         {reviews?.length ?? 0} Reviews
       </span>
     </div>
-    <BasicButton
+    <div
       onClick={() => scrollToDiv("offersAvailable")}
       className={
         "text-white md:hidden bg-gray-500 rounded-lg py-1 text-xs px-2 flex gap-1"
@@ -35,7 +34,7 @@ const Rating = ({ score, reviews }) => (
         />
       </svg>
       <span>Offers Available</span>
-    </BasicButton>
+    </div>
   </div>
 );
 

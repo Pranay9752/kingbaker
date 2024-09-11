@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import EventBar from "./EventBar";
+import { useLocation } from "react-router-dom";
 
 const currencies = [
   { code: "USD", name: "United States Dollar" },
@@ -32,13 +33,20 @@ const TopNavbar = ({
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
 
+  const location = useLocation();
+  console.log("location: ", location);
   const toggleCurrency = () => {
     const currentIndex = currencies.indexOf(currency);
     const nextIndex = (currentIndex + 1) % currencies.length;
     setCurrency(currencies[nextIndex]);
   };
 
-  return (
+  const showNavbar = useMemo(() => {
+    const regex = /(checkout|login)/;
+    return !regex.test(location?.pathname ?? "");
+  }, []);
+
+  return showNavbar ? (
     <>
       <nav className="bg-[#7d8035] text-white ">
         <div className="bg-[#707428] w-full h-6 flex items-center text-xs font-semibold justify-end gap-2">
@@ -214,6 +222,8 @@ const TopNavbar = ({
       </nav>
       <EventBar />
     </>
+  ) : (
+    <></>
   );
 };
 

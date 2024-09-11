@@ -90,8 +90,6 @@ function AddNewAddress() {
         alert(JSON.stringify(data));
     };
 
-    console.log(methods.getValues())
-
     return (
         <>
             <Basicheader num={2} title={'Add New Address'} />

@@ -51,7 +51,7 @@ import MessageInput from "./MessageInput";
 import EggOptions from "./EggOption";
 import getCookie from "../atom/utils/getCookies";
 
-const DeliveryInfo = memo(() => {
+const DeliveryInfo = () => {
   const region = useMemo(() => getCookie("region"), []);
   const city = useMemo(() => getCookie("city"), []);
   const pincode = useMemo(() => getCookie("pincode"), []);
@@ -80,6 +80,6 @@ const DeliveryInfo = memo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default DeliveryInfo;

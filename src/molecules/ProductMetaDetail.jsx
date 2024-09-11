@@ -43,7 +43,7 @@ const ProductMetaDetail = ({ details }) => {
   if (details?.length === 0) {
     return <></>;
   }
-  console.log(details?.[selectedSection]?.detail ?? {})
+  console.log(details?.[selectedSection]?.detail ?? {});
 
   return (
     <>
@@ -51,6 +51,7 @@ const ProductMetaDetail = ({ details }) => {
         {details?.map((item, index) => {
           return (
             <BasicButton
+              type={"button"}
               onClick={() => handleChange(index)}
               key={index}
               className={`${
@@ -64,28 +65,33 @@ const ProductMetaDetail = ({ details }) => {
           );
         })}
         <div className="col-span-3">
-          {Object.keys(details?.[selectedSection]?.detail ?? {}).map((key, index) => (
-            <div>
-              <h3 className="text-base font-bold text-gray-800">{key}:</h3>
-              {Array.isArray(details?.[selectedSection]?.detail?.[key]) ? (
-                <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                  {details?.[selectedSection]?.detail[key].map((item, i) => (
-                    <li key={i}>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                  {Object.keys(details?.[selectedSection]?.detail?.[key]).map((item, i) => (
-                    <li key={i}>
-                      {item} - {details?.[selectedSection]?.detail?.[key]?.[item]}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+          {Object.keys(details?.[selectedSection]?.detail ?? {}).map(
+            (key, index) => (
+              <div>
+                <h3 className="text-base font-bold text-gray-800">{key}:</h3>
+                {Array.isArray(details?.[selectedSection]?.detail?.[key]) ? (
+                  <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
+                    {details?.[selectedSection]?.detail[key].map((item, i) => (
+                      <li key={i}>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
+                    {Object.keys(details?.[selectedSection]?.detail?.[key]).map(
+                      (item, i) => (
+                        <li key={i}>
+                          {item} -{" "}
+                          {details?.[selectedSection]?.detail?.[key]?.[item]}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                )}
+              </div>
+            )
+          )}
         </div>
       </div>
       <div id="productMeta" className="hidden md:flex flex-col gap-3 text-left">
@@ -109,11 +115,13 @@ const ProductMetaDetail = ({ details }) => {
                     </ul>
                   ) : (
                     <ul className="list-disc list-inside text-gray-600 flex flex-col gap-1 m-3 mt-2 text-sm ">
-                      {Object.keys((item?.detail ?? {})?.[key]).map((item, i) => (
-                        <li key={i}>
-                          {item} - {(item?.detail ?? {})?.[key]?.[item]}
-                        </li>
-                      ))}
+                      {Object.keys((item?.detail ?? {})?.[key]).map(
+                        (item, i) => (
+                          <li key={i}>
+                            {item} - {(item?.detail ?? {})?.[key]?.[item]}
+                          </li>
+                        )
+                      )}
                     </ul>
                   )}
                 </div>

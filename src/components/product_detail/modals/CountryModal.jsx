@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { FixedSizeList as List } from "react-window";
 import Cookies from "js-cookie";
+import { useFormContext } from "react-hook-form";
 
 const countries = [
   { code: "IN", name: "INDIA", flag: "https://flagsapi.com/IN/shiny/64.png" },
@@ -18,6 +19,7 @@ const countries = [
 const CountryModal = ({ closeModal }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const { setValue } = useFormContext();
 
   const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -29,7 +31,8 @@ const CountryModal = ({ closeModal }) => {
 
   const onCountrySubmit = () => {
     Cookies.set("country", JSON.stringify(selectedCountry));
-    closeModal()
+    setValue(selectedCountry)
+    closeModal();
   };
 
   const Row = useCallback(
@@ -72,7 +75,7 @@ const CountryModal = ({ closeModal }) => {
   );
 
   return (
-    <section className="h-[90vh] flex flex-col justify-start item-center w-full  ">
+    <section className="h-[90vh] md:h-fit flex flex-col justify-start item-center w-full md:w-[20vw] text-left ">
       <div className="pb-3 border-b flex justify-between items-center">
         <h2 className="text-lg font-semibold">All Countries</h2>
         <button onClick={closeModal} className="text-gray-500">

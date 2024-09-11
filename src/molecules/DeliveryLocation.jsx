@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import PincodeModal from "../components/product_detail/modals/PincodeModal";
 import DeliveryLocationComponent from "../components/product_detail/modals/DeliveryLocationComponent";
 import getCookie from "../atom/utils/getCookies";
+import ModalWrapper from "./wrappers/ModalWrapper";
 
 const DeliveryLocation = ({ country, pincode, location }) => {
   const [countryModal, setCountryModal] = useState(false);
@@ -95,13 +96,15 @@ const DeliveryLocation = ({ country, pincode, location }) => {
       >
         Don't Know Pincode?
       </button>
-      <BottomSheet
+
+      <ModalWrapper
         isOpen={countryModal}
         onClose={(e) => handleToggleCountryModal(e, false)}
+        className={`p-3`}
       >
         <CountryModal closeModal={(e) => handleToggleCountryModal(e, false)} />
-      </BottomSheet>
-      <BottomSheet
+      </ModalWrapper>
+      <ModalWrapper
         isOpen={pincodeModal}
         onClose={(e) => handleTogglePincodeModal(e, false)}
       >
@@ -109,15 +112,15 @@ const DeliveryLocation = ({ country, pincode, location }) => {
           closeModal={(e) => handleTogglePincodeModal(e, false)}
           handleSwitchToLocation={handleSwitchToLocation}
         />
-      </BottomSheet>
-      <BottomSheet
+      </ModalWrapper>
+      <ModalWrapper
         isOpen={locationModal}
         onClose={(e) => handleToggleLocationModal(e, false)}
       >
         <DeliveryLocationComponent
           closeModal={(e) => handleToggleLocationModal(e, false)}
         />
-      </BottomSheet>
+      </ModalWrapper>
     </>
   );
 };

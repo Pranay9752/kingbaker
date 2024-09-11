@@ -395,13 +395,13 @@ const ProductDetails = ({
           <EggOptions />
         </div>
         <div className="bg-gray-100 p-2">
-          <DeliveryInfo />
+          <DeliveryInfo key={"mobileDel"} />
         </div>
         <div className="p-2 flex flex-col gap-4">
           <OffersAvailable />
           <ProductMetaDetail details={data?.details ?? []} />
 
-          <ReviewCarousel title={"What customers are saying"} />
+          <ReviewCarousel reviews={data?.reviews ?? []} title={"What customers are saying"} />
           <ProductCarousel
             title="Recently viewed by you"
             products={products}
@@ -423,11 +423,13 @@ const ProductDetails = ({
           <div className="h-32" />
         </div>
       </div>
-      <div className="flex flex-col gap-2 ">
+
+
+      <div className="hidden md:flex flex-col gap-2 ">
         <h2 className="text-xl font-medium  truncate text-left">{title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
-        <DeliveryInfo />
+        <DeliveryInfo  key={"desktopDel"} />
         <ActionButtons />
         <OffersAvailable />
         <ProductMetaDetail details={data?.details ?? []} />

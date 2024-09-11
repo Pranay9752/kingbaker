@@ -1,8 +1,20 @@
-const RadioInput = ({ label, name, checked = false }) => (
-    <label className="mr-4">
-        <input type="radio" name={name} className="mr-1" defaultChecked={checked} />
-        {label}
-    </label>
-);
+import { useFormContext } from "react-hook-form";
 
-export default RadioInput
+const RadioInput = ({ label, name, checked = false }) => {
+  const { register } = useFormContext();
+  return (
+    <label className="mr-4">
+      <input
+        type="radio"
+        id={name}
+        name={name}
+        className="mr-1"
+        defaultChecked={checked}
+        {...register(name)}
+      />
+      {label}
+    </label>
+  );
+};
+
+export default RadioInput;

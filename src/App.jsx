@@ -5,20 +5,24 @@ import CountryWrapper from "./molecules/wrappers/CountryWrapper";
 import CheckOutLogin from "./components/product_detail/checkoutLogin";
 import AddNewAddress from "./components/product_detail/AddAddress";
 import TopNavbar from "./molecules/header/MainNavbar";
+import { Toaster } from "sonner";
+import Home from "./components/home";
 
 function App() {
   return (
     <>
       <TopNavbar />
-      <div className="p-0 mx-auto max-w-[1280px]">
+      <div className="p-0 mx-auto max-w-[1600px]">
         <Routes>
           <Route element={<CountryWrapper />}>
+            <Route path="/" element={<Home />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/checkout/login" element={<CheckOutLogin />} />
             <Route path="/checkout/add-address" element={<AddNewAddress />} />
           </Route>
         </Routes>
       </div>
+      <Toaster duration={600} position="top-center" richColors />
     </>
   );
 }
