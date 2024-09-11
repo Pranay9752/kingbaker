@@ -45,7 +45,7 @@ const OfferItem = ({ logo, description, code, terms }) => {
                     </div>
                     <div className="overflow-y-auto h-[30vh]">
                         <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                            {terms.map((item, i) => (
+                            {TERMS?.map((item, i) => (
                                 <li key={i}><span>{item}</span></li>
                             ))}
                         </ul>

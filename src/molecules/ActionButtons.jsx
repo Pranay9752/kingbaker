@@ -13,7 +13,7 @@ const ActionButtons = () => {
 
   return (
     <>
-      <div className=" fixed md:relative bottom-0 left-0 right-0   bg-white border-t md:border-none">
+      <div className=" fixed md:static bottom-0 left-0 right-0  bg -white border-t md:border-none">
         {/* <OrderTimer /> */}
         <div className="flex md:grid md:grid-cols-2 md:gap-x-8 md:mt-5">
           <BasicButton className="flex-1 bg-white text-orange-500 md:text-white md:bg-[#7D8035] md:rounded-lg  md:shadow">
