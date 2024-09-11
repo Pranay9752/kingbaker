@@ -20,7 +20,7 @@ const withCountry = (WrappedComponent) => {
             const locationResponse = await axios.get(
               `https://ipapi.co/${ip}/json/`
             );
-            
+
             const fetchedCountry = {
               flag: `https://flagsapi.com/${locationResponse.data.country_code}/shiny/64.png`,
               code: locationResponse.data.country_code,
@@ -42,6 +42,7 @@ const withCountry = (WrappedComponent) => {
             Cookies.set("region", locationResponse.data.region, {
               expires: 7,
             });
+          
           } catch (error) {
             console.error("Error fetching the user country:", error);
           }

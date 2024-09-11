@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import AddonCard from "../../../molecules/cards/AddonCard";
 import CategoryFilter from "../../../molecules/CategoryFilter";
+import { useNavigate } from "react-router-dom";
 
 // Sample product data
 const products = [
@@ -94,6 +95,8 @@ const ProductAddOns = ({ closeModal }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
 
+  const navigate = useNavigate()
+  
   const categories = useMemo(
     () => ["All", ...new Set(products.map((p) => p.category))],
     []
@@ -115,10 +118,10 @@ const ProductAddOns = ({ closeModal }) => {
     () =>
       Object.entries(quantities).reduce((curr, [productId, quantity]) => {
         const product = products.find((p) => p.id === parseInt(productId));
-        return {price :curr?.price + (product ? product.price * quantity : 0), quantity : quantity + curr?.quantity};
+        return { price: curr?.price + (product ? product.price * quantity : 0), quantity: quantity + curr?.quantity };
       }, {
-        price:0,
-        quantity:0,
+        price: 0,
+        quantity: 0,
       }),
     [quantities]
   );
@@ -170,8 +173,10 @@ const ProductAddOns = ({ closeModal }) => {
           <span>TOTAL</span>
           <span>₹ {total?.price ?? 0 + 49}</span>
         </div>
-        <button className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold">
-          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` :"OUT"} ADDON
+        <button onClick={() => {
+          navigate("/checkout/login")
+        }} className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold">
+          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"} ADDON
         </button>
       </div>
 

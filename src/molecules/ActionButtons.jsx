@@ -17,13 +17,13 @@ const ActionButtons = () => {
         {/* <OrderTimer /> */}
         <div className="flex">
           <BasicButton className="flex-1 bg-white text-orange-500">
-            <span className="text-lg font-extrabold ">ADD TO CART</span>
+            <span className=" font-bold ">ADD TO CART</span>
           </BasicButton>
           <BasicButton
             onClick={handleAddonChange}
             className="flex-1 bg-orange-500 text-white"
           >
-            <span className="text-lg font-extrabold ">BUY NOW</span>
+            <span className=" font-bold ">BUY NOW</span>
           </BasicButton>
         </div>
       </div>

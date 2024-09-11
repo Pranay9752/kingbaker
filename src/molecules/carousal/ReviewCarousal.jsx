@@ -109,6 +109,7 @@ const ReviewCarousel = ({
   title,
   className = "",
   cardClassName = "",
+  reviews = []
 }) => {
   return (
     <div id="productReview" className={`w-full  ${className}`}>
