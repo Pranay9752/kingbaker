@@ -7,18 +7,20 @@ import AddNewAddress from "./components/product_detail/AddAddress";
 import TopNavbar from "./molecules/header/MainNavbar";
 import { Toaster } from "sonner";
 import Home from "./components/home";
+import CheckOutDetails from "./components/product_detail/CheckOutDetails";
 
 function App() {
   return (
     <>
-      <TopNavbar />
-      <div className="p-0 mx-auto max-w-[1600px]">
+      {/* <TopNavbar /> */}
+      <div className="">
         <Routes>
           <Route element={<CountryWrapper />}>
             <Route path="/" element={<Home />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
-            <Route path="/checkout/login" element={<CheckOutLogin />} />
+            <Route path="/checkout/account" element={<CheckOutLogin />} />
             <Route path="/checkout/add-address" element={<AddNewAddress />} />
+            <Route path="/checkout/details" element={<CheckOutDetails />} />
           </Route>
         </Routes>
       </div>

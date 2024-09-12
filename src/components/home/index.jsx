@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import BirthdayCollection from "./BirthdayCollection";
@@ -27,9 +27,9 @@ const mainStructure = {
   data: {
     meta_data: {
       backgroundColor: "#f2f2f2",
-      display:"flex",
+      display: "flex",
       flexDirection: "column",
-      gap:"20px",
+      gap: "20px",
     },
     data: [
       {
@@ -620,7 +620,7 @@ const mainStructure = {
         boxStyle: {
           backgroundColor: "white",
           borderRadius: "10px",
-          border:'1px solid'
+          border: "1px solid",
         },
         items: [
           {
@@ -749,6 +749,10 @@ const Home = () => {
     };
     return components[data.type] || "hiiiii";
   };
+
+  useEffect(() => {
+    document.body.classList.add("bg-[#f2f2f2]");
+  }, []);
   return (
     <>
       <TopNavbar
@@ -767,7 +771,13 @@ const Home = () => {
         userGreeting="Hi Guest"
       />
       <NavBar />
-      <div style={mainStructure.data.meta_data} className={twMerge("", mainStructure.data.meta_data)}>
+      <div
+        style={mainStructure.data.meta_data}
+        className={twMerge(
+          "p-0 mx-auto max-w-[1600px]",
+          mainStructure.data.meta_data
+        )}
+      >
         {mainStructure.data.data.map((section, index) => {
           return (
             <section key={index} style={section.containerStyle}>

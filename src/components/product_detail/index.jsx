@@ -7,11 +7,12 @@ import ImageModal from "./modals/imageModal";
 import ReviewCarousel from "../../molecules/carousal/ReviewCarousal";
 import ProductCarousel from "../../molecules/carousal/ProductCarousal";
 import EventBar from "../../molecules/header/EventBar";
-import TopNavbar from "../../molecules/header/MainNavbar";
+// import TopNavbar from "../../molecules/header/MainNavbar";
 import { useParams } from "react-router-dom";
 import { useGetProductQuery } from "../../redux/apiSlices/ecom/products";
 import { FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import TopNavbar from "../../molecules/header/TopNavBar";
 
 // Main Component
 const ProductDetail = () => {
@@ -75,7 +76,22 @@ const ProductDetail = () => {
               imageSrc={data?.data?.imageLink?.[0] ?? images[0]}
             />
           </div>
-          <div className="hidden md:flex flex-col justify-start items-center py-10">
+          <TopNavbar
+            logo="/path/to/your/logo.png"
+            title="logo"
+            searchPlaceholder="Search flowers, cakes, gifts, etc."
+            currencies={["INR", "USD", "EUR"]}
+            deliveryLocationText="Select Delivery Location"
+            franchiseEnquiriesText="Franchise Enquiries"
+            corporateGiftsText="Corporate Gifts"
+            moreOptions={[
+              { label: "About Us", link: "/about" },
+              { label: "Contact", link: "/contact" },
+              { label: "FAQ", link: "/faq" },
+            ]}
+            userGreeting="Hi Guest"
+          />
+          <div className="hidden md:flex flex-col justify-start items-center py-10  mx-auto max-w-[1600px]">
             <div className=" flex gap-5 w-full ">
               <div className=" sticky top-4 self-start">
                 <ImageCarousel
