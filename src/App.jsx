@@ -8,6 +8,7 @@ import TopNavbar from "./molecules/header/MainNavbar";
 import { Toaster } from "sonner";
 import Home from "./components/home";
 import CheckOutDetails from "./components/product_detail/CheckOutDetails";
+import ProductSearch from "./components/productListing";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/checkout/account" element={<CheckOutLogin />} />
             <Route path="/checkout/add-address" element={<AddNewAddress />} />
             <Route path="/checkout/details" element={<CheckOutDetails />} />
+            <Route path="/search/" element={<ProductSearch />} />
           </Route>
         </Routes>
       </div>

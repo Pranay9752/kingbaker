@@ -4,9 +4,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Basicheader from "./header/Basicheader";
 import Cookies from "js-cookie";
-import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkouApiSlice";
+// import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkouApiSlice";
 import getCookie from "../../atom/utils/getCookies";
 import { useNavigate } from "react-router-dom";
+import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 
 // Define a pattern for mobile number validation
 const mobileNumberPattern = /^[0-9]{10}$/;
