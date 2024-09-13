@@ -9,7 +9,7 @@ import ProductCarousel from "../../molecules/carousal/ProductCarousal";
 import EventBar from "../../molecules/header/EventBar";
 // import TopNavbar from "../../molecules/header/MainNavbar";
 import { useParams } from "react-router-dom";
-import { useGetProductQuery } from "../../redux/apiSlices/ecom/products";
+import { useGetProductQuery } from "../../redux/apiSlices/ecom/productsApiSlice";
 import { FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import TopNavbar from "../../molecules/header/TopNavBar";
@@ -46,7 +46,6 @@ const ProductDetail = () => {
     console.log("data: ", data);
     alert("data: ", JSON.stringify(data));
   };
-  console.log("values", methods.getValues());
   return (
     <>
       <FormProvider {...methods}>
@@ -140,7 +139,7 @@ const ProductDetail = () => {
           </div>
         </form>
       </FormProvider>
-      <DevTool control={methods.control} /> {/* set up the dev tool */}
+      {/* <DevTool control={methods.control} /> set up the dev tool */}
     </>
   );
 };

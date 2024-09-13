@@ -19,9 +19,16 @@ const CheckoutApi = apiSlice.injectEndpoints({
         }
       }),
     }),
+    getOccation: builder.query({
+      query: () => ({
+        url: `/occation/getOccation/`,// + getCookie("user_id"),
+        method: "GET",
+       
+      }),
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useAddAddressMutation, useGetAddressQuery } = CheckoutApi;
+export const { useAddAddressMutation, useGetAddressQuery, useGetOccationQuery } = CheckoutApi;
