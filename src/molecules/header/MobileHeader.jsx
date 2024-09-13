@@ -1,5 +1,8 @@
+import BasicNav from "../../atom/nav/BasicNav";
+
 const MobileHeader = () => (
-    <div className="fixed top-0 left-0 right-0 bg-[#7e8035] text-white p-4 flex items-center z-10 justify-between">
+    <BasicNav>
+
         <div className='flex justify-start items-center gap-2'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                 <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
@@ -18,6 +21,6 @@ const MobileHeader = () => (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
 
         </div>
-    </div>
+    </BasicNav>
 );
 export default MobileHeader
