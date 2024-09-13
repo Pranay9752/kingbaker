@@ -341,9 +341,9 @@ const EventBar = () => {
           className="bg-white shadow-lg p-4 border absolute left-0 right-0 z-10 text-left"
         //   style={{ width: navWidth }}
         >
-          <div className="grid grid-cols-6 gap-4 px-auto  w-full">
+          <div className="grid grid-cols-6 px-auto  w-full">
             {navItems[activeItem].content.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="space-y-2">
+              <div key={categoryIndex} className={`"pace-y-2 px-2 ${categoryIndex % 2 === 0 && "bg-slate-50"}`}>
                 <h3 className="font-bold text-gray-700">{category.category}</h3>
                 <ul className="space-y-1">
                   {category.items.map((item, itemIndex) => (

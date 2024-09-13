@@ -267,7 +267,7 @@ const OrderDeliveryDetails = ({
   occasion,
   handleOccation,
 }) => {
-  console.log("occasion: ", occasion);
+const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const handleQuantityChange = (id, change) => {
@@ -383,7 +383,9 @@ const OrderDeliveryDetails = ({
         ))}
       </div>
       <div className="w-full px-4">
-        <button className="w-full  bg-orange-500  text-white py-2 rounded-lg mb-4">
+        <button onClick={() => {
+          navigate("/checkout/add-address")
+        }} className="w-full  bg-orange-500  text-white py-2 rounded-lg mb-4">
           Add Address
         </button>
       </div>

@@ -174,7 +174,7 @@ const ProductAddOns = ({ closeModal }) => {
           <span>₹ {total?.price ?? 0 + 49}</span>
         </div>
         <button onClick={() => {
-          navigate("/checkout/login")
+          navigate("/checkout/account")
         }} className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold">
           CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"} ADDON
         </button>

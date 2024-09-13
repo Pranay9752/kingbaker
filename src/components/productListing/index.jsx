@@ -4,6 +4,7 @@ import ProductListing from "./productPage";
 import Sidebar from "./Sidebar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import { useFilterDetailsMutation } from "../../redux/apiSlices/ecom/listingApiSlice";
+import MobileFilterSort from "./MobileFilterSort";
 const ProductSearch = () => {
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
@@ -163,7 +164,7 @@ const ProductSearch = () => {
       />
       <div className="flex h-screen gap-4 bg-gray-100 mt-4 px-4">
         {/* Sidebar */}
-        <div className="w-3/12 bg-gray-100 h-fit rounded-lg overflow-hidden mt-4 sticky top-4">
+        <div className="hidden md:block w-3/12 bg-gray-100 h-fit rounded-lg overflow-hidden mt-4 sticky top-4">
           <Sidebar
             mode="filter"
             textTop={"Filter"}
@@ -173,9 +174,11 @@ const ProductSearch = () => {
         </div>
 
         {/* Product Listing */}
-        <div className="w-full 9/12 overflow-y-scroll h-full scrollbar-hide">
+        <div className="w-full 9/12 overflow-y-scroll h-full hide-scrollbar">
           <ProductListing {...birthdayGiftsData} products={searchData} onScrollEnd={handleLoadMore} />
         </div>
+        <MobileFilterSort />
+
       </div>
     </>
   );
