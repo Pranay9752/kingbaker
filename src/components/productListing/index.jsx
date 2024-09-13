@@ -173,7 +173,7 @@ const ProductSearch = () => {
         </div>
 
         {/* Product Listing */}
-        <div className="w-9/12 overflow-y-scroll h-full scrollbar-hide">
+        <div className="w-full 9/12 overflow-y-scroll h-full scrollbar-hide">
           <ProductListing {...birthdayGiftsData} products={searchData} onScrollEnd={handleLoadMore} />
         </div>
       </div>

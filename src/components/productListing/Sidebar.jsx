@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
+
 
 const MenuItem = ({ item, level = 0, isFilterMode = false }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,17 +36,15 @@ const MenuItem = ({ item, level = 0, isFilterMode = false }) => {
   return (
     <div>
       <div
-        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b ${
-          level > 0 ? "pl-8" : ""
-        } cursor-pointer `}
+        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b ${level > 0 ? "pl-8" : ""
+          } cursor-pointer `}
         onClick={item.children ? toggleOpen : undefined}
       >
-        <span className="">{item.title}</span>
+        <span>{item.title}</span>
         {item.children && (
           <div
-            className={`transform transition-transform duration-300 ${
-              isRotating ? "rotate-360" : ""
-            }`}
+            className={`transform transition-transform duration-300 ${isRotating ? "rotate-360" : ""
+              }`}
           >
             {isOpen ? (
               <svg
@@ -114,8 +115,7 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
   return (
     <div
       className={`
-        ${
-          mode === "menu" ? "fixed top-0 left-0 h-full w-72" : "w-[100%]"
+        ${mode === "menu" ? "fixed top-0 left-0 h-full w-72" : "w-[100%]"
         }  bg-white shadow-lg 
         transform transition-transform duration-300 ease-in-out z-40
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -155,12 +155,12 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
 
       {mode === "filter" && (
         <div className="flex justify-between items-center p-4 bg-white border-b">
-          <h2 className="font-bold text-lg">Filters</h2>
+          <h2 className="font-bold">Filters</h2>
         </div>
       )}
 
       <div className="overflow-y-auto h-[calc(100%-112px)]">
-        <div className="h-72 overflow-y-auto scrollbar-thin">
+        <div className="h-fit overflow- y-scroll scrollbar-thin">
           {items.map((item, index) => (
             <MenuItem
               key={index}
