@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 const DeliveryLocationComponent = ({ closeModal }) => {
+  const { register } = useFormContext();
+
   const [location, setLocation] = useState("");
 
   return (
-    <section className="h-[90vh] flex flex-col justify-start item-center w-full pt-2 relative">
+    <section className="h-[90vh] md:h-fit flex flex-col justify-start item-center w-full pt-2 md:pt-0 relative text-left">
       <button
         onClick={closeModal}
-        className="text-gray-500 absolute right-2 top-2"
+        className="text-gray-500 absolute right-2 top-2 md:-top-2 md:-right-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +25,9 @@ const DeliveryLocationComponent = ({ closeModal }) => {
           />
         </svg>
       </button>
-      <h1 className="text-2xl font-bold mb-2">Choose Your Delivery Location</h1>
+      <h1 className="text-2xl font-bold mb-2 md:mb-0 mt-5">
+        Choose Your Delivery Location
+      </h1>
       <p className="text-gray-600 mb-6">
         Enter area or locality to get the Pincode.
       </p>
@@ -48,6 +53,7 @@ const DeliveryLocationComponent = ({ closeModal }) => {
               placeholder="* Enter Area or Locality"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              {...register("address")}
               className="w-full outline-none text-gray-700 placeholder-gray-500"
             />
           </div>

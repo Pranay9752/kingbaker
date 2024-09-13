@@ -113,10 +113,10 @@ const ReviewCarousel = ({
 }) => {
   return (
     <div id="productReview" className={`w-full  ${className}`}>
-      <h2 className="text-lg font-semibold my-3 text-gray-700 whitespace-nowrap truncate ">
+      <h2 className="text-lg font-semibold my-3 text-gray-700 whitespace-nowrap truncate  md:text-left">
         {title}
       </h2>
-      <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex gap-1 overflow-x-auto pb-4 scrollbar-hide w-full">
         {reviews.map((review, index) => (
           <ReviewCard  key={index} className={cardClassName} review={review} />
         ))}

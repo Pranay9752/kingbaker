@@ -7,15 +7,17 @@ import ProductMetaDetail from "../../molecules/ProductMetaDetail";
 import ProductCarousel from "../../molecules/carousal/ProductCarousal";
 import ReviewCarousel from "../../molecules/carousal/ReviewCarousal";
 import { productscarousels } from "./dummyData";
+import ActionButtons from "../../molecules/ActionButtons";
 
 const ProductDetails = ({
+  data,
   title,
   rating,
   reviews,
   price,
   taxInfo,
   timeLeft,
-  data
+  
 }) => {
   const products = [
     {
@@ -384,46 +386,55 @@ const ProductDetails = ({
   // }
 
   return (
-    <div className="absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
-      <div className="p-2 flex flex-col gap-2">
-        <h2 className="text-lg mb-2 truncate">{data?.title ?? ""}</h2>
-        <Rating score={data?.rating ?? 0} reviews={data.reviews?.data?.length ?? 0} />
-        <PriceInfo price={data?.price ?? 0} taxInfo={taxInfo} />
-        <EggOptions />
-      </div>
-      <main className="grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 2fr)',
-        gridTemplateRows: 'repeat(7, 1fr)',
-        gap: '20px',
-      }}>
-        <div className="box" style={{ gridColumn: '1 / 6', gridRow: '1 / 5' }}>1</div>
-        <div className="box" style={{ gridColumn: '6 / 11', gridRow: '1 / 5' }}>2</div>
-        <div className="box" style={{ gridColumn: '1 / 3', gridRow: '5 / 8' }}>3</div>
-        <div className="box" style={{ gridColumn: '3 / 5', gridRow: '5 / 8' }}>4</div>
-        <div className="box" style={{ gridColumn: '5 / 7', gridRow: '5 / 8' }}>5</div>
-        <div className="box" style={{ gridColumn: '7 / 9', gridRow: '5 / 8' }}>6</div>
-        <div className="box" style={{ gridColumn: '9 / 11', gridRow: '5 / 8' }}>7</div>
-      </main>
+    <>
+      <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
+        <div className="p-2 flex flex-col gap-2">
+          <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
+          <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
+          <PriceInfo price={data?.prices ?? 0} taxInfo={taxInfo} />
+          <EggOptions />
+        </div>
+        <div className="bg-gray-100 p-2">
+          <DeliveryInfo key={"mobileDel"} />
+        </div>
+        <div className="p-2 flex flex-col gap-4">
+          <OffersAvailable />
+          <ProductMetaDetail details={data?.details ?? []} />
 
-      <div className="bg-gray-100 p-2">
-        <DeliveryInfo />
-      </div>
-      <div className="p-2 flex flex-col gap-4">
-        <OffersAvailable offers={data?.offers ?? []} />
-        <ProductMetaDetail data={data?.meta_data ?? []} />
-        <ReviewCarousel title={data?.reviews?.title} reviews={data?.reviews?.data} />
-        {
-          productscarousels?.map((item, index) => <ProductCarousel key={index}
-            title={item?.title ?? ""}
-            products={item?.products ?? []}
+          <ReviewCarousel reviews={data?.reviews ?? []} title={"What customers are saying"} />
+          <ProductCarousel
+            title="Recently viewed by you"
+            products={products}
             className="my-custom-class"
             cardClassName="my-card-class"
-          />)
-        }
-        <div className="h-32" />
+          />
+          <ProductCarousel
+            title="You may also like"
+            products={products}
+            className="my-custom-class"
+            cardClassName="my-card-class"
+          />
+          <ProductCarousel
+            title="What others are viewing"
+            products={products}
+            className="my-custom-class"
+            cardClassName="my-card-class"
+          />
+          <div className="h-32" />
+        </div>
       </div>
-    </div>
+
+
+      <div className="hidden md:flex flex-col gap-2 ">
+        <h2 className="text-xl font-medium  truncate text-left">{title}</h2>
+        <Rating score={rating} reviews={reviews} />
+        <PriceInfo price={price} taxInfo={taxInfo} />
+        <DeliveryInfo  key={"desktopDel"} />
+        <ActionButtons />
+        <OffersAvailable />
+        <ProductMetaDetail details={data?.details ?? []} />
+      </div>
+    </>
   );
 };
 

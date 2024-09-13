@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
+  const { register } = useFormContext();
+
   const [pincode, setPincode] = useState("");
 
   return (
-    <section className="h-[90vh] flex flex-col justify-start item-center w-full  ">
+    <section className="h-[90vh] md:h-[30vh] flex flex-col justify-start item-center w-full md:w-[20vw]  ">
       <div className="pb-3 border-b flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Deliver To</h2>{" "}
         <button onClick={closeModal} className="text-gray-500">
@@ -44,12 +47,16 @@ const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
               placeholder="Enter Pincode"
               value={pincode}
               onChange={(e) => setPincode(e.target.value)}
+              {...register("pincode")}
               className="w-full outline-none text-gray-700 placeholder-gray-500"
             />
           </div>
         </div>
       </div>
-      <button onClick={handleSwitchToLocation} className="text-blue-600 text-sm mt-2 text-left">
+      <button
+        onClick={handleSwitchToLocation}
+        className="text-blue-600 text-sm mt-2 text-left"
+      >
         Don't Know Pincode?
       </button>
     </section>

@@ -4,19 +4,28 @@ import ProductDetail from "./components/product_detail";
 import CountryWrapper from "./molecules/wrappers/CountryWrapper";
 import CheckOutLogin from "./components/product_detail/checkoutLogin";
 import AddNewAddress from "./components/product_detail/AddAddress";
-
+import TopNavbar from "./molecules/header/MainNavbar";
+import { Toaster } from "sonner";
+import Home from "./components/home";
+import CheckOutDetails from "./components/product_detail/CheckOutDetails";
 
 function App() {
   return (
-    <div className="p-0">
-      <Routes>
-        <Route element={<CountryWrapper />}>
-          <Route path="/gift/name" element={<ProductDetail />} />
-          <Route path="/checkout/login" element={<CheckOutLogin />} />
-          <Route path="/checkout/add-address" element={<AddNewAddress />} />
-        </Route>
-      </Routes>
-    </div>
+    <>
+      {/* <TopNavbar /> */}
+      <div className="">
+        <Routes>
+          <Route element={<CountryWrapper />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/checkout/account" element={<CheckOutLogin />} />
+            <Route path="/checkout/add-address" element={<AddNewAddress />} />
+            <Route path="/checkout/details" element={<CheckOutDetails />} />
+          </Route>
+        </Routes>
+      </div>
+      <Toaster duration={600} position="top-center" richColors />
+    </>
   );
 }
 

@@ -1,186 +1,410 @@
-import React, { useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  useCheckEmailMutation,
+  useCreateUserMutation,
+  useLoginUserMutation,
+} from "../../redux/apiSlices/account.jsx/accountSlice";
+import { toast } from "sonner";
+import setCookie from "../../atom/utils/setCookies";
 
+function AccountAuth({ className, handleOnLogin }) {
+  const [isExistingUser, setIsExistingUser] = useState(null);
 
-function AccountAuth({ className }) {
-    const [isExistingUser, setIsExistingUser] = useState(null);
-    const schema = isExistingUser == null ? yup.object().shape({
-        email: yup.string().email('Invalid email').required('Email is required'),
-    }) : yup.object().shape({
-        email: yup.string().email('Invalid email').required('Email is required'),
-        password: yup.string().when('isExistingUser', {
+  const schema =
+    isExistingUser == null
+      ? yup.object().shape({
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+        })
+      : yup.object().shape({
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+          password: yup.string().when("isExistingUser", {
             is: true,
-            then: yup.string().required('Password is required'),
-        }),
-        name: yup.string().when('isExistingUser', {
+            then: yup.string().required("Password is required"),
+          }),
+          name: yup.string().when("isExistingUser", {
             is: false,
-            then: yup.string().required('Name is required'),
-        }),
-        phone: yup.string().when('isExistingUser', {
+            then: yup.string().required("Name is required"),
+          }),
+          mobile: yup.string().when("isExistingUser", {
             is: false,
-            then: yup.string().required('Phone number is required'),
-        }),
-    });
+            then: yup.string().required("Phone number is required"),
+          }),
+        });
+  const methods = useForm({
+    // resolver: yupResolver(schema),
+    defaultValues: {
+      isExistingUser: null, // Default value for isExistingUser in form data
+    },
+  });
 
-    const methods = useForm({
-        resolver: yupResolver(schema),
-        defaultValues: {
-            isExistingUser: false,
-        },
-    });
+  const [loginUser, { isLoading, isError }] = useLoginUserMutation();
+  const [
+    createUser,
+    { isLoading: createUserLoading, isError: creteUserLoading },
+  ] = useCreateUserMutation();
 
-    const navigate = useNavigate()
-    const { register, handleSubmit, setValue, watch, formState: { errors } } = methods;
-    const email = watch('email');
+  const [
+    checkEmail,
+    { isLoading: checkEmailLoading, isError: checkEmailError },
+  ] = useCheckEmailMutation();
 
-    const checkEmailExists = (email) => {
-        // Replace with your logic to check if the email exists
-        const existingEmails = ['user1@example.com', 'user2@example.com'];
-        return existingEmails.includes(email);
-    };
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = methods;
+  const email = watch("email");
 
-    const onSubmit = () => {
-        const data = methods.getValues()
-        console.log(data);
-        methods.trigger()
-        if (isExistingUser == null) {
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await checkEmail({ email });
+      console.log("response: ", response);
+      return response.data.exists;
+    } catch (error) {
+      return null;
+    }
+  };
 
-            const exists = checkEmailExists(data['email']);
-            console.log(exists)
-            setIsExistingUser(exists);
-            setValue('isExistingUser', exists);
-            
-        } else {
+  const onSubmit = async (userData) => {
+    // Trigger validation and get form values
+    const data = methods.getValues();
+    const validationResult = await methods.trigger();
 
+    // Check if validation failed
+    if (!validationResult) {
+      toast.info("Validation failed!");
+      return;
+    }
+
+    // Handle email existence check
+    if (isExistingUser == null) {
+      try {
+        const exists = await checkEmailExists(data.email);
+        if (exists === null) {
+          toast.info("Something Went Wrong!");
+          return;
         }
-        navigate("/checkout")
-    };
-
-    const handleEmailChange = (e) => {
-        const email = e.target.value;
-        const exists = checkEmailExists(email);
         setIsExistingUser(exists);
-        setValue('isExistingUser', exists);
-    };
+        setValue("isExistingUser", exists);
+      } catch (error) {
+        toast.error("Error checking email existence");
+      }
+      return;
+    }
 
-    return (
-        <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className={`shadow bg-white p-4 border-2 rounded-lg ${className}`}>
-                <div className="relative ">
-                    <input
-                        type="text"
-                        id="email"
-                        className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${isExistingUser ? 'border-green-600' : `border-slate-200`} appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
-                        placeholder=" "
-                        {...register('email', { onChange: () => { isExistingUser === false && setIsExistingUser(null) } })}
-                        disabled={isExistingUser}
-                    />
-                    {
-                        isExistingUser == null ? <></> : isExistingUser ? <svg onClick={() => {
-                            methods.reset()
-                            setIsExistingUser(null)
-                        }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 absolute top-1/4 right-3 ">
-                            <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                        </svg>
-                            : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`size-6 text-green-600 absolute top-1/4 right-3  `}>
-                                <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clipRule="evenodd" />
-                            </svg>
-                    }
+    // Handle login or user creation
+    try {
+      const response = isExistingUser
+        ? await loginUser({
+            email: data.email,
+            password: data.password,
+          }).unwrap()
+        : await createUser({
+            user_details: { ...getDefaultUser(), ...userData },
+          });
 
+      console.log(response);
 
-                    <label htmlFor="email" className={`absolute  left-3  text-sm ${isExistingUser ? 'text-green-600' : 'text-gray-500'} duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}>
-                        Email
-                    </label>
-                    {errors.email && <p className="text-left text-red-500 text-xs">{errors.email.message}</p>}
-                </div>
+      if ("error" in response) {
+        toast.error(response.error.data.message);
+        return;
+      }
+      const { user, user_id, email, authcode, message } = response?.data || {};
+      setCookie("user", user);
+      setCookie("user_id", user_id);
+      setCookie("email", email);
+      setCookie("authcode", authcode);
+      setCookie("isAuth", true);
 
-                {isExistingUser != null ? isExistingUser ? (
-                    <div className="relative mt-4">
-                        <input
-                            type="password"
-                            id="password"
-                            className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-                            placeholder=" "
-                            {...register('password')}
-                        />
-                        <label htmlFor="password" className="absolute  left-3  text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
-                            Password
-                        </label>
-                        {errors.password && <p className="text-left text-red-500 text-xs">{errors.password.message}</p>}
-                    </div>
-                ) : (
-                    <>
-                        <div className="flex items-center mt-4">
-                            <div className="relative z-0 w-1/4">
-                                <select
-                                    id="title"
-                                    className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-                                    {...register('title')}
-                                >
-                                    <option value="Mr">Mr.</option>
-                                    <option value="Mrs">Mrs.</option>
-                                    <option value="Ms">Ms.</option>
-                                    <option value="Dr">Dr.</option>
-                                </select>
+      toast.success(message || "Operation successful");
+      handleOnLogin({ data: response?.data });
+    } catch (error) {
+      toast.error("An error occurred");
+    }
+  };
 
-                            </div>
-                            <div className="relative z-0 w-3/4 ml-2">
-                                <input
-                                    type="text"
-                                    id="name"
-                                    className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-                                    placeholder=" "
-                                    {...register('name')}
-                                />
-                                <label htmlFor="name" className="absolute  left-3  text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
-                                    Name
-                                </label>
-                                {errors.name && <p className="text-left text-red-500 text-xs">{errors.name.message}</p>}
-                            </div>
-                        </div>
-                        <div className="flex items-center mt-4">
-                            <div className="relative z-0 w-1/4">
-                                <select
-                                    id="countryCode"
-                                    className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-                                    {...register('countryCode')}
-                                >
-                                    <option value="+91">+91 IND</option>
-                                    <option value="+1">+1 USA</option>
-                                    <option value="+44">+44 UK</option>
-                                </select>
+  // Helper function to get default user details
+  const getDefaultUser = () => ({
+    username: "",
+    email: "",
+    password: "",
+    name: "",
+    mobile: "",
+    dob: "",
+    dateOfAnniversary: "",
+    gender: "NA",
+    address: "",
+    pincode: "",
+    city: "",
+    country: "",
+  });
 
-                            </div>
-                            <div className="relative z-0 w-3/4 ml-2">
-                                <input
-                                    type="text"
-                                    id="phone"
-                                    className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-                                    placeholder=" "
-                                    {...register('phone')}
-                                />
-                                <label htmlFor="phone" className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
-                                    Phone
-                                </label>
-                                {errors.phone && <p className="text-left text-red-500 text-xs">{errors.phone.message}</p>}
-                            </div>
-                        </div>
-                    </>
-                ) : <></>}
+  if (checkEmailLoading || isLoading) {
+    return "Loading...";
+  }
 
-                <button
-                    onClick={onSubmit}
-                    type="button"
-                    className="mt-6 bg-orange-500 text-white py-2 px-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600"
+  return (
+    <FormProvider {...methods}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`shadow bg-white p-4 border-2 rounded-lg ${className}`}
+      >
+        <AnimatePresence>
+          <motion.h3
+            key={isExistingUser} // Ensures the animation triggers on text change
+            className="text-left font-bold text-lg text-gray-800 mb-3"
+            initial={{ x: 100, opacity: 0 }} // Slide in from the left
+            animate={{ x: 0, opacity: 1 }} // Animate to original position
+            exit={{ x: -100, opacity: 0 }} // Slide out to the right
+            transition={{ duration: 0.3 }} // Adjust speed of the animation
+          >
+            {isExistingUser == null
+              ? "Check Email Exist"
+              : isExistingUser
+              ? "Log In"
+              : "Sign Up"}
+          </motion.h3>
+        </AnimatePresence>
+
+        <div className="relative ">
+          <input
+            type="text"
+            id="email"
+            className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${
+              isExistingUser ? "border-green-600" : "border-slate-200"
+            } appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
+            placeholder=" "
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email regex pattern
+                message: "Invalid email format",
+              },
+              onChange: () => {
+                if (isExistingUser === false) {
+                  setIsExistingUser(null); // Reset isExistingUser to null
+                }
+              },
+            })}
+            disabled={isExistingUser} // Disable the field if isExistingUser is true
+          />
+
+          {isExistingUser == null ? (
+            <></>
+          ) : isExistingUser ? (
+            <svg
+              onClick={() => {
+                methods.reset();
+                setIsExistingUser(null);
+              }}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5 absolute top-1/4 right-3 "
+            >
+              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className={`size-6 text-green-600 absolute top-1/4 right-3  `}
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          )}
+
+          <label
+            htmlFor="email"
+            className={`absolute  left-3  text-sm ${
+              isExistingUser ? "text-green-600" : "text-gray-500"
+            } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}
+          >
+            Email
+          </label>
+          {errors.email && (
+            <p className="text-left text-red-500 text-xs">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+        <AnimatePresence>
+          {isExistingUser != null ? (
+            <>
+              <motion.div
+                initial={{ opacity: 0, x: 300 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -300 }}
+                transition={{ duration: 0.3 }}
+                className="relative mt-4"
+              >
+                <input
+                  type="password"
+                  id="password"
+                  className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+                  placeholder=" "
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 7,
+                      message: "Password must be at least 7 characters long",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+                      message:
+                        "Password must contain at least one uppercase letter and one special character",
+                    },
+                  })}
+                />
+                <label
+                  htmlFor="password"
+                  className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
-                    Continue
-                </button>
-            </form>
-        </FormProvider>
-    );
+                  Password
+                </label>
+                {errors.password && (
+                  <p className="text-left text-red-500 text-xs">
+                    {errors.password.message}
+                  </p>
+                )}
+              </motion.div>
+              {!isExistingUser && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0, x: 300 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -300 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center mt-4"
+                  >
+                    <div className="relative z-0 w-1/4">
+                      <select
+                        id="title"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+                        {...register("title")}
+                      >
+                        <option value="Mr">Mr.</option>
+                        <option value="Mrs">Mrs.</option>
+                        <option value="Ms">Ms.</option>
+                        <option value="Dr">Dr.</option>
+                      </select>
+                    </div>
+                    <div className="relative z-0 w-3/4 ml-2">
+                      <input
+                        type="text"
+                        id="name"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+                        placeholder=" "
+                        {...register("name", {
+                          required: "Name is required",
+                          maxLength: "25",
+                        })}
+                      />
+                      <label
+                        htmlFor="name"
+                        className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                      >
+                        Name
+                      </label>
+                      {errors.name && (
+                        <p className="text-left text-red-500 text-xs">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: 300 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -300 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center mt-4"
+                  >
+                    {/* Country Code Dropdown */}
+                    <div className="relative z-0 w-1/4">
+                      <select
+                        id="countryCode"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+                        {...register("countryCode", {
+                          required: "Country code is required",
+                        })}
+                      >
+                        <option value="+91">+91 IND</option>
+                        <option value="+1">+1 USA</option>
+                        <option value="+44">+44 UK</option>
+                      </select>
+                      {errors.countryCode && (
+                        <p className="text-left text-red-500 text-xs">
+                          {errors.countryCode.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Phone Number Input */}
+                    <div className="relative z-0 w-3/4 ml-2">
+                      <input
+                        type="text"
+                        id="mobile"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+                        placeholder=" "
+                        {...register("mobile", {
+                          required: "Phone number is required",
+                          pattern: {
+                            value: /^[0-9]{10}$/, // Phone number must be exactly 10 digits
+                            message: "Phone number must be exactly 10 digits",
+                          },
+                        })}
+                      />
+                      <label
+                        htmlFor="mobile"
+                        className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                      >
+                        Phone
+                      </label>
+                      {errors.mobile && (
+                        <p className="text-left text-red-500 text-xs">
+                          {errors.mobile.message}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </AnimatePresence>
+
+        <button
+          // onClick={onSubmit}
+          type="submit"
+          className="mt-6 bg-orange-500 text-white py-2 px-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600"
+        >
+          Continue
+        </button>
+      </form>
+    </FormProvider>
+  );
 }
 
 export default AccountAuth;
