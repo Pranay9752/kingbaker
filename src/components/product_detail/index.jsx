@@ -17,7 +17,11 @@ import TopNavbar from "../../molecules/header/TopNavBar";
 // Main Component
 const ProductDetail = () => {
   const { productId } = useParams();
-  const methods = useForm({});
+  const methods = useForm({
+    defaultValues: {
+      productId: productId,
+    },
+  });
 
   const { data, isError, isLoading } = useGetProductQuery(
     {
@@ -44,7 +48,6 @@ const ProductDetail = () => {
 
   const onSubmit = (data) => {
     console.log("data: ", data);
-    alert("data: ", JSON.stringify(data));
   };
   return (
     <>
@@ -89,6 +92,7 @@ const ProductDetail = () => {
               { label: "FAQ", link: "/faq" },
             ]}
             userGreeting="Hi Guest"
+            className={"md:block hidden"}
           />
           <div className="hidden md:flex flex-col justify-start items-center py-10  mx-auto max-w-[1600px]">
             <div className=" flex gap-5 w-full ">

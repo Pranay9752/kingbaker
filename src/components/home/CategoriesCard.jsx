@@ -9,7 +9,7 @@ const CategoriesCard = ({ data }) => {
       {data.map((item, index) => (
         <div
           key={index}
-          onClick={() => navigate(item.route)}
+          onClick={() => navigate(`search/${slide.route}`)}
           className="flex flex-col items-center p-2 transition-shadow duration-300"
         >
           <div className="overflow-hidden mb-2">

@@ -2,6 +2,8 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import EventBar from "./EventBar";
+import AddToCartModal from "../../components/addtocart";
+import { twMerge } from "tailwind-merge";
 
 const currencies = [
   { code: "USD", name: "United States Dollar" },
@@ -27,6 +29,7 @@ const TopNavbar = ({
   corporateGiftsText,
   moreOptions = [],
   userGreeting = "Hi Guest",
+  className,
 }) => {
   const [currency, setCurrency] = useState(currencies[0]);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -40,7 +43,7 @@ const TopNavbar = ({
 
   return (
     <>
-      <nav className="bg-[#7d8035] text-white">
+      <nav className={twMerge("bg-[#7d8035] text-white", className)}>
         <div className="bg-[#707428] w-full h-6 flex items-center text-xs font-semibold justify-end gap-2">
           <div className="relative">
             <button
@@ -181,8 +184,11 @@ const TopNavbar = ({
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <button>
+          <div
+            style={{ zIndex: 9999 }}
+            className="flex items-center space-x-4 group relative"
+          >
+            <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -191,7 +197,10 @@ const TopNavbar = ({
               >
                 <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
               </svg>
-            </button>
+              <div className="group-hover:block hidden">
+                <AddToCartModal />
+              </div>
+            </div>
 
             <button className="flex flex-col text-xs font-semibold items-center space-x-1 pr-4">
               <svg

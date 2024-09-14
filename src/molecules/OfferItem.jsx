@@ -47,6 +47,7 @@ const OfferItem = ({ logo, description, code, terms }) => {
           <div className="pb-3 border-b flex justify-between items-center">
             <h2 className="text-lg font-semibold">Terms and Condition</h2>
             <button
+             type="button" 
               onClick={(e) => setIsTerms(false)}
               className="text-gray-500"
             >

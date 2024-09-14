@@ -9,6 +9,7 @@ import { Toaster } from "sonner";
 import Home from "./components/home";
 import CheckOutDetails from "./components/product_detail/CheckOutDetails";
 import ProductSearch from "./components/productListing";
+import Login from "./components/account/login";
 
 function App() {
   return (
@@ -17,12 +18,13 @@ function App() {
       <div className="">
         <Routes>
           <Route element={<CountryWrapper />}>
+            <Route path="/account/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/checkout/account" element={<CheckOutLogin />} />
             <Route path="/checkout/add-address" element={<AddNewAddress />} />
             <Route path="/checkout/details" element={<CheckOutDetails />} />
-            <Route path="/search/" element={<ProductSearch />} />
+            <Route path="/search/:tag" element={<ProductSearch />} />
           </Route>
         </Routes>
       </div>

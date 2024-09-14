@@ -38,7 +38,7 @@ const DeliveryDatePicker = ({ handleSelectDate }) => {
   const renderHeader = () => {
     return (
       <div className="flex items-center justify-between p-4  text-gray-800">
-        <button onClick={prevMonth} className="p-2">
+        <button type="button" onClick={prevMonth} className="p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -57,7 +57,7 @@ const DeliveryDatePicker = ({ handleSelectDate }) => {
         <h2 className="text-xl font-bold">
           {format(currentMonth, "MMMM yyyy")}
         </h2>
-        <button onClick={nextMonth} className="p-2">
+        <button  type="button" onClick={nextMonth} className="p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -32,7 +32,7 @@ const CardCarousel = ({ cards }) => {
         {cards.items.map((card, index) => (
           <div
             key={index}
-            onClick={() => navigate(card.route)}
+            onClick={() => navigate('/search/'+card.route)}
             className="w-1/8 flex-shrink-0 px-2"
           >
             {/* <CardThree

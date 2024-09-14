@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
-import React, { useState,  useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import {
 //   useGetAddressQuery,
 //   useGetOccationQuery,
@@ -17,7 +17,16 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { motion } from "framer-motion"; // For the animation
-import { useGetAddressQuery, useGetOccationQuery } from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import {
+  useAddAddressMutation,
+  useGetAddressQuery,
+  useGetOccationQuery,
+} from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import CheckoutCard from "../../molecules/cards/CheckoutCard";
+import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
+import { twMerge } from "tailwind-merge";
+import { AddressForm } from "./AddAddress";
+import getCookie from "../../atom/utils/getCookies";
 
 const options1 = [
   { value: "birthday", label: "Birthday" },
@@ -115,7 +124,7 @@ const AddOccation = ({ occationData, occationIndex, onOccationSubmit }) => {
             )}
           />
           {errors.occasion && (
-            <p className="text-red-500 text-sm">{errors.occasion.message}</p> 
+            <p className="text-red-500 text-sm">{errors.occasion.message}</p>
           )}
         </div>
 
@@ -266,9 +275,25 @@ const OrderDeliveryDetails = ({
   deliveryDetails,
   occasion,
   handleOccation,
+  className,
+  addresses = [],
 }) => {
-const navigate = useNavigate()
+  const [reicipientAddress, setReicipientAddress] = useState([]);
+  const [openAddAddress, setOpenAddAddress] = useState(false);
+  const [defaultAddress, setDefaultAddress] = useState({
+    title: "Mr",
+    recipientName: "",
+    recipientMobile: "",
+    recipientAltMobile: "",
+    recipientEmail: "",
+    recipientAddress: "",
+    countryCode: "+91",
+    addressType: "home",
+  });
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [addAddress, { isLoading, isError }] = useAddAddressMutation();
 
   const handleQuantityChange = (id, change) => {
     // dispatch({ type: "UPDATE_ADDON_QUANTITY", payload: { id, change } });
@@ -284,8 +309,62 @@ const navigate = useNavigate()
     dispatch(deleteOrder({ id: mainItem?.id }));
   };
 
+  const onAddAddress = (data) => {
+    console.log("datadatadatadatadatadata: ", data);
+    const newAddress = {
+      user_id: getCookie("user_id"),
+      _id: data?._id ?? null,
+      delivary_address: {
+        pincode: getCookie("pincode"),
+        city: "Mumbai",
+        country: "India",
+        landmark: data?.landmark ?? "",
+        area: "Mumbai",
+        addressType: data?.addressType ?? "home",
+        recipientName: data?.recipientName ?? "",
+        recipientMobnumber: data?.recipientMobile ?? "",
+        alternateMobileNo: data?.recipientAltMobile ?? "",
+        alternateEmail: data?.recipientEmail ?? "",
+        recipientAddress: data?.recipientAddress ?? "",
+        title: data?.title ?? "",
+        countryCode: data?.countryCode ?? "",
+      },
+    };
+
+    try {
+      const response = addAddress(newAddress);
+      setReicipientAddress((prev) => {
+        const newArr = [...prev];
+        const addressIndex = newArr.findIndex(
+          (item) => item?._id === data?._id
+        );
+        if (addressIndex == -1) {
+          return [...newArr, data];
+        } else {
+          newArr[addressIndex] = data;
+          return newArr;
+        }
+      });
+      setOpenAddAddress(false);
+      // navigate("/checkout/details");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (addresses?.length > 0 && reicipientAddress?.length === 0) {
+      setReicipientAddress(addresses);
+    }
+  }, [addresses]);
+
   return (
-    <div className=" text-gray-800 py-4 text-left border shadow-xl">
+    <div
+      className={twMerge(
+        ` text-gray-800 py-4 text-left border shadow-xl`,
+        className
+      )}
+    >
       <div className="bg-white text-black rounded-lg p-4 ">
         <div className="flex items-start mb-4">
           <img
@@ -382,12 +461,92 @@ const navigate = useNavigate()
           </div>
         ))}
       </div>
-      <div className="w-full px-4">
-        <button onClick={() => {
-          navigate("/checkout/add-address")
-        }} className="w-full  bg-orange-500  text-white py-2 rounded-lg mb-4">
-          Add Address
-        </button>
+      <div className="w-full px-4 flex flex-col gap-2">
+        {openAddAddress ? (
+          <div className="border rounded-md bg-yellow-300/20">
+            <AddressForm
+              defaultValues={defaultAddress}
+              onSubmit={onAddAddress}
+            />
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              window.innerWidth < 768
+                ? navigate("/checkout/add-address")
+                : setOpenAddAddress(true);
+            }}
+            className="w-full  bg-orange-500 md:bg-white md:text-blue-500 flex md:font-semibold justify-center items-center md:border md:border-dotted md:border-blue-500 text-white py-2 rounded-lg mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5"
+            >
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            Add Address
+          </button>
+        )}
+
+        {reicipientAddress?.map((address, addressIndex) => {
+          return (
+            <>
+              <div
+                key={address?._id}
+                className="bg-blue-100 border relative rounded py-1 px-2 flex items-center gap-2"
+              >
+                <input
+                  type="radio"
+                  id={address?._id}
+                  name="address"
+                  value={address?._id}
+                />
+                <label for={address?._id}>
+                  <div className="flex  items-center gap-2">
+                    <span className="font-semibold text-sm whitespace-nowrap">
+                      {address?.recipientName}
+                    </span>
+                    <div className="h-[5px] w-[5px] rounded-full bg-gray-800" />{" "}
+                    <span className="font-semibold text-sm whitespace-nowrap">
+                      {address?.recipientMobnumber ?? address?.recipientMobile}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="bg-gray-200 text-xs font-bold px-1 rounded-md ">
+                      {address?.addressType}
+                    </span>
+                    <span className="whitespace-nowrap truncate text-sm">
+                      {address?.recipientAddress} {address?.area}{" "}
+                      {address?.city} - {address?.pincode}
+                    </span>
+                  </div>
+                </label>
+                <div
+                  onClick={() => {
+                    setDefaultAddress(address);
+                    setOpenAddAddress(true);
+                  }}
+                  className="absolute top-1 right-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="size-4 cursor-pointer"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </>
+          );
+        })}
       </div>
 
       <div className="bg-white text-black rounded-lg p-4 mb-4">
@@ -441,7 +600,7 @@ const navigate = useNavigate()
           </svg>
 
           <span className="font-semibold ml-2">
-            {occasion?.occasion?.label  ?? "Select Occasion"}
+            {occasion?.occasion?.label ?? "Select Occasion"}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -457,31 +616,6 @@ const navigate = useNavigate()
           </svg>
         </button>
 
-        {/* <button className="w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg flex justify-start items-center px-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="size-6 text-orange-600"
-          >
-            <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-            <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-          </svg>
-
-          <span className="font-semibold ml-2">Free Message Card</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 ml-auto"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button> */}
         <div className="w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg flex justify-start items-center px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -493,7 +627,6 @@ const navigate = useNavigate()
             <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
           </svg>
 
-          {/* <span className="font-semibold ml-2">Free Message Card</span> */}
           <input
             placeholder="Free Message Card"
             className="outline-none bg-transparent border-none ml-2"
@@ -505,11 +638,53 @@ const navigate = useNavigate()
   );
 };
 
+const PriceDetails = () => {
+  return (
+    <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
+      <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <span>Total Product Price</span>
+          <span>₹ 3659</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Shipping</span>
+          <span>₹ 118</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Convenience Charge</span>
+          <span>₹ 59</span>
+        </div>
+        <div className="flex justify-between text-green-600">
+          <span>
+            Donate ₹10 to CIRY{" "}
+            <span className="text-blue-500 cursor-pointer">ⓘ</span>
+          </span>
+          <span>₹10</span>
+        </div>
+      </div>
+      <div className="border-t border-gray-200 my-4"></div>
+      <div className="flex justify-between font-semibold">
+        <span>TOTAL</span>
+        <span>₹ 3836</span>
+      </div>
+  
+      <p className="text-xs text-gray-500 mb-4">
+        By continuing you agree to our T&C/Disclaimer
+      </p>
+      <button className="bg-orange-500 text-white w-full py-2 rounded">
+        PROCEED TO PAY
+      </button>
+    </div>
+  );
+};
+
 function CheckOutDetails() {
   const [isOpen, setIsOpen] = useState(0);
   const [occationIndex, setOccationIndex] = useState(0);
 
   const navigate = useNavigate();
+
   const { data, isError, isLoading } = useGetAddressQuery();
 
   const orderData = useSelector((state) => state.order);
@@ -520,41 +695,92 @@ function CheckOutDetails() {
   };
 
   useEffect(() => {
-    if (data !== null && data?.delivary_address?.length === 0) {
+    console.log(isError);
+    if (
+      data !== null &&
+      data?.delivary_address?.length === 0 &&
+      window.innerWidth < 768
+    ) {
       navigate("/checkout/add-address");
     }
   }, [data]);
 
+  useEffect(() => {
+    if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");
+    return () => {
+      if (window.innerWidth > 768)
+        document.body.classList.remove("bg-[#f2f2f2]");
+    };
+  }, []);
+
   return (
     <>
       <Basicheader num={2} title={"Order & Delivery Details"} />
-      {isOpen === 0 ? (
-        <>
-          <div className="mt-14 p-2">
+      <div className="md:hidden">
+        {isOpen === 0 ? (
+          <>
+            <div className="mt-14 p-2">
+              {orderData?.map((order, index) => {
+                return (
+                  <OrderDeliveryDetails
+                    key={order?.mainItem?.id}
+                    index={index}
+                    addons={order?.addons ?? []}
+                    deliveryDetails={order?.deliveryDetails ?? {}}
+                    mainItem={order?.mainItem ?? {}}
+                    occasion={order?.occasion ?? null}
+                    addresses={data?.delivary_address ?? []}
+                    handleOccation={handleOccation}
+                  />
+                );
+              })}
+            </div>
+          </>
+        ) : isOpen == 1 ? (
+          <AddOccation
+            onOccationSubmit={() => setIsOpen(0)}
+            occationData={orderData?.[occationIndex]?.occasion ?? {}}
+            occationIndex={occationIndex}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className="hidden md:flex justify-center items-start gap-4 py-20 mx-auto max-w-[1600px]">
+        <div className="flex flex-col gap-4 overflow-y-auto h-[90vh] hide-scrollbar">
+          {/* Card 1 */}
+          <CheckoutCard stepNumber={2} title="LOGIN / REGISTER" done={true} />
+
+          {/* Card 2 */}
+          <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS">
             {orderData?.map((order, index) => {
               return (
-                <OrderDeliveryDetails
-                  key={order?.mainItem?.id}
-                  index={index}
-                  addons={order?.addons ?? []}
-                  deliveryDetails={order?.deliveryDetails ?? {}}
-                  mainItem={order?.mainItem ?? {}}
-                  occasion={order?.occasion ?? null}
-                  handleOccation={handleOccation}
-                />
+                <>
+                  <OrderDeliveryDetails
+                    className={"border-none shadow-none "}
+                    key={order?.mainItem?.id}
+                    index={index}
+                    addons={order?.addons ?? []}
+                    deliveryDetails={order?.deliveryDetails ?? {}}
+                    addresses={data?.delivary_address ?? []}
+                    mainItem={order?.mainItem ?? {}}
+                    occasion={order?.occasion ?? null}
+                    handleOccation={handleOccation}
+                  />
+                  <div className="border" />
+                </>
               );
             })}
-          </div>
-        </>
-      ) : isOpen == 1 ? (
-        <AddOccation
-          onOccationSubmit={() => setIsOpen(0)}
-          occationData={orderData?.[occationIndex]?.occasion ?? {}}
-          occationIndex={occationIndex}
-        />
-      ) : (
-        <></>
-      )}
+          </CheckoutCard>
+
+          {/* Card 3 */}
+          <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
+        </div>
+        <div className="sticky">
+          <PriceDetails />
+          <SecurePaymentCard />
+        </div>
+      </div>
     </>
   );
 }

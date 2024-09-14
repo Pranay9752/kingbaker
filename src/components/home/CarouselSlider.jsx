@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Carousel = ({ slides }) => {
+const Carousel = ({ slides, data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
   const nextSlide = () => {
@@ -23,7 +23,7 @@ const Carousel = ({ slides }) => {
   }, []);
 
   return (
-    <div className="relative w-full mx-auto">
+    <div style={data?.boxStyle} className="relative w-full mx-auto">
       <div className="overflow-hidden rounded-lg shadow-lg ">
         <div
           className="flex transition-transform duration-500 ease-out"
@@ -31,7 +31,7 @@ const Carousel = ({ slides }) => {
         >
           {slides.map((slide, index) => (
             <div
-              onClick={() => navigate(slide.route)}
+              onClick={() => navigate(`/search/${slide.route}`)}
               key={index}
               className="w-full flex-shrink-0"
             >

@@ -1,37 +1,37 @@
 import React from "react";
 
 const AddonCard = ({ product, quantity, onQuantityChange }) => {
-
   const handleChange = (e) => {
- 
-
-    onQuantityChange(product.id, e.target.checked ? 1 : 0)
-
-  }
+    onQuantityChange(product.addOn_id, e.target.checked ? 1 : 0);
+  };
 
   return (
-    <div className={`flex flex-col justify-between  p-1.5 rounded-xl border ${quantity > 0 ? "border-orange-600 bg-orange-500/20 " : "bg-slate-50 "}`}>
+    <div
+      className={`flex flex-col justify-between  p-1.5 rounded-xl border ${
+        quantity > 0 ? "border-orange-600 bg-orange-500/20 " : "bg-slate-50 "
+      }`}
+    >
       <img
-        src={product.image}
-        alt={product.name}
+        src={product.images[0]}
+        alt={product.description}
         className="w-full aspect-square object-cover rounded-lg mb-2"
       />
       <div className="text-left flex-1 flex flex-col justify-between">
-
-        <h3 className="font-semibold text-sm line-clamp-2">{product.name}</h3>
+        <h3 className="font-semibold text-sm line-clamp-2">{product.title}</h3>
         <p className="text-lg font-bold">₹ {product.price}</p>
       </div>
       <div className="flex items-center justify-between w-full">
         <input
-        checked={quantity > 0 ? true : false}
+          checked={quantity > 0 ? true : false}
           onChange={handleChange}
           type="checkbox"
           className="form-checkbox h-5 w-5 text-orange-500"
         />
         <div className="flex items-center space-x-2">
           <button
+            type="button"
             onClick={() =>
-              onQuantityChange(product.id, Math.max(0, quantity - 1))
+              onQuantityChange(product.addOn_id, Math.max(0, quantity - 1))
             }
             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300"
           >
@@ -50,7 +50,8 @@ const AddonCard = ({ product, quantity, onQuantityChange }) => {
           </button>
           <span>{quantity}</span>
           <button
-            onClick={() => onQuantityChange(product.id, quantity + 1)}
+            type="button"
+            onClick={() => onQuantityChange(product.addOn_id, quantity + 1)}
             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300"
           >
             <svg
@@ -65,7 +66,7 @@ const AddonCard = ({ product, quantity, onQuantityChange }) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default AddonCard;

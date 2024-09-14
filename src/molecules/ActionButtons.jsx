@@ -4,10 +4,11 @@ import { useState } from "react";
 import BottomSheet from "../atom/popovers/BottomSheet";
 import ProductAddOns from "../components/product_detail/modals/AddonModal";
 import ModalWrapper from "./wrappers/ModalWrapper";
+import { useGetAddOnQuery } from "../redux/apiSlices/ecom/productsApiSlice";
 
 const ActionButtons = () => {
   const [isAddonOpen, setIsAddonOpen] = useState(false);
-
+  const { data } = useGetAddOnQuery();
   const handleAddonChange = (e, value = null) => {
     setIsAddonOpen((prev) => (value ? value : !prev));
   };
@@ -17,7 +18,11 @@ const ActionButtons = () => {
       <div className=" fixed md:static bottom-0 left-0 right-0  bg -white border-t md:border-none">
         {/* <OrderTimer /> */}
         <div className="flex md:grid md:grid-cols-2 md:gap-x-8 md:mt-5">
-          <BasicButton className="flex-1 bg-white text-orange-500 md:text-white md:bg-[#7D8035] md:rounded-lg  md:shadow">
+          <BasicButton
+            type={"button"}
+            onClick={handleAddonChange}
+            className="flex-1 bg-white text-orange-500 md:text-white md:bg-[#7D8035] md:rounded-lg  md:shadow"
+          >
             <div className="text-lg font-extrabold flex gap-2 justify-center items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +37,7 @@ const ActionButtons = () => {
             </div>{" "}
           </BasicButton>
           <BasicButton
+            type={"button"}
             onClick={handleAddonChange}
             className="flex-1 bg-orange-500 text-white md:rounded-lg md:shadow"
           >
@@ -67,7 +73,10 @@ const ActionButtons = () => {
         isOpen={isAddonOpen}
         onClose={(e) => handleAddonChange(e, false)}
       >
-        <ProductAddOns closeModal={(e) => handleAddonChange(e, false)} />
+        <ProductAddOns
+          addons={data?.data ?? []}
+          closeModal={(e) => handleAddonChange(e, false)}
+        />
       </ModalWrapper>
     </>
   );

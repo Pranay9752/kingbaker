@@ -1,7 +1,17 @@
 import React, { useRef, useEffect } from "react";
 import FlowerBouquetCard from "./ProductCard";
 
-const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, promoCard, categories, products, onScrollEnd }) => {
+const ProductListing = ({
+  title,
+  rating,
+  reviewCount,
+  totalItems,
+  sortOptions,
+  promoCard,
+  categories,
+  products,
+  onScrollEnd,
+}) => {
   const listingRef = useRef(null);
 
   // Scroll event handler
@@ -74,10 +84,19 @@ const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, p
           <h1 className="text-2xl font-semibold">{title}</h1>
           <div className="flex items-center gap-4">
             <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
-              {rating} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="ml-1 size-4">
-                <path fillRule="evenodd" d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z" clipRule="evenodd" />
+              {rating}{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="ml-1 size-4"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                  clipRule="evenodd"
+                />
               </svg>
-
             </span>
             <span className="text-blue-600 mr-2">{reviewCount} Reviews</span>
             <span className="text-gray-600 text-md font-md">
@@ -93,10 +112,11 @@ const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, p
           {sortOptions.map((option, index) => (
             <button
               key={index}
-              className={`px-3 py-1 font-semibold text-sm ${index === 0
-                ? " text-[#e87325] border-b-2 border-[#e87325]"
-                : " text-gray-500"
-                }`}
+              className={`px-3 py-1 font-semibold text-sm ${
+                index === 0
+                  ? " text-[#e87325] border-b-2 border-[#e87325]"
+                  : " text-gray-500"
+              }`}
             >
               {option}
             </button>
@@ -133,10 +153,19 @@ const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, p
         <h1 className="text-2xl font-semibold">{title}</h1>
         <div className="flex items-center gap-4">
           <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
-            {rating} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4 ml-1">
-              <path fillRule="evenodd" d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z" clipRule="evenodd" />
+            {rating}{" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="size-4 ml-1"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                clipRule="evenodd"
+              />
             </svg>
-
           </span>
           <span className="text-blue-600 mr-2">{reviewCount} Reviews</span>
         </div>
@@ -146,7 +175,8 @@ const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, p
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6">
           {products.map((product, index) => (
             <FlowerBouquetCard
-              key={index}
+              key={product.productId}
+              productId={product.productId}
               images={product.imageLink || ["/api/placeholder/400/320"]}
               title={product.title || "Untitled Product"}
               price={product.prices || "Price not available"}
@@ -168,4 +198,3 @@ const ProductListing = ({ title, rating, reviewCount, totalItems, sortOptions, p
 };
 
 export default ProductListing;
-

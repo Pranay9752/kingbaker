@@ -2,6 +2,9 @@ import React, { useState, useMemo } from "react";
 import AddonCard from "../../../molecules/cards/AddonCard";
 import CategoryFilter from "../../../molecules/CategoryFilter";
 import { useNavigate } from "react-router-dom";
+import { useFormContext } from "react-hook-form";
+import getCookie from "../../../atom/utils/getCookies";
+import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
 
 // Sample product data
 const products = [
@@ -91,23 +94,24 @@ const products = [
   },
 ];
 
-const ProductAddOns = ({ closeModal }) => {
+const ProductAddOns = ({ closeModal, addons }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
+  const { getValues } = useFormContext();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
+  const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
   const categories = useMemo(
-    () => ["All", ...new Set(products.map((p) => p.category))],
-    []
+    () => ["All", ...new Set(addons.map((p) => p.category))],
+    [addons]
   );
 
   const filteredProducts = useMemo(
     () =>
       activeCategory === "All"
-        ? products
-        : products.filter((p) => p.category === activeCategory),
-    [activeCategory]
+        ? addons
+        : addons.filter((p) => p.category === activeCategory),
+    [activeCategory, addons]
   );
 
   const handleQuantityChange = (productId, newQuantity) => {
@@ -116,15 +120,62 @@ const ProductAddOns = ({ closeModal }) => {
 
   const total = useMemo(
     () =>
-      Object.entries(quantities).reduce((curr, [productId, quantity]) => {
-        const product = products.find((p) => p.id === parseInt(productId));
-        return { price: curr?.price + (product ? product.price * quantity : 0), quantity: quantity + curr?.quantity };
-      }, {
-        price: 0,
-        quantity: 0,
-      }),
-    [quantities]
+      Object.entries(quantities).reduce(
+        (curr, [productId, quantity]) => {
+          const product = addons?.find(
+            (p) => p.addOn_id === parseInt(productId)
+          );
+          return {
+            price: curr?.price + (product ? product.price * quantity : 0),
+            quantity: quantity + curr?.quantity,
+          };
+        },
+        {
+          price: 0,
+          quantity: 0,
+        }
+      ),
+    [quantities, addons]
   );
+
+  // console.log(getValues(), quantities);
+  const handleSubmit = () => {
+    const addonsArr = Object.keys(quantities)?.map((item) => ({
+      addON_id: item,
+      count: quantities[item],
+    }));
+    const formData = getValues();
+    const newOrder = {
+      user_id: getCookie("user_id"),
+      delivary_details: [
+        {
+          message_on_product: formData?.msgOnCake ?? "",
+          imgaes_on_product: formData?.imageOnCake ?? "",
+          is_message: formData?.msgOnCake ? "true" : "false",
+          is_image: formData?.imageOnCake ? "true" : "false",
+          is_veg: formData?.egg == "on" ? "false" : true,
+          product_id: formData?.productId ?? "PROD001",
+          location: {},
+          special_request: "",
+          delivary_date: formData?.day,
+          shipping: {
+            method: formData?.delivery?.title,
+            time: formData?.slot?.time,
+            shipping_amount: formData?.delivery?.price,
+            delivary_date: formData?.day,
+          },
+          order_status: "Processing",
+          payment_status: "Paid",
+          addOn: addonsArr ?? [],
+        },
+      ],
+    };
+    try {
+      createOrder(newOrder);
+      navigate(0);
+    } catch (error) {}
+    console.log(newOrder);
+  };
   return (
     <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden ">
       <div className="flex items-center mb-4">
@@ -156,9 +207,9 @@ const ProductAddOns = ({ closeModal }) => {
       <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[67vh] ">
         {filteredProducts.map((product) => (
           <AddonCard
-            key={product.id}
+            key={product.addOn_id}
             product={product}
-            quantity={quantities[product.id] || 0}
+            quantity={quantities[product.addOn_id] || 0}
             onQuantityChange={handleQuantityChange}
           />
         ))}
@@ -173,13 +224,15 @@ const ProductAddOns = ({ closeModal }) => {
           <span>TOTAL</span>
           <span>₹ {total?.price ?? 0 + 49}</span>
         </div>
-        <button onClick={() => {
-          navigate("/checkout/account")
-        }} className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold">
-          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"} ADDON
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold"
+        >
+          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"}{" "}
+          ADDON
         </button>
       </div>
-
     </section>
   );
 };

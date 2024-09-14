@@ -3,10 +3,12 @@ import React from "react";
 import BasicButton from "../../atom/button/BasicButton";
 
 const CardThree = ({ data }) => {
-  console.log("data: ", data);
   return (
-    <div className=" bg-white rounded-lg shadow-md overflow-hidden transition-all p-2 duration-300 hover:shadow-lg">
-      <div className="h-64 overflow-hidden">
+    <div
+      style={data?.cardStyle}
+      className=" bg-white rounded-lg shadow-md overflow-hidden transition-all p-2 duration-300 hover:shadow-lg"
+    >
+      <div style={data?.imageStyle} className="h-64 overflow-hidden">
         <img
           src={data.image}
           alt={data.text}

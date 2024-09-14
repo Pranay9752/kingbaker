@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import { useFilterDetailsMutation } from "../../redux/apiSlices/ecom/listingApiSlice";
 import MobileFilterSort from "./MobileFilterSort";
+import { useParams } from "react-router-dom";
 const ProductSearch = () => {
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
@@ -108,6 +109,8 @@ const ProductSearch = () => {
     },
   ];
 
+  const tag = useParams();
+  console.log("tag: ", tag);
   const [searchData, setSearchData] = useState([]);
   const [page, setPage] = useState(1);
   const [filterDetails, { isLoading, isError }] = useFilterDetailsMutation();
@@ -116,14 +119,14 @@ const ProductSearch = () => {
   const fetchData = async (page) => {
     try {
       const response = await filterDetails({
-        search_text: "cakes",
+        search_text: tag?.tag ?? "",
         sortBy: "new",
         page,
         limit: 33,
       }).unwrap();
 
       if (response.data.length > 0) {
-        console.log('response: ', response.data);
+        console.log("response: ", response.data);
         setSearchData((prevData) => [...prevData, ...response.data]);
       } else {
         setHasMore(false); // No more data
@@ -163,7 +166,6 @@ const ProductSearch = () => {
         userGreeting="Hi Guest"
       />
       <div className="flex h-screen gap-4 bg-gray-100 mt-4 px-4">
-        {/* Sidebar */}
         <div className="hidden md:block w-3/12 bg-gray-100 h-fit rounded-lg overflow-hidden mt-4 sticky top-4">
           <Sidebar
             mode="filter"
@@ -175,10 +177,13 @@ const ProductSearch = () => {
 
         {/* Product Listing */}
         <div className="w-full 9/12 overflow-y-scroll h-full hide-scrollbar">
-          <ProductListing {...birthdayGiftsData} products={searchData} onScrollEnd={handleLoadMore} />
+          <ProductListing
+            {...birthdayGiftsData}
+            products={searchData}
+            onScrollEnd={handleLoadMore}
+          />
         </div>
         <MobileFilterSort />
-
       </div>
     </>
   );

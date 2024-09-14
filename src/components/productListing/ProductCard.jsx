@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FlowerBouquetCard = ({
+  productId,
   images,
   title,
   price,
@@ -13,6 +15,7 @@ const FlowerBouquetCard = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isHovering && images?.length > 1) {
@@ -34,6 +37,7 @@ const FlowerBouquetCard = ({
         setIsHovering(false);
         setCurrentImageIndex(0);
       }}
+      onClick={() => navigate(`/product/${productId}`)}
     >
       <div className="relative h-64 overflow-hidden">
         {images?.length > 0 &&
@@ -57,7 +61,7 @@ const FlowerBouquetCard = ({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="size-6 text-yellow-400 size-3 fill-current"
+              className=" text-yellow-400 size-3 fill-current"
             >
               <path
                 fillRule="evenodd"

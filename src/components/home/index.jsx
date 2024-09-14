@@ -43,7 +43,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
             type: "image",
-            route: "/route1",
+            route: "chocolate",
             text: "",
             cardStyle: { height: "30vh" },
           },
@@ -51,7 +51,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
             type: "image",
-            route: "/route1",
+            route: "cake",
             text: "",
             cardStyle: { height: "30vh" },
           },
@@ -59,7 +59,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
             type: "image",
-            route: "/route1",
+            route: "flower",
             text: "",
             cardStyle: { height: "30vh" },
           },
@@ -67,7 +67,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
             type: "image",
-            route: "/route1",
+            route: "cherry",
             text: "",
             cardStyle: { height: "30vh" },
           },
@@ -75,7 +75,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
             type: "image",
-            route: "/route1",
+            route: "cakes",
             text: "",
             cardStyle: { height: "30vh" },
           },
@@ -91,63 +91,63 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "Birthday",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "Anniversary",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "flowers",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "chocolate",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "red",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "pink",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "voilet flower",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "gift",
             text: "Birthday",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
             type: "card1",
-            route: "/route1",
+            route: "cakes",
             text: "Birthday",
           },
         ],
@@ -181,12 +181,16 @@ const mainStructure = {
           gridTemplateRows: "repeat(7, 1fr)",
           gap: "20px",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Hero_DeskV2.jpg",
             type: "card2",
-            route: "/route1",
+            route: "table",
             text: null,
             cardStyle: { gridColumn: "1 / 6", gridRow: "1 / 5" },
           },
@@ -194,7 +198,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Hero_DeskV2.jpg",
             type: "card2",
-            route: "/route1",
+            route: "bag",
             text: null,
             cardStyle: { gridColumn: "6 / 11", gridRow: "1 / 5" },
           },
@@ -202,7 +206,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
             type: "card3",
-            route: "/route1",
+            route: "cake red",
             text: "Let them relish each moment with a Cake from you",
             cardStyle: { gridColumn: "1 / 3", gridRow: "5 / 8" },
           },
@@ -210,7 +214,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate cake",
             text: "Let them relish each moment with a Cake from you",
             cardStyle: { gridColumn: "3 / 5", gridRow: "5 / 8" },
           },
@@ -218,7 +222,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
             type: "card3",
-            route: "/route1",
+            route: "cake",
             text: "Let them relish each moment with a Cake from you",
             cardStyle: { gridColumn: "5 / 7", gridRow: "5 / 8" },
           },
@@ -226,7 +230,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
             type: "card3",
-            route: "/route1",
+            route: "flower",
             text: "Let them relish each moment with a Cake from you",
             cardStyle: { gridColumn: "7 / 9", gridRow: "5 / 8" },
           },
@@ -234,7 +238,7 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Let them relish each moment with a Cake from you",
             cardStyle: { gridColumn: "9 / 11", gridRow: "5 / 8" },
           },
@@ -245,82 +249,86 @@ const mainStructure = {
         title: "Gifts In Trend",
         type: "carousel",
         containerStyle: {},
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "rose",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "jasmine",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "bouquet",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "red cherry",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
         ],
@@ -334,40 +342,44 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
         ],
@@ -382,40 +394,44 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
         ],
@@ -429,40 +445,44 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
         ],
@@ -476,40 +496,44 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
           },
         ],
@@ -523,41 +547,83 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            imageStyle: {
+              borderRadius: "100%",
+              backgroundColor: "white",
+              boxShadow:
+                "var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+              "--tw-shadow":
+                "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+              "--tw-shadow-colored":
+                "0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color)",
+              padding: "4px",
+            },
+            cardStyle: {
+              boxShadow: "none",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            imageStyle: {
+              borderRadius: "100%",
+            },
+            cardStyle: {
+              boxShadow: "none",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            imageStyle: {
+              borderRadius: "100%",
+            },
+            cardStyle: {
+              boxShadow: "none",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            imageStyle: {
+              borderRadius: "100%",
+            },
+            cardStyle: {
+              boxShadow: "none",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            imageStyle: {
+              borderRadius: "100%",
+            },
+            cardStyle: {
+              boxShadow: "none",
+            },
           },
         ],
       },
@@ -570,41 +636,60 @@ const mainStructure = {
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
         },
+        boxStyle: {
+          backgroundColor: "white",
+          borderRadius: "10px",
+        },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "30px",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "30px",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "30px",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "30px",
+            },
           },
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "30px",
+            },
           },
         ],
       },
@@ -620,15 +705,17 @@ const mainStructure = {
         boxStyle: {
           backgroundColor: "white",
           borderRadius: "10px",
-          border: "1px solid",
         },
         items: [
           {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "100%",
+            },
             button: {
               name: "Buy Now",
               style: {
@@ -642,8 +729,11 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "100%",
+            },
             button: {
               name: "Buy Now",
               style: {
@@ -657,8 +747,11 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "100%",
+            },
             button: {
               name: "Buy Now",
               style: {
@@ -672,8 +765,11 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "100%",
+            },
             button: {
               name: "Buy Now",
               style: {
@@ -687,8 +783,11 @@ const mainStructure = {
             image:
               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
             type: "card3",
-            route: "/route1",
+            route: "chocolate",
             text: "Bouquet Of 8 Royal Red Roses",
+            cardStyle: {
+              borderRadius: "100%",
+            },
             button: {
               name: "Buy Now",
               style: {
@@ -708,7 +807,7 @@ const Home = () => {
     const components = {
       carusel_full: (
         <div>
-          <Carousel slides={data.items} />
+          <Carousel slides={data.items} data={data} />
         </div>
       ),
       gift_finder: <GiftFinder />,

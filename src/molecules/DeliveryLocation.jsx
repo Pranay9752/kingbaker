@@ -63,7 +63,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
         </div>
 
         {/* Right section */}
-        <div className="flex items-center gap-2 text-xl truncate">
+        <div className="flex justify-around w-full items-center gap-2 text-xl truncate">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -91,6 +91,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
         </div>
       </div>
       <button
+        type="button"
         onClick={handleToggleLocationModal}
         className="text-blue-600 text-sm mt-2 text-left md:hidden"
       >

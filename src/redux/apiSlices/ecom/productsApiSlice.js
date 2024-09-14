@@ -11,9 +11,18 @@ const ProductApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+    getAddOn: builder.query({
+      query: () => ({
+        url: "/addOn/getAddOn",
+        method: "GET",
+        // params: {
+        //   productId: productId,
+        // },
+      }),
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetProductQuery } = ProductApi;
+export const { useGetProductQuery, useGetAddOnQuery } = ProductApi;
