@@ -15,10 +15,11 @@ function App() {
   return (
     <>
       {/* <TopNavbar /> */}
-      <div className="">
+      <div className="bg-[#f2f2f2]">
         <Routes>
           <Route element={<CountryWrapper />}>
             <Route path="/account/login" element={<Login />} />
+            <Route path="/account/details" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/checkout/account" element={<CheckOutLogin />} />

@@ -1,14 +1,14 @@
-
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setFilter } from "../../redux/slices/ecom/filter";
+import { useNavigate } from "react-router-dom";
+import getCookie from "../../atom/utils/getCookies";
 
-
-const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
+const MenuItem = ({ item, level = 0, isFilterMode = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
 
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const toggleOpen = () => {
     if (!isOpen) {
       setIsRotating(true);
@@ -23,16 +23,10 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
 
   if (isFilterMode && item.type === "checkbox") {
     return (
-      <div onClick={(e) => {
-        dispatch(setFilter({ up: item?.uprlmt, down: item?.lwrlmt }))
-        // alert("")
-        // handleLimit?.(e, item?.uprlmt, item?.lwrlmt)
-      }}
-
-        className="py-2 px-4 pl-8 text-gray-700">
+      <div className="py-2 px-4 pl-8 text-gray-700 ">
         <label className="flex items-center">
-          {/* <input type="checkbox" className="mr-2" /> */}
-          <span className="text-gray-700">{item.title}</span>
+          <input type="checkbox" className="mr-2" />
+          {/* <span className="text-gray-700">{item.title}</span> */}
           {item.count && (
             <span className="ml-1 text-gray-500">({item.count})</span>
           )}
@@ -46,41 +40,26 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
       <div
         className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b ${level > 0 ? "pl-8" : ""
           } cursor-pointer `}
-        onClick={item.children ? toggleOpen : undefined}
+        onClick={() => {
+
+          item.children && toggleOpen()
+          item.onClick && navigate(item.onClick)
+        }}
       >
         <span>{item.title}</span>
         {item.children && (
           <div
+
             className={`transform transition-transform duration-300 ${isRotating ? "rotate-360" : ""
               }`}
           >
-            {isOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
-                  clipRule="evenodd"
-                />
+            {isOpen ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+              <path fillRule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+            </svg>
+              : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
               </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
+            }
           </div>
         )}
       </div>
@@ -100,16 +79,19 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
   );
 };
 
-const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew, handleLimit = () => { } }) => {
+const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
+  const navigte = useNavigate()
+
+  const handleNav = (path) => "/search/" + path
   const menuItems = [
     {
       title: "Shop By Occasions",
       children: [
-        { title: "Birthday" },
-        { title: "Anniversary" },
-        { title: "Upcoming Occasions" },
-        { title: "Special Occasions" },
-        { title: "Emotions N Sentiments" },
+        { title: "Birthday", onClick: handleNav('chocolate') },
+        { title: "Anniversary", onClick: handleNav('flower') },
+        { title: "Upcoming Occasions", onClick: handleNav('chocolate') },
+        { title: "Special Occasions", onClick: handleNav('chocolate') },
+        { title: "Emotions N Sentiments", onClick: handleNav('chocolate') },
       ],
     },
     { title: "Shop By Category", children: [] },
@@ -143,12 +125,13 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew, handleLim
               <span>Hi Guest</span>
             </div>
             <div className="flex items-center">
-              <button className="px-4 py-1 bg-white text-red-500 rounded mr-2">
+
+              {getCookie("isAuth") !== "true" && <button className="px-4 py-1 bg-white text-red-500 rounded mr-2">
                 LOGIN
-              </button>
+              </button>}
             </div>
           </div>
-          <div className="p-2 bg-white text-white flex items-center border-b">
+          {/* <div className="p-2 bg-white text-white flex items-center border-b">
             {textTop && (
               <span className="mr-1 text-gray-700 text-sm ml-2 font-semibold">
                 {textTop}
@@ -157,7 +140,7 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew, handleLim
             {isNew && (
               <span className="text-xs bg-red-500 px-1 rounded">New</span>
             )}
-          </div>
+          </div> */}
         </>
       )}
 
@@ -168,10 +151,9 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew, handleLim
       )}
 
       <div className="overflow-y-auto h-[calc(100%-112px)]">
-        <div className="h-fit overflow- y-scroll scrollbar-thin">
+        <div className="h-72 overflow-y-scroll scrollbar-thin">
           {items.map((item, index) => (
             <MenuItem
-              handleLimit={handleLimit}
               key={index}
               item={item}
               isFilterMode={mode === "filter"}

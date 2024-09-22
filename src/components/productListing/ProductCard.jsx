@@ -3,6 +3,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
+export const FallbackImage = ({ src, alt, className, index, currentImageIndex }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+
+  const handleError = () => {
+    setImgSrc('https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg'); // Replace with your default image path
+  };
+
+  return (
+    <img
+      src={imgSrc}
+      alt={alt}
+      className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+        } ${className}`}
+      onError={handleError}
+    />
+  );
+};
+
+
 const FlowerBouquetCard = ({
   productId,
   images,
@@ -42,20 +63,19 @@ const FlowerBouquetCard = ({
       <div className="relative h-64 overflow-hidden">
         {images?.length > 0 &&
           images.map((image, index) => (
-            <img
+            <FallbackImage
               key={index}
               src={image}
               alt={`${title} - Image ${index + 1}`}
-              className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${
-                index === currentImageIndex ? "opacity-100" : "opacity-0"
-              }`}
+              index={index}
+              currentImageIndex={currentImageIndex}
             />
           ))}
       </div>
       <div className="px-6 py-4 transform transition-transform duration-300 hover:scale-105">
         <h2 className="text-left text-md mb-2">{title}</h2>
         <div className="flex items-center justify-between">
-          <p className="text-gray-700 font-bold text-base mb-2">{price}</p>
+          <p className="text-gray-700 font-bold text-base mb-2">₹ {price ?? 0}</p>
           <div className="flex items-center mb-2 text-sm bg-green-600 p-1 rounded-xl px-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

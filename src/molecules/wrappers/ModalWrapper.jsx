@@ -12,13 +12,14 @@ const ModalWrapper = ({
   className,
   maxHeight,
   key,
+  isModal = true,
 }) => {
   const screenWidth = useMemo(() => window.innerWidth, [window.innerWidth]);
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {screenWidth > 768 ? (
+          {screenWidth > 768 && isModal ? (
             <Modal onClose={onClose} key={key}>
               <AnimatedWrapper direction={"up"} key={key}>
                 <div

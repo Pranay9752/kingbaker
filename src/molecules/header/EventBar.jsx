@@ -301,7 +301,7 @@ const EventBar = () => {
   return (
     <div className="w-full sticky md:block hidden" ref={navRef}>
       <nav className="bg-white shadow-md">
-        <ul className="flex justify-start space-x-4 mx-auto max-w-[1280px]">
+        <ul className="f lex justify-start space-x-4 mx-aut o max-w-[1600px]">
           {(data?.data ?? []).map((item, index) => (
             <li
               key={index}

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import FlowerBouquetCard from "./ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const ProductListing = ({
   title,
@@ -11,9 +12,11 @@ const ProductListing = ({
   categories,
   products,
   onScrollEnd,
+  sortClick,
+  sortKeys
 }) => {
   const listingRef = useRef(null);
-
+  const navigate = useNavigate()
   // Scroll event handler
   const handleScroll = () => {
     if (listingRef.current) {
@@ -81,9 +84,9 @@ const ProductListing = ({
     <div className="max-w-7xl mx-auto md:p-4 md:pl-0 ">
       <div className="p-3 pb-0 rounded-lg bg-white">
         <div className="md:flex hidden items-center mb-4">
-          <h1 className="text-2xl font-semibold">{title}</h1>
+          <h1 className="text-2xl font-semibold">{title}{"    "}</h1>
           <div className="flex items-center gap-4">
-            <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
+            {/* <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
               {rating}{" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +100,10 @@ const ProductListing = ({
                   clipRule="evenodd"
                 />
               </svg>
-            </span>
-            <span className="text-blue-600 mr-2">{reviewCount} Reviews</span>
+            </span> */}
+            {/* <span className="text-blue-600 mr-2">{reviewCount} Reviews</span> */}
             <span className="text-gray-600 text-md font-md">
-              | {totalItems} of {hasProducts ? products.length : 0} {title}
+              | {products.length ?? 0} of {hasProducts ? products.length : 0} {title}
             </span>
           </div>
         </div>
@@ -112,13 +115,13 @@ const ProductListing = ({
           {sortOptions.map((option, index) => (
             <button
               key={index}
-              className={`px-3 py-1 font-semibold text-sm ${
-                index === 0
-                  ? " text-[#e87325] border-b-2 border-[#e87325]"
-                  : " text-gray-500"
-              }`}
+              onClick={() => sortClick(option)}
+              className={`px-3 py-1 font-semibold text-sm ${option?.value === sortKeys?.value
+                ? " text-[#e87325] border-b-2 border-[#e87325]"
+                : " text-gray-500"
+                }`}
             >
-              {option}
+              {option?.label}
             </button>
           ))}
         </div>
@@ -142,6 +145,8 @@ const ProductListing = ({
       <div className="grid grid-cols-3 sm:grid-cols-3 md:flex gap-4 mb-6">
         {categories.map((category, index) => (
           <button
+            type="button"
+            onClick={() => navigate("/search/" + category)}
             key={index}
             className="w-auto sm:w-auto px-4 py-2 bg-white border text-sm border-gray-300 rounded-lg"
           >

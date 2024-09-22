@@ -12,7 +12,7 @@ function Login() {
 
   const handleOnLogin = ({ data }) => {
     console.log("data: ", data);
-    navigate("/checkout/details");
+    navigate('/');
   };
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Login() {
     <>
       <Basicheader title={"Login/Register"} />
       <div className="max-w-[1600px] mx-auto flex justify-center h-full items-center ">
-        <section className="px-3 mt-20 flex flex-col gap-3 w-[30%] ">
+        <section className="px-3 mt-20 flex flex-col gap-3 md:w-[30%] ">
           <AccountAuth handleOnLogin={handleOnLogin} />
           <SecurePaymentCard />
         </section>

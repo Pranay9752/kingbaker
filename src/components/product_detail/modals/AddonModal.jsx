@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import getCookie from "../../../atom/utils/getCookies";
 import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
+import { toast } from "sonner";
 
 // Sample product data
 const products = [
@@ -172,8 +173,9 @@ const ProductAddOns = ({ closeModal, addons }) => {
     };
     try {
       createOrder(newOrder);
-      navigate(0);
-    } catch (error) {}
+      toast.success("Order created successfully")
+      navigate("/");
+    } catch (error) { }
     console.log(newOrder);
   };
   return (

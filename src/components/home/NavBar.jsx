@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   {
@@ -275,7 +276,7 @@ const NavBar = () => {
   const [activeItem, setActiveItem] = useState(null);
   const navRef = useRef(null);
   const [navWidth, setNavWidth] = useState(0);
-  
+
 
   useEffect(() => {
     if (navRef.current) {
@@ -296,20 +297,23 @@ const NavBar = () => {
     };
   }, []);
 
+  const navigate = useNavigate()
   return (
-    <div className="w-full" ref={navRef}>
-      <nav className="bg-white shadow-md">
-        <ul className="flex justify-center space-x-4 ">
+    <div className="w-full hidden md:block" ref={navRef}>
+      <nav className="bg-white shadow-md relative">
+        <ul className="flex justify-start max-w-[1500px] relative mx-auto space-x-4 ">
           {navItems.map((item, index) => (
             <li
               key={index}
               className="relative group"
               onMouseEnter={() => setActiveItem(index)}
+              onClick={() => navigate('search/' + item.title)}
+
             >
               <button
-                className={`px-3 py-2 font-semibold text-[14px] flex items-center gap-2 ${
-                  activeItem === index ? "text-blue-600 bg-white" : "text-gray-700"
-                } hover:text-blue-600`}
+                type="button"
+                className={`px-3 py-2 font-semibold text-[14px] flex items-center gap-2 ${activeItem === index ? "text-blue-600 bg-white" : "text-gray-700"
+                  } hover:text-blue-600`}
               >
                 {item.title}
                 <svg
@@ -329,30 +333,31 @@ const NavBar = () => {
               </button>
             </li>
           ))}
+          {activeItem !== null && (
+            <li className="bg-white shadow-lg p-4 border absolute bottom-0 translate-y-full  w-full max-w-[1600px] -left-4 z-10" style={{ width: navWidth }} >
+              <div className="grid grid-cols-6 gap-4">
+                {navItems[activeItem].content.map((category, categoryIndex) => (
+                  <div key={categoryIndex} className="space-y-2">
+                    <h3 className="font-bold text-gray-700">{category.category}</h3>
+                    <ul className="space-y-1">
+                      {category.items.map((item, itemIndex) => (
+                        <li
+                          onClick={() => navigate('search/' + item)}
+                          key={itemIndex}
+                          className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </li>
+          )}
         </ul>
       </nav>
 
-      {activeItem !== null && (
-        <div className="bg-white shadow-lg p-4 border absolute left-50 right-50 z-10"  style={{ width: navWidth }} >
-          <div className="grid grid-cols-6 gap-4">
-            {navItems[activeItem].content.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="space-y-2">
-                <h3 className="font-bold text-gray-700">{category.category}</h3>
-                <ul className="space-y-1">
-                  {category.items.map((item, itemIndex) => (
-                    <li
-                      key={itemIndex}
-                      className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

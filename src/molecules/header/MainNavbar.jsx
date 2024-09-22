@@ -2,8 +2,8 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState } from "react";
 import EventBar from "./EventBar";
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import logo from '../../assets/logoking.png'
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -34,6 +34,15 @@ const TopNavbar = ({
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
 
   const location = useLocation();
+
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigate(`/search/${searchTerm}`);
+    }
+  };
   console.log("location: ", location);
   const toggleCurrency = () => {
     const currentIndex = currencies.indexOf(currency);
@@ -50,7 +59,7 @@ const TopNavbar = ({
     <>
       <nav className="bg-[#7d8035] text-white ">
         <div className="bg-[#707428] w-full h-6 flex items-center text-xs font-semibold justify-end gap-2">
-          <div className="relative ">
+          {/* <div className="relative ">
             <button
               onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
               className="flex items-center space-x-1"
@@ -86,10 +95,10 @@ const TopNavbar = ({
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
-          {franchiseEnquiriesText && <button>{franchiseEnquiriesText}</button>}
-          {corporateGiftsText && <button>{corporateGiftsText}</button>}
+          {/* {franchiseEnquiriesText && <button>{franchiseEnquiriesText}</button>}
+          {corporateGiftsText && <button>{corporateGiftsText}</button>} */}
 
           {moreOptions.length > 0 && (
             <div className="relative">
@@ -131,16 +140,19 @@ const TopNavbar = ({
           <div className="flex items-center space-x-4 ml-4">
             {logo && (
               <img
-                src={"https://cdn-icons-png.flaticon.com/128/3656/3656962.png"}
+                src={"https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"}
                 alt={`${title} Logo`}
                 className="h-10"
               />
             )}
-            <h1 className="text-2xl font-bold">{title}</h1>
+            {/* <h1 className="text-2xl font-bold">{title}</h1> */}
             <div className="flex gap-4">
               <div className="relative w-full">
                 <input
                   type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder={searchPlaceholder}
                   className="w-full p-2 pl-10 rounded text-gray-800"
                 />

@@ -6,17 +6,23 @@ import TopNavbar from "../../molecules/header/TopNavBar";
 import { useFilterDetailsMutation } from "../../redux/apiSlices/ecom/listingApiSlice";
 import MobileFilterSort from "./MobileFilterSort";
 import { useParams } from "react-router-dom";
+import Modal from "../../atom/popovers/modal";
+import Loader from "../../atom/loader/loader";
+import { useSelector } from "react-redux";
 const ProductSearch = () => {
+  const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" })
+
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
     rating: 4.0,
     reviewCount: 81202,
     totalItems: 36,
     sortOptions: [
-      "Recommended",
-      "New",
-      "Price: Low to High",
-      "Price: High to Low",
+
+      // { label: "Recommended", value: "new" },
+      { label: "New", value: "new" },
+      { label: "Price: Low to High", value: "lth" },
+      { label: "Price: High to Low", value: "htl" },
     ],
     promoCard: {
       title: "Get Flat 10% Off",
@@ -86,49 +92,53 @@ const ProductSearch = () => {
     {
       title: "Price",
       children: [
-        { title: "₹0 TO ₹499", count: 590, type: "checkbox" },
-        { title: "₹500 TO ₹999", count: 1301, type: "checkbox" },
-        { title: "₹1000 TO ₹1499", count: 971, type: "checkbox" },
-        { title: "₹1500 TO ₹1999", count: 584, type: "checkbox" },
-        { title: "₹2000 TO ₹2499", count: 344, type: "checkbox" },
-        { title: "₹2500 TO ₹2999", count: 239, type: "checkbox" },
-        { title: "₹3000 AND ABOVE", count: 354, type: "checkbox" },
+        { title: "₹0 TO ₹499", lwrlmt: 0, uprlmt: 499, count: 590, type: "checkbox" },
+        { title: "₹500 TO ₹999", lwrlmt: 500, uprlmt: 999, count: 1301, type: "checkbox" },
+        { title: "₹1000 TO ₹1499", lwrlmt: 1000, uprlmt: 1499, count: 971, type: "checkbox" },
+        { title: "₹1500 TO ₹1999", lwrlmt: 1500, uprlmt: 1999, count: 584, type: "checkbox" },
+        { title: "₹2000 TO ₹2499", lwrlmt: 2000, uprlmt: 2499, count: 344, type: "checkbox" },
+        { title: "₹2500 TO ₹2999", lwrlmt: 2500, uprlmt: 2999, count: 239, type: "checkbox" },
+        { title: "₹3000 AND ABOVE", lwrlmt: 3000, uprlmt: 100000, count: 354, type: "checkbox" },
       ],
     },
-    {
-      title: "Other",
-      children: [
-        { title: "₹0 TO ₹499", count: 590, type: "checkbox" },
-        { title: "₹500 TO ₹999", count: 1301, type: "checkbox" },
-        { title: "₹1000 TO ₹1499", count: 971, type: "checkbox" },
-        { title: "₹1500 TO ₹1999", count: 584, type: "checkbox" },
-        { title: "₹2000 TO ₹2499", count: 344, type: "checkbox" },
-        { title: "₹2500 TO ₹2999", count: 239, type: "checkbox" },
-        { title: "₹3000 AND ABOVE", count: 354, type: "checkbox" },
-      ],
-    },
+
   ];
 
   const tag = useParams();
-  console.log("tag: ", tag);
   const [searchData, setSearchData] = useState([]);
+  const filter = useSelector((state) => state.filter)
+  const [limit, setLimit] = useState({
+    name: "prices",
+    "lwrlmt": 0,
+    "uprlmt": 1000
+  });
   const [page, setPage] = useState(1);
   const [filterDetails, { isLoading, isError }] = useFilterDetailsMutation();
   const [hasMore, setHasMore] = useState(true); // Track if more data is available
 
+
+  const handleLimit = (e, up, down) => {
+    setLimit((prev) => ({ ...prev, lwrlmt: down, uprlmt: up }));
+  }
   const fetchData = async (page) => {
     try {
       const response = await filterDetails({
         search_text: tag?.tag ?? "",
-        sortBy: "new",
+        sortBy: sortKeys?.value ?? "new",
         page,
         limit: 33,
+        findBy: {
+          name: "prices",
+          "lwrlmt": filter?.lwrlmt ?? 0,
+          "uprlmt": filter?.uprlmt ?? 10000
+        }
       }).unwrap();
 
       if (response.data.length > 0) {
         console.log("response: ", response.data);
-        setSearchData((prevData) => [...prevData, ...response.data]);
+        setSearchData((prevData) => response.data);
       } else {
+        setSearchData([])
         setHasMore(false); // No more data
       }
     } catch (error) {
@@ -136,10 +146,16 @@ const ProductSearch = () => {
     }
   };
 
+
+  const sortClick = (data) => {
+    setSortKeys(data);
+  }
+
   useEffect(() => {
     // Initial data load
+    setSearchData([])
     fetchData(page);
-  }, [page]);
+  }, [page, tag?.tag, sortKeys, filter?.uprlmt, filter?.lwrlmt]);
 
   // Callback to load more products when 70% is scrolled
   const handleLoadMore = useCallback(() => {
@@ -147,6 +163,15 @@ const ProductSearch = () => {
       setPage((prevPage) => prevPage + 1); // Increment the page
     }
   }, [isLoading, hasMore]);
+
+  useEffect(() => {
+
+    document.body.classList.add('bg-[#f2f2f2]');
+    return () => {
+      document.body.classList.remove('bg-[#f2f2f2]');
+    }
+  })
+
 
   return (
     <>
@@ -165,13 +190,14 @@ const ProductSearch = () => {
         ]}
         userGreeting="Hi Guest"
       />
-      <div className="flex h-screen gap-4 bg-gray-100 mt-4 px-4">
+      <div className="flex h-screen max-w-[1600px] mx-auto gap-4 bg-gray-100 mt-4 px-4">
         <div className="hidden md:block w-3/12 bg-gray-100 h-fit rounded-lg overflow-hidden mt-4 sticky top-4">
           <Sidebar
             mode="filter"
             textTop={"Filter"}
             isOpen={true}
             filterItems={filterItems}
+            handleLimit={handleLimit}
           />
         </div>
 
@@ -179,12 +205,19 @@ const ProductSearch = () => {
         <div className="w-full 9/12 overflow-y-scroll h-full hide-scrollbar">
           <ProductListing
             {...birthdayGiftsData}
+            sortClick={sortClick}
             products={searchData}
             onScrollEnd={handleLoadMore}
+            sortKeys={sortKeys}
           />
         </div>
         <MobileFilterSort />
       </div>
+      {
+        isLoading && <Modal>
+          <Loader />
+        </Modal>
+      }
     </>
   );
 };

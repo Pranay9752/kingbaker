@@ -399,11 +399,11 @@ const ProductDetails = ({
         </div>
         <div className="p-2 flex flex-col gap-4">
           <OffersAvailable />
-          <ProductMetaDetail details={data?.details ?? []} />
+          {/* <ProductMetaDetail details={data?.details ?? []} /> */}
 
           <ReviewCarousel reviews={data?.reviews ?? []} title={"What customers are saying"} />
           <ProductCarousel
-            title="Recently viewed by you"
+            title=""
             products={products}
             className="my-custom-class"
             cardClassName="my-card-class"
@@ -432,7 +432,7 @@ const ProductDetails = ({
         <DeliveryInfo  key={"desktopDel"} />
         <ActionButtons />
         <OffersAvailable />
-        <ProductMetaDetail details={data?.details ?? []} />
+        {/* <ProductMetaDetail details={data?.details ?? []} /> */}
       </div>
     </>
   );

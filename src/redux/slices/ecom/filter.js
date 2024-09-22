@@ -222,81 +222,32 @@ import { createSlice } from "@reduxjs/toolkit";
 //     messageOnCake: "",
 //   },
 // ];
-const initialState = []
-const orderSlice = createSlice({
-  name: "order",
+const initialState = {
+  name: "prices",
+  "lwrlmt": 0,
+  "uprlmt": 1000
+}
+const filterSlice = createSlice({
+  name: "filter",
   initialState,
   reducers: {
-    updateMainItem: (state, action) => {
-      state.mainItem = { ...state.mainItem, ...action.payload };
-    },
-    deleteOrder: (state, action) => {
-      const { id } = action.payload;
-      const newState = [...state];
 
-      return newState.filter((item) => item?.mainItem?.id != id);
-    },
-    updateAddonQuantity: (state, action) => {
-      const { id, change, orderIndex } = action.payload;
-      const addon = state[orderIndex].addons.find((addon) => addon.id === id);
-      if (addon) {
-        addon.quantity = Math.max(0, addon.quantity + change);
-      }
-    },
-    deleteAddon: (state, action) => {
-      const { id, orderIndex } = action.payload;
-      state[orderIndex].addons = state[orderIndex].addons.filter(
-        (addon) => addon.id !== id
-      );
-    },
-    addInit: (state, action) => action.payload,
-    addAddon: (state, action) => {
-      state.addons.push(action.payload);
-    },
-    updateDeliveryDetails: (state, action) => {
-      state.deliveryDetails = { ...state.deliveryDetails, ...action.payload };
-    },
-    addOccasion: (state, action) => {
-      const { occationIndex, data } = action.payload;
 
-      const newOrder = { ...state[occationIndex], occasion: data };
-      state[occationIndex] = newOrder;
-    },
-    setMessageCard: (state, action) => {
-      state.messageCard = action.payload;
-    },
-    updateShipping: (state, action) => {
-      const { index, name, value } = action.payload;
-      
-      // Access the item directly and update its deliveryDetails
-      if (state[index]) {
-        state[index].deliveryDetails = {
-          ...state[index].deliveryDetails,
-          [name]: value
-        };
+    setFilter: (state, action) => {
+      const { up, down } = action.payload
+      const newState = {
+        "lwrlmt": up,
+        "uprlmt": down
       }
+      return { ...state, ...newState }
+
     },
-    
-    setMessageOnCake: (state, action) => {
-      state.messageOnCake = action.payload;
-    },
-    resetOrder: () => initialState,
   },
 });
 
 export const {
-  updateMainItem,
-  updateAddonQuantity,
-  deleteAddon,
-  addAddon,
-  updateDeliveryDetails,
-  addOccasion,
-  setMessageCard,
-  setMessageOnCake,
-  resetOrder,
-  deleteOrder,
-  addInit,
-  updateShipping
-} = orderSlice.actions;
+  setFilter,
 
-export default orderSlice.reducer;
+} = filterSlice.actions;
+
+export default filterSlice.reducer;

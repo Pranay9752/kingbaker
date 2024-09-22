@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 // import {
 //   useGetAddressQuery,
 //   useGetOccationQuery,
@@ -27,6 +27,7 @@ import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
 import { twMerge } from "tailwind-merge";
 import { AddressForm } from "./AddAddress";
 import getCookie from "../../atom/utils/getCookies";
+import OrderDeliveryDetails from "./OrderDeliveryDetails";
 
 const options1 = [
   { value: "birthday", label: "Birthday" },
@@ -268,411 +269,83 @@ const Icon = ({ name }) => {
   return icons[name] || null;
 };
 
-const OrderDeliveryDetails = ({
-  index,
-  mainItem,
-  addons,
-  deliveryDetails,
-  occasion,
-  handleOccation,
-  className,
-  addresses = [],
-}) => {
-  const [reicipientAddress, setReicipientAddress] = useState([]);
-  const [openAddAddress, setOpenAddAddress] = useState(false);
-  const [defaultAddress, setDefaultAddress] = useState({
-    title: "Mr",
-    recipientName: "",
-    recipientMobile: "",
-    recipientAltMobile: "",
-    recipientEmail: "",
-    recipientAddress: "",
-    countryCode: "+91",
-    addressType: "home",
-  });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const [addAddress, { isLoading, isError }] = useAddAddressMutation();
-
-  const handleQuantityChange = (id, change) => {
-    // dispatch({ type: "UPDATE_ADDON_QUANTITY", payload: { id, change } });
-    dispatch(updateAddonQuantity({ id, change, orderIndex: index }));
-  };
-
-  const handleDelete = (id) => {
-    // dispatch({ type: "DELETE_ADDON", payload: id });
-    dispatch(deleteAddon({ id, orderIndex: index }));
-  };
-
-  const handleDeleteOrder = () => {
-    dispatch(deleteOrder({ id: mainItem?.id }));
-  };
-
-  const onAddAddress = (data) => {
-    console.log("datadatadatadatadatadata: ", data);
-    const newAddress = {
-      user_id: getCookie("user_id"),
-      _id: data?._id ?? null,
-      delivary_address: {
-        pincode: getCookie("pincode"),
-        city: "Mumbai",
-        country: "India",
-        landmark: data?.landmark ?? "",
-        area: "Mumbai",
-        addressType: data?.addressType ?? "home",
-        recipientName: data?.recipientName ?? "",
-        recipientMobnumber: data?.recipientMobile ?? "",
-        alternateMobileNo: data?.recipientAltMobile ?? "",
-        alternateEmail: data?.recipientEmail ?? "",
-        recipientAddress: data?.recipientAddress ?? "",
-        title: data?.title ?? "",
-        countryCode: data?.countryCode ?? "",
-      },
-    };
-
-    try {
-      const response = addAddress(newAddress);
-      setReicipientAddress((prev) => {
-        const newArr = [...prev];
-        const addressIndex = newArr.findIndex(
-          (item) => item?._id === data?._id
-        );
-        if (addressIndex == -1) {
-          return [...newArr, data];
-        } else {
-          newArr[addressIndex] = data;
-          return newArr;
-        }
-      });
-      setOpenAddAddress(false);
-      // navigate("/checkout/details");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (addresses?.length > 0 && reicipientAddress?.length === 0) {
-      setReicipientAddress(addresses);
-    }
-  }, [addresses]);
-
-  return (
-    <div
-      className={twMerge(
-        ` text-gray-800 py-4 text-left border shadow-xl`,
-        className
-      )}
-    >
-      <div className="bg-white text-black rounded-lg p-4 ">
-        <div className="flex items-start mb-4">
-          <img
-            src={mainItem.image}
-            alt={mainItem.name}
-            className="w-[75px] h-[75px] object-cover rounded-md mr-4"
-          />
-          <div>
-            <h2 className="font-medium">{mainItem.name}</h2>
-            <p>₹{mainItem.price} x 1</p>
-          </div>
-          <button
-            onClick={handleDeleteOrder}
-            className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
-          >
-            DELETE
-          </button>
-        </div>
-
-        <h3 className="mb-2">Addons</h3>
-        {addons.map((addon) => (
-          <div key={addon.id} className="flex items-center mb-2 border-b pb-3">
-            <img
-              src={addon.image}
-              alt={addon.name}
-              className="w-[75px] h-[75px] object-cover rounded-md mr-2"
-            />
-            <div>
-              <p className="text-[14px]">{addon.name}</p>
-              <div className="mt-6 flex items-center gap-3">
-                <p className="text-[13px]">
-                  ₹{addon.price} x {addon.quantity}
-                </p>
-                <div className="flex rounded-md overflow-hidden divide-x border">
-                  <button
-                    className="bg-[#555555]/20 p-1"
-                    onClick={() => handleQuantityChange(addon.id, -1)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-
-                  <p className="text-[13px] w-8 text-center">
-                    {addon.quantity}
-                  </p>
-                  <button
-                    className="bg-[#555555]/20 p-1"
-                    onClick={() => handleQuantityChange(addon.id, 1)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-4"
-                    >
-                      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="ml-auto flex items-center">
-              {/* <button onClick={() => handleDelete(addon.id)} className="ml-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button> */}
-              <button
-                onClick={() => handleDelete(addon.id)}
-                className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
-              >
-                DELETE
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="w-full px-4 flex flex-col gap-2">
-        {openAddAddress ? (
-          <div className="border rounded-md bg-yellow-300/20">
-            <AddressForm
-              defaultValues={defaultAddress}
-              onSubmit={onAddAddress}
-            />
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              window.innerWidth < 768
-                ? navigate("/checkout/add-address")
-                : setOpenAddAddress(true);
-            }}
-            className="w-full  bg-orange-500 md:bg-white md:text-blue-500 flex md:font-semibold justify-center items-center md:border md:border-dotted md:border-blue-500 text-white py-2 rounded-lg mb-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5"
-            >
-              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-            </svg>
-            Add Address
-          </button>
-        )}
-
-        {reicipientAddress?.map((address, addressIndex) => {
-          return (
-            <>
-              <div
-                key={address?._id}
-                className="bg-blue-100 border relative rounded py-1 px-2 flex items-center gap-2"
-              >
-                <input
-                  type="radio"
-                  id={address?._id}
-                  name="address"
-                  value={address?._id}
-                />
-                <label for={address?._id}>
-                  <div className="flex  items-center gap-2">
-                    <span className="font-semibold text-sm whitespace-nowrap">
-                      {address?.recipientName}
-                    </span>
-                    <div className="h-[5px] w-[5px] rounded-full bg-gray-800" />{" "}
-                    <span className="font-semibold text-sm whitespace-nowrap">
-                      {address?.recipientMobnumber ?? address?.recipientMobile}
-                    </span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="bg-gray-200 text-xs font-bold px-1 rounded-md ">
-                      {address?.addressType}
-                    </span>
-                    <span className="whitespace-nowrap truncate text-sm">
-                      {address?.recipientAddress} {address?.area}{" "}
-                      {address?.city} - {address?.pincode}
-                    </span>
-                  </div>
-                </label>
-                <div
-                  onClick={() => {
-                    setDefaultAddress(address);
-                    setOpenAddAddress(true);
-                  }}
-                  className="absolute top-1 right-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="size-4 cursor-pointer"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </>
-          );
-        })}
-      </div>
-
-      <div className="bg-white text-black rounded-lg p-4 mb-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="size-4 text-orange-500"
-              >
-                <path d="M10 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H10ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V12ZM11.25 10.005c0-.417.338-.755.755-.755h2a.755.755 0 1 1 0 1.51h-2a.755.755 0 0 1-.755-.755ZM6.005 11.25a.755.755 0 1 0 0 1.51h4a.755.755 0 1 0 0-1.51h-4Z" />
-                <path
-                  fillRule="evenodd"
-                  d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Delivery on{" "}
-              <span className="font-medium">{deliveryDetails.date}</span>
-            </p>
-            <p className="font-medium">Standard Delivery</p>
-            <p className="font-medium">
-              {deliveryDetails.timeSlot}{" "}
-              <span className="text-orange-500 font-light ml-2">₹ 99</span>
-            </p>
-          </div>
-          <button className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5">
-            Change
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-2 px-4">
-        <button
-          onClick={() => handleOccation({ index: index })}
-          className="w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg flex justify-start items-center px-4"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="size-6 text-orange-600"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-              clipRule="evenodd"
-            />
-          </svg>
-
-          <span className="font-semibold ml-2">
-            {occasion?.occasion?.label ?? "Select Occasion"}
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 ml-auto"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <div className="w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg flex justify-start items-center px-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="size-6 text-orange-600"
-          >
-            <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-            <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-          </svg>
-
-          <input
-            placeholder="Free Message Card"
-            className="outline-none bg-transparent border-none ml-2"
-            maxLength={25}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const PriceDetails = () => {
+  const navigate = useNavigate()
+
+  const data = useSelector((state) => state.order)
+
+  const totalPrice = useMemo(() => {
+    const totalAddons = data?.reduce((prev, curr) => {
+      const itemPrice = curr?.mainItem?.price ?? 0
+      let addonPrice = 0
+      curr?.addons?.forEach(element => {
+        addonPrice = addonPrice + element.price
+      });
+
+      return prev + itemPrice + addonPrice
+    }, 0)
+    return totalAddons
+  }, [data])
+  const totalAddonPrice = useMemo(() => {
+    const totalAddons = data?.reduce((prev, curr) => {
+      const itemPrice = curr?.mainItem?.price ?? 0
+      let addonPrice = 0
+      curr?.addons?.forEach(element => {
+        addonPrice = addonPrice + element.price
+      });
+
+      return prev + addonPrice
+    }, 0)
+    return totalAddons
+  }, [data])
+  const totalitemPrice = useMemo(() => {
+    const totalAddons = data?.reduce((prev, curr) => {
+      const itemPrice = curr?.mainItem?.price ?? 0
+      let addonPrice = 0
+      curr?.addons?.forEach(element => {
+        addonPrice = addonPrice + element.price
+      });
+
+      return prev + itemPrice
+    }, 0)
+    return totalAddons
+  }, [data])
   return (
     <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
       <div className="space-y-2">
         <div className="flex justify-between">
           <span>Total Product Price</span>
-          <span>₹ 3659</span>
+          <span>₹ {totalitemPrice}</span>
         </div>
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <span>Shipping</span>
           <span>₹ 118</span>
-        </div>
+        </div> */}
         <div className="flex justify-between">
-          <span>Convenience Charge</span>
-          <span>₹ 59</span>
+          <span>Total Addon Charge</span>
+          <span>₹ {totalAddonPrice}</span>
         </div>
-        <div className="flex justify-between text-green-600">
+        {/* <div className="flex justify-between text-green-600">
           <span>
             Donate ₹10 to CIRY{" "}
             <span className="text-blue-500 cursor-pointer">ⓘ</span>
           </span>
           <span>₹10</span>
-        </div>
+        </div> */}
       </div>
       <div className="border-t border-gray-200 my-4"></div>
       <div className="flex justify-between font-semibold">
         <span>TOTAL</span>
-        <span>₹ 3836</span>
+        <span>₹ {totalPrice ?? 0}</span>
       </div>
-  
+
       <p className="text-xs text-gray-500 mb-4">
         By continuing you agree to our T&C/Disclaimer
       </p>
-      <button className="bg-orange-500 text-white w-full py-2 rounded">
+      <button type={"button"} onClick={() => navigate("/")} className="bg-orange-500 text-white w-full py-2 rounded">
         PROCEED TO PAY
       </button>
     </div>
@@ -773,7 +446,6 @@ function CheckOutDetails() {
             })}
           </CheckoutCard>
 
-          {/* Card 3 */}
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
         </div>
         <div className="sticky">

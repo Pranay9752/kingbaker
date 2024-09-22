@@ -44,17 +44,97 @@ const ProductDetail = () => {
     // "https://www.fnp.com/images/pr/x/v20221221172008/decorated-chocolate-truffle-cake-half-kg-eggless_4.jpg",
   ];
 
-  const products = [];
+  const products = [
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    {
+      imageUrl:
+        "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+      title: "Luxury Love Combo",
+      price: "₹2275",
+      deliveryInfo: "Earliest Delivery: Today",
+      rating: "4.7",
+      reviews: "11",
+    },
+    // Add more products as needed
+  ];
 
   const onSubmit = (data) => {
     console.log("data: ", data);
   };
+
+
+  useEffect(() => {
+    document.body.classList.add("bg-white")
+    return () => {
+      document.body.classList.remove("bg-white")
+
+    }
+  })
   return (
     <>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="md:hidden relative h-screen px-52 bg-gray-100">
-            <MobileHeader />
+            {/* <MobileHeader /> */}
+            <TopNavbar
+              logo="/path/to/your/logo.png"
+              title="logo"
+              searchPlaceholder="Search flowers, cakes, gifts, etc."
+              currencies={["INR", "USD", "EUR"]}
+              deliveryLocationText="Select Delivery Location"
+              franchiseEnquiriesText="Franchise Enquiries"
+              corporateGiftsText="Corporate Gifts"
+              moreOptions={[
+                { label: "About Us", link: "/about" },
+                { label: "Contact", link: "/contact" },
+                { label: "FAQ", link: "/faq" },
+              ]}
+              userGreeting="Hi Guest"
+            />
             <ImageCarousel
               images={data?.data?.imageLink ?? []}
               onImageClick={() => setIsModalOpen(true)}
