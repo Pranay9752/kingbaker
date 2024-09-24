@@ -1,6 +1,66 @@
-import DateRangeOneFilter from "../../../molecules/date/DatePicker";
+import NumberCard from "../../../molecules/cards/NumberCard";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
-import NpsSection from "./NPSSection";
+import NpsSection from "./NpsSection";
+
+
+import React from 'react';
+
+
+const OrderStatus = ({ allocated, accepted, printed, outForDelivery, deliveryAttempted, delivered }) => {
+  return (
+    <div className="bg-slate-800 rounded-lg shadow-md">
+      <div className="grid grid-cols-4 gap-4 p-4 border-b border-slate-700">
+        <div>
+          <p className="text-gray-400 font-medium">Allocated</p>
+          <div className="flex justify-between items-center">
+            <div className="text-green-400 font-bold">{allocated.today}</div>
+            <div className="text-yellow-400 font-bold">{allocated.tomorrow}</div>
+            <div className="text-red-400 font-bold">{allocated.future}</div>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-gray-400 font-medium">Accepted</p>
+          <div className="flex justify-between items-center">
+            <div className="text-green-400 font-bold">{accepted.today}</div>
+            <div className="text-yellow-400 font-bold">{accepted.tomorrow}</div>
+            <div className="text-red-400 font-bold">{accepted.future}</div>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-gray-400 font-medium">Printed</p>
+          <div className="flex justify-between items-center">
+            <div className="text-green-400 font-bold">{printed.today}</div>
+            <div className="text-yellow-400 font-bold">{printed.tomorrow}</div>
+            <div className="text-red-400 font-bold">{printed.future}</div>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-gray-400 font-medium">Out for Delivery</p>
+          <div className="flex justify-between items-center">
+            <div className="text-green-400 font-bold">{outForDelivery}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 p-4">
+        <div>
+          <p className="text-gray-400 font-medium">Delivery Attempted</p>
+          <div className="text-green-400 font-bold">{deliveryAttempted}</div>
+        </div>
+        <div>
+          <p className="text-gray-400 font-medium">Delivered</p>
+          <div className="text-green-400 font-bold">{delivered}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+// export default OrderStatus;
 
 function AdminDashboard() {
   const userProfile = {
@@ -233,8 +293,33 @@ function AdminDashboard() {
         userProfile={userProfile}
         sidebarItems={sidebarItems}
       >
-        <DateRangeOneFilter handleDateChange={(date) => console.log(date)} />
+        {/* <DateRangeOneFilter handleDateChange={(date) => console.log(date)} /> */}
         <NpsSection />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <NumberCard title="Sales Today" value="30" textColor="text-electric" />
+          <NumberCard title="Orders Today" value="20" textColor="text-neon" />
+          <NumberCard title="SLA" value="COMING SOON" textColor="text-electric" />
+        </div>
+        <OrderStatus
+          allocated={{
+            today: 0,
+            tomorrow: 0,
+            future: 0,
+          }}
+          accepted={{
+            today: 0,
+            tomorrow: 0,
+            future: 3,
+          }}
+          printed={{
+            today: 3,
+            tomorrow: 0,
+            future: 0,
+          }}
+          outForDelivery={0}
+          deliveryAttempted={0}
+          delivered={0}
+        />
       </HeaderLayout>
     </div>
   );
