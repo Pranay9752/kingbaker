@@ -11,6 +11,7 @@ import CheckOutDetails from "./components/product_detail/CheckOutDetails";
 import ProductSearch from "./components/productListing";
 import Login from "./components/account/login";
 import MyAccount from "./components/accountProfile/MyAccount";
+import AdminDashboard from "./components/admin/dashboard";
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
             <Route path="/checkout/details" element={<CheckOutDetails />} />
             <Route path="/search/:tag" element={<ProductSearch />} />
           </Route>
+
+          {/* ADMIN ROUTES */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+
         </Routes>
       </div>
       <Toaster duration={600} position="top-center" richColors />

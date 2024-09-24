@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const AnimatedWrapper = ({
   children,
   direction,
-  closeModal,
+  closeModal = () => {},
   isbottom = false,
 }) => {
   const animationVariants = {

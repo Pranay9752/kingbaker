@@ -1,6 +1,6 @@
 const BasicButton = ({ children, onClick, className, type }) => (
   <button
-    type={type}
+    type={type ?? "button"}
     className={`py-3  font-semibold ${className}`}
     onClick={onClick}
   >

@@ -191,7 +191,6 @@ const SecondComponent = ({ selectedPage, setCurrentPage }) => {
           <h2 className="text-sm font-semibold">
             Hi, {getCookie("user") == "" ? "Guest" : getCookie("user")}
           </h2>
-          
         </div>
         <nav className="overflow-scroll hide-scrollbar">
           {accountOptions.map((option) => (
