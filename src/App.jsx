@@ -12,6 +12,7 @@ import ProductSearch from "./components/productListing";
 import Login from "./components/account/login";
 import MyAccount from "./components/accountProfile/MyAccount";
 import AdminDashboard from "./components/admin/dashboard";
+import PrivateRoute from "./routes/PrivateRoutes";
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
         <Routes>
           <Route element={<CountryWrapper />}>
             <Route path="/account/login" element={<Login />} />
-            <Route path="/account/details" element={<MyAccount />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/account/details/:phase?" element={<MyAccount />} />
+            </Route>
             <Route path="/" element={<Home />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/checkout/account" element={<CheckOutLogin />} />

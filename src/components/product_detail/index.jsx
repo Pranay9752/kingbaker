@@ -13,6 +13,7 @@ import { useGetProductQuery } from "../../redux/apiSlices/ecom/productsApiSlice"
 import { FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import TopNavbar from "../../molecules/header/TopNavBar";
+import Footer from "../../molecules/footer/footer";
 
 // Main Component
 const ProductDetail = () => {
@@ -224,6 +225,7 @@ const ProductDetail = () => {
         </form>
       </FormProvider>
       {/* <DevTool control={methods.control} /> set up the dev tool */}
+      <Footer />
     </>
   );
 };

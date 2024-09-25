@@ -13,6 +13,7 @@ import TextTitleComponent from "./TextTitleComponent";
 import GiftGrid from "./GiftCard";
 import CardThree from "./CardThree";
 import CustomGrid from "./CustomGrid";
+import Footer from "../../molecules/footer/footer";
 
 export const getCard = ({ data }) => {
   console.log("data: ", data);
@@ -1641,6 +1642,7 @@ const Home = () => {
           );
         })}
       </div>
+      <Footer />
     </>
   );
 };

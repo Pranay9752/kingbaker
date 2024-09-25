@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +13,8 @@ import setCookie from "../../atom/utils/setCookies";
 import Loader from "../../atom/loader/loader";
 
 function AccountAuth({ className, handleOnLogin }) {
+  
+
   const [isExistingUser, setIsExistingUser] = useState(null);
 
   const schema =
@@ -155,7 +156,9 @@ function AccountAuth({ className, handleOnLogin }) {
   });
 
   if (checkEmailLoading || isLoading) {
-    return <Loader />;
+    return <div className="w-full flex items-center justify-center">
+      <Loader />
+    </div>
   }
 
   return (

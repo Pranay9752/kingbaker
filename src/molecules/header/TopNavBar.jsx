@@ -7,8 +7,9 @@ import { twMerge } from "tailwind-merge";
 import Modal from "../../atom/popovers/modal";
 import Sidebar from "./Sidebar";
 import getCookie from "../../atom/utils/getCookies";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logoking.png";
+import deleteAllCookies from "../../atom/utils/deleteAllCookies";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -22,6 +23,12 @@ const currencies = [
   { code: "CAD", name: "Canadian Dollar" },
   { code: "AUD", name: "Australian Dollar" },
   { code: "AED", name: "United Arab Emirates Dirham" },
+];
+
+const menuItems = [
+  { label: 'My Account', href: '/account/details/profile' },
+  { label: 'My Orders', href: '/account/details/orders' },
+  { label: 'Contact Us', href: '#' },
 ];
 
 const TopNavbar = ({
@@ -240,10 +247,10 @@ const TopNavbar = ({
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => navigate("/account/details")}
-              className="flex flex-col text-xs font-semibold items-center space-x-1 pr-4"
+            <div
+
+              // onClick={() => navigate("/account/details")}
+              className="flex flex-col text-xs font-semibold items-center space-x-1 pr-4 group relative cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +262,33 @@ const TopNavbar = ({
               </svg>
 
               <p>Hi {getCookie("user") == "" ? "Guest" : getCookie("user")}</p>
-            </button>
+
+              <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+
+                <div className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"}`}>
+                  <a href="/account/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
+                    Login / Register
+                  </a>
+                </div>
+                <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
+                  {menuItems.map((item, index) => (
+                    <li key={index}>
+                      <Link to={item.href} className="block px-4 py-2 hover:bg-gray-100 ">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""}`}>
+                  <div onClick={() => {
+                    deleteAllCookies()
+                    navigate('/')
+                  }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
+                    Sign out
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="md:hidden flex items-center justify-between p-4">

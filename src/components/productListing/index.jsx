@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Modal from "../../atom/popovers/modal";
 import Loader from "../../atom/loader/loader";
 import { useSelector } from "react-redux";
+import Footer from "../../molecules/footer/footer";
 const ProductSearch = () => {
   const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" })
 
@@ -218,6 +219,8 @@ const ProductSearch = () => {
           <Loader />
         </Modal>
       }
+      <Footer />
+
     </>
   );
 };

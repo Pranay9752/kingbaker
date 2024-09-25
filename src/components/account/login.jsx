@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Basicheader from "../product_detail/header/Basicheader";
 import AccountAuth from "../../molecules/account/AccountAuth";
@@ -8,11 +8,15 @@ import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
 
 
 function Login() {
+  const [searchParams] = useSearchParams();
+  const next = searchParams.get('next');
+
+
   const navigate = useNavigate();
 
   const handleOnLogin = ({ data }) => {
     console.log("data: ", data);
-    navigate('/');
+    navigate(next ? next : '/');
   };
 
   useEffect(() => {
