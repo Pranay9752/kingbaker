@@ -8,12 +8,19 @@ import TopNavbar from "../../molecules/header/TopNavBar";
 import NavBar from "../home/NavBar";
 import { twMerge } from "tailwind-merge";
 import Footer from "../../molecules/footer/footer";
+import ProfileForm from "./ProfileForm";
+import AddressData from "./AddressData";
 const Card = ({ Icon, title, description, onClick, color }) => (
   <div
     className="bg-white p-4 text-center rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-1/3 m-2 cursor-pointer h-32 flex flex-col items-center   justify-center"
     onClick={onClick}
   >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={twMerge(`size-12 `, color)}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={twMerge(`size-12 `, color)}
+    >
       {Icon}
     </svg>
 
@@ -22,162 +29,27 @@ const Card = ({ Icon, title, description, onClick, color }) => (
   </div>
 );
 
-const SecondComponent = ({ selectedPage, setCurrentPage }) => {
+const SecondComponent = ({ selectedPage, setCurrentPage, accountOptions }) => {
   const navigate = useNavigate();
-  const accountOptions = [
-    {
-      Icon: (
-        <svg
-          className={`size-5 mr-3 text-gray-500`}
-          viewBox="0 0 17 17"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        >
-          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path d="M8.517-0.035l-8.517 3.221v10.693l8.5 3.188 8.5-3.188v-10.692l-8.483-3.222zM15.084 3.528l-2.586 0.97-6.557-2.489 2.575-0.974 6.568 2.493zM8.5 5.997l-6.581-2.468 2.609-0.986 6.551 2.487-2.579 0.967zM1 4.253l7 2.625v8.932l-7-2.625v-8.932zM9 15.81v-8.932l7-2.625v8.932l-7 2.625z"></path>
-          </g>
-        </svg>
-      ),
-      title: "My Orders",
-      page: "orders",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path d="M10.75 10.818v2.614A3.13 3.13 0 0 0 11.888 13c.482-.315.612-.648.612-.875 0-.227-.13-.56-.612-.875a3.13 3.13 0 0 0-1.138-.432ZM8.33 8.62c.053.055.115.11.184.164.208.16.46.284.736.363V6.603a2.45 2.45 0 0 0-.35.13c-.14.065-.27.143-.386.233-.377.292-.514.627-.514.909 0 .184.058.39.202.592.037.051.08.102.128.152Z" />
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-6a.75.75 0 0 1 .75.75v.316a3.78 3.78 0 0 1 1.653.713c.426.33.744.74.925 1.2a.75.75 0 0 1-1.395.55 1.35 1.35 0 0 0-.447-.563 2.187 2.187 0 0 0-.736-.363V9.3c.698.093 1.383.32 1.959.696.787.514 1.29 1.27 1.29 2.13 0 .86-.504 1.616-1.29 2.13-.576.377-1.261.603-1.96.696v.299a.75.75 0 1 1-1.5 0v-.3c-.697-.092-1.382-.318-1.958-.695-.482-.315-.857-.717-1.078-1.188a.75.75 0 1 1 1.359-.636c.08.173.245.376.54.569.313.205.706.353 1.138.432v-2.748a3.782 3.782 0 0 1-1.653-.713C6.9 9.433 6.5 8.681 6.5 7.875c0-.805.4-1.558 1.097-2.096a3.78 3.78 0 0 1 1.653-.713V4.75A.75.75 0 0 1 10 4Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      title: "fnpCash",
-      page: "fnpCash",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
-        </svg>
-      ),
-      title: "My Profile",
-      page: "profile",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 2a6 6 0 0 0-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 0 0 .515 1.076 32.91 32.91 0 0 0 3.256.508 3.5 3.5 0 0 0 6.972 0 32.903 32.903 0 0 0 3.256-.508.75.75 0 0 0 .515-1.076A11.448 11.448 0 0 1 16 8a6 6 0 0 0-6-6ZM8.05 14.943a33.54 33.54 0 0 0 3.9 0 2 2 0 0 1-3.9 0Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      title: "My Reminders",
-      page: "reminders",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path
-            fillRule="evenodd"
-            d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      title: "Saved Addresses",
-      page: "addresses",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8 7a5 5 0 1 1 3.61 4.804l-1.903 1.903A1 1 0 0 1 9 14H8v1a1 1 0 0 1-1 1H6v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 .293-.707L8.196 8.39A5.002 5.002 0 0 1 8 7Zm5-3a.75.75 0 0 0 0 1.5A1.5 1.5 0 0 1 14.5 7 .75.75 0 0 0 16 7a3 3 0 0 0-3-3Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      title: "Change Password",
-      page: "password",
-    },
-    {
-      Icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5 mr-3 text-gray-500"
-        >
-          <path
-            fillRule="evenodd"
-            d="M17 4.25A2.25 2.25 0 0 0 14.75 2h-5.5A2.25 2.25 0 0 0 7 4.25v2a.75.75 0 0 0 1.5 0v-2a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 .75.75v11.5a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1-.75-.75v-2a.75.75 0 0 0-1.5 0v2A2.25 2.25 0 0 0 9.25 18h5.5A2.25 2.25 0 0 0 17 15.75V4.25Z"
-            clipRule="evenodd"
-          />
-          <path
-            fillRule="evenodd"
-            d="M14 10a.75.75 0 0 0-.75-.75H3.704l1.048-.943a.75.75 0 1 0-1.004-1.114l-2.5 2.25a.75.75 0 0 0 0 1.114l2.5 2.25a.75.75 0 1 0 1.004-1.114l-1.048-.943h9.546A.75.75 0 0 0 14 10Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      title: "Logout",
-      page: "logout",
-      onClick: () => {
-        deleteAllCookies();
-        navigate("/");
-      },
-    },
-  ];
+
   const handleOptionClick = (option) => {
-    if (option.onClick) {
-      option.onClick();
+    if (option.page == "logout") {
+      deleteAllCookies();
+      navigate("/");
+    } else {
+      navigate(`/account/details/${option.page}`);
+      setCurrentPage(option.page);
     }
-    setCurrentPage(option.page);
   };
 
   const renderContent = () => {
     switch (selectedPage) {
-      case "fnpCash":
-        return <div>fnpCash data</div>;
       case "profile":
-        return <div>Profile data</div>;
+        return <ProfileForm />;
       case "orders":
         return <div>Orders data</div>;
+      case "addresses":
+        return <AddressData />;
       default:
         return <div className="p-6">Content for {selectedPage}</div>;
     }
@@ -201,12 +73,13 @@ const SecondComponent = ({ selectedPage, setCurrentPage }) => {
           {accountOptions.map((option) => (
             <div
               key={option.title}
-              className={`flex items-center justify-between py-4 px-4 cursor-pointer ${selectedPage === option.page ? "bg-gray-200" : ""
-                }`}
+              className={`flex items-center justify-between py-4 px-4 cursor-pointer ${
+                selectedPage === option.page ? "bg-gray-200" : ""
+              }`}
               onClick={() => handleOptionClick(option)}
               role="button"
               tabIndex={0} // Allow keyboard navigation
-            // onKeyPress={(e) => e.key === "Enter" && handleOptionClick(option)}
+              // onKeyPress={(e) => e.key === "Enter" && handleOptionClick(option)}
             >
               <div className="flex items-center">
                 {option.Icon}
@@ -230,7 +103,7 @@ const SecondComponent = ({ selectedPage, setCurrentPage }) => {
       </div>
 
       {/* Content Area */}
-      <div className="flex-grow md:p-6 bg-white md:ml-4 rounded-xl min-h-fit h-[80vh] overflow-y-scroll scrollbar-thin">
+      <div className="flex-grow p-4 md:p-6 bg-white md:ml-4 rounded-xl min-h-fit h-[80vh] overflow-y-auto scrollbar-thin">
         <div className="mb-4 flex items-center">
           <button onClick={() => setCurrentPage("main")} className="mr-2">
             <svg
@@ -258,21 +131,19 @@ const SecondComponent = ({ selectedPage, setCurrentPage }) => {
   );
 };
 
-
-
-
-
 const MyAccount = () => {
-  const { phase } = useParams()
-
+  const { phase } = useParams();
 
   const [currentPage, setCurrentPage] = useState("main");
   const navigate = useNavigate();
   const handleOptionClick = (option) => {
-    if (option.onClick) {
-      option.onClick();
+    if (option.page == "logout") {
+      deleteAllCookies();
+      navigate("/");
+    } else {
+      navigate(`/account/details/${option.page}`);
+      setCurrentPage(option.page);
     }
-    setCurrentPage(option.page);
   };
 
   const accountOptions = [
@@ -281,8 +152,11 @@ const MyAccount = () => {
         <>
           <>
             <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
-            <path fillRule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
-
+            <path
+              fillRule="evenodd"
+              d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z"
+              clipRule="evenodd"
+            />
           </>
         </>
       ),
@@ -359,18 +233,21 @@ const MyAccount = () => {
     },
   ];
 
-
-
   useEffect(() => {
-
+    if (phase == "logout") {
+      deleteAllCookies();
+      navigate("/");
+    }
     setCurrentPage(() => {
-      if (accountOptions?.map(item => item.page).includes(phase)) {
-        return phase
+      if (accountOptions?.map((item) => item.page).includes(phase)) {
+        return phase;
       } else {
-        return "main"
+        return "main";
       }
-    })
-  }, [phase])
+    });
+    if (accountOptions?.map((item) => item.page).includes(phase))
+      navigate(`/account/details/${phase}`);
+  }, [phase]);
 
   return (
     <>
@@ -390,14 +267,16 @@ const MyAccount = () => {
         userGreeting="Hi Guest"
       />
       <NavBar />
-      {
-        currentPage !== "main" ? <>
+      {currentPage !== "main" ? (
+        <>
           <SecondComponent
+            accountOptions={accountOptions}
             selectedPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
-        </> : <>
-
+        </>
+      ) : (
+        <>
           {/* Mobile View */}
           <div className="md:hidden bg-white min-h-screen">
             <div className="flex flex-col gap-4 bg-[#f2f2f2]">
@@ -562,7 +441,7 @@ const MyAccount = () => {
           </div>
           <Footer />
         </>
-      }
+      )}
     </>
   );
 };
