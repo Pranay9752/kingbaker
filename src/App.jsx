@@ -13,6 +13,8 @@ import Login from "./components/account/login";
 import MyAccount from "./components/accountProfile/MyAccount";
 import AdminDashboard from "./components/admin/dashboard";
 import PrivateRoute from "./routes/PrivateRoutes";
+import AdminSales from "./components/admin/sales";
+import BodyBackgroud from "./atom/utils/BodyBackgroud";
 
 function App() {
   return (
@@ -33,10 +35,11 @@ function App() {
             <Route path="/search/:tag" element={<ProductSearch />} />
           </Route>
 
-          {/* ADMIN ROUTES */}
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
-
+          <Route element={<BodyBackgroud color={"bg-[#2f2f2]"} />}>
+            {/* ADMIN ROUTES */}
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/sales" element={<AdminSales />} />
+          </Route>
         </Routes>
       </div>
       <Toaster duration={600} position="top-center" richColors />

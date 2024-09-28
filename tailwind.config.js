@@ -8,8 +8,12 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/primereact/**/*.{js,ts,jsx,tsx}",
   ],
+
   theme: {
     extend: {
+      colors: {
+        pgreen: "#A0E86F",
+      },
       animation: {
         glow: "glow 2s ease-in-out infinite",
       },
