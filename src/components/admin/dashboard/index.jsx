@@ -67,6 +67,7 @@ function AdminDashboard() {
           />
         </div>
         {renderType()}
+        
       </HeaderLayout>
     </div>
   );
