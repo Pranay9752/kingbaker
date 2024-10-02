@@ -4,7 +4,6 @@ import { AnimatePresence } from "framer-motion";
 
 const UserMenu = ({ profile }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log('isOpen: ', isOpen);
 
   const handleIsOpen = (e,value) => setIsOpen((prev) => (value ? value : !prev));
   return (

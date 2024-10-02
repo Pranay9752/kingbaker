@@ -1,0 +1,402 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
+import HeaderLayout from "../../../molecules/header/HeaderLayout";
+
+const DeliveryBoysManagement = () => {
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: "Anonymous",
+      username: "anonymous",
+      phone: "N/A",
+      active: true,
+    },
+    {
+      id: 2,
+      name: "Harshit",
+      username: "harshit",
+      phone: "8218976839",
+      active: true,
+    },
+    {
+      id: 3,
+      name: "Kapil Kinger",
+      username: "kapilkinger",
+      phone: "7982041689",
+      active: true,
+    },
+    {
+      id: 4,
+      name: "John Doe",
+      username: "johndoe",
+      phone: "9876543210",
+      active: false,
+    },
+    {
+      id: 5,
+      name: "Jane Smith",
+      username: "janesmith",
+      phone: "8765432109",
+      active: true,
+    },
+  ]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showActive, setShowActive] = useState(true);
+  const [showInactive, setShowInactive] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      ((showActive && user.active) || (showInactive && !user.active))
+  );
+
+  const handleAddUser = () => {
+    setCurrentUser(null);
+    setShowForm(true);
+  };
+
+  const toggleIsActive = (e, id) => {
+    setUsers((prev) => {
+      const newArr = [...prev];
+
+      const index = users.findIndex((item) => item?.id === id);
+      if (index == -1) return prev;
+      newArr[index] = {
+        ...newArr[index],
+        active: e.target.checked,
+      };
+      return newArr;
+    });
+  };
+
+  const handleEditUser = (user) => {
+    setCurrentUser(user);
+    setShowForm(true);
+  };
+
+  const handleSaveUser = (userData) => {
+    if (currentUser) {
+      setUsers(
+        users.map((user) =>
+          user.id === currentUser.id ? { ...user, ...userData } : user
+        )
+      );
+    } else {
+      setUsers([...users, { ...userData, id: users.length + 1, active: true }]);
+    }
+    setShowForm(false);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setCurrentUser(null);
+  };
+
+  return (
+    <HeaderLayout
+      id={-1}
+      logoSrc="https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
+      logoAlt="King Baker Logo"
+      title="KING BAKER"
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className={` text-gray-800`}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Delivery Boys</h1>
+        </div>
+
+        <div className="flex flex-wrap gap-4 mb-6">
+          <div className="flex-grow relative">
+            <input
+              type="text"
+              placeholder="Search delivery boy by Name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5 absolute left-3 top-2.5 text-gray-400"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <button
+            onClick={handleAddUser}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 flex items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5 mr-2"
+            >
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            Add New Users
+          </button>
+        </div>
+
+        <div className="mb-6">
+          <span className="mr-4">Filter by:</span>
+          <label className="inline-flex items-center mr-4">
+            <input
+              type="checkbox"
+              checked={showActive}
+              onChange={() => setShowActive(!showActive)}
+              className="form-checkbox h-5 w-5 text-blue-600"
+            />
+            <span className="ml-2">Active</span>
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={showInactive}
+              onChange={() => setShowInactive(!showInactive)}
+              className="form-checkbox h-5 w-5 text-blue-600"
+            />
+            <span className="ml-2">Inactive</span>
+          </label>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredUsers.map((user, index) => (
+            <motion.div
+              key={user.id}
+              data-id={user.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, delay: index * 0.08 }}
+              className={`rounded-lg shadow-md overflow-hidden bg-white`}
+            >
+              <div
+                className={`p-4 ${
+                  user.active ? "bg-green-100 " : "bg-red-100 "
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="size-6 text-gray-600"
+                      >
+                        <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h2 className="text-lg font-semibold">{user.name}</h2>
+                      <p
+                        className={`text-sm ${
+                          user.active ? "text-green-700 " : "text-red-700 "
+                        }`}
+                      >
+                        {user.active ? "Active" : "Inactive"}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        onChange={(e) => toggleIsActive(e, user.id)}
+                        checked={user.active}
+                        type="checkbox"
+                        className="sr-only peer"
+                      />
+                      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-green-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                      <span className="ml-3 text-sm  text-green-900 font-medium">
+                        Active
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="mb-2 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4 mr-2 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                    />
+                  </svg>
+
+                  <p>{user.phone}</p>
+                </div>
+                <div className="mb-4 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4 mr-2 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                    />
+                  </svg>
+
+                  <p>{user.username}@example.com</p>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <button
+                    onClick={() => handleEditUser(user)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 flex items-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="size-4 mr-2"
+                    >
+                      <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                      <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                    </svg>
+                    Edit
+                  </button>
+                  <button className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-300 flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="size-4 mr-2"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8 7a5 5 0 1 1 3.61 4.804l-1.903 1.903A1 1 0 0 1 9 14H8v1a1 1 0 0 1-1 1H6v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 .293-.707L8.196 8.39A5.002 5.002 0 0 1 8 7Zm5-3a.75.75 0 0 0 0 1.5A1.5 1.5 0 0 1 14.5 7 .75.75 0 0 0 16 7a3 3 0 0 0-3-3Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Reset Password
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <ModalWrapper
+          isOpen={showForm}
+          onClose={handleCancel}
+          maxHeight={"88vh"}
+        >
+          <>
+            <h2 className="text-2xl font-bold mb-4">
+              {currentUser ? "Edit User" : "Add New User"}
+            </h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                handleSaveUser(Object.fromEntries(formData));
+              }}
+            >
+              <div className="mb-4">
+                <label className="block mb-2">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  defaultValue={currentUser?.name}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  defaultValue={currentUser?.username}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                  required
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  No special characters are allowed and use only small letters
+                  with no space for creating username
+                </p>
+              </div>
+              {!currentUser && (
+                <>
+                  <div className="mb-4">
+                    <label className="block mb-2">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block mb-2">Confirm Password</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                      required
+                    />
+                  </div>
+                </>
+              )}
+              <div className="mb-6">
+                <label className="block mb-2">Mobile Number</label>
+                <div className="flex">
+                  <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md ">
+                    +91
+                  </span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    defaultValue={currentUser?.phone}
+                    className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="mr-2 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition duration-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </>
+        </ModalWrapper>
+      </motion.div>
+    </HeaderLayout>
+  );
+};
+
+export default DeliveryBoysManagement;

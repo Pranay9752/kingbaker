@@ -14,9 +14,9 @@ export default function HeaderLayout({
     name: "Neil Sims",
     email: "neil.sims@flowbite.com",
     menuItems: [
-      { link: "/dashboard", label: "Dashboard" },
-      { link: "/settings", label: "Settings" },
-      { link: "/earnings", label: "Earnings" },
+      { link: "/admin/delivery-boy", label: "Delivery Boy" },
+      // { link: "/settings", label: "Settings" },
+      // { link: "/earnings", label: "Earnings" },
       { link: "/logout", label: "Sign out" },
     ],
   };
@@ -219,7 +219,7 @@ export default function HeaderLayout({
   ];
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = (value) => setIsOpen((prev) => value ?? !prev);
-  
+
   return (
     <>
       <MenuNavbar
