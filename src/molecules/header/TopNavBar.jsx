@@ -10,6 +10,7 @@ import getCookie from "../../atom/utils/getCookies";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logoking.png";
 import deleteAllCookies from "../../atom/utils/deleteAllCookies";
+import SuggestionSearch from "../search/SuggestionSearch";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -26,9 +27,9 @@ const currencies = [
 ];
 
 const menuItems = [
-  { label: 'My Account', href: '/account/details/profile' },
-  { label: 'My Orders', href: '/account/details/orders' },
-  { label: 'Contact Us', href: '#' },
+  { label: "My Account", href: "/account/details/profile" },
+  { label: "My Orders", href: "/account/details/orders" },
+  { label: "Contact Us", href: "#" },
 ];
 
 const TopNavbar = ({
@@ -172,29 +173,7 @@ const TopNavbar = ({
             )}
             {/* <h1 className="text-2xl font-bold">{title}</h1> */}
             <div className="flex gap-4">
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={searchPlaceholder}
-                  className="w-full p-2 pl-10 rounded text-gray-800"
-                />
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-5 absolute left-3 top-2.5 text-gray-500"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
+              <SuggestionSearch />
               <button className="flex items-center space-x-1 bg-white text-gray-700 text-xs font-semibold rounded p-2 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +227,6 @@ const TopNavbar = ({
             </div>
 
             <div
-
               // onClick={() => navigate("/account/details")}
               className="flex flex-col text-xs font-semibold items-center space-x-1 pr-4 group relative cursor-pointer"
             >
@@ -264,26 +242,45 @@ const TopNavbar = ({
               <p>Hi {getCookie("user") == "" ? "Guest" : getCookie("user")}</p>
 
               <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
-
-                <div className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"}`}>
-                  <a href="/account/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
+                <div
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "" : "hidden"
+                  }`}
+                >
+                  <a
+                    href="/account/login"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                  >
                     Login / Register
                   </a>
                 </div>
-                <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
+                <ul
+                  className="py-2 text-sm text-gray-700 "
+                  aria-labelledby="dropdownLargeButton"
+                >
                   {menuItems.map((item, index) => (
                     <li key={index}>
-                      <Link to={item.href} className="block px-4 py-2 hover:bg-gray-100 ">
+                      <Link
+                        to={item.href}
+                        className="block px-4 py-2 hover:bg-gray-100 "
+                      >
                         {item.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <div className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""}`}>
-                  <div onClick={() => {
-                    deleteAllCookies()
-                    navigate('/')
-                  }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
+                <div
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "hidden" : ""
+                  }`}
+                >
+                  <div
+                    onClick={() => {
+                      deleteAllCookies();
+                      navigate("/");
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                  >
                     Sign out
                   </div>
                 </div>

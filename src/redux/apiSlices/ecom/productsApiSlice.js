@@ -20,9 +20,22 @@ const ProductApi = apiSlice.injectEndpoints({
         // },
       }),
     }),
+    suggestionProduct: builder.mutation({
+      query: ({ query }) => ({
+        url: "/suggestionProduct",
+        method: "POST",
+        body: {
+          query,
+        },
+      }),
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetProductQuery, useGetAddOnQuery } = ProductApi;
+export const {
+  useGetProductQuery,
+  useGetAddOnQuery,
+  useSuggestionProductMutation,
+} = ProductApi;
