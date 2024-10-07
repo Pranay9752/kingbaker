@@ -1,56 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
+import {
+  useCreateSalesmanMutation,
+  useDeliveryOtpVerifyMutation,
+  useGetSalesmanQuery,
+  useSendDeliveryOtpMutation,
+  useUpdateSalesmanMutation,
+} from "../../../redux/apiSlices/admin/delivery-boy";
+import BasicButton2 from "../../../atom/button/BasicButton2";
+import DeliveryBoyModal from "./modal/deliveryBoyModal";
+import ResetPasswordModal from "./modal/ResetPasswordModal";
+import OtpInput from "../../../atom/inputs/OtpInput";
 
 const DeliveryBoysManagement = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Anonymous",
-      username: "anonymous",
-      phone: "N/A",
-      active: true,
-    },
-    {
-      id: 2,
-      name: "Harshit",
-      username: "harshit",
-      phone: "8218976839",
-      active: true,
-    },
-    {
-      id: 3,
-      name: "Kapil Kinger",
-      username: "kapilkinger",
-      phone: "7982041689",
-      active: true,
-    },
-    {
-      id: 4,
-      name: "John Doe",
-      username: "johndoe",
-      phone: "9876543210",
-      active: false,
-    },
-    {
-      id: 5,
-      name: "Jane Smith",
-      username: "janesmith",
-      phone: "8765432109",
-      active: true,
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+
+  const { data, isLoading } = useGetSalesmanQuery();
+  const [updateSalesman, { isLoading: updateSalesmanLoading }] =
+    useUpdateSalesmanMutation();
+  const [createSalesman, { isLoading: createSalesmanLoading }] =
+    useCreateSalesmanMutation();
+  const [sendDeliveryOtp, { isLoading: sendDeliveryOtpLoading }] =
+    useSendDeliveryOtpMutation();
+  const [deliveryOtpVerify, { isLoading: deliveryOtpVerifyLoading }] =
+    useDeliveryOtpVerifyMutation();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [showActive, setShowActive] = useState(true);
   const [showInactive, setShowInactive] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
 
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      ((showActive && user.active) || (showInactive && !user.active))
+      ((showActive && user.isActive) || (showInactive && !user.isActive))
   );
 
   const handleAddUser = () => {
@@ -58,15 +45,21 @@ const DeliveryBoysManagement = () => {
     setShowForm(true);
   };
 
-  const toggleIsActive = (e, id) => {
+  const toggleIsActive = (e, _id) => {
+    const response = updateSalesman({
+      id: _id,
+      data: {
+        isActive: e.target.checked,
+      },
+    });
     setUsers((prev) => {
       const newArr = [...prev];
 
-      const index = users.findIndex((item) => item?.id === id);
+      const index = users.findIndex((item) => item?._id === _id);
       if (index == -1) return prev;
       newArr[index] = {
         ...newArr[index],
-        active: e.target.checked,
+        isActive: e.target.checked,
       };
       return newArr;
     });
@@ -76,18 +69,55 @@ const DeliveryBoysManagement = () => {
     setCurrentUser(user);
     setShowForm(true);
   };
+  const handleResetUser = (user) => {
+    setCurrentUser(user);
+    setShowResetPassword(1);
+  };
 
   const handleSaveUser = (userData) => {
     if (currentUser) {
-      setUsers(
-        users.map((user) =>
-          user.id === currentUser.id ? { ...user, ...userData } : user
+      // Edit User
+      const response = updateSalesman({
+        id: userData?._id,
+        data: {
+          name: userData?.name || "",
+          username: userData?.username || "",
+          phoneNo: userData?.phoneNo || "",
+          email: userData?.email || "",
+        },
+      });
+      setUsers((prev) =>
+        prev.map((user) =>
+          user._id === currentUser._id ? { ...user, ...userData } : user
         )
       );
     } else {
-      setUsers([...users, { ...userData, id: users.length + 1, active: true }]);
+      // Create User
+      const newUser = {
+        name: userData?.name,
+        username: userData?.username,
+        phoneNo: userData?.phoneNo,
+        password: userData?.password,
+        email: userData?.email,
+        isActive: true,
+        vendor_id: "66f55917ab247f6b3173a1e6",
+      };
+
+      const response = createSalesman({
+        data: newUser,
+      }).unwrap();
+      setUsers([
+        ...users,
+        { ...userData, _id: response?.data?.salesmanId, isActive: true },
+      ]);
     }
     setShowForm(false);
+  };
+
+  const handleResetPassword = (data) => {
+    if (!data) return handleResetCancel();
+    sendDeliveryOtp({ phoneNo: data?.phoneNo });
+    setShowResetPassword(2);
   };
 
   const handleCancel = () => {
@@ -95,9 +125,18 @@ const DeliveryBoysManagement = () => {
     setCurrentUser(null);
   };
 
+  const handleResetCancel = () => {
+    setShowResetPassword(0);
+    setCurrentUser(null);
+  };
+
+  useEffect(() => {
+    if (data) setUsers(data?.salesman ?? []);
+  }, [data]);
+
   return (
     <HeaderLayout
-      id={-1}
+      _id={-1}
       logoSrc="https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
       logoAlt="King Baker Logo"
       title="KING BAKER"
@@ -174,8 +213,8 @@ const DeliveryBoysManagement = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredUsers.map((user, index) => (
             <motion.div
-              key={user.id}
-              data-id={user.id}
+              key={user._id}
+              data-_id={user._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
@@ -184,7 +223,7 @@ const DeliveryBoysManagement = () => {
             >
               <div
                 className={`p-4 ${
-                  user.active ? "bg-green-100 " : "bg-red-100 "
+                  user.isActive ? "bg-green-100 " : "bg-red-100 "
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -203,18 +242,18 @@ const DeliveryBoysManagement = () => {
                       <h2 className="text-lg font-semibold">{user.name}</h2>
                       <p
                         className={`text-sm ${
-                          user.active ? "text-green-700 " : "text-red-700 "
+                          user.isActive ? "text-green-700 " : "text-red-700 "
                         }`}
                       >
-                        {user.active ? "Active" : "Inactive"}
+                        {user.isActive ? "Active" : "Inactive"}
                       </p>
                     </div>
                   </div>
                   <div>
                     <label className="flex items-center cursor-pointer">
                       <input
-                        onChange={(e) => toggleIsActive(e, user.id)}
-                        checked={user.active}
+                        onChange={(e) => toggleIsActive(e, user._id)}
+                        checked={user.isActive}
                         type="checkbox"
                         className="sr-only peer"
                       />
@@ -243,7 +282,7 @@ const DeliveryBoysManagement = () => {
                     />
                   </svg>
 
-                  <p>{user.phone}</p>
+                  <p>{user.phoneNo}</p>
                 </div>
                 <div className="mb-4 flex items-center">
                   <svg
@@ -261,39 +300,32 @@ const DeliveryBoysManagement = () => {
                     />
                   </svg>
 
-                  <p>{user.username}@example.com</p>
+                  <p>{user.email}</p>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <button
+                  <BasicButton2
+                    className={`bg-blue-400 text-white`}
+                    title={"Edit"}
                     onClick={() => handleEditUser(user)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 flex items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-4 mr-2"
-                    >
-                      <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-                      <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-                    </svg>
-                    Edit
-                  </button>
-                  <button className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-300 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-4 mr-2"
-                    >
+                    icon={
+                      <>
+                        <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                        <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                      </>
+                    }
+                  />
+                  <BasicButton2
+                    className={`bg-gray-500 text-white`}
+                    title={"Reset Password"}
+                    onClick={() => handleResetUser(user)}
+                    icon={
                       <path
                         fillRule="evenodd"
                         d="M8 7a5 5 0 1 1 3.61 4.804l-1.903 1.903A1 1 0 0 1 9 14H8v1a1 1 0 0 1-1 1H6v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 .293-.707L8.196 8.39A5.002 5.002 0 0 1 8 7Zm5-3a.75.75 0 0 0 0 1.5A1.5 1.5 0 0 1 14.5 7 .75.75 0 0 0 16 7a3 3 0 0 0-3-3Z"
                         clipRule="evenodd"
                       />
-                    </svg>
-                    Reset Password
-                  </button>
+                    }
+                  />
                 </div>
               </div>
             </motion.div>
@@ -304,95 +336,36 @@ const DeliveryBoysManagement = () => {
           onClose={handleCancel}
           maxHeight={"88vh"}
         >
-          <>
-            <h2 className="text-2xl font-bold mb-4">
-              {currentUser ? "Edit User" : "Add New User"}
-            </h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                handleSaveUser(Object.fromEntries(formData));
-              }}
-            >
-              <div className="mb-4">
-                <label className="block mb-2">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  defaultValue={currentUser?.name}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  defaultValue={currentUser?.username}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
-                  required
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  No special characters are allowed and use only small letters
-                  with no space for creating username
-                </p>
-              </div>
-              {!currentUser && (
-                <>
-                  <div className="mb-4">
-                    <label className="block mb-2">Password</label>
-                    <input
-                      type="password"
-                      name="password"
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
-                      required
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block mb-2">Confirm Password</label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
-                      required
-                    />
-                  </div>
-                </>
-              )}
-              <div className="mb-6">
-                <label className="block mb-2">Mobile Number</label>
-                <div className="flex">
-                  <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md ">
-                    +91
-                  </span>
-                  <input
-                    type="tel"
-                    name="phone"
-                    defaultValue={currentUser?.phone}
-                    className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="mr-2 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition duration-300"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </>
+          <DeliveryBoyModal
+            currentUser={currentUser}
+            handleSaveUser={handleSaveUser}
+            handleCancel={handleCancel}
+          />
+        </ModalWrapper>
+        <ModalWrapper
+          isOpen={showResetPassword == 1}
+          onClose={handleResetCancel}
+          maxHeight={"88vh"}
+        >
+          <ResetPasswordModal
+            currentUser={currentUser}
+            handleSaveUser={handleResetPassword}
+            handleCancel={handleResetCancel}
+          />
+        </ModalWrapper>
+        <ModalWrapper
+          isOpen={showResetPassword == 2}
+          onClose={handleResetCancel}
+          maxHeight={"88vh"}
+        >
+          <OtpInput
+            onSubmitOtp={(otp) =>
+              deliveryOtpVerify({ phoneNo: currentUser?.phoneNo, otp: otp })
+            }
+            resendOtp={() => handleResetPassword(currentUser)}
+            phoneNumber={"+91 ******"+currentUser?.phoneNo.substr(-3)}
+            otpLength={6}
+          />
         </ModalWrapper>
       </motion.div>
     </HeaderLayout>

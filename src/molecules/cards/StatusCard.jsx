@@ -30,7 +30,7 @@ const StatusCard = ({ title, today, tomorrow, future }) => {
     <div className="flex justify-between items-center lg:flex-none bg-white shadow-lg rounded-lg p-4 lg:p-0 mb-4 ">
       {/* Title and Icon */}
       <div className="flex items-center space-x-4 lg:w-1/4 lg:p-4 lg:border-r">
-        <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
+        <h3 className="text-lg font-semibold text-gray-700 capitalize">{title}</h3>
         <div className="bg-green-100 p-2 rounded-full">
         {/* Icon (assuming it's an external link icon) */}
         
