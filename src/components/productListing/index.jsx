@@ -13,6 +13,8 @@ import Footer from "../../molecules/footer/footer";
 import NavBar from "../home/NavBar";
 const ProductSearch = () => {
   const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" })
+  const [extraFilters, setExtraFilter] = useState({})
+  console.log(extraFilters);
 
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
@@ -90,6 +92,7 @@ const ProductSearch = () => {
       },
     ],
   };
+
   const filterItems = [
     {
       title: "Price",
