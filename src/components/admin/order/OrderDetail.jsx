@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
 import { twMerge } from "tailwind-merge";
 
-const OrderDetailsCard = ({}) => {
+const OrderDetailsCard = ({ orderData }) => {
+  console.log('orderData: ', orderData);
   const order = {
     orderNumber: "5624270001",
     status: "Accepted",
@@ -126,7 +127,7 @@ const OrderDetailsCard = ({}) => {
 
         <div className="mb-6">
           <h3 className="font-semibold text-gray-800 mb-2">Order Items</h3>
-  
+
           <div className="divide-y">
             {order.orderItem.map((item, index) => (
               <div

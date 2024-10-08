@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import {encryptData} from "../../atom/utils/encryption"
 const SVGIcon = () => {
   return (
     <svg
@@ -26,36 +28,57 @@ const SVGIcon = () => {
 };
 
 const StatusCard = ({ title, today, tomorrow, future }) => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-between items-center lg:flex-none bg-white shadow-lg rounded-lg p-4 lg:p-0 mb-4 ">
       {/* Title and Icon */}
       <div className="flex items-center space-x-4 lg:w-1/4 lg:p-4 lg:border-r">
-        <h3 className="text-lg font-semibold text-gray-700 capitalize">{title}</h3>
+        <h3 className="text-lg font-semibold text-gray-700 capitalize">
+          {title}
+        </h3>
         <div className="bg-green-100 p-2 rounded-full">
-        {/* Icon (assuming it's an external link icon) */}
-        
-        <SVGIcon />
+          {/* Icon (assuming it's an external link icon) */}
+
+          <SVGIcon />
         </div>
       </div>
 
       {/* Status Counts */}
       <div className="flex space-x-6  lg:w-full h-full lg:space-x-0 lg:grid grid-cols-3 lg:divide-x">
-        <div className="flex flex-col items-center h-full lg:bg-green-100 lg:p-3">
+        <div
+          onClick={() =>
+            today?.acceptedToday &&
+            navigate(`/admin/order-list/${encodeURIComponent(encryptData(today?.order_id))}`)
+          }
+          className="flex flex-col items-center h-full lg:bg-green-100 lg:p-3"
+        >
           <span className="text-sm lg:font-medium text-gray-500">Today</span>
           <span className="text-lg lg:text-xl font-semibold text-green-600">
-            {today}
+            {today?.acceptedToday ?? 0}
           </span>
         </div>
-        <div className="flex flex-col items-center lg:p-3 lg:bg-yellow-100">
+        <div
+          onClick={() =>
+            tomorrow?.acceptedTomorrow &&
+            navigate(`/admin/order-list/${encodeURIComponent(encryptData(tomorrow?.order_id))}`)
+          }
+          className="flex flex-col items-center lg:p-3 lg:bg-yellow-100"
+        >
           <span className="text-sm lg:font-medium text-gray-500">Tomorrow</span>
           <span className="text-lg lg:text-xl font-semibold text-yellow-600">
-            {tomorrow}
+            {tomorrow?.acceptedTomorrow ?? 0}
           </span>
         </div>
-        <div className="flex flex-col items-center lg:p-3 lg:bg-red-100">
+        <div
+          onClick={() =>
+            future?.acceptedFuture &&
+            navigate(`/admin/order-list/${encodeURIComponent(encryptData(future?.order_id))}`)
+          }
+          className="flex flex-col items-center lg:p-3 lg:bg-red-100"
+        >
           <span className="text-sm lg:font-medium text-gray-500">Future</span>
           <span className="text-lg lg:text-xl font-semibold text-red-600">
-            {future}
+            {future?.acceptedFuture ?? 0}
           </span>
         </div>
       </div>

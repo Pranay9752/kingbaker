@@ -30,9 +30,9 @@ const StatusBoard = () => {
           <StatusCard
             key={index}
             title={item}
-            today={statusCard?.today ?? 0}
-            tomorrow={statusCard?.tomorrow ?? 0}
-            future={statusCard?.future ?? 0}
+            today={statusCard?.today ?? {}}
+            tomorrow={statusCard?.tomorrow ?? {}}
+            future={statusCard?.future ?? {}}
           />
         );
       })}

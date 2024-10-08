@@ -15,7 +15,7 @@ import AdminDashboard from "./components/admin/dashboard";
 import PrivateRoute from "./routes/PrivateRoutes";
 import AdminSales from "./components/admin/sales";
 import BodyBackgroud from "./atom/utils/BodyBackgroud";
-import VendorList from "./components/admin/order/vendorList";
+import OrderList from "./components/admin/order/vendorList";
 import OrderDetailsCard from "./components/admin/order/OrderDetail";
 import MyTicket from "./components/admin/order/MyTickets";
 import DeliveryBoysManagement from "./components/admin/deliverer";
@@ -43,8 +43,8 @@ function App() {
             {/* ADMIN ROUTES */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/sales" element={<AdminSales />} />
-            <Route path="/admin/vendor-list" element={<VendorList />} />
-            <Route path="/admin/order-detail" element={<OrderDetailsCard />} />
+            <Route path="/admin/order-list/:ids" element={<OrderList />} />
+            <Route path="/admin/order-detail/:id" element={<OrderDetailsCard />} />
             <Route path="/admin/my-ticket" element={<MyTicket />} />
             <Route path="/admin/delivery-boy" element={<DeliveryBoysManagement />} />
           </Route>

@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react-date-range": "^1.4.9",
     "axios": "^1.7.7",
+    "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.29",
     "js-cookie": "^3.0.5",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@hookform/devtools": "^4.3.1",
+    "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

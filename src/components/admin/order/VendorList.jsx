@@ -1,169 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import OrderCard from "../../../molecules/cards/OrderCard";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
 import DateRangeOneFilter from "../../../molecules/date/DatePicker";
+import { useGetOrdersMutation } from "../../../redux/apiSlices/admin/vendor";
+import { decryptData } from "../../../atom/utils/encryption";
+import { useParams } from "react-router-dom";
+import OrderDetailsCard from "./OrderDetail";
 
-function VendorList() {
+function OrderList() {
+  const { ids } = useParams();
   const [selectedOrders, setSelectedOrder] = useState([]);
-  const dummyOrder = [
-    {
-      orderNumber: 5622438801,
-      total: 360,
-      customerName: "Ashok Kumar",
-      address:
-        "274/27 Bhartiya Colony, Jansath Road, Muzaffarnagar, India, 251001",
-      phone: "(M) 9837179264",
-      deliveryType: "Express Delivery",
-      date: "30-09-2024",
-      time: "08:00:00 - 13:00:00 hrs",
-      items: [
-        {
-          name: "Crunchy Butterscotch Cake",
-          description: "Half Kg Eggless, Cream, 6 inches",
-          price: 275,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-        {
-          name: "Magic Relighting Candle",
-          description: "Add-on item",
-          price: 10,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-      ],
-    },
-    {
-      orderNumber: 5622438802,
-      total: 360,
-      customerName: "Ashok Kumar",
-      address:
-        "274/27 Bhartiya Colony, Jansath Road, Muzaffarnagar, India, 251001",
-      phone: "(M) 9837179264",
-      deliveryType: "Express Delivery",
-      date: "30-09-2024",
-      time: "08:00:00 - 13:00:00 hrs",
-      items: [
-        {
-          name: "Crunchy Butterscotch Cake",
-          description: "Half Kg Eggless, Cream, 6 inches",
-          price: 275,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-        {
-          name: "Magic Relighting Candle",
-          description: "Add-on item",
-          price: 10,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-      ],
-    },
-    {
-      orderNumber: 5622438803,
-      total: 360,
-      customerName: "Ashok Kumar",
-      address:
-        "274/27 Bhartiya Colony, Jansath Road, Muzaffarnagar, India, 251001",
-      phone: "(M) 9837179264",
-      deliveryType: "Express Delivery",
-      date: "30-09-2024",
-      time: "08:00:00 - 13:00:00 hrs",
-      items: [
-        {
-          name: "Crunchy Butterscotch Cake",
-          description: "Half Kg Eggless, Cream, 6 inches",
-          price: 275,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-        {
-          name: "Magic Relighting Candle",
-          description: "Add-on item",
-          price: 10,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-      ],
-    },
-    {
-      orderNumber: 5622438804,
-      total: 360,
-      customerName: "Ashok Kumar",
-      address:
-        "274/27 Bhartiya Colony, Jansath Road, Muzaffarnagar, India, 251001",
-      phone: "(M) 9837179264",
-      deliveryType: "Express Delivery",
-      date: "30-09-2024",
-      time: "08:00:00 - 13:00:00 hrs",
-      items: [
-        {
-          name: "Crunchy Butterscotch Cake",
-          description: "Half Kg Eggless, Cream, 6 inches",
-          price: 275,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-        {
-          name: "Magic Relighting Candle",
-          description: "Add-on item",
-          price: 10,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-      ],
-    },
-    {
-      orderNumber: 5622438805,
-      total: 360,
-      customerName: "Ashok Kumar",
-      address:
-        "274/27 Bhartiya Colony, Jansath Road, Muzaffarnagar, India, 251001",
-      phone: "(M) 9837179264",
-      deliveryType: "Express Delivery",
-      date: "30-09-2024",
-      time: "08:00:00 - 13:00:00 hrs",
-      items: [
-        {
-          name: "Crunchy Butterscotch Cake",
-          description: "Half Kg Eggless, Cream, 6 inches",
-          price: 275,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-        {
-          name: "Magic Relighting Candle",
-          description: "Add-on item",
-          price: 10,
-          quantity: 1,
-          image:
-            "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-        },
-      ],
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const [orderDetailIndex, setOrderDetailIndex] = useState(null);
 
-  const handleSelectedOrder = ({ orderNumber }) => {
+  const [getOrders, { isLoading }] = useGetOrdersMutation();
+
+  // Memoized handleSelectedOrder to avoid re-creating it on every render
+  const handleSelectedOrder = useCallback(({ order_id }) => {
     setSelectedOrder((prev) => {
-      if (!orderNumber) return prev;
-      const newArr = [...prev];
-      if (newArr.includes(orderNumber)) {
-        return newArr.filter((item) => item !== orderNumber);
+      if (!order_id) return prev;
+      if (prev.includes(order_id)) {
+        return prev.filter((item) => item !== order_id);
       } else {
-        return [...newArr, orderNumber];
+        return [...prev, order_id];
       }
     });
-  };
+  }, []);
+
+  const handleDetailView = ({ index }) => setOrderDetailIndex(index);
+
+  useEffect(() => {
+    const getData = async (decryptedData) => {
+      try {
+        const response = await getOrders({ data: decryptedData }).unwrap();
+        setOrders(response?.orders ?? []);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    if (ids) {
+      const decryptedData = decryptData(ids);
+      getData(decryptedData);
+    }
+  }, [ids, getOrders]);
+
   return (
     <div>
       <HeaderLayout
@@ -172,27 +53,33 @@ function VendorList() {
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >
-        <div className="flex flex-col justify-start items-start gap-4 w-full">
-          <div className="w-full">
-            <DateRangeOneFilter
-              handleDateChange={(date) => console.log(date)}
-            />
-          </div>
-          <div className="flex flex-col w-full gap-2">
-            {dummyOrder?.map((order) => (
-              <OrderCard
-                handleSelectedOrder={handleSelectedOrder}
-                isActive={
-                  selectedOrders?.includes(order?.orderNumber ?? "") ?? false
-                }
-                order={order}
+        {orderDetailIndex ? (
+          <OrderDetailsCard orderData={orders[orderDetailIndex]} />
+        ) : (
+          <div className="flex flex-col justify-start items-start gap-4 w-full">
+            <div className="w-full">
+              <DateRangeOneFilter
+                handleDateChange={(date) => console.log(date)}
               />
-            ))}
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              {Array.isArray(orders) &&
+                orders.map((order, index) => (
+                  <OrderCard
+                  index={index}
+                  handleDetailView={handleDetailView}
+                    key={order.order_id} // Add key for better reconciliation
+                    handleSelectedOrder={handleSelectedOrder}
+                    isActive={selectedOrders.includes(order?.order_id ?? "")}
+                    order={order}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
       </HeaderLayout>
     </div>
   );
 }
 
-export default VendorList;
+export default OrderList;
