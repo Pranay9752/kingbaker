@@ -75,7 +75,7 @@ export default function HeaderLayout({
     },
     {
       id: 5,
-      link: "/users",
+      link: "/admin/my-ticket",
       label: "My Ticket",
       iconPath: (
         <>

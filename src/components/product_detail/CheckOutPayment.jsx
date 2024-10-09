@@ -8,11 +8,13 @@ import Basicheader from "./header/Basicheader";
 import {
   useGetAddressQuery,
   useGetCartItemQuery,
+  usePlaceOrderMutation,
 } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
 import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
+import { toast } from "sonner";
 
-const PaymentOptions = ({ totalPrice = 0 }) => {
+const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [selectedOption, setSelectedOption] = useState("cod");
   const [cardNumber, setCardNumber] = useState("");
   const [nameOnCard, setNameOnCard] = useState("");
@@ -20,9 +22,23 @@ const PaymentOptions = ({ totalPrice = 0 }) => {
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
 
+  const [placeOrder] = usePlaceOrderMutation()
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
+
+  const handleSubmit = () => {
+    if (orderIds?.length == 0) {
+      toast.info('No Order available to place!')
+    }
+    Array.isArray(orderIds) && orderIds.forEach(async (item) => {
+      await placeOrder({ order_id: item })
+    })
+    toast.success('Order added successfully')
+    // placeOrder({})
+
+    // navigate("/")
+  }
 
   return (
     <div className=" p-3">
@@ -43,7 +59,7 @@ const PaymentOptions = ({ totalPrice = 0 }) => {
         </div>
         {selectedOption === "cod" && (
           <div className="ml-6 space-y-4">
-            <button className="w-full bg-orange-500 text-white py-2 rounded">
+            <button onClick={handleSubmit} className="w-full bg-orange-500 text-white py-2 rounded">
               PAY ₹ ${totalPrice}
             </button>
           </div>
@@ -308,6 +324,12 @@ function CheckOutPayment() {
   const { data, isLoading, isError } = useGetCartItemQuery();
   console.log('data: ', data);
 
+  const orderIds = useMemo(() => {
+    console.log("gggg", data?.data.delivery_details)
+
+    return Array.isArray(data?.data?.delivery_details) ? data?.data?.delivery_details.map((item) => item?.mainItem?._id) : []
+  }, [data?.data])
+  console.log(orderIds)
   const totalPrice = useMemo(() => {
     const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
       const itemPrice = curr?.mainItem?.productDetails?.[0]?.prices ?? 0;
@@ -360,11 +382,12 @@ function CheckOutPayment() {
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS" done />
 
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS">
-            <PaymentOptions totalPrice={totalPrice ?? 0} />
+            <PaymentOptions orderIds={orderIds} totalPrice={totalPrice ?? 0} />
           </CheckoutCard>
         </div>
         <div className="sticky">
           <PriceDetails
+            orderIds={orderIds}
             totalAddonPrice={totalAddonPrice}
             totalPrice={totalPrice}
             totalitemPrice={totalitemPrice}
