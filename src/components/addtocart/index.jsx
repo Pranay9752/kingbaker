@@ -8,58 +8,52 @@ import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
 
 const AddToCartModal = () => {
   const { data, isLoading, isError } = useGetCartItemQuery();
-  console.log(data);
 
-  const cartData = useSelector(state => state.order)
-  const dispatch = useDispatch()
+  const cartData = useSelector((state) => state.order);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const totalAddons = useMemo(() => {
     const totalAddons = cartData?.reduce((prev, curr) => {
-      return prev + curr?.addons?.length ?? 0
-    }, 0)
-    return totalAddons
-
-  }, [cartData])
+      return prev + curr?.addons?.length ?? 0;
+    }, 0);
+    return totalAddons;
+  }, [cartData]);
   const totalPrice = useMemo(() => {
     const totalAddons = cartData?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0
-      let addonPrice = 0
-      curr?.addons?.forEach(element => {
-        addonPrice = addonPrice + element.price
+      const itemPrice = curr?.mainItem?.price ?? 0;
+      let addonPrice = 0;
+      curr?.addons?.forEach((element) => {
+        addonPrice = addonPrice + element.price;
       });
 
-      return prev + itemPrice + addonPrice
-    }, 0)
-    return totalAddons
-  }, [cartData])
-
+      return prev + itemPrice + addonPrice;
+    }, 0);
+    return totalAddons;
+  }, [cartData]);
 
   const transformData = (data) => {
     const tData = data.map((item, index) => {
-      console.log(item)
-      const main = item?.mainItem ?? {}
-      const addons = item?.addOn ?? []
+      const main = item?.mainItem ?? {};
+      const productDetail = main?.productDetails?.[0];
+      const addons = item?.addOn ?? [];
       return {
         mainItem: {
           ...main,
-          id: main._id,
-          name: "Decorated Chocolate Truffle Cake Half Kg",
-          price: 575,
+          id: productDetail._id,
+          name: productDetail?.title,
+          price: productDetail?.prices,
           quantity: 1,
-          image:
-            "https://www.fnp.com/images/pr/s/v20240829111259/decorated-chocolate-truffle-cake-half-kg_1.jpg",
+          image: productDetail?.imageLink?.[0],
         },
         addons: addons?.map((addon) => ({
-          id: "ADDON1",
-          name: "2 Pc Cadbury Fruit N Nut 36 Gm",
-          price: 239,
-          quantity: 1,
-          image:
-            "	https://www.fnp.com/images/pr/s/v20230802171003/2-pc-cadbury-fruit-n-nut-36g-in-gift-packing_1.jpg",
-        })),
+          id: addon?._id ?? "",
+          name:addon?.title ?? "",
+          price: addon?.price ?? 0,
+          quantity: addon?.count?.count ?? 0,
+          image: addon?.images?.[0] ?? ""
+              })),
         deliveryDetails: {
-
           method: main?.shipping?.method,
           date: main?.shipping?.delivary_date,
           timeSlot: main?.shipping?.time,
@@ -68,22 +62,24 @@ const AddToCartModal = () => {
         occasion: null,
         messageCard: "",
         messageOnCake: "",
-      }
-    })
+      };
+    });
 
-    return tData
-
-  }
+    return tData;
+  };
 
   useEffect(() => {
     if (data) {
-      const transformedData = transformData(data?.data?.delivery_details)
+      const transformedData = transformData(data?.data?.delivery_details);
 
-      dispatch(addInit(transformedData))
+      dispatch(addInit(transformedData));
     }
-  }, [data])
+  }, [data]);
   return (
-    <div className="absolute bg-white rounded-lg shadow-lg w-96 p-4 -translate-x-[calc(100%-30px)]">
+    <div
+      style={{ zIndex: 9999 }}
+      className="absolute bg-white rounded-lg shadow-lg w-96 p-2  md:p-4 -translate-x-[calc(100%-50px)] md:first-letter:-translate-x-[calc(100%-30px)]"
+    >
       <div className="flex justify-between items-center mb-4 text-gray-800">
         <div className="flex items-center">
           <svg
@@ -97,19 +93,21 @@ const AddToCartModal = () => {
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
-          <span className="font-semibold text-lg ">My Cart({cartData?.length ?? 0})</span>
+          <span className="font-semibold text-lg ">
+            My Cart({cartData?.length ?? 0})
+          </span>
         </div>
-
       </div>
 
       <div className={`"flex flex-col items-center gap-3`}>
-        {
-          cartData.length > 0 ? <>
+        {cartData.length > 0 ? (
+          <>
             <div className="max-h-[50vh] overflow-y-auto hide-scrollbar">
-              {
-                cartData.map((cartItem, index) => {
+              {cartData.map((cartItem, index) => {
+                console.log("cartItem: ", cartItem);
 
-                  return <div className="relative">
+                return (
+                  <div className="relative">
                     <OrderDeliveryDetails
                       className={"border-none shadow-none "}
                       key={cartItem?.mainItem?.id}
@@ -121,31 +119,39 @@ const AddToCartModal = () => {
                       occasion={cartItem?.occasion ?? null}
                       isCart={true}
                       dense={true}
-                      handleOccation={() => { }}
+                      handleOccation={() => {}}
                     />
                     <div className="absolute bg-[#7D8035] rounded-br-lg py-1 px-1.5 text-xs text-white font-semibold left-0 top-0">
                       {index + 1}
                     </div>
                     <div className="border" />
-
                   </div>
-                })
-              }
+                );
+              })}
             </div>
             <div className=" text-gray-700 grid grid-cols-2 w-full mb-4">
-              <p className="text-gray-500  ">Base Items: <span className="font-bold">{cartData?.length ?? 0}</span></p>
-              <p className="text-lg text-gray-500 font-mwdium text-right">Total: <span className="font-bold">₹ {totalPrice ?? 0}</span></p>
-              <p className="text-gray-500  ">Total Addons: <span className="font-bold">{totalAddons ?? 0}</span></p>
+              <p className="text-gray-500  ">
+                Base Items:{" "}
+                <span className="font-bold">{cartData?.length ?? 0}</span>
+              </p>
+              <p className="text-lg text-gray-500 font-mwdium text-right">
+                Total: <span className="font-bold">₹ {totalPrice ?? 0}</span>
+              </p>
+              <p className="text-gray-500  ">
+                Total Addons:{" "}
+                <span className="font-bold">{totalAddons ?? 0}</span>
+              </p>
             </div>
             <button
               type="button"
-
-              onClick={() => navigate('/checkout/details')}
+              onClick={() => navigate("/checkout/details")}
               className="w-full bg-orange-500 text-white py-2 rounded-md mb-3 font-semibold"
             >
               Procced To Checkout
             </button>
-          </> : <>
+          </>
+        ) : (
+          <>
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -173,15 +179,13 @@ const AddToCartModal = () => {
               </>
             )}
           </>
-        }
-
+        )}
       </div>
       {getCookie("isAuth") !== "true" && (
         <>
           <button
             type="button"
-
-            onClick={() => navigate('/account/login')}
+            onClick={() => navigate("/account/login")}
             className="w-full bg-orange-500 text-white py-2 rounded-md mb-3 font-semibold"
           >
             LOGIN

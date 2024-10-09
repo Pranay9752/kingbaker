@@ -14,7 +14,7 @@ function BasicButton2({
         type={type}
         onClick={onClick}
         className={twMerge(
-          `  py-1.5 flex items-center border-gray-800  rounded-xl text-gray-800 bg-pgreen font-semibold   active:scale-95 text-sm lg:text-base px-3 `,
+          `  py-1.5 flex justify-center items-center border-gray-800  rounded-xl text-gray-800 bg-pgreen font-semibold  text-center active:scale-95 text-sm lg:text-base px-3 `,
           className
         )}
         disabled={disabled}

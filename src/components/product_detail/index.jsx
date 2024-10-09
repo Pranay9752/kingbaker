@@ -32,7 +32,7 @@ const ProductDetail = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const images = [
     "https://picsum.photos/64/?blur=10",
@@ -151,7 +151,7 @@ const ProductDetail = () => {
               timeLeft="01:25:30"
             />
 
-            <ActionButtons />
+            <ActionButtons productId={data?.data?._id ?? ''} />
 
             <ImageModal
               isOpen={isModalOpen}

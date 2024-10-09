@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import AddonCard from "../../../molecules/cards/AddonCard";
 import CategoryFilter from "../../../molecules/CategoryFilter";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import getCookie from "../../../atom/utils/getCookies";
 import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
@@ -95,7 +95,9 @@ const products = [
   },
 ];
 
-const ProductAddOns = ({ closeModal, addons }) => {
+const ProductAddOns = ({ closeModal, addons, productId }) => {
+  console.log('productId: ', productId);
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
   const { getValues } = useFormContext();
@@ -141,15 +143,22 @@ const ProductAddOns = ({ closeModal, addons }) => {
 
   // console.log(getValues(), quantities);
   const handleSubmit = () => {
-    const addonsArr = Object.keys(quantities)?.map((item) => ({
-      addON_id: item,
-      count: quantities[item],
-    }));
+    const addonsArr = Object.keys(quantities)?.map((item) => {
+      const addON_id = Array.isArray(addons)
+        ? addons.find((el) => el.addOn_id == item)
+        : [];
+      return {
+        addOn_id: addON_id?._id,
+        count: quantities[item],
+      };
+    });
     const formData = getValues();
+
     const newOrder = {
-      user_id: getCookie("user_id"),
+      user_id: getCookie("_id"),
       delivary_details: [
         {
+          product_id: productId,
           message_on_product: formData?.msgOnCake ?? "",
           imgaes_on_product: formData?.imageOnCake ?? "",
           is_message: formData?.msgOnCake ? "true" : "false",
@@ -173,9 +182,10 @@ const ProductAddOns = ({ closeModal, addons }) => {
     };
     try {
       createOrder(newOrder);
-      toast.success("Order created successfully")
-      navigate("/");
-    } catch (error) { }
+      console.log("newOrder: ", newOrder);
+      toast.success("Order created successfully");
+      // navigate("/");
+    } catch (error) {}
     console.log(newOrder);
   };
   return (

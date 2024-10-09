@@ -142,6 +142,7 @@ const OrderDeliveryDetails = ({
             <img
               src={mainItem.image}
               alt={mainItem.name}
+              onError={() => <div>NJJJJ</div>}
               className="w-[75px] h-[75px] object-cover rounded-md mr-4"
             />
             <div>

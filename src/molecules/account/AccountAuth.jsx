@@ -125,12 +125,13 @@ function AccountAuth({ className, handleOnLogin }) {
         toast.error(response.error.data.message);
         return;
       }
-      const { user, user_id, email, authcode, message } = response?.data || {};
+      const { user, user_id, email, authcode, message, _id } = response?.data || {};
       setCookie("user", user);
       setCookie("user_id", user_id);
       setCookie("email", email);
       setCookie("authcode", authcode);
       setCookie("isAuth", true);
+      setCookie("_id", _id);
 
       toast.success(message || "Operation successful");
       handleOnLogin({ data: response?.data });

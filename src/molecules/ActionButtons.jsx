@@ -6,7 +6,7 @@ import ProductAddOns from "../components/product_detail/modals/AddonModal";
 import ModalWrapper from "./wrappers/ModalWrapper";
 import { useGetAddOnQuery } from "../redux/apiSlices/ecom/productsApiSlice";
 
-const ActionButtons = () => {
+const ActionButtons = ({ productId }) => {
   const [isAddonOpen, setIsAddonOpen] = useState(false);
   const { data } = useGetAddOnQuery();
   const handleAddonChange = (e, value = null) => {
@@ -74,6 +74,7 @@ const ActionButtons = () => {
         onClose={(e) => handleAddonChange(e, false)}
       >
         <ProductAddOns
+        productId={productId}
           addons={data?.data ?? []}
           closeModal={(e) => handleAddonChange(e, false)}
         />

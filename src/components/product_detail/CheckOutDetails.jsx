@@ -269,49 +269,47 @@ const Icon = ({ name }) => {
   return icons[name] || null;
 };
 
-
-
 const PriceDetails = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const data = useSelector((state) => state.order)
+  const data = useSelector((state) => state.order);
 
   const totalPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0
-      let addonPrice = 0
-      curr?.addons?.forEach(element => {
-        addonPrice = addonPrice + element.price
+      const itemPrice = curr?.mainItem?.price ?? 0;
+      let addonPrice = 0;
+      curr?.addons?.forEach((element) => {
+        addonPrice = addonPrice + element.price;
       });
 
-      return prev + itemPrice + addonPrice
-    }, 0)
-    return totalAddons
-  }, [data])
+      return prev + itemPrice + addonPrice;
+    }, 0);
+    return totalAddons;
+  }, [data]);
   const totalAddonPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0
-      let addonPrice = 0
-      curr?.addons?.forEach(element => {
-        addonPrice = addonPrice + element.price
+      const itemPrice = curr?.mainItem?.price ?? 0;
+      let addonPrice = 0;
+      curr?.addons?.forEach((element) => {
+        addonPrice = addonPrice + element.price;
       });
 
-      return prev + addonPrice
-    }, 0)
-    return totalAddons
-  }, [data])
+      return prev + addonPrice;
+    }, 0);
+    return totalAddons;
+  }, [data]);
   const totalitemPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0
-      let addonPrice = 0
-      curr?.addons?.forEach(element => {
-        addonPrice = addonPrice + element.price
+      const itemPrice = curr?.mainItem?.price ?? 0;
+      let addonPrice = 0;
+      curr?.addons?.forEach((element) => {
+        addonPrice = addonPrice + element.price;
       });
 
-      return prev + itemPrice
-    }, 0)
-    return totalAddons
-  }, [data])
+      return prev + itemPrice;
+    }, 0);
+    return totalAddons;
+  }, [data]);
   return (
     <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
@@ -345,7 +343,11 @@ const PriceDetails = () => {
       <p className="text-xs text-gray-500 mb-4">
         By continuing you agree to our T&C/Disclaimer
       </p>
-      <button type={"button"} onClick={() => navigate("/")} className="bg-orange-500 text-white w-full py-2 rounded">
+      <button
+        type={"button"}
+        onClick={() => navigate("/checkout/payment")}
+        className="bg-orange-500 text-white w-full py-2 rounded"
+      >
         PROCEED TO PAY
       </button>
     </div>

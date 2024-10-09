@@ -17,6 +17,12 @@ const CheckoutApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    placeOrder: builder.mutation({
+      query: ({ order_id }) => ({
+        url: `/order/placeOrder?_id=${order_id}`,
+        method: "POST",
+      }),
+    }),
     getAddress: builder.query({
       query: () => ({
         url: `/user/getAddress/`, // + getCookie("user_id"),
@@ -37,7 +43,7 @@ const CheckoutApi = apiSlice.injectEndpoints({
         url: `/order/getCartItem`, // + getCookie("user_id"),
         method: "GET",
         params: {
-          user_id: getCookie("user_id"),
+          user_id: getCookie("_id"),
         },
       }),
     }),
@@ -49,6 +55,7 @@ const CheckoutApi = apiSlice.injectEndpoints({
 export const {
   useAddAddressMutation,
   useCreateOrderMutation,
+  usePlaceOrderMutation,
   useGetAddressQuery,
   useGetOccationQuery,
   useGetCartItemQuery,
