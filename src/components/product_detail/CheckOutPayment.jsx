@@ -21,6 +21,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
+  const navigate = useNavigate()
 
   const [placeOrder] = usePlaceOrderMutation()
   const handleOptionChange = (option) => {
