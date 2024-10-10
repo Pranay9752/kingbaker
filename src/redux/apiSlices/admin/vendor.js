@@ -18,8 +18,50 @@ const VendorAPI = apiSlice.injectEndpoints({
         },
       }),
     }),
+    updateOrderStatus: builder.mutation({
+      query: ({ order_id, user_id, vendor_id }) => ({
+        url: `vendor/updateOrderStatus`, // Remove id from here
+        method: "PATCH",
+
+        body: {
+          order_id,
+          user_id,
+          vendor_id,
+        },
+      }),
+    }),
+    assignDeliveryBoys: builder.mutation({
+      query: ({ order_id, salesman_id }) => ({
+        url: `vendor/assignDeliveryBoys`, // Remove id from here
+        method: "PATCH",
+
+        body: {
+          order_id,
+          salesman_id,
+        },
+      }),
+    }),
+    updatePrintStatus: builder.mutation({
+      query: ({ order_ids, user_id, vendor_id }) => ({
+        url: `vendor/print`, // Remove id from here
+        method: "POST",
+
+        body: {
+          isPrinted: order_ids,
+          date: new Date(),
+          user_id: user_id,
+          vendor_id: vendor_id,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetalloatedAndAcceptedOrderQuery, useGetOrdersMutation } = VendorAPI;
+export const {
+  useGetalloatedAndAcceptedOrderQuery,
+  useGetOrdersMutation,
+  useUpdateOrderStatusMutation,
+  useAssignDeliveryBoysMutation,
+  useUpdatePrintStatusMutation,
+} = VendorAPI;

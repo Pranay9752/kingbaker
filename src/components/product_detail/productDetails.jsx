@@ -17,8 +17,8 @@ const ProductDetails = ({
   price,
   taxInfo,
   timeLeft,
-  
 }) => {
+  console.log("data: ", data);
   const products = [
     {
       imageUrl:
@@ -76,7 +76,6 @@ const ProductDetails = ({
     },
     // Add more products as needed
   ];
-
 
   // const data = {
   //   "data": {
@@ -401,7 +400,10 @@ const ProductDetails = ({
           <OffersAvailable />
           {/* <ProductMetaDetail details={data?.details ?? []} /> */}
 
-          <ReviewCarousel reviews={data?.reviews ?? []} title={"What customers are saying"} />
+          <ReviewCarousel
+            reviews={data?.reviews ?? []}
+            title={"What customers are saying"}
+          />
           <ProductCarousel
             title=""
             products={products}
@@ -424,13 +426,12 @@ const ProductDetails = ({
         </div>
       </div>
 
-
       <div className="hidden md:flex flex-col gap-2 ">
         <h2 className="text-xl font-medium  truncate text-left">{title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
-        <DeliveryInfo  key={"desktopDel"} />
-        <ActionButtons />
+        <DeliveryInfo key={"desktopDel"} />
+        <ActionButtons productId={data?._id} />
         <OffersAvailable />
         {/* <ProductMetaDetail details={data?.details ?? []} /> */}
       </div>

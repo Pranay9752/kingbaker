@@ -114,7 +114,7 @@ const AddToCartModal = () => {
                       index={index}
                       addons={cartItem?.addons ?? []}
                       deliveryDetails={cartItem?.deliveryDetails ?? {}}
-                      addresses={data?.delivary_address ?? []}
+                      addresses={data?.delivery_address ?? []}
                       mainItem={cartItem?.mainItem ?? {}}
                       occasion={cartItem?.occasion ?? null}
                       isCart={true}

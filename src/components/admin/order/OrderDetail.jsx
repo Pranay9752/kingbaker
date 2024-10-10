@@ -1,60 +1,69 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
 import { twMerge } from "tailwind-merge";
+import formatDate from "../../../atom/utils/formatDate";
+import BasicButton from "../../../atom/button/BasicButton";
+import { useUpdatePrintStatusMutation } from "../../../redux/apiSlices/admin/vendor";
+import { toast } from "sonner";
+import ChallanPDF from "../pdfs/challanPDF";
+import ReactPDF from "@react-pdf/renderer";
 
-const OrderDetailsCard = ({ orderData }) => {
-  console.log('orderData: ', orderData);
-  const order = {
-    orderNumber: "5624270001",
-    status: "Accepted",
-    total: 598,
-    timeDifference: "1 hrs 20 min",
-    allocationTime: "30-09-2024 09:27:00",
-    acceptanceTime: "30-09-2024 10:47:00",
-    deliveryDate: "30-09-2024",
-    deliveryMode: "Premium Delivery",
-    deliveryTime: "10:00:00 - 14:00:00 hrs",
-    items: [
-      { id: "EXP87471", quantity: 1 },
-      { id: "Add on: EXP3819", quantity: 1 },
-    ],
-    orderItem: [
-      {
-        name: "Crunchy Butterscotch Cake",
-        description: "Half Kg Eggless, Cream, 6 inches",
-        price: 275,
-        quantity: 1,
-        id: "EXP87471",
-        image:
-          "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-      },
-      {
-        name: "Magic Relighting Candle",
-        description: "Add-on item",
-        price: 10,
-        quantity: 1,
-        id: "Add on: EXP3819",
-        image:
-          "https://hulk.fnp.com/images/pr/x/v20240905144123/perfect-picture-personalised-frame_1.jpg",
-      },
-    ],
-    recipient: {
-      name: "Avinash Kumar",
-      address:
-        "66 Mahalxmi enclave Jansath road Muzaffarnagar, Muzaffarnagar, India, 251001",
-      phone: "(M) 9012919791",
-    },
-    sender: {
-      name: "Priya",
-    },
-    personalizedImage:
-      "https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-    message:
-      "On this special day, I hope that you get all that your heart desires. Happiness, peace of mind, prosperity and good health. May you get all these together with special gifts! Happy Birthday",
-    specialInstructions: "Kindly process with personalised cushion",
+const OrderDetailsCard = ({ order }) => {
+  const [updatePrintStatus] = useUpdatePrintStatusMutation();
+  const deliveryAddress = order?.deliveryAddresses?.[0] ?? {};
+  const addOn = order?.addOn;
+  const shipping = order?.shipping ?? {};
+  const user = order?.user?.[0] ?? {};
+  const productDetails = order?.productDetails?.[0];
+
+  const printChallan = async () => {
+    try {
+      await updatePrintStatus({
+        order_ids: [order.order_id],
+        user_id: user?._id,
+        vendor_id: "66f5347ec07df9ae95aae79c",
+      });
+
+      const blob = await ReactPDF.pdf(
+        // <BrandingChallanPDF data={[orderData, orderData]} />
+        <ChallanPDF data={[order]} />
+      ).toBlob();
+
+      // Create a download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "CHALLAN.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // navigate("/admin/dashboard");
+      // toast.success("All Selected Orders Accepted");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
   };
-  const [isSelected, setIsSelected] = useState(false);
 
+  const totalPrice = useMemo(() => {
+    const shipping_amount = parseFloat(order?.shipping?.shipping_amount) ?? 0;
+    const itemPrice = parseFloat(order?.productDetails?.[0]?.prices) ?? 0;
+    const addonPrice =
+      order?.addOn?.length > 0
+        ? order?.addOn?.reduce(
+            (prev, curr) => {
+              return (
+                parseFloat(prev) +
+                (parseFloat(curr?.price) ?? 0) *
+                  (parseFloat(curr?.count?.count) ?? 0)
+              );
+            },
+            [0]
+          )
+        : 0;
+    console.log(shipping_amount, itemPrice, addonPrice);
+    return (shipping_amount + itemPrice + addonPrice)?.toFixed(0);
+  }, [order]);
   return (
     <HeaderLayout
       id={3}
@@ -62,19 +71,17 @@ const OrderDetailsCard = ({ orderData }) => {
       logoAlt="King Baker Logo"
       title="KING BAKER"
     >
-      <div className={`bg-white rounded-lg shadow-lg p-6 mb-4 `}>
+      <div className={`bg-white rounded-lg w-full shadow-lg p-6 mb-4 `}>
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
-              {order.orderNumber}
+              {order.order_id}
             </h2>
-            <span className="text-sm font-medium text-green-600">
-              {order.status}
-            </span>
+            <span className="text-sm font-medium text-green-600">Accepted</span>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-xl font-bold text-gray-800">
-              ₹{order.total}
+              ₹{totalPrice}
             </span>
           </div>
         </div>
@@ -119,9 +126,11 @@ const OrderDetailsCard = ({ orderData }) => {
               </svg>
               Delivery Details
             </h3>
-            <p className="text-sm text-gray-600">Date: {order.deliveryDate}</p>
-            <p className="text-sm text-gray-600">Mode: {order.deliveryMode}</p>
-            <p className="text-sm text-gray-600">Time: {order.deliveryTime}</p>
+            <p className="text-sm text-gray-600">
+              Date: {formatDate(shipping.delivary_date)}
+            </p>
+            <p className="text-sm text-gray-600">Mode: {shipping.method}</p>
+            <p className="text-sm text-gray-600">Time: {shipping.time}</p>
           </div>
         </div>
 
@@ -129,26 +138,62 @@ const OrderDetailsCard = ({ orderData }) => {
           <h3 className="font-semibold text-gray-800 mb-2">Order Items</h3>
 
           <div className="divide-y">
-            {order.orderItem.map((item, index) => (
+            <div
+              className={twMerge(
+                "flex items-center mb-1.5 py-1.5 px-3 rounded-lg border border-gray-800  "
+              )}
+            >
+              <img
+                src={
+                  productDetails?.imageLink?.[0] ??
+                  "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg"
+                }
+                alt={productDetails?.title ?? ""}
+                className="w-16 h-16 object-cover rounded-md mr-4"
+              />
+              <div className="flex-grow">
+                <h4 className="font-medium text-gray-800">
+                  {productDetails?.title ?? ""}
+                </h4>
+                <p className="text-sm text-gray-600">
+                  {productDetails?.description ?? ""}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="font-medium text-gray-800">
+                  ₹{productDetails?.prices ?? 0}
+                </p>
+                <p className="text-sm text-gray-600">Qty: 1</p>
+              </div>
+            </div>
+            {addOn?.map((addon, index) => (
               <div
                 key={index}
-                className={twMerge(
-                  "flex items-center mb-1.5 py-1.5 px-3",
-                  index === 0 && "rounded-lg border border-gray-800  "
-                )}
+                className={twMerge("flex items-center mb-1.5 py-1.5 px-3")}
               >
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={
+                    addon?.image?.[0] ??
+                    "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg"
+                  }
+                  alt={addon?.title ?? ""}
                   className="w-16 h-16 object-cover rounded-md mr-4"
                 />
                 <div className="flex-grow">
-                  <h4 className="font-medium text-gray-800">{item.name}</h4>
-                  <p className="text-sm text-gray-600">{item.description}</p>
+                  <h4 className="font-medium text-gray-800">
+                    {addon?.title ?? ""}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {addon?.description ?? ""}
+                  </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-gray-800">₹{item.price}</p>
-                  <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                  <p className="font-medium text-gray-800">
+                    ₹{addon?.price ?? 0}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Qty: {addon?.count?.count ?? 0}
+                  </p>
                 </div>
               </div>
             ))}
@@ -168,9 +213,15 @@ const OrderDetailsCard = ({ orderData }) => {
               </svg>
               Recipient Details
             </h3>
-            <p className="text-sm text-gray-800">{order.recipient.name}</p>
-            <p className="text-sm text-gray-600">{order.recipient.address}</p>
-            <p className="text-sm text-gray-600">{order.recipient.phone}</p>
+            <p className="text-sm text-gray-800">
+              {deliveryAddress?.recipientName ?? ""}
+            </p>
+            <p className="text-sm text-gray-600">
+              {deliveryAddress?.recipientAddress ?? ""}
+            </p>
+            <p className="text-sm text-gray-600">
+              {deliveryAddress?.recipientMobnumber ?? ""}
+            </p>
           </div>
           <div>
             <h3 className="font-semibold text-gray-800 mb-2 flex items-center">
@@ -184,7 +235,9 @@ const OrderDetailsCard = ({ orderData }) => {
               </svg>
               Sender Details
             </h3>
-            <p className="text-sm text-gray-800">{order.sender.name}</p>
+            <p className="text-sm text-gray-800">{user?.name ?? ""}</p>
+            <p className="text-sm text-gray-800">{user?.mobile ?? ""}</p>
+            <p className="text-sm text-gray-800">{user?.email ?? ""}</p>
           </div>
         </div>
 
@@ -265,13 +318,19 @@ const OrderDetailsCard = ({ orderData }) => {
           </div>
         )}
 
-        <div className="flex justify-end space-x-2 mt-6">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-            Print Order
-          </button>
-          <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-            Branding Challan
-          </button>
+        <div className="flex justify-end space-x-2 mt-6 ">
+          <BasicButton
+            className={`border border-gray-800 px-2 py-1 text-xs rounded-lg bg-pgreen`}
+            onClick={printChallan}
+          >
+            Print Challan
+          </BasicButton>
+          {/* <BasicButton
+            className={`border border-gray-800 px-2 py-1 text-xs rounded-lg bg-pgreen`}
+            onClick={printBrandingChallan}
+          >
+            Print Branding Challan
+          </BasicButton> */}
         </div>
       </div>
     </HeaderLayout>

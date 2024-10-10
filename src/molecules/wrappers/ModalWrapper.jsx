@@ -11,6 +11,7 @@ const ModalWrapper = ({
   children,
   className,
   maxHeight,
+  height,
   key,
   isModal = true,
 }) => {
@@ -48,7 +49,11 @@ const ModalWrapper = ({
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", damping: 40, stiffness: 300 }}
                 className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 p-4 ${className}`}
-                style={{ maxHeight: maxHeight ?? "99vh", overflowY: "auto" }}
+                style={{
+                  maxHeight: maxHeight ?? "99vh",
+                  overflowY: "auto",
+                  height: height,
+                }}
               >
                 {children}
               </motion.div>

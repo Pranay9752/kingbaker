@@ -95,8 +95,12 @@ const products = [
   },
 ];
 
-const ProductAddOns = ({ closeModal, addons, productId: selectedProductId }) => {
-  console.log('productId: ', selectedProductId);
+const ProductAddOns = ({
+  closeModal,
+  addons,
+  productId: selectedProductId,
+}) => {
+  console.log("productId: ", selectedProductId);
 
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
@@ -154,75 +158,18 @@ const ProductAddOns = ({ closeModal, addons, productId: selectedProductId }) => 
     });
     const formData = getValues();
 
-    // const newOrder = {
-    //   user_id: getCookie("_id"),
-    //   delivary_details:
-    //   {
-    //     product_id: selectedProductId,
-    //     message_on_product: formData?.msgOnCake ?? "",
-    //     imgaes_on_product: formData?.imageOnCake ?? "",
-    //     is_message: formData?.msgOnCake ? "true" : "false",
-    //     is_image: formData?.imageOnCake ? "true" : "false",
-    //     is_veg: formData?.egg == "on" ? "false" : true,
-    //     // product_id: formData?.productId ?? "PROD001",
-    //     location: {},
-    //     special_request: "",
-    //     delivary_date: formData?.day,
-    //     shipping: {
-    //       method: formData?.delivery?.title,
-    //       time: formData?.slot?.time,
-    //       shipping_amount: formData?.delivery?.price,
-    //       delivary_date: formData?.day,
-    //     },
-    //     order_status: "Processing",
-    //     payment_status: "Paid",
-    //     addOn: addonsArr ?? [],
-    //   },
-
-    // };
     const newOrder = {
-      // "order_id": "ORD123456",
-      "user_id": getCookie("_id"),
-      "order_status": "PENDING",
-      "payment_status": "PENDING",
-      // "payemt_mode": "Credit Card",
-      "location": {
-        // "latitude": 18.989594,
-        // "longitude": 72.839714
+      user_id: getCookie("_id"),
+      order_status: "PENDING",
+      payment_status: "PENDING",
+      location: {
+        latitude: 18.996559,
+        longitude: 72.821319,
       },
-      // "pincode": 12345,
-      delivary_details: {
+      pincode: 12345,
+      delivery_details: {
         product_id: selectedProductId,
-        message_on_product: formData?.msgOnCake ?? "",
-        imgaes_on_product: formData?.imageOnCake ?? "",
-        // "prices": 49.99,
-        // "images": [
-        //   "image1.png",
-        //   "image2.png"
-        // ],
-        is_message: formData?.msgOnCake ? "true" : "false",
-        is_image: formData?.imageOnCake ? "true" : "false",
-        is_veg: formData?.egg == "on" ? "false" : true,
-        special_request: "",
-        delivary_date: formData?.day,
-        shipping: {
-          method: formData?.delivery?.title,
-          time: formData?.slot?.time,
-          shipping_amount: formData?.delivery?.price,
-          delivary_date: formData?.day,
-        },
-        addOn: addonsArr ?? [],
-      }
-    }
-
-    const a = {
-      "user_id": getCookie("_id"),
-      "order_status": "PENDING",
-      "payment_status": "PENDING",
-      "location": {},
-      "delivery_details": {
-
-        "product_id": selectedProductId,
+        delivery_address: null,
         // "product_id": "670174711b685f8d65ce4bd1",
         // "product_id": "6700321b721e900c3fa00e81",
         message_on_product: formData?.msgOnCake ?? "",
@@ -239,14 +186,13 @@ const ProductAddOns = ({ closeModal, addons, productId: selectedProductId }) => 
           delivary_date: formData?.day,
         },
         addOn: addonsArr ?? [],
-      }
-    }
+      },
+    };
     try {
-      await createOrder(a)
+      await createOrder(newOrder);
       toast.success("Order created successfully");
       navigate("/");
-    } catch (error) { }
-    console.log(newOrder);
+    } catch (error) {}
   };
   return (
     <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden ">

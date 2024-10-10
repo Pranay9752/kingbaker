@@ -222,7 +222,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //     messageOnCake: "",
 //   },
 // ];
-const initialState = []
+const initialState = [];
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -267,18 +267,27 @@ const orderSlice = createSlice({
     },
     updateShipping: (state, action) => {
       const { index, name, value } = action.payload;
-      
+
       // Access the item directly and update its deliveryDetails
       if (state[index]) {
         state[index].deliveryDetails = {
           ...state[index].deliveryDetails,
-          [name]: value
+          [name]: value,
         };
       }
     },
-    
+
     setMessageOnCake: (state, action) => {
       state.messageOnCake = action.payload;
+    },
+    addDeliveryAddress: (state, action) => {
+      const { index, id } = action.payload;
+      console.log("id: ", id, state[index]);
+      const newObject = state[index];
+      newObject["delivery_address"] = id;
+      const newArr = [...state];
+      newArr[index] = newObject;
+      return newArr;
     },
     resetOrder: () => initialState,
   },
@@ -296,7 +305,8 @@ export const {
   resetOrder,
   deleteOrder,
   addInit,
-  updateShipping
+  updateShipping,
+  addDeliveryAddress,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

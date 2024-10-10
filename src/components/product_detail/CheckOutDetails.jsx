@@ -19,7 +19,9 @@ import Select from "react-select";
 import { motion } from "framer-motion"; // For the animation
 import {
   useAddAddressMutation,
+  useCreateOrderMutation,
   useGetAddressQuery,
+  useGetCartItemQuery,
   useGetOccationQuery,
 } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
@@ -28,6 +30,7 @@ import { twMerge } from "tailwind-merge";
 import { AddressForm } from "./AddAddress";
 import getCookie from "../../atom/utils/getCookies";
 import OrderDeliveryDetails from "./OrderDeliveryDetails";
+import { toast } from "sonner";
 
 const options1 = [
   { value: "birthday", label: "Birthday" },
@@ -271,8 +274,9 @@ const Icon = ({ name }) => {
 
 const PriceDetails = () => {
   const navigate = useNavigate();
-
+  const [createOrder] = useCreateOrderMutation();
   const data = useSelector((state) => state.order);
+  console.log("data: ", data);
 
   const totalPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
@@ -288,7 +292,6 @@ const PriceDetails = () => {
   }, [data]);
   const totalAddonPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0;
       let addonPrice = 0;
       curr?.addons?.forEach((element) => {
         addonPrice = addonPrice + element.price;
@@ -301,15 +304,64 @@ const PriceDetails = () => {
   const totalitemPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
       const itemPrice = curr?.mainItem?.price ?? 0;
-      let addonPrice = 0;
-      curr?.addons?.forEach((element) => {
-        addonPrice = addonPrice + element.price;
-      });
-
       return prev + itemPrice;
     }, 0);
     return totalAddons;
   }, [data]);
+
+  const handleProceedToPay = async () => {
+    try {
+      data.forEach(async (item) => {
+        const { mainItem, addons, deliveryDetails } = item;
+        console.log("mainItem: ", mainItem);
+        const newOrder = {
+          user_id: getCookie("_id"),
+          order_status: "PENDING",
+          payment_status: "PENDING",
+          location: {
+            latitude: 18.996559,
+            longitude: 72.821319,
+          },
+          pincode: 12345,
+          delivery_details: {
+            product_id: mainItem?.productDetails?.[0]?._id,
+            delivery_address: deliveryDetails?.delivery_address,
+            message_on_product:
+              mainItem?.delivery_details?.message_on_product ?? "",
+            images_on_product:
+              mainItem?.delivery_details?.image_on_product ?? "",
+            is_message: mainItem?.delivery_details?.message_on_product
+              ? "true"
+              : "false",
+            is_image: mainItem?.delivery_details?.image_on_product
+              ? "true"
+              : "false",
+            is_veg: mainItem?.delivery_details?.is_veg ?? true,
+            special_request: "",
+            delivary_date: deliveryDetails?.date,
+            shipping: {
+              method: deliveryDetails?.method,
+              time: deliveryDetails?.timeSlot,
+              shipping_amount: deliveryDetails?.fee,
+              delivary_date: deliveryDetails?.date,
+            },
+            addOn: Array.isArray(addons)
+              ? addons?.map((item) => ({
+                  addOn_id: item?.id,
+                  count: item?.quantity,
+                }))
+              : [],
+          },
+        };
+
+        // await createOrder(newOrder);
+      });
+      // await createOrder(newOrder);
+      toast.success("Order created successfully");
+      navigate("/checkout/payment");
+    } catch (error) {}
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
@@ -345,7 +397,7 @@ const PriceDetails = () => {
       </p>
       <button
         type={"button"}
-        onClick={() => navigate("/checkout/payment")}
+        onClick={handleProceedToPay}
         className="bg-orange-500 text-white w-full py-2 rounded"
       >
         PROCEED TO PAY
@@ -361,6 +413,7 @@ function CheckOutDetails() {
   const navigate = useNavigate();
 
   const { data, isError, isLoading } = useGetAddressQuery();
+  const { data: cartOrder } = useGetCartItemQuery();
 
   const orderData = useSelector((state) => state.order);
 
@@ -404,7 +457,7 @@ function CheckOutDetails() {
                     deliveryDetails={order?.deliveryDetails ?? {}}
                     mainItem={order?.mainItem ?? {}}
                     occasion={order?.occasion ?? null}
-                    addresses={data?.delivary_address ?? []}
+                    addresses={data?.delivery_address ?? []}
                     handleOccation={handleOccation}
                   />
                 );
@@ -437,7 +490,7 @@ function CheckOutDetails() {
                     index={index}
                     addons={order?.addons ?? []}
                     deliveryDetails={order?.deliveryDetails ?? {}}
-                    addresses={data?.delivary_address ?? []}
+                    addresses={data?.delivery_address ?? []}
                     mainItem={order?.mainItem ?? {}}
                     occasion={order?.occasion ?? null}
                     handleOccation={handleOccation}

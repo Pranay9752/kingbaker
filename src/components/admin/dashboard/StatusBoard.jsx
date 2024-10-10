@@ -24,7 +24,7 @@ const StatusBoard = () => {
     <div className="py-6 bg-gray-100 min-h-screen">
       {Object.keys(status).map((item, index) => {
         const statusCard = status[item];
-        console.log("statusCard: ", statusCard);
+        console.log('statusCard: ', statusCard, status, item);
 
         return (
           <StatusCard

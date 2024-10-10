@@ -74,7 +74,7 @@ const ActionButtons = ({ productId }) => {
         onClose={(e) => handleAddonChange(e, false)}
       >
         <ProductAddOns
-        productId={productId}
+          productId={productId}
           addons={data?.data ?? []}
           closeModal={(e) => handleAddonChange(e, false)}
         />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NumberCard from "../../../molecules/cards/NumberCard";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
 import AccountsTable from "../sales/AccountsTable";
@@ -9,6 +9,10 @@ import ReactPDF from "@react-pdf/renderer";
 import BasicButton from "../../../atom/button/BasicButton";
 import ChallanPDF from "../pdfs/challanPDF";
 import BrandingChallanPDF from "../pdfs/brandingChallan";
+import {
+  useGetalloatedAndAcceptedOrderQuery,
+  useGetOrdersMutation,
+} from "../../../redux/apiSlices/admin/vendor";
 
 const types = {
   order: 1,
@@ -17,6 +21,37 @@ const types = {
 
 function AdminDashboard() {
   const [type, setType] = useState("order");
+  const [amount, setAmount] = useState(0);
+  const { data, isLoading } = useGetalloatedAndAcceptedOrderQuery({
+    vendor_id: "66f5347ec07df9ae95aae79c",
+  });
+  const [getOrders] = useGetOrdersMutation();
+
+  const todayOrders = useMemo(() => {
+    if (!data) return 0;
+    const order = Object.values(data?.data).reduce((prev, curr) => {
+      return [...prev, ...curr?.today?.order_id];
+    }, []);
+    return order;
+  }, [data]);
+
+  useEffect(() => {
+    const getData = () => {
+      getOrders({ data: todayOrders }).then((res) => {
+        const amt = res?.data?.reduce((prev, curr) => {
+          return (
+            prev +
+            (curr?.shipping?.shipping_amount ?? 0) +
+            (curr?.productDetails?.[0]?.prices ?? 0)
+          );
+        }, 0);
+        setAmount(amt);
+      });
+    };
+    if (todayOrders?.length > 0) {
+      getData();
+    }
+  }, [todayOrders]);
 
   const accounts = [
     { name: "My Receivable", count: 1, amount: 360 },
@@ -102,14 +137,14 @@ function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <NumberCard
             title="Sales Today"
-            value="30"
+            value={`₹ ${amount ?? 0}`}
             textColor="text-electric"
             active={type == "sales"}
             onClick={() => setType("sales")}
           />
           <NumberCard
             title="Orders Today"
-            value="20"
+            value={todayOrders?.length ?? 0}
             textColor="text-neon"
             active={type == "order"}
             onClick={() => setType("order")}

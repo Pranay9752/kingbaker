@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MobileHeader from "../../molecules/header/MobileHeader";
 import ImageCarousel from "../../molecules/carousal/imagecarousel";
 import ProductDetails from "./productDetails";
@@ -8,16 +8,18 @@ import ReviewCarousel from "../../molecules/carousal/ReviewCarousal";
 import ProductCarousel from "../../molecules/carousal/ProductCarousal";
 import EventBar from "../../molecules/header/EventBar";
 // import TopNavbar from "../../molecules/header/MainNavbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetProductQuery } from "../../redux/apiSlices/ecom/productsApiSlice";
 import { FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import Footer from "../../molecules/footer/footer";
+import Breadcrumb from "../../atom/breadcrumb";
 
 // Main Component
 const ProductDetail = () => {
   const { productId } = useParams();
+  const navigate = useNavigate()
   const methods = useForm({
     defaultValues: {
       productId: productId,
@@ -32,7 +34,21 @@ const ProductDetail = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-  
+
+  const items = useMemo(
+    () => [
+      {
+        label: "Home",
+        icon: "M19.707 9.293l-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z",
+        onClick: () => navigate("/"),
+      },
+      {
+        label: "Projects",
+        onClick: null,
+      },
+    ],
+    [data]
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const images = [
     "https://picsum.photos/64/?blur=10",
@@ -107,14 +123,12 @@ const ProductDetail = () => {
     console.log("data: ", data);
   };
 
-
   useEffect(() => {
-    document.body.classList.add("bg-white")
+    document.body.classList.add("bg-white");
     return () => {
-      document.body.classList.remove("bg-white")
-
-    }
-  })
+      document.body.classList.remove("bg-white");
+    };
+  });
   return (
     <>
       <FormProvider {...methods}>
@@ -151,7 +165,7 @@ const ProductDetail = () => {
               timeLeft="01:25:30"
             />
 
-            <ActionButtons productId={data?.data?._id ?? ''} />
+            <ActionButtons productId={data?.data?._id ?? ""} />
 
             <ImageModal
               isOpen={isModalOpen}
@@ -176,6 +190,7 @@ const ProductDetail = () => {
             className={"md:block hidden"}
           />
           <div className="hidden md:flex flex-col justify-start items-center py-10  mx-auto max-w-[1600px]">
+            <Breadcrumb items={items}/>
             <div className=" flex gap-5 w-full ">
               <div className=" sticky top-4 self-start">
                 <ImageCarousel

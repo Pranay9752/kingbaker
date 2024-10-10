@@ -32,12 +32,12 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       toast.info('No Order available to place!')
     }
     Array.isArray(orderIds) && orderIds.forEach(async (item) => {
+      console.log('item: ', item);
       await placeOrder({ order_id: item })
     })
+    navigate("/")
     toast.success('Order added successfully')
-    // placeOrder({})
 
-    // navigate("/")
   }
 
   return (
@@ -325,9 +325,8 @@ function CheckOutPayment() {
   console.log('data: ', data);
 
   const orderIds = useMemo(() => {
-    console.log("gggg", data?.data.delivery_details)
 
-    return Array.isArray(data?.data?.delivery_details) ? data?.data?.delivery_details.map((item) => item?.mainItem?._id) : []
+    return Array.isArray(data?.data?.delivery_details) ? data?.data?.delivery_details.map((item) => item?.mainItem?.order_id) : []
   }, [data?.data])
   console.log(orderIds)
   const totalPrice = useMemo(() => {

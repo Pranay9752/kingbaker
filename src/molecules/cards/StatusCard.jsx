@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {encryptData} from "../../atom/utils/encryption"
+import { encryptData } from "../../atom/utils/encryption";
 const SVGIcon = () => {
   return (
     <svg
@@ -47,38 +47,50 @@ const StatusCard = ({ title, today, tomorrow, future }) => {
       <div className="flex space-x-6  lg:w-full h-full lg:space-x-0 lg:grid grid-cols-3 lg:divide-x">
         <div
           onClick={() =>
-            today?.acceptedToday &&
-            navigate(`/admin/order-list/${encodeURIComponent(encryptData(today?.order_id))}`)
+            today?.today &&
+            navigate(
+              `/admin/order-list/tod/${title}/${encodeURIComponent(
+                encryptData(today?.order_id)
+              )}`
+            )
           }
           className="flex flex-col items-center h-full lg:bg-green-100 lg:p-3"
         >
           <span className="text-sm lg:font-medium text-gray-500">Today</span>
           <span className="text-lg lg:text-xl font-semibold text-green-600">
-            {today?.acceptedToday ?? 0}
+            {today?.today ?? 0}
           </span>
         </div>
         <div
           onClick={() =>
-            tomorrow?.acceptedTomorrow &&
-            navigate(`/admin/order-list/${encodeURIComponent(encryptData(tomorrow?.order_id))}`)
+            tomorrow?.tomorrow &&
+            navigate(
+              `/admin/order-list/tom/${title}/${encodeURIComponent(
+                encryptData(tomorrow?.order_id)
+              )}`
+            )
           }
           className="flex flex-col items-center lg:p-3 lg:bg-yellow-100"
         >
           <span className="text-sm lg:font-medium text-gray-500">Tomorrow</span>
           <span className="text-lg lg:text-xl font-semibold text-yellow-600">
-            {tomorrow?.acceptedTomorrow ?? 0}
+            {tomorrow?.tomorrow ?? 0}
           </span>
         </div>
         <div
           onClick={() =>
-            future?.acceptedFuture &&
-            navigate(`/admin/order-list/${encodeURIComponent(encryptData(future?.order_id))}`)
+            future?.future &&
+            navigate(
+              `/admin/order-list/fut/${title}/${encodeURIComponent(
+                encryptData(future?.order_id)
+              )}`
+            )
           }
           className="flex flex-col items-center lg:p-3 lg:bg-red-100"
         >
           <span className="text-sm lg:font-medium text-gray-500">Future</span>
           <span className="text-lg lg:text-xl font-semibold text-red-600">
-            {future?.acceptedFuture ?? 0}
+            {future?.future ?? 0}
           </span>
         </div>
       </div>

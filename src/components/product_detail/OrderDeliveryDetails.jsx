@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import { twMerge } from "tailwind-merge";
 import {
+  addDeliveryAddress,
   deleteAddon,
   deleteOrder,
   updateAddonQuantity,
@@ -102,6 +103,11 @@ const OrderDeliveryDetails = ({
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleSelectAddress = (id) => {
+    dispatch(updateShipping({ index, name: "delivery_address", value: id }));
+    // dispatch(addDeliveryAddress({ id, index }));
   };
 
   const handleSelectDate = (day) => {
@@ -260,7 +266,7 @@ const OrderDeliveryDetails = ({
             <AddressCard
               key={address?._id}
               address={address}
-              onSelect={(id) => console.log(`Selected address: ${id}`)} // Handle the radio selection
+              onSelect={handleSelectAddress} // Handle the radio selection
               onEdit={() => {
                 setDefaultAddress(address);
                 setOpenAddAddress(true);

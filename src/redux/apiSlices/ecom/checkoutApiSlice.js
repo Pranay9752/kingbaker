@@ -19,7 +19,7 @@ const CheckoutApi = apiSlice.injectEndpoints({
     }),
     placeOrder: builder.mutation({
       query: ({ order_id }) => ({
-        url: `/order/placeOrder?_id=${order_id}`,
+        url: `/order/placeOrder?order_id=${order_id}`,
         method: "POST",
       }),
     }),
@@ -28,7 +28,7 @@ const CheckoutApi = apiSlice.injectEndpoints({
         url: `/user/getAddress/`, // + getCookie("user_id"),
         method: "GET",
         params: {
-          user_id: getCookie("user_id"),
+          user_id: getCookie("_id"),
         },
       }),
     }),

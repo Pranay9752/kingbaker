@@ -4,7 +4,6 @@ import ProductDetail from "./components/product_detail";
 import CountryWrapper from "./molecules/wrappers/CountryWrapper";
 import CheckOutLogin from "./components/product_detail/checkoutLogin";
 import AddNewAddress from "./components/product_detail/AddAddress";
-import TopNavbar from "./molecules/header/MainNavbar";
 import { Toaster } from "sonner";
 import Home from "./components/home";
 import CheckOutDetails from "./components/product_detail/CheckOutDetails";
@@ -45,7 +44,7 @@ function App() {
             {/* ADMIN ROUTES */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/sales" element={<AdminSales />} />
-            <Route path="/admin/order-list/:ids" element={<OrderList />} />
+            <Route path="/admin/order-list/:day/:type/:ids" element={<OrderList />} />
             <Route path="/admin/order-detail/:id" element={<OrderDetailsCard />} />
             <Route path="/admin/my-ticket" element={<MyTicket />} />
             <Route path="/admin/delivery-boy" element={<DeliveryBoysManagement />} />
