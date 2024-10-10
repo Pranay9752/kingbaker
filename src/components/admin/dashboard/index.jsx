@@ -39,10 +39,14 @@ function AdminDashboard() {
     const getData = () => {
       getOrders({ data: todayOrders }).then((res) => {
         const amt = res?.data?.reduce((prev, curr) => {
+          let a = 0;
+          curr?.addOn?.forEach((item) => {
+            a += (item?.price ?? 0) * (item?.count?.count ?? 0);
+          });
           return (
             prev +
             (curr?.shipping?.shipping_amount ?? 0) +
-            (curr?.productDetails?.[0]?.prices ?? 0)
+            (curr?.productDetails?.[0]?.prices ?? 0) + a
           );
         }, 0);
         setAmount(amt);

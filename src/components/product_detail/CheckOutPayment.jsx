@@ -36,8 +36,8 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       console.log('item: ', item);
       await placeOrder({ order_id: item })
     })
-    navigate("/")
     toast.success('Order added successfully')
+    window.location.href = '/'
 
   }
 

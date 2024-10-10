@@ -45,6 +45,7 @@ const OrderDeliveryDetails = ({
 
   const [DateModal, setDateModal] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState(false);
+  const [deliveryDate, setDeliveryDate] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -113,6 +114,7 @@ const OrderDeliveryDetails = ({
   const handleSelectDate = (day) => {
     setDateModal((prev) => false);
     setDeliveryModal((prev) => true);
+    setDeliveryDate(day);
     dispatch(updateShipping({ index, name: "date", value: day }));
   };
 
@@ -395,7 +397,10 @@ const OrderDeliveryDetails = ({
         onClose={(e) => {}}
         maxHeight={"101vh"}
       >
-        <DeliveryTimeSlotSelector handleSelectSlot={handleSelectSlot} />
+        <DeliveryTimeSlotSelector
+          deliverydate={deliveryDate}
+          handleSelectSlot={handleSelectSlot}
+        />
       </ModalWrapper>
     </>
   );

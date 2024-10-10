@@ -256,7 +256,6 @@ function OrderList() {
             </div>
             <ModalWrapper
               isOpen={allocateDelivery}
-              isModal
               height={"50vh"}
               onClose={() => setAllocateDelivery(true)}
             >

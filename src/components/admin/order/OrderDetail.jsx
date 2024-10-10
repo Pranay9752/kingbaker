@@ -65,12 +65,12 @@ const OrderDetailsCard = ({ order }) => {
     return (shipping_amount + itemPrice + addonPrice)?.toFixed(0);
   }, [order]);
   return (
-    <HeaderLayout
-      id={3}
-      logoSrc="https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
-      logoAlt="King Baker Logo"
-      title="KING BAKER"
-    >
+    // <HeaderLayout
+    //   id={3}
+    //   logoSrc="https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
+    //   logoAlt="King Baker Logo"
+    //   title="KING BAKER"
+    // >
       <div className={`bg-white rounded-lg w-full shadow-lg p-6 mb-4 `}>
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -333,7 +333,7 @@ const OrderDetailsCard = ({ order }) => {
           </BasicButton> */}
         </div>
       </div>
-    </HeaderLayout>
+    // </HeaderLayout>
   );
 };
 export default OrderDetailsCard;

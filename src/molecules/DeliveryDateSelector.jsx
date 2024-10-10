@@ -20,14 +20,11 @@ import { useFormContext } from "react-hook-form";
 import DeliveryDatePicker from "../components/product_detail/modals/DeliveryDatePicker";
 import DeliveryTimeSlotSelector from "../components/product_detail/modals/DeliveryTimeSlotSelector";
 
-
-
-
-
 const DeliveryDateSelector = () => {
   const { setValue } = useFormContext();
 
   const [deliveryData, setDeliveryData] = useState(null);
+  console.log("deliveryData: ", deliveryData);
   const [DateModal, setDateModal] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState(false);
   const handleToggleDateModal = (e, value = null) => {
@@ -47,8 +44,6 @@ const DeliveryDateSelector = () => {
     setDeliveryData((prev) => ({ ...prev, ...delivery, selectedSlot: slot }));
     setDeliveryModal((prev) => false);
   };
-
-  
 
   return (
     <>
@@ -132,7 +127,10 @@ const DeliveryDateSelector = () => {
         onClose={(e) => {}}
         maxHeight={"101vh"}
       >
-        <DeliveryTimeSlotSelector handleSelectSlot={handleSelectSlot} />
+        <DeliveryTimeSlotSelector
+          deliverydate={deliveryData?.date}
+          handleSelectSlot={handleSelectSlot}
+        />
       </ModalWrapper>
     </>
   );
