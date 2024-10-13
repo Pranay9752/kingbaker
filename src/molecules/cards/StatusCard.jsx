@@ -36,11 +36,10 @@ const StatusCard = ({ title, today, tomorrow, future }) => {
         <h3 className="text-lg font-semibold text-gray-700 capitalize">
           {title}
         </h3>
-        <div className="bg-green-100 p-2 rounded-full">
-          {/* Icon (assuming it's an external link icon) */}
+        {/* <div className="bg-green-100 p-2 rounded-full">
 
           <SVGIcon />
-        </div>
+        </div> */}
       </div>
 
       {/* Status Counts */}

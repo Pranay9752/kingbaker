@@ -36,7 +36,7 @@ const StatusBoard = () => {
           />
         );
       })}
-      <StatusBar className={"mb-14"} title={"Out/Ready For Delivery"} icon />
+      <StatusBar className={"mb-14"} title={"Out/Ready For Delivery"}  />
       <StatusBar title={"Delivery Attempted"} />
       <StatusBar title={"Delivered"} />
     </div>

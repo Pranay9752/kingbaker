@@ -127,7 +127,7 @@ function OrderList() {
         });
       });
 
-      navigate("/admin/dashboard");
+      window.location.href = "/admin/dashboard";
       toast.success("All Selected Orders Accepted");
     } catch (error) {
       toast.error("Something went wrong!");
@@ -153,26 +153,26 @@ function OrderList() {
       console.log("filteredOrders: ", filteredOrders);
 
       const blob = await ReactPDF.pdf(
-        // <BrandingChallanPDF data={[orderData, orderData]} />
-        <ChallanPDF data={filteredOrders} />
+        <BrandingChallanPDF data={filteredOrders} />
       ).toBlob();
+      {/* <ChallanPDF data={filteredOrders} /> */}
 
       // Create a download link
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "CHALLAN.pdf";
+      link.download = "Branding CHALLAN.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      // navigate("/admin/dashboard");
+      window.location.href = "/admin/dashboard";
       // toast.success("All Selected Orders Accepted");
     } catch (error) {
       toast.error("Something went wrong!");
     }
   };
-  const printBrandingChallan = () => {};
+  const printBrandingChallan = () => { };
 
   // Updated handleSelectedOrder to store both order_id and user_id
   const handleSelectedOrder = useCallback(({ order_id, user_id }) => {
@@ -259,8 +259,8 @@ function OrderList() {
               height={"50vh"}
               onClose={() => setAllocateDelivery(true)}
             >
-              
-              <AllocateDeliveryBoy onClose={() => setAllocateDelivery(true)} selectedOrders={selectedOrders?.map((item) => item?.order_id)}  />
+
+              <AllocateDeliveryBoy onClose={() => setAllocateDelivery(true)} selectedOrders={selectedOrders?.map((item) => item?.order_id)} />
             </ModalWrapper>
             <div className="flex flex-col w-full gap-2">
               {Array.isArray(orders) &&

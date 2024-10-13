@@ -23,6 +23,9 @@ const ImageMagnifier = ({ imageSrc, altText }) => {
         ref={imageRef}
         src={imageSrc}
         alt={altText}
+        onError={(e) => {
+                  e.target.src = 'https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg';
+                }}
         className="h-full w-full object-cover"
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
@@ -127,6 +130,9 @@ const ImageCarousel = ({
                 alt={`Slide ${index + 1}`}
                 className=" h-[50vh] object-cover aspect-video"
                 onClick={() => onImageClick(index)}
+                onError={(e) => {
+                  e.target.src = 'https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg';
+                }}
               />
             </div>
           ))}
@@ -191,6 +197,9 @@ const ImageCarousel = ({
                     alt={`Slide ${index + 1}`}
                     className=" h-16 object-cover aspect-square"
                     onClick={() => onImageClick(index)}
+                    onError={(e) => {
+                  e.target.src = 'https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg';
+                }}
                   />
                 </div>
               ))}

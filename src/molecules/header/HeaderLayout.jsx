@@ -11,8 +11,8 @@ export default function HeaderLayout({
 }) {
   const userProfile = {
     image: "https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-    name: "Neil Sims",
-    email: "neil.sims@flowbite.com",
+    name: "Pranay Ambre",
+    email: "pranay@kingbaker.com",
     menuItems: [
       { link: "/admin/delivery-boy", label: "Delivery Boy" },
       // { link: "/settings", label: "Settings" },

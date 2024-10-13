@@ -133,9 +133,9 @@ const ProductDetail = () => {
     <>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="md:hidden relative h-screen px-52 bg-gray-100">
             {/* <MobileHeader /> */}
             <TopNavbar
+            className={`fixed top-0 z-50 w-[100vw] md:hidden`}
               logo="/path/to/your/logo.png"
               title="logo"
               searchPlaceholder="Search flowers, cakes, gifts, etc."
@@ -150,6 +150,7 @@ const ProductDetail = () => {
               ]}
               userGreeting="Hi Guest"
             />
+          <div className="md:hidden relative h-screen px-52 bg-gray-100">
             <ImageCarousel
               images={data?.data?.imageLink ?? []}
               onImageClick={() => setIsModalOpen(true)}
@@ -190,7 +191,7 @@ const ProductDetail = () => {
             className={"md:block hidden"}
           />
           <div className="hidden md:flex flex-col justify-start items-center py-10  mx-auto max-w-[1600px]">
-            <Breadcrumb items={items}/>
+            {/* <Breadcrumb items={items}/> */}
             <div className=" flex gap-5 w-full ">
               <div className=" sticky top-4 self-start">
                 <ImageCarousel
