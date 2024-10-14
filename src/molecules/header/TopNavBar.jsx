@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logoking.png";
 import deleteAllCookies from "../../atom/utils/deleteAllCookies";
 import SuggestionSearch from "../search/SuggestionSearch";
+import ModalWrapper from "../wrappers/ModalWrapper";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -49,6 +50,7 @@ const TopNavbar = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [location, setLocation] = useState("within");
+  const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef();
 
   // Function to close the sidebar when clicking outside
@@ -222,7 +224,12 @@ const TopNavbar = ({
                 style={{ zIndex: 9999 }}
                 className="group-hover:block hidden"
               >
-                <AddToCartModal />
+                <div
+                  style={{ zIndex: 9999 }}
+                  className="absolute bg-white rounded-lg shadow-lg w-96 p-2  md:p-4 -translate-x-[calc(100%-50px)] md:first-letter:-translate-x-[calc(100%-30px)]"
+                >
+                  <AddToCartModal />
+                </div>
               </div>
             </div>
 
@@ -349,6 +356,7 @@ const TopNavbar = ({
             </button>
             <div className="group relative">
               <svg
+                onClick={() => setIsOpen(true)}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -356,12 +364,6 @@ const TopNavbar = ({
               >
                 <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
               </svg>
-              <div
-                style={{ zIndex: 9999 }}
-                className="group-hover:block hidden"
-              >
-                <AddToCartModal />
-              </div>
             </div>
             <button
               type="button"
@@ -394,6 +396,9 @@ const TopNavbar = ({
           </>
         )}
       </nav>
+      <ModalWrapper isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <AddToCartModal />
+      </ModalWrapper>
       {/* <EventBar /> */}
     </>
   );

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addInit } from "../../redux/slices/ecom/orderSlice";
 import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
 
+
 const AddToCartModal = () => {
   const { data, isLoading, isError } = useGetCartItemQuery();
 
@@ -48,11 +49,11 @@ const AddToCartModal = () => {
         },
         addons: addons?.map((addon) => ({
           id: addon?._id ?? "",
-          name:addon?.title ?? "",
+          name: addon?.title ?? "",
           price: addon?.price ?? 0,
           quantity: addon?.count?.count ?? 0,
-          image: addon?.images?.[0] ?? ""
-              })),
+          image: addon?.images?.[0] ?? "",
+        })),
         deliveryDetails: {
           method: main?.shipping?.method,
           date: main?.shipping?.delivary_date,
@@ -76,10 +77,7 @@ const AddToCartModal = () => {
     }
   }, [data]);
   return (
-    <div
-      style={{ zIndex: 9999 }}
-      className="absolute bg-white rounded-lg shadow-lg w-96 p-2  md:p-4 -translate-x-[calc(100%-50px)] md:first-letter:-translate-x-[calc(100%-30px)]"
-    >
+    <>
       <div className="flex justify-between items-center mb-4 text-gray-800">
         <div className="flex items-center">
           <svg
@@ -199,7 +197,7 @@ const AddToCartModal = () => {
           </button>
         </>
       )}
-    </div>
+    </>
   );
 };
 

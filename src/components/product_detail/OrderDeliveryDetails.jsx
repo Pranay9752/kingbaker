@@ -150,8 +150,10 @@ const OrderDeliveryDetails = ({
             <img
               src={mainItem.image}
               alt={mainItem.name}
-              onError={() => <div>NJJJJ</div>}
-              className="w-[75px] h-[75px] object-cover rounded-md mr-4"
+              onError={(e) => {
+                e.target.src = 'https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg';
+              }}
+                            className="w-[75px] h-[75px] object-cover rounded-md mr-4"
             />
             <div>
               <h2 className="font-medium">{mainItem.name}</h2>

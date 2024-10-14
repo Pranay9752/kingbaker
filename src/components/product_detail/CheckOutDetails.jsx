@@ -272,11 +272,10 @@ const Icon = ({ name }) => {
   return icons[name] || null;
 };
 
-const PriceDetails = () => {
+const PriceDetails = ({ className }) => {
   const navigate = useNavigate();
   const [createOrder] = useCreateOrderMutation();
   const data = useSelector((state) => state.order);
-  console.log("data: ", data);
 
   const totalPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
@@ -363,7 +362,12 @@ const PriceDetails = () => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
+    <div
+      className={twMerge(
+        `bg-white p-4 rounded-lg shadow-md max-w-sm border`,
+        className
+      )}
+    >
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
       <div className="space-y-2">
         <div className="flex justify-between">
@@ -463,6 +467,7 @@ function CheckOutDetails() {
                 );
               })}
             </div>
+            <PriceDetails className={`w-full max-w-full`} />
           </>
         ) : isOpen == 1 ? (
           <AddOccation
