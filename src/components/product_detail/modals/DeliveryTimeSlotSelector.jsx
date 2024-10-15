@@ -1,8 +1,8 @@
-import { isToday } from "date-fns";
-import { useState } from "react";
+import { addHours, isAfter, isBefore, isToday, parse } from "date-fns";
+import { useEffect, useState } from "react";
 
 const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
-  console.log(deliverydate)
+  console.log(deliverydate);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -14,7 +14,7 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
     { id: 5, time: "05:00 PM - 11:00 PM" },
   ];
 
-  const deliveryOptions = [
+  const [deliveryOptions, setDeliveryOptions] = useState([
     {
       id: "standard",
       title: "Standard Delivery",
@@ -60,7 +60,8 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       description: "Gift will be delivered any time between 11:00 PM-11:59 PM",
       expressSlots: [{ id: 1, time: "23:00 AM - 23:59 PM" }],
     },
-  ];
+  ]);
+
   const deliveryTodayOptions = [
     {
       id: "standard",
@@ -78,7 +79,6 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       price: 49,
       description: "Choose from any 3-hour slot during the day",
       expressSlots: [
-
         // { id: 5, time: "05:00 PM - 11:00 PM" },
       ],
     },
@@ -88,7 +88,6 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       price: 99,
       description: "Choose from any 1-hour slot",
       expressSlots: [
-
         // { id: 5, time: "05:00 PM - 11:00 PM" },
       ],
     },
@@ -105,11 +104,46 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
     const delivery = deliveryOptions.find(
       (delivery) => delivery.id === selectedOption
     );
-    const slot = expressSlots[id - 1];
+    const slot = delivery?.expressSlots[id - 1];
 
     setSelectedSlot(id);
     handleSelectSlot({ delivery, slot });
   };
+
+  const filterSlots = (slots) => {
+    const currentTime = new Date(); // Use current time
+    const futureTime = addHours(currentTime, 2);
+
+    return slots.filter((slot) => {
+      const [startTime, endTime] = slot.time.split(" - ");
+      const startDate = parse(startTime, "hh:mm a", currentTime);
+      const endDate = parse(endTime, "hh:mm a", currentTime);
+
+      return (
+        isAfter(startDate, futureTime) ||
+        (isAfter(endDate, futureTime) && isBefore(startDate, futureTime))
+      );
+    });
+  };
+
+  useEffect(() => {
+    setDeliveryOptions((prev) => {
+      const newSlots = [];
+
+      prev?.forEach((item) => {
+        if (isToday(new Date(deliverydate))) {
+          const filteredSlots = filterSlots(item.expressSlots);
+          if (filteredSlots?.length > 0) {
+            newSlots.push({ ...item, expressSlots: filteredSlots });
+          }
+        } else {
+          newSlots.push(item);
+        }
+      });
+
+      return newSlots;
+    });
+  }, [deliverydate]);
 
   return (
     <div className=" mx-auto text-left">
@@ -120,7 +154,7 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       </div>
 
       <div className="p-4 h-[450px] overflow-y-auto hide-scrollbar">
-        {(isToday(new Date(deliverydate)) ? deliveryTodayOptions : deliveryOptions).map((option, index) => (
+        {deliveryOptions.map((option, index) => (
           <div
             key={option.id}
             className={`mb-4 md:mb-0 ${index !== 0 ? "border-t pt-4" : ""}`}

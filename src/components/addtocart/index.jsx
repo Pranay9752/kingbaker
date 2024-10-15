@@ -102,7 +102,6 @@ const AddToCartModal = () => {
           <>
             <div className="max-h-[50vh] overflow-y-auto hide-scrollbar">
               {cartData.map((cartItem, index) => {
-                console.log("cartItem: ", cartItem);
 
                 return (
                   <div className="relative">

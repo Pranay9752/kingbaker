@@ -47,44 +47,11 @@ const ProductListing = ({
   const hasProducts = Array.isArray(products) && products?.length > 0;
 
   return (
-    // <div ref={listingRef} className="max-w-7xl mx-auto px-4 py-8 h-full overflow-y-scroll">
-    //   <div className="flex items-center justify-between mb-4">
-    //     <h1 className="text-2xl font-bold">{title}</h1>
-    //     <div className="flex items-center">
-    //       <span className="text-gray-600 mr-2">{totalItems} items</span>
-    //       {/* Sort Options */}
-    //       <select className="border border-gray-300 rounded-md p-2">
-    //         {sortOptions.map((option) => (
-    //           <option key={option.value} value={option.value}>
-    //             {option.label}
-    //           </option>
-    //         ))}
-    //       </select>
-    //     </div>
-    //   </div>
 
-    //   {/* Product List */}
-    //   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    //     {hasProducts ? (
-    //       products.map((product, index) => (
-    //         <FlowerBouquetCard
-    //           key={product.id}
-    //           title={product.title}
-    //           price={product.price}
-    //           imageUrl={product.imageUrl}
-    //           rating={product.rating}
-    //           reviewCount={product.reviewCount}
-    //         />
-    //       ))
-    //     ) : (
-    //       <p>No products found.</p>
-    //     )}
-    //   </div>
-    // </div>
     <div className="max-w-7xl mx-auto md:p-4 md:pl-0 ">
       <div className="p-3 pb-0 rounded-lg bg-white">
         <div className="md:flex hidden items-center mb-4">
-          <h1 className="text-2xl font-semibold">{title}{"    "}</h1>
+          <h1 className="text-2xl font-semibold capitalize">{title}{"    "}</h1>
           <div className="flex items-center gap-4">
             {/* <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
               {rating}{" "}
@@ -102,7 +69,7 @@ const ProductListing = ({
               </svg>
             </span> */}
             {/* <span className="text-blue-600 mr-2">{reviewCount} Reviews</span> */}
-            <span className="text-gray-600 text-md font-md">
+            <span className="text-gray-600 text-md font-md  capitalize">
               | {products.length ?? 0} of {hasProducts ? products.length : 0} {title}
             </span>
           </div>
@@ -155,7 +122,7 @@ const ProductListing = ({
         ))}
       </div>
       <div className="flex flex-col gap-4 md:hidden items-center mb-4">
-        <h1 className="text-2xl font-semibold">{title}</h1>
+        <h1 className="text-2xl font-semibold  capitalize">{title}</h1>
         <div className="flex items-center gap-4">
           <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
             {rating}{" "}

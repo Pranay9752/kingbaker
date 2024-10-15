@@ -3,18 +3,23 @@ import React, { useCallback, useEffect, useState } from "react";
 import ProductListing from "./productPage";
 import Sidebar from "./Sidebar";
 import TopNavbar from "../../molecules/header/TopNavBar";
-import { useFilterDetailsMutation } from "../../redux/apiSlices/ecom/listingApiSlice";
+import {
+  useFilterDetailsMutation,
+  useFilterProductMutation,
+} from "../../redux/apiSlices/ecom/listingApiSlice";
 import MobileFilterSort from "./MobileFilterSort";
 import { useParams } from "react-router-dom";
 import Modal from "../../atom/popovers/modal";
 import Loader from "../../atom/loader/loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../molecules/footer/footer";
 import NavBar from "../home/NavBar";
+import { setAdvFilter } from "../../redux/slices/ecom/advFilters";
+import filterNonEmptyValues from "../../atom/utils/filterNonEmptyvalues";
+
+//PROD6756,PROD3181,PROD2465
 const ProductSearch = () => {
-  const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" })
-  const [extraFilters, setExtraFilter] = useState({})
-  console.log(extraFilters);
+  const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" });
 
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
@@ -22,11 +27,10 @@ const ProductSearch = () => {
     reviewCount: 81202,
     totalItems: 36,
     sortOptions: [
-
       // { label: "Recommended", value: "new" },
       { label: "New", value: "new" },
-      { label: "Price: Low to High", value: "lth" },
-      { label: "Price: High to Low", value: "htl" },
+      { label: "Price: Low to High", value: "low-to-high" },
+      { label: "Price: High to Low", value: "high-to-low" },
     ],
     promoCard: {
       title: "Get Flat 10% Off",
@@ -93,57 +97,50 @@ const ProductSearch = () => {
     ],
   };
 
-  const filterItems = [
-    {
-      title: "Price",
-      children: [
-        { title: "₹0 TO ₹499", lwrlmt: 0, uprlmt: 499, count: 590, type: "checkbox" },
-        { title: "₹500 TO ₹999", lwrlmt: 500, uprlmt: 999, count: 1301, type: "checkbox" },
-        { title: "₹1000 TO ₹1499", lwrlmt: 1000, uprlmt: 1499, count: 971, type: "checkbox" },
-        { title: "₹1500 TO ₹1999", lwrlmt: 1500, uprlmt: 1999, count: 584, type: "checkbox" },
-        { title: "₹2000 TO ₹2499", lwrlmt: 2000, uprlmt: 2499, count: 344, type: "checkbox" },
-        { title: "₹2500 TO ₹2999", lwrlmt: 2500, uprlmt: 2999, count: 239, type: "checkbox" },
-        { title: "₹3000 AND ABOVE", lwrlmt: 3000, uprlmt: 100000, count: 354, type: "checkbox" },
-      ],
-    },
-
-  ];
-
   const tag = useParams();
   const [searchData, setSearchData] = useState([]);
-  const filter = useSelector((state) => state.filter)
+  const filter = useSelector((state) => state.filter);
+  const selectedFilter = useSelector((state) => state.selectedFilter);
+  console.log("selectedFilter: ", selectedFilter);
+  const advFilter = useSelector((state) => state.advFilter);
   const [limit, setLimit] = useState({
     name: "prices",
-    "lwrlmt": 0,
-    "uprlmt": 1000
+    lwrlmt: 0,
+    uprlmt: 1000,
   });
   const [page, setPage] = useState(1);
-  const [filterDetails, { isLoading, isError }] = useFilterDetailsMutation();
   const [hasMore, setHasMore] = useState(true); // Track if more data is available
-
+  const dispatch = useDispatch();
+  const [filterDetails, { isLoading }] = useFilterDetailsMutation();
+  const [filterProduct, { isLoading: filterLoading }] =
+    useFilterProductMutation();
 
   const handleLimit = (e, up, down) => {
     setLimit((prev) => ({ ...prev, lwrlmt: down, uprlmt: up }));
-  }
+  };
+
+  const handleSortChange = (option) => {
+    setSortKeys(option);
+  };
   const fetchData = async (page) => {
     try {
-      const response = await filterDetails({
+      const response = await filterProduct({
         search_text: tag?.tag ?? "",
         sortBy: sortKeys?.value ?? "new",
         page,
         limit: 33,
-        findBy: {
-          name: "prices",
-          "lwrlmt": filter?.lwrlmt ?? 0,
-          "uprlmt": filter?.uprlmt ?? 10000
-        }
+        productFilters: selectedFilter,
+        // findBy: {
+        //   name: "prices",
+        //   lwrlmt: filter?.lwrlmt ?? 0,
+        //   uprlmt: filter?.uprlmt ?? 10000,
+        // },
       }).unwrap();
 
-      if (response.data.length > 0) {
-        console.log("response: ", response.data);
-        setSearchData((prevData) => response.data);
+      if (response.length > 0) {
+        setSearchData((prevData) => response);
       } else {
-        setSearchData([])
+        setSearchData([]);
         setHasMore(false); // No more data
       }
     } catch (error) {
@@ -151,16 +148,39 @@ const ProductSearch = () => {
     }
   };
 
+  const fetchFilter = async () => {
+    try {
+      const response = await filterDetails({
+        search_text: tag?.tag ?? "",
+      }).unwrap();
+      const filters = filterNonEmptyValues(response?.productFilters);
+      dispatch(setAdvFilter(filters));
+    } catch (error) {
+      dispatch(setAdvFilter({}));
+      console.error(error);
+    }
+  };
 
   const sortClick = (data) => {
     setSortKeys(data);
-  }
+  };
 
   useEffect(() => {
     // Initial data load
-    setSearchData([])
+    setSearchData([]);
     fetchData(page);
-  }, [page, tag?.tag, sortKeys, filter?.uprlmt, filter?.lwrlmt]);
+  }, [
+    page,
+    tag?.tag,
+    sortKeys,
+    filter?.uprlmt,
+    filter?.lwrlmt,
+    selectedFilter,
+  ]);
+
+  useEffect(() => {
+    fetchFilter();
+  }, [tag]);
 
   // Callback to load more products when 70% is scrolled
   const handleLoadMore = useCallback(() => {
@@ -170,13 +190,11 @@ const ProductSearch = () => {
   }, [isLoading, hasMore]);
 
   useEffect(() => {
-
-    document.body.classList.add('bg-[#f2f2f2]');
+    document.body.classList.add("bg-[#f2f2f2]");
     return () => {
-      document.body.classList.remove('bg-[#f2f2f2]');
-    }
-  })
-
+      document.body.classList.remove("bg-[#f2f2f2]");
+    };
+  });
 
   return (
     <>
@@ -202,7 +220,7 @@ const ProductSearch = () => {
             mode="filter"
             textTop={"Filter"}
             isOpen={true}
-            filterItems={filterItems}
+            filterItems={advFilter}
             handleLimit={handleLimit}
           />
         </div>
@@ -211,21 +229,21 @@ const ProductSearch = () => {
         <div className="w-full 9/12 overflow-y-scroll h-full hide-scrollbar">
           <ProductListing
             {...birthdayGiftsData}
+            title={tag?.tag}
             sortClick={sortClick}
             products={searchData}
             onScrollEnd={handleLoadMore}
             sortKeys={sortKeys}
           />
         </div>
-        <MobileFilterSort />
+        <MobileFilterSort filters={advFilter} tag={tag?.tag}  handleSortChange={handleSortChange} />
       </div>
-      {
-        isLoading && <Modal>
+      {(isLoading || filterLoading) && (
+        <Modal>
           <Loader />
         </Modal>
-      }
+      )}
       <Footer />
-
     </>
   );
 };

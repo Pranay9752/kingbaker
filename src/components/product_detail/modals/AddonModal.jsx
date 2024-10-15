@@ -222,7 +222,7 @@ const ProductAddOns = ({
         onCategoryChange={setActiveCategory}
       />
 
-      <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[67vh] ">
+      <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[62vh] ">
         {filteredProducts.map((product) => (
           <AddonCard
             key={product.addOn_id}

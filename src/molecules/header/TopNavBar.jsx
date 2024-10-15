@@ -316,11 +316,11 @@ const TopNavbar = ({
             </button>
             <div className="flex items-center space-x-2">
               <img
-                src={"https://cdn-icons-png.flaticon.com/128/3656/3656962.png"}
+                src={"https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"}
                 alt={`${title} Logo`}
                 className="h-8"
               />
-              <h1 className="text-xl font-bold">{title}</h1>
+              {/* <h1 className="text-xl font-bold">{title}</h1> */}
             </div>
           </div>
 

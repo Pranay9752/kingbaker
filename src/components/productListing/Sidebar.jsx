@@ -1,14 +1,20 @@
-
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../redux/slices/ecom/filter";
+import { setSelectedFilter } from "../../redux/slices/ecom/selectedFilters";
 
-
-const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
+const MenuItem = ({
+  item,
+  level = 0,
+  isFilterMode = false,
+  handleLimit,
+  title,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
+  const selectedFilter = useSelector((state) => state.selectedFilter);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const toggleOpen = () => {
     if (!isOpen) {
       setIsRotating(true);
@@ -21,21 +27,35 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
     }
   };
 
-  if (isFilterMode && item.type === "checkbox") {
-    return (
-      <div onClick={(e) => {
-        dispatch(setFilter({ up: item?.uprlmt, down: item?.lwrlmt }))
-        // alert("")
-        // handleLimit?.(e, item?.uprlmt, item?.lwrlmt)
-      }}
+  const isValueInFilter = ({ type, value }) => {
+    // Check if the type exists in the state and if the value is present
+    if (selectedFilter[type] && Array.isArray(selectedFilter[type])) {
+      return selectedFilter[type].includes(value);
+    }
 
-        className="py-2 px-4 pl-8 text-gray-700">
-        <label className="flex items-center">
-          {/* <input type="checkbox" className="mr-2" /> */}
-          <span className="text-gray-700">{item.title}</span>
-          {item.count && (
-            <span className="ml-1 text-gray-500">({item.count})</span>
-          )}
+    // Return false if the type doesn't exist or if the value is not found
+    return false;
+  };
+
+  if (typeof item == "string") {
+    return (
+      <div
+        onClick={(e) => {
+          // alert("")
+          // handleLimit?.(e, item?.uprlmt, item?.lwrlmt)
+        }}
+        className="py-2 px-4  text-gray-700 capitalize"
+      >
+        <label  className="flex items-center">
+          <input
+            onChange={(e) => {
+              dispatch(setSelectedFilter({ type: title, value: item }));
+            }}
+            checked={isValueInFilter({ type: title, value: item })}
+            type="checkbox"
+            className="mr-2"
+          />
+          <span className="text-gray-700">{item}</span>
         </label>
       </div>
     );
@@ -44,15 +64,17 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
   return (
     <div>
       <div
-        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b ${level > 0 ? "pl-8" : ""
-          } cursor-pointer `}
-        onClick={item.children ? toggleOpen : undefined}
+        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b capitalize ${
+          level > 0 ? "pl-1" : ""
+        } cursor-pointer `}
+        onClick={item ? toggleOpen : undefined}
       >
-        <span>{item.title}</span>
-        {item.children && (
+        <span>{title}</span>
+        {item && (
           <div
-            className={`transform transition-transform duration-300 ${isRotating ? "rotate-360" : ""
-              }`}
+            className={`transform transition-transform duration-300 ${
+              isRotating ? "rotate-360" : ""
+            }`}
           >
             {isOpen ? (
               <svg
@@ -84,14 +106,15 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
           </div>
         )}
       </div>
-      {isOpen && item.children && (
+      {isOpen && item && (
         <div className="ml-4">
-          {item.children.map((child, index) => (
+          {item?.map((child, index) => (
             <MenuItem
               key={index}
               item={child}
               level={level + 1}
               isFilterMode={isFilterMode}
+              title={title}
             />
           ))}
         </div>
@@ -100,80 +123,37 @@ const MenuItem = ({ item, level = 0, isFilterMode = false, handleLimit }) => {
   );
 };
 
-const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew, handleLimit = () => { } }) => {
-  const menuItems = [
-    {
-      title: "Shop By Occasions",
-      children: [
-        { title: "Birthday" },
-        { title: "Anniversary" },
-        { title: "Upcoming Occasions" },
-        { title: "Special Occasions" },
-        { title: "Emotions N Sentiments" },
-      ],
-    },
-    { title: "Shop By Category", children: [] },
-    { title: "Send Gifts Abroad", children: [] },
-    { title: "My Account" },
-    { title: "Contact Us" },
-  ];
-
-  const items = mode === "menu" ? menuItems : filterItems;
-
+const Sidebar = ({
+  isOpen,
+  onClose,
+  filterItems,
+  mode,
+  textTop,
+  isNew,
+  handleLimit = () => {},
+}) => {
   return (
     <div
       className={`
-        ${mode === "menu" ? "fixed top-0 left-0 h-full w-72" : "w-[100%]"
+        ${
+          mode === "menu" ? "fixed top-0 left-0 h-full w-72" : "w-[100%]"
         }  bg-white shadow-lg 
         transform transition-transform duration-300 ease-in-out z-40
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >
-      {mode === "menu" && (
-        <>
-          <div className="flex justify-between items-center font-semibold text-sm p-4 bg-[#7d8035] text-white">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                <img
-                  src="https://your-image-url-here.com/profile.jpg"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span>Hi Guest</span>
-            </div>
-            <div className="flex items-center">
-              <button className="px-4 py-1 bg-white text-red-500 rounded mr-2">
-                LOGIN
-              </button>
-            </div>
-          </div>
-          <div className="p-2 bg-white text-white flex items-center border-b">
-            {textTop && (
-              <span className="mr-1 text-gray-700 text-sm ml-2 font-semibold">
-                {textTop}
-              </span>
-            )}
-            {isNew && (
-              <span className="text-xs bg-red-500 px-1 rounded">New</span>
-            )}
-          </div>
-        </>
-      )}
-
-      {mode === "filter" && (
-        <div className="flex justify-between items-center p-4 bg-white border-b">
-          <h2 className="font-bold">Filters</h2>
-        </div>
-      )}
+      <div className="flex justify-between items-center p-4 bg-white border-b">
+        <h2 className="font-bold">Filters</h2>
+      </div>
 
       <div className="overflow-y-auto h-[calc(100%-112px)]">
         <div className="h-fit overflow- y-scroll scrollbar-thin">
-          {items.map((item, index) => (
+          {Object.keys(filterItems).map((item, index) => (
             <MenuItem
               handleLimit={handleLimit}
               key={index}
-              item={item}
+              item={filterItems[item]}
+              title={item}
               isFilterMode={mode === "filter"}
             />
           ))}
