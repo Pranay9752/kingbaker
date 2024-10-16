@@ -227,6 +227,10 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    addOrder: (state, action) => {
+      const newObject = [...state, action.payload];
+      return newObject;
+    },
     updateMainItem: (state, action) => {
       state.mainItem = { ...state.mainItem, ...action.payload };
     },
@@ -307,6 +311,7 @@ export const {
   addInit,
   updateShipping,
   addDeliveryAddress,
+  addOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

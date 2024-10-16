@@ -16,7 +16,6 @@ import CustomGrid from "./CustomGrid";
 import Footer from "../../molecules/footer/footer";
 
 export const getCard = ({ data }) => {
-  console.log("data: ", data);
   const cards = {
     card3: <CardThree data={data} />,
   };

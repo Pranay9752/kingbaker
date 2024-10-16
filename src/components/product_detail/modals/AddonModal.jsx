@@ -4,104 +4,16 @@ import CategoryFilter from "../../../molecules/CategoryFilter";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import getCookie from "../../../atom/utils/getCookies";
+import setCookie from "../../../atom/utils/setCookies";
 import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
 import { toast } from "sonner";
-
-// Sample product data
-const products = [
-  {
-    id: 1,
-    name: "Greeting Card As Per Occasion",
-    price: 99,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Greeting",
-  },
-  {
-    id: 2,
-    name: "Magic Relighting Candle",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-  {
-    id: 3,
-    name: "5 Pc Dairy Milk Chocolates 12g",
-    price: 149,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Gourmet",
-  },
-  {
-    id: 4,
-    name: "Candle 1",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-  {
-    id: 11,
-    name: "Greeting Card As Per Occasion",
-    price: 99,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Greeting",
-  },
-  {
-    id: 21,
-    name: "Magic Relighting Candle",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-  {
-    id: 31,
-    name: "5 Pc Dairy Milk Chocolates 12g",
-    price: 149,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Gourmet",
-  },
-  {
-    id: 41,
-    name: "Candle 1",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-  {
-    id: 13,
-    name: "Greeting Card As Per Occasion",
-    price: 99,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Greeting",
-  },
-  {
-    id: 23,
-    name: "Magic Relighting Candle",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-  {
-    id: 33,
-    name: "5 Pc Dairy Milk Chocolates 12g",
-    price: 149,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Gourmet",
-  },
-  {
-    id: 43,
-    name: "Candle 1",
-    price: 49,
-    image: "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-    category: "Cake Accessories",
-  },
-];
+import { addOrder } from "../../../redux/slices/ecom/orderSlice";
 
 const ProductAddOns = ({
   closeModal,
   addons,
   productId: selectedProductId,
 }) => {
-  console.log("productId: ", selectedProductId);
-
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
   const { getValues } = useFormContext();
@@ -145,8 +57,80 @@ const ProductAddOns = ({
     [quantities, addons]
   );
 
+  const convertData = (order) => {
+    const { delivery_details, location } = order;
+    const shipping = delivery_details?.shipping ?? {};
+    const baseObject = {
+      mainItem: {
+        productDetails: [
+          {
+            _id: delivery_details?.product_id,
+            productId: delivery_details?.product_id,
+            prices: 750,
+            imageLink: [],
+            title: "",
+          },
+        ],
+        order_id: `ORD${Math.floor(Math.random() * 1000) + 1}`,
+        deliveryAddresses: [],
+        is_veg: delivery_details?.is_veg,
+        shipping: shipping,
+        message_on_product: delivery_details?.is_veg,
+        is_message: delivery_details?.is_veg,
+        is_image: delivery_details?.is_veg,
+        images: [],
+        special_request: "",
+        order_status: order?.order_status,
+        payment_status: order?.payment_status,
+        location: location,
+        id: delivery_details?.product_id,
+        name: "",
+        price: 0,
+        quantity: 1,
+        image: "",
+      },
+      addons: [
+        {
+          id: "66e57411174d26151ff3f9bd",
+          name: "Greeting Card As Per Occasion",
+          price: 99,
+          quantity: 1,
+          image:
+            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+        },
+        {
+          id: "66e57411174d26151ff3f9c0",
+          name: "Candle 1",
+          price: 49,
+          quantity: 1,
+          image:
+            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+        },
+        {
+          id: "66e57411174d26151ff3f9be",
+          name: "Magic Relighting Candle",
+          price: 49,
+          quantity: 2,
+          image:
+            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
+        },
+      ],
+      deliveryDetails: {
+        method: shipping?.method ?? "",
+        date: shipping?.delivery_date,
+        timeSlot: shipping?.time,
+        fee: shipping?.shipping_amount,
+      },
+      occasion: null,
+      messageCard: "",
+      messageOnCake: "",
+    };
+    return baseObject;
+  };
+
   // console.log(getValues(), quantities);
   const handleSubmit = async () => {
+    const isLogin = getCookie("_id") ? true : false;
     const addonsArr = Object.keys(quantities)?.map((item) => {
       const addON_id = Array.isArray(addons)
         ? addons.find((el) => el.addOn_id == item)
@@ -170,8 +154,6 @@ const ProductAddOns = ({
       delivery_details: {
         product_id: selectedProductId,
         delivery_address: null,
-        // "product_id": "670174711b685f8d65ce4bd1",
-        // "product_id": "6700321b721e900c3fa00e81",
         message_on_product: formData?.msgOnCake ?? "",
         imgaes_on_product: formData?.imageOnCake ?? "",
         is_message: formData?.msgOnCake ? "true" : "false",
@@ -188,12 +170,22 @@ const ProductAddOns = ({
         addOn: addonsArr ?? [],
       },
     };
-    try {
-      await createOrder(newOrder);
-      toast.success("Order created successfully");
+
+    const convertedData = convertData(newOrder);
+
+    // console.log('convertedData: ', convertedData);
+    if (!isLogin) {
+      dispatch(addOrder(newOrder));
       navigate("/");
-    } catch (error) {}
+    } else {
+      try {
+        await createOrder(newOrder);
+        toast.success("Order created successfully");
+        navigate("/");
+      } catch (error) {}
+    }
   };
+
   return (
     <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden ">
       <div className="flex items-center mb-4">
