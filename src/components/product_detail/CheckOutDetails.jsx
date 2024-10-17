@@ -18,10 +18,8 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { motion } from "framer-motion"; // For the animation
 import {
-  useAddAddressMutation,
   useCreateOrderMutation,
   useGetAddressQuery,
-  useGetCartItemQuery,
   useGetOccationQuery,
 } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
@@ -417,7 +415,6 @@ function CheckOutDetails() {
   const navigate = useNavigate();
 
   const { data, isError, isLoading } = useGetAddressQuery();
-  const { data: cartOrder } = useGetCartItemQuery();
 
   const orderData = useSelector((state) => state.order);
 

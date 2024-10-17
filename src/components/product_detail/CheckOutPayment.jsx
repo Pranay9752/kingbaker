@@ -323,13 +323,12 @@ const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
 function CheckOutPayment() {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCartItemQuery();
-  console.log('data: ', data);
 
   const orderIds = useMemo(() => {
 
     return Array.isArray(data?.data?.delivery_details) ? data?.data?.delivery_details.map((item) => item?.mainItem?.order_id) : []
   }, [data?.data])
-  console.log(orderIds)
+
   const totalPrice = useMemo(() => {
     const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
       const itemPrice = curr?.mainItem?.productDetails?.[0]?.prices ?? 0;
