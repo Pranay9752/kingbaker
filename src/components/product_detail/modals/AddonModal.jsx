@@ -8,23 +8,24 @@ import setCookie from "../../../atom/utils/setCookies";
 import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
 import { toast } from "sonner";
 import { addOrder } from "../../../redux/slices/ecom/orderSlice";
+import { useDispatch } from "react-redux";
 
 const ProductAddOns = ({
   closeModal,
   addons,
+  product,
   productId: selectedProductId,
 }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
   const { getValues } = useFormContext();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
   const categories = useMemo(
     () => ["All", ...new Set(addons.map((p) => p.category))],
     [addons]
   );
-
   const filteredProducts = useMemo(
     () =>
       activeCategory === "All"
@@ -57,64 +58,58 @@ const ProductAddOns = ({
     [quantities, addons]
   );
 
-  const convertData = (order) => {
+  const convertData = (order, selectedAddon) => {
+    const addonMap = selectedAddon.reduce((map, item) => {
+      map[item.addOn_id] = item.count;  // Key is addOn_id, value is count
+      return map;
+    }, {});
+
+    // Step 2: Iterate over the addons and attach the count from addonMap
+    const result = addons
+      .filter(addon => addonMap[addon._id] !== undefined) // Filter if addon exists in addonMap
+      .map(addon => ({
+        ...addon, // Spread addon details
+        count: addonMap[addon._id] // Add count from the map
+      }));
     const { delivery_details, location } = order;
     const shipping = delivery_details?.shipping ?? {};
     const baseObject = {
       mainItem: {
         productDetails: [
           {
-            _id: delivery_details?.product_id,
+            _id: product?._id,
             productId: delivery_details?.product_id,
-            prices: 750,
-            imageLink: [],
-            title: "",
+            prices: product?.prices ?? 0,
+            imageLink: product?.imageLink ?? [],
+            title: product?.title ?? "",
           },
         ],
         order_id: `ORD${Math.floor(Math.random() * 1000) + 1}`,
         deliveryAddresses: [],
         is_veg: delivery_details?.is_veg,
         shipping: shipping,
-        message_on_product: delivery_details?.is_veg,
-        is_message: delivery_details?.is_veg,
-        is_image: delivery_details?.is_veg,
+        message_on_product: delivery_details?.message_on_product,
+        is_message: delivery_details?.is_message,
+        is_image: delivery_details?.is_image,
         images: [],
         special_request: "",
         order_status: order?.order_status,
         payment_status: order?.payment_status,
         location: location,
         id: delivery_details?.product_id,
-        name: "",
-        price: 0,
+        name: product?.title ?? "",
+        price: product?.prices ?? 0,
         quantity: 1,
-        image: "",
+        image: product?.imageLink?.[0] ?? "",
       },
-      addons: [
-        {
-          id: "66e57411174d26151ff3f9bd",
-          name: "Greeting Card As Per Occasion",
-          price: 99,
-          quantity: 1,
-          image:
-            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-        },
-        {
-          id: "66e57411174d26151ff3f9c0",
-          name: "Candle 1",
-          price: 49,
-          quantity: 1,
-          image:
-            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-        },
-        {
-          id: "66e57411174d26151ff3f9be",
-          name: "Magic Relighting Candle",
-          price: 49,
-          quantity: 2,
-          image:
-            "https://fnp.com/images/pr/l/v20190122233454/red-sensation_1.jpg",
-        },
-      ],
+      addons: result?.map(item => ({
+        id: item?._id,
+        name: item?.title,
+        price: item?.price,
+        quantity: item?.count,
+        image: item?.images?.[0] ?? "",
+      }))
+      ,
       deliveryDetails: {
         method: shipping?.method ?? "",
         date: shipping?.delivery_date,
@@ -128,7 +123,7 @@ const ProductAddOns = ({
     return baseObject;
   };
 
-  // console.log(getValues(), quantities);
+
   const handleSubmit = async () => {
     const isLogin = getCookie("_id") ? true : false;
     const addonsArr = Object.keys(quantities)?.map((item) => {
@@ -171,18 +166,21 @@ const ProductAddOns = ({
       },
     };
 
-    const convertedData = convertData(newOrder);
+    console.log(JSON.stringify(newOrder))
 
-    // console.log('convertedData: ', convertedData);
+    const convertedData = convertData(newOrder, addonsArr ?? []);
+
     if (!isLogin) {
-      dispatch(addOrder(newOrder));
+      const cartCookie = getCookie("cart");
+      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
+      setCookie("cart", [...cartOrder, convertedData])
       navigate("/");
     } else {
       try {
         await createOrder(newOrder);
         toast.success("Order created successfully");
         navigate("/");
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 

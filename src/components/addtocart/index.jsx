@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addInit } from "../../redux/slices/ecom/orderSlice";
 import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
+import setCookie from "../../atom/utils/setCookies";
 
 
 const AddToCartModal = () => {
@@ -13,11 +14,13 @@ const AddToCartModal = () => {
   const cartData = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLogin = useMemo(() => getCookie("_id") ? true : false, [getCookie("_id")]);
+
 
   const totalAddons = useMemo(() => {
     const totalAddons = cartData?.reduce((prev, curr) => {
-      return prev + curr?.addons?.length ?? 0;
-    }, 0);
+      return prev + (curr?.addons?.length ?? 0);
+    }, 0) ?? 0;
     return totalAddons;
   }, [cartData]);
   const totalPrice = useMemo(() => {
@@ -70,12 +73,26 @@ const AddToCartModal = () => {
   };
 
   useEffect(() => {
+    if (!isLogin) {
+      const cartCookie = getCookie("cart");
+      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
+      dispatch(addInit(cartOrder));
+      return;
+    }
     if (data) {
+     
       const transformedData = transformData(data?.data?.delivery_details);
 
       dispatch(addInit(transformedData));
     }
   }, [data]);
+
+  useEffect(() => {
+    if(!isLogin){
+      setCookie("cart", cartData)
+    }
+  },[cartData])
+
   return (
     <>
       <div className="flex justify-between items-center mb-4 text-gray-800">
@@ -116,7 +133,7 @@ const AddToCartModal = () => {
                       occasion={cartItem?.occasion ?? null}
                       isCart={true}
                       dense={true}
-                      handleOccation={() => {}}
+                      handleOccation={() => { }}
                     />
                     <div className="absolute bg-[#7D8035] rounded-br-lg py-1 px-1.5 text-xs text-white font-semibold left-0 top-0">
                       {index + 1}
@@ -170,7 +187,7 @@ const AddToCartModal = () => {
                 <h2 className="text-xl font-semibold mb-2 text-green-700 text-center">
                   Missing Cart Item?
                 </h2>
-                <p className="text-sm text-center text-gray-600">
+                <p className="text-sm text-center text-gray-600 mb-10">
                   Login to see items you added previously
                 </p>
               </>

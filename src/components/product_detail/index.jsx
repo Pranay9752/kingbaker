@@ -162,7 +162,7 @@ const ProductDetail = () => {
               timeLeft="01:25:30"
             />
 
-            <ActionButtons productId={data?.data?._id ?? ""} />
+            <ActionButtons product={data?.data ?? {}}  productId={data?.data?._id ?? ""} />
 
             <ImageModal
               isOpen={isModalOpen}

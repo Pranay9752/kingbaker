@@ -8,6 +8,7 @@ import React, { useState, useEffect, useMemo } from "react";
 // } from "../../redux/apiSlices/ecom/checkouApiSlice";
 import Basicheader from "./header/Basicheader";
 import {
+  addInit,
   addOccasion,
   deleteAddon,
   deleteOrder,
@@ -20,6 +21,7 @@ import { motion } from "framer-motion"; // For the animation
 import {
   useCreateOrderMutation,
   useGetAddressQuery,
+  useGetCartItemQuery,
   useGetOccationQuery,
 } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
@@ -107,6 +109,7 @@ const AddOccation = ({ occationData, occationIndex, onOccationSubmit }) => {
       setMessageList(messages);
     }
   }, [watch("occasion")]);
+
   return (
     <div className="p-6 mt-12 max-w-md mx-auto bg-white shadow-md rounded-lg text-left">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -413,14 +416,52 @@ function CheckOutDetails() {
   const [occationIndex, setOccationIndex] = useState(0);
 
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   const { data, isError, isLoading } = useGetAddressQuery();
-
+  const { data: cartOrder } = useGetCartItemQuery();
+console.log(cartOrder);
   const orderData = useSelector((state) => state.order);
 
   const handleOccation = ({ index, data }) => {
     setOccationIndex(index);
     setIsOpen(1);
+  };
+
+
+  const transformData = (data) => {
+    const tData = data.map((item, index) => {
+      const main = item?.mainItem ?? {};
+      const productDetail = main?.productDetails?.[0];
+      const addons = item?.addOn ?? [];
+      return {
+        mainItem: {
+          ...main,
+          id: productDetail._id,
+          name: productDetail?.title,
+          price: productDetail?.prices,
+          quantity: 1,
+          image: productDetail?.imageLink?.[0],
+        },
+        addons: addons?.map((addon) => ({
+          id: addon?._id ?? "",
+          name: addon?.title ?? "",
+          price: addon?.price ?? 0,
+          quantity: addon?.count?.count ?? 0,
+          image: addon?.images?.[0] ?? "",
+        })),
+        deliveryDetails: {
+          method: main?.shipping?.method,
+          date: main?.shipping?.delivary_date,
+          timeSlot: main?.shipping?.time,
+          fee: main?.shipping?.shipping_amount ?? 0,
+        },
+        occasion: null,
+        messageCard: "",
+        messageOnCake: "",
+      };
+    });
+
+    return tData;
   };
 
   useEffect(() => {
@@ -434,6 +475,13 @@ function CheckOutDetails() {
     }
   }, [data]);
 
+  useEffect(()=>{
+    const isLogin = getCookie("_id") ? true : false;
+    if(!isLogin){
+      navigate("/checkout/account");
+    }
+  },[])
+
   useEffect(() => {
     if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");
     return () => {
@@ -441,6 +489,11 @@ function CheckOutDetails() {
         document.body.classList.remove("bg-[#f2f2f2]");
     };
   }, []);
+
+  useEffect(()=>{
+    const transformedData = transformData(cartOrder?.data?.delivery_details);
+    dispatch(addInit(transformedData))
+  },[cartOrder])
 
   return (
     <>

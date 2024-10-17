@@ -11,9 +11,11 @@ import {
 import { toast } from "sonner";
 import setCookie from "../../atom/utils/setCookies";
 import Loader from "../../atom/loader/loader";
+import getCookie from "../../atom/utils/getCookies";
+import { useCreateOrderMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 
 function AccountAuth({ className, handleOnLogin }) {
-  
+
 
   const [isExistingUser, setIsExistingUser] = useState(null);
 
@@ -49,6 +51,7 @@ function AccountAuth({ className, handleOnLogin }) {
       isExistingUser: null, // Default value for isExistingUser in form data
     },
   });
+  const [createOrder, { isLoading: createOrderLoading }] = useCreateOrderMutation();
 
   const [loginUser, { isLoading, isError }] = useLoginUserMutation();
   const [
@@ -126,6 +129,40 @@ function AccountAuth({ className, handleOnLogin }) {
         return;
       }
       const { user, user_id, email, authcode, message, _id } = response?.data || {};
+      const cartCookie = getCookie("cart");
+      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
+      if (cartOrder.length > 0) {
+        cartOrder?.forEach(async (element) => {
+          console.log(element)
+          const { addons, mainItem, deliveryDetails } = element;
+          const productDetails = mainItem?.[0]?.productDetails ?? {}
+          const newOrder = {
+            "user_id": _id,
+            "order_status": "PENDING",
+            "payment_status": "PENDING",
+            "location": mainItem?.location ?? {},
+            "pincode": 12345,
+            "delivery_details": {
+              "product_id": productDetails?._id,
+              "delivery_address": null,
+              "message_on_product": mainItem?.message_on_product ?? "",
+              "imgaes_on_product": mainItem?.imgaes_on_product ?? "",
+              "is_message": mainItem?.is_message,
+              "is_image": mainItem?.is_image,
+              "is_veg": mainItem?.is_veg,
+              "special_request": mainItem?.special_request ?? "",
+              "delivary_date": mainItem.shipping.delivary_date,
+              "shipping": mainItem.shipping,
+              "addOn": addons?.map((addOn) => ({ "addOn_id": addOn?.id, "count": addOn?.quantity ?? 0 })) ??
+                []
+            }
+          }
+          try {
+            await createOrder(newOrder);
+          } catch (error) { }
+        });
+      }
+      setCookie("cart", [])
       setCookie("user", user);
       setCookie("user_id", user_id);
       setCookie("email", email);
@@ -156,7 +193,7 @@ function AccountAuth({ className, handleOnLogin }) {
     country: "",
   });
 
-  if (checkEmailLoading || isLoading) {
+  if (checkEmailLoading || isLoading || createOrderLoading) {
     return <div className="w-full flex items-center justify-center">
       <Loader />
     </div>

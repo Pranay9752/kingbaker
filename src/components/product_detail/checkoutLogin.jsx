@@ -6,6 +6,7 @@ import AccountAuth from "../../molecules/account/AccountAuth";
 import Basicheader from "./header/Basicheader";
 import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
+import getCookie from "../../atom/utils/getCookies";
 
 
 function CheckOutLogin() {
@@ -17,7 +18,8 @@ function CheckOutLogin() {
   };
 
   useEffect(() => {
-    if (Cookies.get("isAuth") == "true") {
+    const isLogin = getCookie("_id") ? true : false;
+    if (isLogin) {
       navigate("/checkout/details");
     }
 
