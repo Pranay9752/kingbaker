@@ -15,43 +15,42 @@ import getCookie from "../../atom/utils/getCookies";
 import { useCreateOrderMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 
 function AccountAuth({ className, handleOnLogin }) {
-
-
   const [isExistingUser, setIsExistingUser] = useState(null);
 
   const schema =
     isExistingUser == null
       ? yup.object().shape({
-        email: yup
-          .string()
-          .email("Invalid email")
-          .required("Email is required"),
-      })
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+        })
       : yup.object().shape({
-        email: yup
-          .string()
-          .email("Invalid email")
-          .required("Email is required"),
-        password: yup.string().when("isExistingUser", {
-          is: true,
-          then: yup.string().required("Password is required"),
-        }),
-        name: yup.string().when("isExistingUser", {
-          is: false,
-          then: yup.string().required("Name is required"),
-        }),
-        mobile: yup.string().when("isExistingUser", {
-          is: false,
-          then: yup.string().required("Phone number is required"),
-        }),
-      });
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+          password: yup.string().when("isExistingUser", {
+            is: true,
+            then: yup.string().required("Password is required"),
+          }),
+          name: yup.string().when("isExistingUser", {
+            is: false,
+            then: yup.string().required("Name is required"),
+          }),
+          mobile: yup.string().when("isExistingUser", {
+            is: false,
+            then: yup.string().required("Phone number is required"),
+          }),
+        });
   const methods = useForm({
     // resolver: yupResolver(schema),
     defaultValues: {
       isExistingUser: null, // Default value for isExistingUser in form data
     },
   });
-  const [createOrder, { isLoading: createOrderLoading }] = useCreateOrderMutation();
+  const [createOrder, { isLoading: createOrderLoading }] =
+    useCreateOrderMutation();
 
   const [loginUser, { isLoading, isError }] = useLoginUserMutation();
   const [
@@ -115,12 +114,12 @@ function AccountAuth({ className, handleOnLogin }) {
     try {
       const response = isExistingUser
         ? await loginUser({
-          email: data.email,
-          password: data.password,
-        }).unwrap()
+            email: data.email,
+            password: data.password,
+          }).unwrap()
         : await createUser({
-          user_details: { ...getDefaultUser(), ...userData },
-        });
+            user_details: { ...getDefaultUser(), ...userData },
+          });
 
       console.log(response);
 
@@ -128,40 +127,44 @@ function AccountAuth({ className, handleOnLogin }) {
         toast.error(response.error.data.message);
         return;
       }
-      const { user, user_id, email, authcode, message, _id } = response?.data || {};
+      const { user, user_id, email, authcode, message, _id, role } =
+        response?.data || {};
       const cartCookie = getCookie("cart");
       const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
       if (cartOrder.length > 0) {
         cartOrder?.forEach(async (element) => {
           const { addons, mainItem } = element;
-          const productDetails = mainItem?.productDetails?.[0] ?? {}
-         const newOrder = {
-            "user_id": _id,
-            "order_status": "PENDING",
-            "payment_status": "PENDING",
-            "location": mainItem?.location ?? {},
-            "pincode": 12345,
-            "delivery_details": {
-              "product_id": productDetails?._id,
-              "delivery_address": null,
-              "message_on_product": mainItem?.message_on_product ?? "",
-              "imgaes_on_product": mainItem?.imgaes_on_product ?? "",
-              "is_message": mainItem?.is_message,
-              "is_image": mainItem?.is_image,
-              "is_veg": mainItem?.is_veg,
-              "special_request": mainItem?.special_request ?? "",
-              "delivary_date": mainItem.shipping.delivary_date,
-              "shipping": mainItem.shipping,
-              "addOn": addons?.map((addOn) => ({ "addOn_id": addOn?.id, "count": addOn?.quantity ?? 0 })) ??
-                []
-            }
-          }
+          const productDetails = mainItem?.productDetails?.[0] ?? {};
+          const newOrder = {
+            user_id: _id,
+            order_status: "PENDING",
+            payment_status: "PENDING",
+            location: mainItem?.location ?? {},
+            pincode: 12345,
+            delivery_details: {
+              product_id: productDetails?._id,
+              delivery_address: null,
+              message_on_product: mainItem?.message_on_product ?? "",
+              imgaes_on_product: mainItem?.imgaes_on_product ?? "",
+              is_message: mainItem?.is_message,
+              is_image: mainItem?.is_image,
+              is_veg: mainItem?.is_veg,
+              special_request: mainItem?.special_request ?? "",
+              delivary_date: mainItem.shipping.delivary_date,
+              shipping: mainItem.shipping,
+              addOn:
+                addons?.map((addOn) => ({
+                  addOn_id: addOn?.id,
+                  count: addOn?.quantity ?? 0,
+                })) ?? [],
+            },
+          };
           try {
             await createOrder(newOrder);
-          } catch (error) { }
+          } catch (error) {}
         });
       }
-      setCookie("cart", [])
+      setCookie("cart", []);
       setCookie("user", user);
       setCookie("user_id", user_id);
       setCookie("email", email);
@@ -170,7 +173,11 @@ function AccountAuth({ className, handleOnLogin }) {
       setCookie("_id", _id);
 
       toast.success(message || "Operation successful");
-      handleOnLogin({ data: response?.data });
+      if (role == "Vendor") {
+        navigate("/admin/dashboard");
+      } else {
+        handleOnLogin({ data: response?.data });
+      }
     } catch (error) {
       toast.error("An error occurred");
     }
@@ -193,9 +200,11 @@ function AccountAuth({ className, handleOnLogin }) {
   });
 
   if (checkEmailLoading || isLoading || createOrderLoading) {
-    return <div className="w-full flex items-center justify-center">
-      <Loader />
-    </div>
+    return (
+      <div className="w-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -217,8 +226,8 @@ function AccountAuth({ className, handleOnLogin }) {
               {isExistingUser == null
                 ? "Check Email Exist"
                 : isExistingUser
-                  ? "Log In"
-                  : "Sign Up"}
+                ? "Log In"
+                : "Sign Up"}
             </motion.h3>
           </AnimatePresence>
 
@@ -226,8 +235,9 @@ function AccountAuth({ className, handleOnLogin }) {
             <input
               type="text"
               id="email"
-              className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${isExistingUser ? "border-green-600" : "border-slate-200"
-                } appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
+              className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${
+                isExistingUser ? "border-green-600" : "border-slate-200"
+              } appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
               placeholder=" "
               {...register("email", {
                 required: "Email is required",
@@ -276,8 +286,9 @@ function AccountAuth({ className, handleOnLogin }) {
 
             <label
               htmlFor="email"
-              className={`absolute  left-3  text-sm ${isExistingUser ? "text-green-600" : "text-gray-500"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}
+              className={`absolute  left-3  text-sm ${
+                isExistingUser ? "text-green-600" : "text-gray-500"
+              } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}
             >
               Email
             </label>

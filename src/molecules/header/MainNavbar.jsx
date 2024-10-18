@@ -140,7 +140,7 @@ const TopNavbar = ({
           <div className="flex items-center space-x-4 ml-4">
             {logo && (
               <img
-                src={"https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"}
+                src={"https://i.ibb.co/LPFC6F8/logoking.png"}
                 alt={`${title} Logo`}
                 className="h-10"
               />

@@ -133,7 +133,7 @@ function AdminDashboard() {
     <div>
       <HeaderLayout
         id={types[type]}
-        logoSrc="https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
+        logoSrc="https://i.ibb.co/LPFC6F8/logoking.png"
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >

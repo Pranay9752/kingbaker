@@ -167,7 +167,7 @@ const TopNavbar = ({
             {logo && (
               <img
                 src={
-                  "https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"
+                  "https://i.ibb.co/LPFC6F8/logoking.png"
                 }
                 alt={`${title} Logo`}
                 className="h-10"
@@ -316,7 +316,7 @@ const TopNavbar = ({
             </button>
             <div className="flex items-center space-x-2">
               <img
-                src={"https://i.ibb.co/NYGqQxs/Screenshot-20240915-192128-Drive.jpg"}
+                src={"https://i.ibb.co/LPFC6F8/logoking.png"}
                 alt={`${title} Logo`}
                 className="h-8"
               />
