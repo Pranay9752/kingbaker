@@ -23,6 +23,7 @@ const AddressData = () => {
   const { data } = useGetAddressQuery();
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
   const [reicipientAddress, setReicipientAddress] = useState([]);
+  console.log('reicipientAddress: ', reicipientAddress);
 
   const [openAddAddress, setOpenAddAddress] = useState(false);
 
@@ -81,7 +82,7 @@ const AddressData = () => {
 
   useEffect(() => {
     if (data) {
-      setReicipientAddress(data?.delivary_address ?? []);
+      setReicipientAddress(data?.delivery_address ?? []);
     }
   }, [data]);
   return (
