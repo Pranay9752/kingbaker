@@ -10,7 +10,7 @@ import {
   useUpdateSalesmanMutation,
 } from "../../../redux/apiSlices/admin/delivery-boy";
 import BasicButton2 from "../../../atom/button/BasicButton2";
-import DeliveryBoyModal from "./modal/deliveryBoyModal";
+import DeliveryBoyModal from "./modal/DeliveryBoyModal";
 import ResetPasswordModal from "./modal/ResetPasswordModal";
 import OtpInput from "../../../atom/inputs/OtpInput";
 
