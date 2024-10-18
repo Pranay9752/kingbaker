@@ -1632,7 +1632,7 @@ const Home = () => {
             .meta_data
         }
         className={twMerge(
-          "p-0 mx-auto max-w-[1600px]",
+          "",
           (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data
             .meta_data
         )}
@@ -1642,7 +1642,7 @@ const Home = () => {
           : mainmobileStructure
         ).data.data.map((section, index) => {
           return (
-            <section key={index} style={section.containerStyle}>
+            <section key={index} style={section.containerStyle} className={twMerge(index > 0 && "p-0 mx-auto max-w-[1600px]")}>
               <GetComponents data={section} />
             </section>
           );
