@@ -9,7 +9,7 @@ import {
 } from "../../redux/apiSlices/ecom/listingApiSlice";
 import MobileFilterSort from "./MobileFilterSort";
 import { useParams } from "react-router-dom";
-import Modal from "../../atom/popovers/modal";
+import Modal from "../../atom/popovers/Modal";
 import Loader from "../../atom/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../molecules/footer/footer";
