@@ -20,9 +20,14 @@ import MyTicket from "./components/admin/order/MyTickets";
 import DeliveryBoysManagement from "./components/admin/deliverer";
 import CheckOutPayment from "./components/product_detail/CheckOutPayment";
 import { useSelector } from "react-redux";
+import MaintenancePage from "./atom/maintain";
 
 function App() {
+  const isMaintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'; // Correctly prefixed variable
 
+  if (isMaintenanceMode) {
+    return <MaintenancePage />;
+  }
   return (
     <>
       {/* <TopNavbar /> */}
@@ -46,10 +51,19 @@ function App() {
             {/* ADMIN ROUTES */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/sales" element={<AdminSales />} />
-            <Route path="/admin/order-list/:day/:type/:ids" element={<OrderList />} />
-            <Route path="/admin/order-detail/:id" element={<OrderDetailsCard />} />
+            <Route
+              path="/admin/order-list/:day/:type/:ids"
+              element={<OrderList />}
+            />
+            <Route
+              path="/admin/order-detail/:id"
+              element={<OrderDetailsCard />}
+            />
             <Route path="/admin/my-ticket" element={<MyTicket />} />
-            <Route path="/admin/delivery-boy" element={<DeliveryBoysManagement />} />
+            <Route
+              path="/admin/delivery-boy"
+              element={<DeliveryBoysManagement />}
+            />
           </Route>
         </Routes>
       </div>
