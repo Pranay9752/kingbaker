@@ -1642,7 +1642,7 @@ const Home = () => {
           : mainmobileStructure
         ).data.data.map((section, index) => {
           return (
-            <section key={index} style={section.containerStyle} className={twMerge(index > 0 && "p-0 mx-auto max-w-[1600px]")}>
+            <section key={index} style={section.containerStyle} className={twMerge(index > 0 && "p-0 mx-auto max-w-[1600px] w-full")}>
               <GetComponents data={section} />
             </section>
           );
