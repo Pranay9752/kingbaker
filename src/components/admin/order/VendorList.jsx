@@ -103,6 +103,7 @@ import ChallanPDF from "../pdfs/challanPDF";
 import ReactPDF from "@react-pdf/renderer";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import AllocateDeliveryBoy from "./AllocateDeliveryBoy";
+import getCookie from "../../../atom/utils/getCookies";
 
 function OrderList() {
   const { type, day, ids } = useParams();
@@ -123,7 +124,7 @@ function OrderList() {
         updateOrderStatus({
           order_id: item?.order_id,
           user_id: item?.user_id,
-          vendor_id: "66f5347ec07df9ae95aae79c",
+          vendor_id: getCookie('_id'),
         });
       });
 
@@ -141,7 +142,7 @@ function OrderList() {
         await updatePrintStatus({
           order_ids: [item?.order_id],
           user_id: item?.user_id,
-          vendor_id: "66f5347ec07df9ae95aae79c",
+          vendor_id: getCookie('_id'),
         });
       });
 

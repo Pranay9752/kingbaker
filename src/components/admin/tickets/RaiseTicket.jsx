@@ -30,7 +30,6 @@ const RaiseTicket = ({ onClose }) => {
         },
       ],
     };
-    console.log('body: ', body);
     createTicket({ body })
       .then(() => {
         toast.success("Ticket Raised Successfully");

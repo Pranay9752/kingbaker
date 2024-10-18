@@ -13,6 +13,7 @@ import BasicButton2 from "../../../atom/button/BasicButton2";
 import DeliveryBoyModal from "./modal/DeliveryBoyModal";
 import ResetPasswordModal from "./modal/ResetPasswordModal";
 import OtpInput from "../../../atom/inputs/OtpInput";
+import getCookie from "../../../atom/utils/getCookies";
 
 const DeliveryBoysManagement = () => {
   const [users, setUsers] = useState([]);
@@ -100,7 +101,7 @@ const DeliveryBoysManagement = () => {
         password: userData?.password,
         email: userData?.email,
         isActive: true,
-        vendor_id: "66f55917ab247f6b3173a1e6",
+        vendor_id: getCookie("_id"),
       };
 
       const response = createSalesman({

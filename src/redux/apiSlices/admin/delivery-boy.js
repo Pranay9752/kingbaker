@@ -4,7 +4,7 @@ const DeliveryBoyAPI = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getSalesman: builder.query({
       query: () => ({
-        url: "salesman/getSalesmanBYVenId?id=66f55917ab247f6b3173a1e6",
+        url: `salesman/getSalesmanBYVenId?id=${getCookie('_id')}`,
         method: "GET",
       }),
     }),

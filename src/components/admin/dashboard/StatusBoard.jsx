@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import StatusBar from "../../../molecules/cards/StatusBar";
 import StatusCard from "../../../molecules/cards/StatusCard";
 import { useGetalloatedAndAcceptedOrderQuery } from "../../../redux/apiSlices/admin/vendor";
+import getCookie from "../../../atom/utils/getCookies";
 
 const StatusBoard = () => {
   const [status, setStatus] = useState({});
   const { data, isLoading } = useGetalloatedAndAcceptedOrderQuery({
-    vendor_id: "66f5347ec07df9ae95aae79c",
+    vendor_id: getCookie('_id'),
   });
   // const data = [
   //   { title: "Allocated", today: 1, tomorrow: 0, future: 0 },

@@ -13,6 +13,7 @@ import {
   useGetalloatedAndAcceptedOrderQuery,
   useGetOrdersMutation,
 } from "../../../redux/apiSlices/admin/vendor";
+import getCookie from "../../../atom/utils/getCookies";
 
 const types = {
   order: 1,
@@ -23,7 +24,7 @@ function AdminDashboard() {
   const [type, setType] = useState("order");
   const [amount, setAmount] = useState(0);
   const { data, isLoading } = useGetalloatedAndAcceptedOrderQuery({
-    vendor_id: "66f5347ec07df9ae95aae79c",
+    vendor_id: getCookie('_id'),
   });
   const [getOrders] = useGetOrdersMutation();
 

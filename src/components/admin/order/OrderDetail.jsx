@@ -7,6 +7,7 @@ import { useUpdatePrintStatusMutation } from "../../../redux/apiSlices/admin/ven
 import { toast } from "sonner";
 import ChallanPDF from "../pdfs/challanPDF";
 import ReactPDF from "@react-pdf/renderer";
+import getCookie from "../../../atom/utils/getCookies";
 
 const OrderDetailsCard = ({ order }) => {
   const [updatePrintStatus] = useUpdatePrintStatusMutation();
@@ -21,7 +22,7 @@ const OrderDetailsCard = ({ order }) => {
       await updatePrintStatus({
         order_ids: [order.order_id],
         user_id: user?._id,
-        vendor_id: "66f5347ec07df9ae95aae79c",
+        vendor_id: getCookie('_id'),
       });
 
       const blob = await ReactPDF.pdf(
