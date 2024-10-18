@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import AnimatedWrapper from "./AnimatedWrapper";
-import Modal from "../../atom/";
+import Modal from "../../atom/popovers/Modal";
 import { twMerge } from "tailwind-merge";
 
 const ModalWrapper = ({
