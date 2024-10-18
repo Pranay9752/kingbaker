@@ -35,7 +35,7 @@ const MaintenancePage = () => {
         transition={{ duration: 0.6, delay: 0.5, ease: "easeInOut" }}
         className="text-lg text-gray-600 mt-4"
       >
-        We are currently working on some improvements. Please check back later.
+        .
       </motion.p>
 
       {/* Animated Loading/Spinner */}
