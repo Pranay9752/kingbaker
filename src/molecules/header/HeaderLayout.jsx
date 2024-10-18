@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MenuNavbar from "../../atom/nav/MenuSidebar";
-import NavSidebar from "../../atom/nav/sidebar";
+import NavSidebar from "../../atom/nav/Sidebar";
 
 export default function HeaderLayout({
   id,
