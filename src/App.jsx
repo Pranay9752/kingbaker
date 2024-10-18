@@ -23,11 +23,9 @@ import { useSelector } from "react-redux";
 import MaintenancePage from "./atom/maintain";
 
 function App() {
-  const isMaintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'; // Correctly prefixed variable
 
-  if (isMaintenanceMode) {
     return <MaintenancePage />;
-  }
+
   return (
     <>
       {/* <TopNavbar /> */}
