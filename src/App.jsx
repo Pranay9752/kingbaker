@@ -14,7 +14,7 @@ import AdminDashboard from "./components/admin/dashboard";
 import PrivateRoute from "./routes/PrivateRoutes";
 import AdminSales from "./components/admin/sales";
 import BodyBackgroud from "./atom/utils/BodyBackgroud";
-import OrderList from "./components/admin/order/vendorList";
+import OrderList from "./components/admin/order/VendorList";
 import OrderDetailsCard from "./components/admin/order/OrderDetail";
 import MyTicket from "./components/admin/order/MyTickets";
 import DeliveryBoysManagement from "./components/admin/deliverer";
