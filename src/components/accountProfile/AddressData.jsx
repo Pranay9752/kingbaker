@@ -7,7 +7,7 @@ import AddressCard from "../../molecules/cards/AddressCard";
 import ModalWrapper from "../../molecules/wrappers/ModalWrapper";
 import { AddressForm } from "../product_detail/AddAddress";
 import getCookie from "../../atom/utils/getCookies";
-import Modal from "../../atom/popovers/modal";
+import Modal from "../../atom/popovers/Modal";
 import Loader from '../../atom/loader/loader'
 const Default = {
   title: "Mr",

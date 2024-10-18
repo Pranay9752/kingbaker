@@ -4,7 +4,7 @@ import { format, isEqual } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { AnimatePresence } from "framer-motion";
-import Modal from "../../atom/popovers/modal";
+import Modal from "../../atom/popovers/Modal";
 import BottomSheet from "../../atom/popovers/BottomSheet";
 import BasicButton from "../../atom/button/BasicButton";
 import AnimatedWrapper from "../../molecules/wrappers/AnimatedWrapper";
