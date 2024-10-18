@@ -23,7 +23,9 @@ import { useSelector } from "react-redux";
 import MaintenancePage from "./atom/maintain";
 
 function App() {
-  return <MaintenancePage />;
+
+    return <MaintenancePage />;
+
   return (
     <>
       {/* <TopNavbar /> */}
