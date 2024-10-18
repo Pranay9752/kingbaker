@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import EventBar from "./EventBar";
 import AddToCartModal from "../../components/addtocart";
 import { twMerge } from "tailwind-merge";
-import Modal from "../../atom/popovers/modal";
+import Modal from "../../atom/popovers/Modal";
 import Sidebar from "./Sidebar";
 import getCookie from "../../atom/utils/getCookies";
 import { Link, useNavigate } from "react-router-dom";
