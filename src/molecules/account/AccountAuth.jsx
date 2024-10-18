@@ -133,10 +133,9 @@ function AccountAuth({ className, handleOnLogin }) {
       const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
       if (cartOrder.length > 0) {
         cartOrder?.forEach(async (element) => {
-          console.log(element)
-          const { addons, mainItem, deliveryDetails } = element;
-          const productDetails = mainItem?.[0]?.productDetails ?? {}
-          const newOrder = {
+          const { addons, mainItem } = element;
+          const productDetails = mainItem?.productDetails?.[0] ?? {}
+         const newOrder = {
             "user_id": _id,
             "order_status": "PENDING",
             "payment_status": "PENDING",

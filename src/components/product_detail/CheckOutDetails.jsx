@@ -416,17 +416,15 @@ function CheckOutDetails() {
   const [occationIndex, setOccationIndex] = useState(0);
 
   const navigate = useNavigate();
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { data, isError, isLoading } = useGetAddressQuery();
   const { data: cartOrder } = useGetCartItemQuery();
-console.log(cartOrder);
   const orderData = useSelector((state) => state.order);
 
   const handleOccation = ({ index, data }) => {
     setOccationIndex(index);
     setIsOpen(1);
   };
-
 
   const transformData = (data) => {
     const tData = data.map((item, index) => {
@@ -475,12 +473,12 @@ console.log(cartOrder);
     }
   }, [data]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const isLogin = getCookie("_id") ? true : false;
-    if(!isLogin){
+    if (!isLogin) {
       navigate("/checkout/account");
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");
@@ -490,10 +488,12 @@ console.log(cartOrder);
     };
   }, []);
 
-  useEffect(()=>{
-    const transformedData = transformData(cartOrder?.data?.delivery_details);
-    dispatch(addInit(transformedData))
-  },[cartOrder])
+  useEffect(() => {
+    if (cartOrder) {
+      const transformedData = transformData(cartOrder?.data?.delivery_details);
+      dispatch(addInit(transformedData));
+    }
+  }, [cartOrder]);
 
   return (
     <>
