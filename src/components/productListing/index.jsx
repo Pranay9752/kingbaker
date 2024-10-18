@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from "react";
-import ProductListing from "./productPage";
+import ProductListing from "./ProductPage";
 import Sidebar from "./Sidebar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import {
