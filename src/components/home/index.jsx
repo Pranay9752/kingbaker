@@ -89,63 +89,63 @@ const mainStructure = {
         items: [
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Karwa_Chauth_Squircle03-10-2024.jpg",
             type: "card1",
             route: "Birthday",
-            text: "Birthday",
+            text: "Karwa Chauth",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Diwali_Squircle-7-10-24.jpg",
             type: "card1",
             route: "Anniversary",
-            text: "Birthday",
+            text: "Diwali Gifts",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "flowers",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/anniversary_Squircle.jpg",
             type: "card1",
             route: "chocolate",
-            text: "Birthday",
+            text: "Anniversary",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/New-Squircle-Icon_Combos-17-10-24.jpg",
             type: "card1",
             route: "red",
-            text: "Birthday",
+            text: "Combos",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "pink",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "voilet flower",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "gift",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "cakes",
             text: "Birthday",
@@ -870,28 +870,28 @@ const mainmobileStructure = {
         items: [
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "Birthday",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "Anniversary",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "flowers",
             text: "Birthday",
           },
           {
             image:
-              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle-28624.jpg",
+              "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
             type: "card1",
             route: "chocolate",
             text: "Birthday",
@@ -1087,7 +1087,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1140,7 +1140,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1192,7 +1192,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1244,7 +1244,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1296,7 +1296,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1386,7 +1386,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1453,7 +1453,7 @@ const mainmobileStructure = {
         innerContainerStyle: {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "5px"
+          gap: "5px",
         },
         boxStyle: {
           backgroundColor: "white",
@@ -1627,13 +1627,20 @@ const Home = () => {
       />
       <NavBar />
       <div
-        style={(window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data}
+        style={
+          (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data
+            .meta_data
+        }
         className={twMerge(
           "p-0 mx-auto max-w-[1600px]",
-          (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data
+          (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data
+            .meta_data
         )}
       >
-        {(window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.data.map((section, index) => {
+        {(window.innerWidth > 768
+          ? mainStructure
+          : mainmobileStructure
+        ).data.data.map((section, index) => {
           return (
             <section key={index} style={section.containerStyle}>
               <GetComponents data={section} />
