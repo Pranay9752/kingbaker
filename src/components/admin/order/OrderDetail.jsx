@@ -65,6 +65,7 @@ const OrderDetailsCard = ({ order }) => {
     console.log(shipping_amount, itemPrice, addonPrice);
     return (shipping_amount + itemPrice + addonPrice)?.toFixed(0);
   }, [order]);
+  
   return (
     // <HeaderLayout
     //   id={3}

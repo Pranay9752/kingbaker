@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import BasicButton2 from "../../../atom/button/BasicButton2";
 import { toast } from "sonner";
 import { useCreateTicketMutation } from "../../../redux/apiSlices/admin/tickets";
+import getCookie from "../../../atom/utils/getCookies";
 
 const RaiseTicket = ({ onClose }) => {
   const {
@@ -21,10 +22,11 @@ const RaiseTicket = ({ onClose }) => {
       query: data?.queryType,
       subquery: "Delayed delivery",
       status: "open",
+      vendor_id: getCookie("_id"),
       chat: [
         {
           Updated_By: "By You",
-          user_name: "shubham",
+          user_name: getCookie("user"),
           text: data?.question,
           document: "",
         },
