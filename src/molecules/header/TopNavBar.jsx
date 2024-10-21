@@ -397,7 +397,7 @@ const TopNavbar = ({
         )}
       </nav>
       <ModalWrapper isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <AddToCartModal />
+        <AddToCartModal onClose={() => setIsOpen(false)} />
       </ModalWrapper>
       {/* <EventBar /> */}
     </>

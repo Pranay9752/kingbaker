@@ -37,7 +37,6 @@ const mainStructure = {
         title: null,
         type: "carusel_full",
         containerStyle: {},
-
         items: [
           {
             image:
