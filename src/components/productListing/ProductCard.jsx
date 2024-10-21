@@ -52,7 +52,7 @@ const FlowerBouquetCard = ({
 
   return (
     <div
-      className="max-w-sm rounded overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
+      className="max-w-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => {
         setIsHovering(false);
