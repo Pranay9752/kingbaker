@@ -8,7 +8,7 @@ import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
 import setCookie from "../../atom/utils/setCookies";
 
 
-const AddToCartModal = () => {
+const AddToCartModal = ({onClose = ()=>{}}) => {
   const { data, isLoading, isError } = useGetCartItemQuery();
 
   const cartData = useSelector((state) => state.order);
@@ -206,7 +206,9 @@ const AddToCartModal = () => {
           </button>
 
           <button
-            onClick={() => navigate("/")}
+            onClick={() => {
+              onClose()
+              navigate("/")}}
             className="w-full text-orange-500 py-2 rounded-md border border-orange-500 font-semibold"
           >
             CONTINUE SHOPPING

@@ -45,8 +45,8 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       ],
     },
     {
-      id: "pre-midnight",
-      title: "Pre-Midnight Delivery",
+      id: "midnight",
+      title: "Midnight Delivery",
       price: 249,
       description: "Gift will be delivered any time between 11:00 PM-11:59 PM",
       expressSlots: [{ id: 1, time: "23:00 AM - 23:59 PM" }],

@@ -12,6 +12,7 @@ import logo from "../../assets/logoking.png";
 import deleteAllCookies from "../../atom/utils/deleteAllCookies";
 import SuggestionSearch from "../search/SuggestionSearch";
 import ModalWrapper from "../wrappers/ModalWrapper";
+import { useSelector } from "react-redux";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -53,6 +54,7 @@ const TopNavbar = ({
   const [isOpen, setIsOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const sidebarRef = useRef();
+  const cartData = useSelector((state) => state.order);
 
   // Function to close the sidebar when clicking outside
   useEffect(() => {
@@ -249,9 +251,8 @@ const TopNavbar = ({
 
               <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <div
-                  className={`py-1 ${
-                    getCookie("isAuth") !== "true" ? "" : "hidden"
-                  }`}
+                  className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"
+                    }`}
                 >
                   <a
                     href="/account/login"
@@ -276,9 +277,8 @@ const TopNavbar = ({
                   ))}
                 </ul>
                 <div
-                  className={`py-1 ${
-                    getCookie("isAuth") !== "true" ? "hidden" : ""
-                  }`}
+                  className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""
+                    }`}
                 >
                   <div
                     onClick={() => {
@@ -402,7 +402,7 @@ const TopNavbar = ({
         )}
       </nav>
       <ModalWrapper isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <AddToCartModal />
+        <AddToCartModal onClose={() => setIsOpen(false)} />
       </ModalWrapper>
       {/* <EventBar /> */}
     </>

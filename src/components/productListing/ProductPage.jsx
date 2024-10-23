@@ -144,7 +144,7 @@ const ProductListing = ({
       </div>
 
       {hasProducts ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 gap-2">
           {products.map((product, index) => (
             <FlowerBouquetCard
               key={product.productId}
