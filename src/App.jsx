@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import ProductDetail from "./components/product_detail";
 import CountryWrapper from "./molecules/wrappers/CountryWrapper";
@@ -21,11 +21,13 @@ import DeliveryBoysManagement from "./components/admin/deliverer";
 import CheckOutPayment from "./components/product_detail/CheckOutPayment";
 import { useSelector } from "react-redux";
 import MaintenancePage from "./atom/maintain";
+import OwnerTickets from "./components/owner/tickets";
 
 function App() {
-
-    // return <MaintenancePage />;
-
+  const location = useLocation();
+  console.log('location: ', location);
+  //   // return <MaintenancePage />;
+  // console.log(window.location)
   return (
     <>
       {/* <TopNavbar /> */}
@@ -63,6 +65,11 @@ function App() {
               element={<DeliveryBoysManagement />}
             />
           </Route>
+        </Routes>
+
+        {/* Owner Routes */}
+        <Routes element={<BodyBackgroud color={"bg-black"} />}>
+        <Route path="/owner/tickets" element={<OwnerTickets />} />
         </Routes>
       </div>
       <Toaster duration={600} position="top-center" richColors />

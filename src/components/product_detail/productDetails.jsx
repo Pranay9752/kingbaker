@@ -8,6 +8,8 @@ import ProductCarousel from "../../molecules/carousal/ProductCarousal";
 import ReviewCarousel from "../../molecules/carousal/ReviewCarousal";
 import { productscarousels } from "./dummyData";
 import ActionButtons from "../../molecules/ActionButtons";
+import SizeSelector from "./SizeSelector";
+import CustomizeButton from "./CustomizeButton";
 
 const ProductDetails = ({
   data,
@@ -18,6 +20,7 @@ const ProductDetails = ({
   taxInfo,
   timeLeft,
 }) => {
+  console.log("data: ", data);
   const products = [
     {
       imageUrl:
@@ -76,7 +79,6 @@ const ProductDetails = ({
     // Add more products as needed
   ];
 
-
   return (
     <>
       <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
@@ -84,7 +86,15 @@ const ProductDetails = ({
           <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
           <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
           <PriceInfo price={data?.prices ?? 0} taxInfo={taxInfo} />
-          <EggOptions />
+          {Array.isArray(data?.weight) && data?.weight?.length > 0 && (
+            <SizeSelector
+              image={(data?.data?.imageLink ?? [])?.[0] ?? ""}
+              sizes={data?.weight}
+            />
+          )}
+
+          {data?.is_veg && <EggOptions />}
+          {data?.is_image && <CustomizeButton />}
         </div>
         <div className="bg-gray-100 p-2">
           <DeliveryInfo key={"mobileDel"} />
@@ -123,8 +133,21 @@ const ProductDetails = ({
         <h2 className="text-xl font-medium  truncate text-left">{title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
-        <DeliveryInfo key={"desktopDel"} />
-        <ActionButtons product={data}  productId={data?._id} />
+        {Array.isArray(data?.weight) && data?.weight?.length > 0 && (
+          <SizeSelector
+            image={(data?.data?.imageLink ?? [])?.[0] ?? ""}
+            sizes={data?.weight}
+          />
+        )}
+        <DeliveryInfo
+          data={{
+            is_veg: data?.is_veg,
+            is_message: data?.is_message,
+            is_image: data?.is_image,
+          }}
+          key={"desktopDel"}
+        />
+        <ActionButtons product={data} productId={data?._id} />
         <OffersAvailable />
         {/* <ProductMetaDetail details={data?.details ?? []} /> */}
       </div>

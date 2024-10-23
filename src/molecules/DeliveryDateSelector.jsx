@@ -24,7 +24,6 @@ const DeliveryDateSelector = () => {
   const { setValue } = useFormContext();
 
   const [deliveryData, setDeliveryData] = useState(null);
-  console.log("deliveryData: ", deliveryData);
   const [DateModal, setDateModal] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState(false);
   const handleToggleDateModal = (e, value = null) => {

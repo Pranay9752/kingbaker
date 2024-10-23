@@ -46,14 +46,14 @@ const Footer = () => {
                         <h4 className="font-bold mb-2">ABOUT COMPANY</h4>
                         <ul className="text-sm">
                             <li><a href="#" className="hover:text-gray-800">About Us</a></li>
-                            <li><a href="#" className="hover:text-gray-800">FNP Team</a></li>
+                            <li><a href="#" className="hover:text-gray-800">Team</a></li>
                             <li><a href="#" className="hover:text-gray-800">Careers</a></li>
                             <li><a href="#" className="hover:text-gray-800">Testimonials</a></li>
                             <li><a href="#" className="hover:text-gray-800">News Room</a></li>
                         </ul>
                     </div>
                     <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
-                        <h4 className="font-bold mb-2">FNP BUSINESS</h4>
+                        <h4 className="font-bold mb-2">BUSINESS</h4>
                         <ul className="text-sm">
                             <li><a href="#" className="hover:text-gray-800">Decoration Services</a></li>
                             <li><a href="#" className="hover:text-gray-800">Corporate Service</a></li>
@@ -92,7 +92,7 @@ const Footer = () => {
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between pt-8 border-t border-gray-200">
-                    <p className="text-sm">&copy; 1994-2024 fnp.com.All rights reserved.</p>
+                    <p className="text-sm">&copy; 1994-2024 kingbaker.com. All rights reserved.</p>
                     <div className="flex space-x-4">
                         <a href="#" className="text-blue-600 hover:text-blue-800">
                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>

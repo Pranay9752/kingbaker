@@ -2,13 +2,13 @@ import React from "react";
 import BasicNav from "../../../atom/nav/BasicNav";
 import { useNavigate } from "react-router-dom";
 
-function Basicheader({ title, num }) {
+function Basicheader({ title, num, link }) {
   const navigate = useNavigate();
 
   return (
     <BasicNav className={`flex justify-between items-center`}>
       <svg
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(link ?? -1)}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"

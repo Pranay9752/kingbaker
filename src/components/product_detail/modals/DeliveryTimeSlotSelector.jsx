@@ -2,17 +2,8 @@ import { addHours, isAfter, isBefore, isToday, parse } from "date-fns";
 import { useEffect, useState } from "react";
 
 const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
-  console.log(deliverydate);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
-
-  const expressSlots = [
-    { id: 1, time: "08:00 AM - 09:00 PM" },
-    { id: 2, time: "09:00 AM - 02:00 PM" },
-    { id: 3, time: "12:00 PM - 05:00 PM" },
-    { id: 4, time: "04:00 PM - 09:00 PM" },
-    { id: 5, time: "05:00 PM - 11:00 PM" },
-  ];
 
   const [deliveryOptions, setDeliveryOptions] = useState([
     {
@@ -62,44 +53,6 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
     },
   ]);
 
-  const deliveryTodayOptions = [
-    {
-      id: "standard",
-      title: "Standard Delivery",
-      price: 19,
-      description: "Choose between 1st half or 2nd half of the day",
-      expressSlots: [
-        // { id: 3, time: "16:00 PM - 21:00 PM" },
-        { id: 4, time: "17:00 PM - 24:00 PM" },
-      ],
-    },
-    {
-      id: "express",
-      title: "Express Delivery",
-      price: 49,
-      description: "Choose from any 3-hour slot during the day",
-      expressSlots: [
-        // { id: 5, time: "05:00 PM - 11:00 PM" },
-      ],
-    },
-    {
-      id: "fixed",
-      title: "Fixed Time Delivery",
-      price: 99,
-      description: "Choose from any 1-hour slot",
-      expressSlots: [
-        // { id: 5, time: "05:00 PM - 11:00 PM" },
-      ],
-    },
-    {
-      id: "pre-midnight",
-      title: "Pre-Midnight Delivery",
-      price: 249,
-      description: "Gift will be delivered any time between 11:00 PM-11:59 PM",
-      expressSlots: [{ id: 1, time: "23:00 AM - 23:59 PM" }],
-    },
-  ];
-
   const handleSlotSelect = (id) => {
     const delivery = deliveryOptions.find(
       (delivery) => delivery.id === selectedOption
@@ -144,6 +97,27 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
       return newSlots;
     });
   }, [deliverydate]);
+
+  useEffect(() => {
+    const isFree = true;
+    isFree &&
+      setDeliveryOptions((prev) => [
+        {
+          id: "freeDelivery",
+          title: "Free Delivery",
+          price: 0,
+          description: "Choose for free in your given timeslot.",
+          expressSlots: [
+            { id: 1, time: "09:00 AM - 14:00 PM" },
+            { id: 2, time: "12:00 AM - 17:00 PM" },
+            { id: 3, time: "16:00 PM - 21:00 PM" },
+            { id: 4, time: "17:00 PM - 24:00 PM" },
+          ],
+        },
+        ,
+        ...prev,
+      ]);
+  }, []);
 
   return (
     <div className=" mx-auto text-left">

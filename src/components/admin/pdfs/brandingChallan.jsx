@@ -235,7 +235,7 @@ const BrandingChallanPDF = ({ data }) => (
 
             <View style={styles.section}>
               <Text style={styles.text}>
-                Address : Fnp Estate, Ashram Marg, Mandi Road, Gadaipur, New
+                Address : Estate, Ashram Marg, Mandi Road, Gadaipur, New
                 Delhi-110030
               </Text>
             </View>
