@@ -86,7 +86,7 @@
 // export default TicketDetailsModal;
 import React, { useState, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { useUpdateTicketMutation } from "../../../../redux/apiSlices/admin/tickets";
 import getCookie from "../../../../atom/utils/getCookies";
 
@@ -292,7 +292,7 @@ export const ScrollArea = forwardRef(
 //   );
 // };
 
-const TicketDetailsModal = ({ ticket, onClose }) => {
+const TicketDetailsModal = ({ ticket, onClose, darkMode= false }) => {
   const [chatMessages, setChatMessages] = useState(ticket.chat);
   const [newMessage, setNewMessage] = useState("");
 
@@ -348,155 +348,333 @@ const TicketDetailsModal = ({ ticket, onClose }) => {
   };
 
   return (
+    // <AnimatePresence>
+    //   <motion.div
+    //     className="w-full max-w-4xl overflow-hidden "
+    //     variants={containerVariants}
+    //     initial="hidden"
+    //     animate="visible"
+    //     exit="exit"
+    //   >
+    //     <div className="hide-scrollbar">
+    //       <div className="flex justify-between items-center mb-4">
+    //         <h2 className="text-lg font-bold text-gray-800 flex items-center capitalize">
+    //           {ticket?.query ?? ""}{" "}
+    //           {ticket?.subquery && (
+    //             <span className="text-gray-500 flex items-center">
+    //               <svg
+    //                 xmlns="http://www.w3.org/2000/svg"
+    //                 viewBox="0 0 20 20"
+    //                 fill="currentColor"
+    //                 className="size-7"
+    //               >
+    //                 <path
+    //                   fillRule="evenodd"
+    //                   d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+    //                   clipRule="evenodd"
+    //                 />
+    //               </svg>
+    //               {ticket?.subquery}
+    //             </span>
+    //           )}
+    //         </h2>
+    //         <Button variant="ghost" size="icon" onClick={onClose}>
+    //           <svg
+    //             xmlns="http://www.w3.org/2000/svg"
+    //             viewBox="0 0 20 20"
+    //             fill="currentColor"
+    //             className="h-6 w-6"
+    //           >
+    //             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+    //           </svg>
+    //         </Button>
+    //       </div>
+
+    //       <p className="text-sm text-gray-600 mb-4">
+    //         Reference No: {ticket.reference_number}
+    //       </p>
+
+    //       <ScrollArea className="h-[63vh] pr-4">
+    //         <AnimatePresence>
+    //           {Array.isArray(chatMessages) && chatMessages.map((chat, index) => (
+    //             <motion.div
+    //               key={chat._id}
+    //               className={`mb-4 ${
+    //                 chat.Updated_By === "By You" ? "text-right" : ""
+    //               }`}
+    //               variants={chatItemVariants}
+    //               initial="hidden"
+    //               animate="visible"
+    //               layout
+    //             >
+    //               <div
+    //                 className={`inline-block max-w-[80%] ${
+    //                   chat.Updated_By === "By You"
+    //                     ? "bg-blue-500 text-white"
+    //                     : "bg-gray-100 text-gray-800"
+    //                 } p-3 rounded-lg`}
+    //               >
+    //                 <p className="text-sm font-semibold mb-1">
+    //                   {chat.user_name}
+    //                 </p>
+    //                 <p className="break-words">{chat.text}</p>
+    //                 <p className="text-xs mt-1 opacity-70">
+    //                   {format(new Date(chat.date), "MMM d, yyyy HH:mm")}
+    //                 </p>
+    //               </div>
+    //             </motion.div>
+    //           ))}
+    //         </AnimatePresence>
+    //       </ScrollArea>
+    //       {isLoading && (
+    //         <div class="flex flex-row gap-1 justify-center">
+    //           <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+    //           <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
+    //           <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+    //         </div>
+    //       )}
+    //       <div className="mt-4">
+    //         <Textarea
+    //           placeholder="Type your message here..."
+    //           value={newMessage}
+    //           onChange={(e) => setNewMessage(e.target.value)}
+    //           className="w-full p-3 border rounded-lg "
+    //           rows={3}
+    //         />
+    //         <div className="flex justify-between items-center mt-2">
+    //           <Button variant="outline" size="sm" className="flex items-center">
+    //             <svg
+    //               xmlns="http://www.w3.org/2000/svg"
+    //               viewBox="0 0 20 20"
+    //               fill="currentColor"
+    //               className="h-4 w-4 mr-2"
+    //             >
+    //               <path
+    //                 fillRule="evenodd"
+    //                 d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501-.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
+    //                 clipRule="evenodd"
+    //               />
+    //             </svg>
+    //             Attach Files
+    //           </Button>
+    //           <Button
+    //             className="bg-blue-500 hover:bg-blue-600 flex items-center"
+    //             onClick={handleSendMessage}
+    //           >
+    //             <svg
+    //               xmlns="http://www.w3.org/2000/svg"
+    //               viewBox="0 0 20 20"
+    //               fill="currentColor"
+    //               className="h-4 w-4 mr-2"
+    //             >
+    //               <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
+    //             </svg>
+    //             Send Message
+    //           </Button>
+    //         </div>
+    //       </div>
+
+    //       <motion.div
+    //         className="mt-6 text-sm text-gray-600"
+    //         initial={{ opacity: 0, y: 20 }}
+    //         animate={{ opacity: 1, y: 0 }}
+    //         transition={{ delay: 0.3, duration: 0.5 }}
+    //       >
+    //         <p>
+    //           <strong>Email:</strong> {ticket.email}
+    //         </p>
+    //         <p>
+    //           <strong>Status:</strong> {ticket.status}
+    //         </p>
+    //         <p>
+    //           <strong>Created:</strong>{" "}
+    //           {isValid(ticket?.createdAt) ? format(new Date(ticket?.createdAt), "MMMM d, yyyy") : ""}
+    //         </p>
+    //         <p>
+    //           <strong>Order ID:</strong> {ticket.sub_orderId}
+    //         </p>
+    //       </motion.div>
+    //     </div>
+    //   </motion.div>
+    // </AnimatePresence>
     <AnimatePresence>
-      <motion.div
-        className="w-full max-w-4xl overflow-hidden "
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        <div className="hide-scrollbar">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800 flex items-center capitalize">
-              {ticket?.query ?? ""}{" "}
-              {ticket?.subquery && (
-                <span className="text-gray-500 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="size-7"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  {ticket?.subquery}
-                </span>
-              )}
-            </h2>
-            <Button variant="ghost" size="icon" onClick={onClose}>
+    <motion.div
+      className={`w-full max-w-4xl overflow-hidden ${
+        darkMode ? 'bg-[#1a1f25] text-white' : 'bg-white text-gray-800'
+      }`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="hide-scrollbar">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className={`text-lg font-bold flex items-center capitalize ${
+            darkMode ? 'text-white' : 'text-gray-800'
+          }`}>
+            {ticket?.query ?? ""}{" "}
+            {ticket?.subquery && (
+              <span className={`flex items-center ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="size-7"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {ticket?.subquery}
+              </span>
+            )}
+          </h2>
+          <Button
+            variant={darkMode ? "ghost" : "ghost"}
+            size="icon"
+            onClick={onClose}
+            className={darkMode ? 'hover:bg-gray-800' : ''}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="h-6 w-6"
+            >
+              <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+            </svg>
+          </Button>
+        </div>
+
+        <p className={`text-sm mb-4 ${
+          darkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
+          Reference No: {ticket.reference_number}
+        </p>
+
+        <ScrollArea className="h-[63vh] pr-4">
+          <AnimatePresence>
+            {Array.isArray(chatMessages) && chatMessages.map((chat) => (
+              <motion.div
+                key={chat._id}
+                className={`mb-4 ${
+                  chat.Updated_By === "By You" ? "text-right" : ""
+                }`}
+                variants={chatItemVariants}
+                initial="hidden"
+                animate="visible"
+                layout
+              >
+                <div
+                  className={`inline-block max-w-[80%] ${
+                    chat.Updated_By === "By You"
+                      ? "bg-blue-500 text-white"
+                      : darkMode 
+                        ? "bg-[#22272e] text-gray-200"
+                        : "bg-gray-100 text-gray-800"
+                  } p-3 rounded-lg`}
+                >
+                  <p className="text-sm font-semibold mb-1">
+                    {chat.user_name}
+                  </p>
+                  <p className="break-words">{chat.text}</p>
+                  <p className="text-xs mt-1 opacity-70">
+                    {format(new Date(chat.date), "MMM d, yyyy HH:mm")}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </ScrollArea>
+        
+        {isLoading && (
+          <div className="flex flex-row gap-1 justify-center">
+            <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+            <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
+            <div className="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+          </div>
+        )}
+        
+        <div className="mt-4">
+          <Textarea
+            placeholder="Type your message here..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            className={`w-full p-3 border rounded-lg ${
+              darkMode 
+                ? 'bg-[#22272e] border-gray-700 text-white placeholder-gray-400'
+                : 'bg-white border-gray-200'
+            }`}
+            rows={3}
+          />
+          <div className="flex justify-between items-center mt-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className={`flex items-center ${
+                darkMode ? 'border-gray-700 text-gray-300 hover:bg-gray-800' : ''
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="h-6 w-6"
+                className="h-4 w-4 mr-2"
               >
-                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                <path
+                  fillRule="evenodd"
+                  d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501-.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
+                  clipRule="evenodd"
+                />
               </svg>
+              Attach Files
+            </Button>
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 flex items-center"
+              onClick={handleSendMessage}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-4 w-4 mr-2"
+              >
+                <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
+              </svg>
+              Send Message
             </Button>
           </div>
-
-          <p className="text-sm text-gray-600 mb-4">
-            Reference No: {ticket.reference_number}
-          </p>
-
-          <ScrollArea className="h-[63vh] pr-4">
-            <AnimatePresence>
-              {chatMessages.map((chat, index) => (
-                <motion.div
-                  key={chat._id}
-                  className={`mb-4 ${
-                    chat.Updated_By === "By You" ? "text-right" : ""
-                  }`}
-                  variants={chatItemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  layout
-                >
-                  <div
-                    className={`inline-block max-w-[80%] ${
-                      chat.Updated_By === "By You"
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-100 text-gray-800"
-                    } p-3 rounded-lg`}
-                  >
-                    <p className="text-sm font-semibold mb-1">
-                      {chat.user_name}
-                    </p>
-                    <p className="break-words">{chat.text}</p>
-                    <p className="text-xs mt-1 opacity-70">
-                      {format(new Date(chat.date), "MMM d, yyyy HH:mm")}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </ScrollArea>
-          {isLoading && (
-            <div class="flex flex-row gap-1 justify-center">
-              <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-              <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
-              <div class="w-2 h-2 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-            </div>
-          )}
-          <div className="mt-4">
-            <Textarea
-              placeholder="Type your message here..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              className="w-full p-3 border rounded-lg "
-              rows={3}
-            />
-            <div className="flex justify-between items-center mt-2">
-              <Button variant="outline" size="sm" className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-4 w-4 mr-2"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501-.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Attach Files
-              </Button>
-              <Button
-                className="bg-blue-500 hover:bg-blue-600 flex items-center"
-                onClick={handleSendMessage}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-4 w-4 mr-2"
-                >
-                  <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
-                </svg>
-                Send Message
-              </Button>
-            </div>
-          </div>
-
-          <motion.div
-            className="mt-6 text-sm text-gray-600"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <p>
-              <strong>Email:</strong> {ticket.email}
-            </p>
-            <p>
-              <strong>Status:</strong> {ticket.status}
-            </p>
-            <p>
-              <strong>Created:</strong>{" "}
-              {format(new Date(ticket.createdAt), "MMMM d, yyyy")}
-            </p>
-            <p>
-              <strong>Order ID:</strong> {ticket.sub_orderId}
-            </p>
-          </motion.div>
         </div>
-      </motion.div>
-    </AnimatePresence>
+
+        <motion.div
+          className={`mt-6 text-sm ${
+            darkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <p>
+            <strong className={darkMode ? 'text-gray-300' : ''}>Email:</strong> {ticket.email}
+          </p>
+          <p>
+            <strong className={darkMode ? 'text-gray-300' : ''}>Status:</strong> {ticket.status}
+          </p>
+          <p>
+            <strong className={darkMode ? 'text-gray-300' : ''}>Created:</strong>{" "}
+            {isValid(ticket?.createdAt) ? format(new Date(ticket?.createdAt), "MMMM d, yyyy") : ""}
+          </p>
+          <p>
+            <strong className={darkMode ? 'text-gray-300' : ''}>Order ID:</strong> {ticket.sub_orderId}
+          </p>
+        </motion.div>
+      </div>
+    </motion.div>
+  </AnimatePresence>
   );
 };
 

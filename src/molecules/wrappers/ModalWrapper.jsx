@@ -14,6 +14,7 @@ const ModalWrapper = ({
   height,
   key,
   isModal = true,
+  backgroundColor
 }) => {
   const screenWidth = useMemo(() => window.innerWidth, [window.innerWidth]);
   return (
@@ -24,10 +25,14 @@ const ModalWrapper = ({
             <Modal onClose={onClose} key={key}>
               <AnimatedWrapper direction={"up"} key={key}>
                 <div
+                
                   className={twMerge(
                     "bg-white shadow rounded-lg p-6",
                     className
                   )}
+                  style={{
+                    backgroundColor:backgroundColor
+                  }}
                 >
                   {children}
                 </div>
@@ -48,8 +53,9 @@ const ModalWrapper = ({
                 animate={{ y: 0 }}
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", damping: 40, stiffness: 300 }}
-                className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 p-4 ${className}`}
+                className={twMerge(`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 p-4 `, className)}
                 style={{
+                  backgroundColor:backgroundColor,
                   maxHeight: maxHeight ?? "99vh",
                   overflowY: "auto",
                   height: height,

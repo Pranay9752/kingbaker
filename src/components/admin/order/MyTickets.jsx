@@ -250,6 +250,7 @@ const MyTicket = () => {
         </motion.div>
       </HeaderLayout>
       <ModalWrapper
+      className={`bg-[#1a1f25]`}
         isOpen={selectedTicket !== null}
         onClose={() => setSelectedTicket(null)}
         height={"90vh"}

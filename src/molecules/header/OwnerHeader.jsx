@@ -280,15 +280,17 @@
 
 // export default OwnerHeader;
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const OwnerHeader = ({ children }) => {
+const OwnerHeader = ({ isActive, children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar toggle
-  const [activeItem, setActiveItem] = useState("Overview");
+  const [activeItem, setActiveItem] = useState("Vendors");
+  const navigate = useNavigate()
   const navItems = [
-    { label: "Vendors" },
-    { label: "Tickets" },
-    { label: "Orders" },
+    { label: "Vendors", link: "/owner/vendors" },
+    { label: "Tickets", link: "/owner/tickets" },
+    { label: "Orders", link: "/owner/orders" },
     // { label: "Domains" },
     // { label: "Usage" },
     // { label: "Monitoring" },
@@ -297,15 +299,23 @@ const OwnerHeader = ({ children }) => {
     // { label: "Support" },
     // { label: "Settings" },
   ];
-  const onNavItemClick = (label) => setActiveItem(label);
+  const onNavItemClick = (item) => {
+    
+    setActiveItem(item?.label);
+    navigate(item?.link)
+  }
 
+  useEffect(() => {
+    if (isActive) {
+      setActiveItem(isActive);
+    }
+  }, isActive)
   return (
     <div className="bg-black min-h-screen flex">
       {/* Sidebar for mobile */}
       <div
-        className={`fixed inset-y-0 left-0 transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out bg-[#0a0a0a] z-50 w-64 md:hidden`}
+        className={`fixed inset-y-0 left-0 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 ease-in-out bg-[#0a0a0a] z-50 w-64 md:hidden`}
       >
         <div className="px-4 py-6">
           <h2 className="text-white text-lg font-semibold mb-4">Navigation</h2>
@@ -313,12 +323,11 @@ const OwnerHeader = ({ children }) => {
             {navItems.map((item, index) => (
               <button
                 key={index}
-                className={`text-sm text-left px-3 py-2 rounded-md ${
-                  activeItem === item.label
-                    ? "bg-gray-800 text-white"
-                    : "text-gray-400 hover:bg-gray-700"
-                }`}
-                onClick={() => onNavItemClick(item.label)}
+                className={`text-sm text-left px-3 py-2 rounded-md ${activeItem === item.label
+                  ? "bg-gray-800 text-white"
+                  : "text-gray-400 hover:bg-gray-700"
+                  }`}
+                onClick={() => onNavItemClick(item)}
               >
                 {item.label}
               </button>
@@ -481,12 +490,11 @@ const OwnerHeader = ({ children }) => {
             {navItems.map((item, index) => (
               <button
                 key={index}
-                className={`px-3 py-4 text-sm font-medium border-b-2 ${
-                  activeItem === item.label
-                    ? "border-white text-white"
-                    : "border-transparent text-gray-400 hover:text-gray-300"
-                }`}
-                onClick={() => onNavItemClick(item.label)}
+                className={`px-3 py-4 text-sm font-medium border-b-2 ${activeItem === item.label
+                  ? "border-white text-white"
+                  : "border-transparent text-gray-400 hover:text-gray-300"
+                  }`}
+                onClick={() => onNavItemClick(item)}
               >
                 {item.label}
               </button>
@@ -495,8 +503,8 @@ const OwnerHeader = ({ children }) => {
         </div>
 
         {/* Content */}
-        
-        <div className="flex-1 p-6">{children}</div>
+
+        <div className="flex-1 px-0 py-3 lg:p-6">{children}</div>
       </div>
     </div>
   );

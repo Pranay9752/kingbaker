@@ -22,6 +22,8 @@ import CheckOutPayment from "./components/product_detail/CheckOutPayment";
 import { useSelector } from "react-redux";
 import MaintenancePage from "./atom/maintain";
 import OwnerTickets from "./components/owner/tickets";
+import OwnerOrders from "./components/owner/orders";
+import OwnerVendors from "./components/owner/vendors";
 
 function App() {
   const location = useLocation();
@@ -69,7 +71,9 @@ function App() {
 
         {/* Owner Routes */}
         <Routes element={<BodyBackgroud color={"bg-black"} />}>
+        <Route path="/owner/vendors" element={<OwnerVendors />} />
         <Route path="/owner/tickets" element={<OwnerTickets />} />
+        <Route path="/owner/orders" element={<OwnerOrders />} />
         </Routes>
       </div>
       <Toaster duration={600} position="top-center" richColors />
