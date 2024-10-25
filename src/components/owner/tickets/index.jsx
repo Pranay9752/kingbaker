@@ -247,7 +247,7 @@
 
 // export default OwnerTickets;
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetTicketOfVendorQuery } from "../../../redux/apiSlices/owner/tickets";
 import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import Select from "react-select"; // For react-select dropdown
@@ -258,203 +258,16 @@ import TicketDetailsModal from "../../admin/order/modal/TicketDetailModal";
 
 
 
-// const OwnerTickets = ({ tickets, onSearch }) => {
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [dateRange, setDateRange] = useState("Select Date Range");
-//   const [environment, setEnvironment] = useState("All Environments");
-//   const { data, isLoading } = useGetTicketOfVendorQuery();
-
-//   const formatDate = (dateString) => {
-//     return new Date(dateString).toLocaleString("en-US", {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       hour: "2-digit",
-//       minute: "2-digit",
-//     });
-//   };
-//   return (
-//     <OwnerHeader>
-//       <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
-//         {/* Header Controls */}
-//         <div className="flex flex-wrap gap-3 mb-6">
-//           <div className="relative flex-grow max-w-md">
-//             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 viewBox="0 0 20 20"
-//                 fill="currentColor"
-//                 className="h-4 w-4 text-gray-500"
-//               >
-//                 <path
-//                   fillRule="evenodd"
-//                   d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-//                   clipRule="evenodd"
-//                 />
-//               </svg>
-//             </div>
-//             <input
-//               type="text"
-//               placeholder="All Branches..."
-//               className="w-full pl-10 pr-8 py-1.5 bg-[#161b22] border border-gray-800 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-300"
-//             />
-//             <div className="absolute inset-y-0 right-3 flex items-center">
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 viewBox="0 0 20 20"
-//                 fill="currentColor"
-//                 className="h-4 w-4 text-gray-500"
-//               >
-//                 <path
-//                   fillRule="evenodd"
-//                   d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-//                   clipRule="evenodd"
-//                 />
-//               </svg>
-//             </div>
-//           </div>
-
-//           <button className="flex items-center gap-2 px-3 py-1.5 bg-[#161b22] border border-gray-800 rounded-md text-sm">
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               viewBox="0 0 20 20"
-//               fill="currentColor"
-//               className="h-4 w-4"
-//             >
-//               <path d="M10 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H10ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V12ZM11.25 10.005c0-.417.338-.755.755-.755h2a.755.755 0 1 1 0 1.51h-2a.755.755 0 0 1-.755-.755ZM6.005 11.25a.755.755 0 1 0 0 1.51h4a.755.755 0 1 0 0-1.51h-4Z" />
-//               <path
-//                 fillRule="evenodd"
-//                 d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
-//                 clipRule="evenodd"
-//               />
-//             </svg>
-
-//             <span>Select Date Range</span>
-//           </button>
-
-//           <button className="flex items-center gap-2 px-3 py-1.5 bg-[#161b22] border border-gray-800 rounded-md text-sm">
-//             <span>All Environments</span>
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               viewBox="0 0 20 20"
-//               fill="currentColor"
-//               className="h-4 w-4 text-gray-500"
-//             >
-//               <path
-//                 fillRule="evenodd"
-//                 d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-//                 clipRule="evenodd"
-//               />
-//             </svg>
-//           </button>
-
-//           <div className="flex items-center gap-2 px-3 py-1.5 bg-[#161b22] border border-gray-800 rounded-md text-sm ml-auto">
-//             <div className="flex gap-1">
-//               <span className="h-3 w-3 rounded-full bg-green-500"></span>
-//               <span className="h-3 w-3 rounded-full bg-yellow-500"></span>
-//               <span className="h-3 w-3 rounded-full bg-red-500"></span>
-//             </div>
-//             <span>Status</span>
-//             <span className="bg-gray-800 px-2 rounded">5/6</span>
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               viewBox="0 0 20 20"
-//               fill="currentColor"
-//               className="h-4 w-4 text-gray-500"
-//             >
-//               <path
-//                 fillRule="evenodd"
-//                 d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-//                 clipRule="evenodd"
-//               />
-//             </svg>
-//           </div>
-//         </div>
-
-//         {/* Table/List */}
-//         <div className="space-y-1">
-//       {Array.isArray(data?.data) &&
-//         data?.data?.[0]?.tickets?.map((ticket) => (
-//           <div
-//             key={ticket.ticket_id}
-//             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[25%,20%,20%,15%,10%,3%] gap-4 p-4 bg-[#1a1f25] border border-gray-800 rounded-lg group hover:bg-[#22272e] transition-all duration-200 ease-in-out"
-//           >
-//             {/* Ticket ID and SubOrder ID */}
-//             <div className="flex items-center gap-3">
-//               <div className="w-2 h-2 rounded-full bg-green-400"></div>
-//               <div>
-//                 <div className="font-mono text-sm text-white">
-//                   {ticket.ticket_id}
-//                 </div>
-//                 <div className="text-xs text-gray-400">
-//                   SubOrder: {ticket.ticket_subOrderId}
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* Date */}
-//             <div className="flex items-center text-sm text-gray-400">
-//               <span className="md:hidden font-semibold text-white mr-2">Date:</span>
-//               {formatDate(ticket.ticket_date)}
-//             </div>
-
-//             {/* Ticket Query */}
-//             <div className="flex items-center text-sm text-gray-400">
-//               <span className="md:hidden font-semibold text-white mr-2">Query:</span>
-//               {ticket.ticket_query} • {ticket.ticket_subquery}
-//             </div>
-
-//             {/* Vendor */}
-//             <div className="flex items-center text-sm text-gray-400 capitalize">
-//               <span className="md:hidden font-semibold text-white mr-2">Vendor:</span>
-//               {ticket.vendor_name}
-//             </div>
-
-//             {/* Status and Actions container for mobile */}
-//             <div className="flex justify-between items-center md:contents">
-//               {/* Ticket Status with color-coding */}
-//               <div className="text-sm uppercase font-semibold">
-//                 <span
-//                   className={`px-2 py-1 rounded-full ${
-//                     ticket.ticket_status === "open"
-//                       ? "bg-green-400 text-white"
-//                       : ticket.ticket_status === "closed"
-//                       ? "bg-red-400 text-white"
-//                       : "bg-yellow-400 text-black"
-//                   }`}
-//                 >
-//                   {ticket.ticket_status}
-//                 </span>
-//               </div>
-
-//               {/* More actions button */}
-//               <button className="p-1 hover:bg-gray-800 rounded">
-//                 <svg
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   viewBox="0 0 20 20"
-//                   fill="currentColor"
-//                   className="h-4 w-4"
-//                 >
-//                   <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
-//                 </svg>
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//     </div>
-
-//       </div>
-//     </OwnerHeader>
-//   );
-// };
 
 const OwnerTickets = ({ tickets, onSearch }) => {
+  const [filteredTickets, setFilteredTickets] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState(null); // Start of the date range
   const [endDate, setEndDate] = useState(null); // End of the date range
   const [status, setStatus] = useState(""); // Status filter
   const [selectedTicket, setSelectedTicket] = useState(null);
-  // const { data, isLoading } = useGetTicketOfVendorQuery();
+  const { data:ticketData, isLoading } = useGetTicketOfVendorQuery();
+  console.log('data: ', ticketData);
   const data = {
     data: [
       {
@@ -490,20 +303,20 @@ const OwnerTickets = ({ tickets, onSearch }) => {
       },
     ],
   };
+ 
   const statusOptions = [
     { value: undefined, label: "All" },
     { value: "open", label: "Open" },
     { value: "closed", label: "Closed" },
     { value: "pending", label: "Pending" },
   ];
-
+console.log(filteredTickets, selectedTicket);
   // Function to filter tickets based on search term, status, and date range
   const filterTickets = () => {
-    const tickets = data?.data?.[0]?.tickets
+    const tickets = ticketData?.data
     return tickets.filter((ticket) => {
-      const matchesSearchTerm = ticket.ticket_query
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      const matchesSearchTerm = ticket.ticket_query?.toLowerCase()
+        .includes(searchTerm?.toLowerCase() ?? "");
 
       const matchesStatus = status.value ? ticket.ticket_status === status.value : true;
 
@@ -516,7 +329,6 @@ const OwnerTickets = ({ tickets, onSearch }) => {
     });
   };
 
-  const filteredTickets = filterTickets();
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString("en-US", {
@@ -528,8 +340,15 @@ const OwnerTickets = ({ tickets, onSearch }) => {
     });
   };
 
-  const handleTicketClick = (e, i) => setSelectedTicket(i)
+  const handleTicketClick = (i) => setSelectedTicket(i)
 
+
+  useEffect(() => {
+    if(ticketData) {
+      console.log('ticketData?.data: ', ticketData?.data);
+      setFilteredTickets(ticketData?.data?.[0]?.tickets ?? [])
+    }
+  },[ticketData])
   return (
     <>
 
@@ -624,7 +443,8 @@ const OwnerTickets = ({ tickets, onSearch }) => {
           {/* Table/List */}
           <ul  className="space-y-1">
             {filteredTickets.length > 0 ? (
-              filteredTickets.map((ticket, index) => (
+              filteredTickets.map((ticket, index) => {                
+                return (
                 <li
                 onClick={() => handleTicketClick(index)}
                   key={ticket.ticket_id}
@@ -639,7 +459,7 @@ const OwnerTickets = ({ tickets, onSearch }) => {
                         {ticket.ticket_id}
                       </div>
                       <div className="text-xs text-gray-400">
-                        SubOrder: {ticket.ticket_subOrderId}
+                        SubOrder: {ticket.sub_orderId}
                       </div>
                     </div>
                   </div>
@@ -653,12 +473,12 @@ const OwnerTickets = ({ tickets, onSearch }) => {
                   {/* Ticket Query */}
                   <div className="flex items-center text-sm text-gray-400">
                     <span className="md:hidden font-semibold text-white mr-2">Query:</span>
-                    {ticket.ticket_query} • {ticket.ticket_subquery}
+                    {ticket.query} • {ticket.subquery}
                   </div>
 
                   {/* Vendor */}
                   <div className="flex items-center text-sm text-gray-400 capitalize">
-                    <span className="md:hidden font-semibold text-white mr-2">Vendor:</span>
+                    <span className="md:hidden font-semibold text-white mr-2 capitalize">Vendor:</span>
                     {ticket.vendor_name}
                   </div>
 
@@ -667,14 +487,14 @@ const OwnerTickets = ({ tickets, onSearch }) => {
                     {/* Ticket Status with color-coding */}
                     <div className="flex items-center text-sm uppercase font-semibold">
                       <span
-                        className={`px-2 py-1 rounded-full ${ticket.ticket_status === "open"
+                        className={`px-2 py-1 rounded-full ${ticket.status === "open"
                           ? "bg-green-400 text-white"
-                          : ticket.ticket_status === "closed"
+                          : ticket.status === "closed"
                             ? "bg-red-400 text-white"
                             : "bg-yellow-400 text-black"
                           }`}
                       >
-                        {ticket.ticket_status}
+                        {ticket.status}
                       </span>
                     </div>
 
@@ -691,7 +511,7 @@ const OwnerTickets = ({ tickets, onSearch }) => {
                     </button>
                   </div>
                 </li>
-              ))
+              )})
             ) : (
               <div className="text-center text-gray-400">No tickets found</div>
             )}
@@ -705,7 +525,7 @@ const OwnerTickets = ({ tickets, onSearch }) => {
         height={"90vh"}
         backgroundColor={'#1a1f25'}
       >
-        <TicketDetailsModal ticket={filteredTickets?.[selectedTicket] ?? {}} onClose={() => setSelectedTicket(null)} darkMode/>
+        <TicketDetailsModal isOwner ticket={filteredTickets?.[selectedTicket] ?? {}} onClose={() => setSelectedTicket(null)} darkMode/>
       </ModalWrapper>
     </>
   );

@@ -217,7 +217,7 @@ function OrderList() {
         title="KING BAKER"
       >
         {orderDetailIndex !== null ? (
-          <OrderDetailsCard order={orders[orderDetailIndex]} />
+          <OrderDetailsCard order={orders[orderDetailIndex]} onClose={() => setOrderDetailIndex(null)} />
         ) : (
           <div className="flex flex-col justify-start items-start gap-4 w-full">
             <div className="w-full flex gap-3">

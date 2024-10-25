@@ -292,7 +292,7 @@ export const ScrollArea = forwardRef(
 //   );
 // };
 
-const TicketDetailsModal = ({ ticket, onClose, darkMode= false }) => {
+const TicketDetailsModal = ({ ticket, onClose, darkMode= false, isOwner = false }) => {
   const [chatMessages, setChatMessages] = useState(ticket.chat);
   const [newMessage, setNewMessage] = useState("");
 
@@ -318,12 +318,11 @@ const TicketDetailsModal = ({ ticket, onClose, darkMode= false }) => {
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       const dataBody = {
-        Updated_By: "By You",
+        Updated_By: isOwner ? "King Baker" : "By You",
         user_name: getCookie("user"),
         text: newMessage,
         reference_number: ticket.reference_number,
       };
-      console.log("dataBody: ", dataBody);
       updateTicket({ body: dataBody })
         .then((data) => {
           console.log("data: ", data);
@@ -562,7 +561,7 @@ const TicketDetailsModal = ({ ticket, onClose, darkMode= false }) => {
               <motion.div
                 key={chat._id}
                 className={`mb-4 ${
-                  chat.Updated_By === "By You" ? "text-right" : ""
+                  chat.Updated_By === "By You" ? "text-right" : "text-left"
                 }`}
                 variants={chatItemVariants}
                 initial="hidden"

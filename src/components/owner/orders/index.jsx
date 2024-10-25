@@ -1,6 +1,8 @@
 import { useState } from "react";
 import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import OrderCard from "../../../molecules/cards/OrderCard";
+import OrderDetailsCard from "../../admin/order/OrderDetail";
+import { useGetOrderOfVendorQuery } from "../../../redux/apiSlices/owner/order";
 
 const orders = [
   {
@@ -21,9 +23,7 @@ const orders = [
     user: [{ _id: "USER001", name: "Alice Johnson" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product1.jpg",
-        ],
+        imageLink: ["https://example.com/images/product1.jpg"],
         title: "Flower Bouquet",
         description: "A beautiful bouquet of red roses.",
         prices: 500,
@@ -31,9 +31,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/card.jpg",
-        ],
+        image: ["https://example.com/images/card.jpg"],
         title: "Greeting Card",
         description: "A personalized card.",
         price: 50,
@@ -59,9 +57,7 @@ const orders = [
     user: [{ _id: "USER002", name: "Bob Smith" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product2.jpg",
-        ],
+        imageLink: ["https://example.com/images/product2.jpg"],
         title: "Chocolate Gift Box",
         description: "Delicious assorted chocolates.",
         prices: 800,
@@ -69,9 +65,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/teddy.jpg",
-        ],
+        image: ["https://example.com/images/teddy.jpg"],
         title: "Teddy Bear",
         description: "A soft and cuddly teddy bear.",
         price: 200,
@@ -97,9 +91,7 @@ const orders = [
     user: [{ _id: "USER003", name: "Charlie Evans" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product3.jpg",
-        ],
+        imageLink: ["https://example.com/images/product3.jpg"],
         title: "Fruit Basket",
         description: "A basket filled with fresh seasonal fruits.",
         prices: 700,
@@ -107,9 +99,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/wine.jpg",
-        ],
+        image: ["https://example.com/images/wine.jpg"],
         title: "Bottle of Wine",
         description: "A premium bottle of red wine.",
         price: 300,
@@ -135,9 +125,7 @@ const orders = [
     user: [{ _id: "USER004", name: "David White" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product4.jpg",
-        ],
+        imageLink: ["https://example.com/images/product4.jpg"],
         title: "Luxury Candle Set",
         description: "A set of aromatic candles.",
         prices: 1000,
@@ -145,9 +133,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/incense.jpg",
-        ],
+        image: ["https://example.com/images/incense.jpg"],
         title: "Incense Sticks",
         description: "A pack of calming incense sticks.",
         price: 100,
@@ -173,9 +159,7 @@ const orders = [
     user: [{ _id: "USER005", name: "Evelyn King" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product5.jpg",
-        ],
+        imageLink: ["https://example.com/images/product5.jpg"],
         title: "Luxury Perfume Set",
         description: "A collection of luxury perfumes.",
         prices: 1500,
@@ -201,9 +185,7 @@ const orders = [
     user: [{ _id: "USER006", name: "Frank Lee" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product6.jpg",
-        ],
+        imageLink: ["https://example.com/images/product6.jpg"],
         title: "Handcrafted Jewelry",
         description: "A unique handcrafted jewelry set.",
         prices: 2000,
@@ -211,9 +193,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/card.jpg",
-        ],
+        image: ["https://example.com/images/card.jpg"],
         title: "Greeting Card",
         description: "A personalized card.",
         price: 50,
@@ -239,9 +219,7 @@ const orders = [
     user: [{ _id: "USER007", name: "Grace Harris" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product7.jpg",
-        ],
+        imageLink: ["https://example.com/images/product7.jpg"],
         title: "Gourmet Chocolate Box",
         description: "A box of premium gourmet chocolates.",
         prices: 800,
@@ -249,9 +227,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/teddy.jpg",
-        ],
+        image: ["https://example.com/images/teddy.jpg"],
         title: "Teddy Bear",
         description: "A soft and cuddly teddy bear.",
         price: 200,
@@ -277,9 +253,7 @@ const orders = [
     user: [{ _id: "USER008", name: "Henry Brown" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product8.jpg",
-        ],
+        imageLink: ["https://example.com/images/product8.jpg"],
         title: "Artisanal Cheese Basket",
         description: "A selection of fine artisanal cheeses.",
         prices: 1200,
@@ -305,9 +279,7 @@ const orders = [
     user: [{ _id: "USER009", name: "Isabella Green" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product9.jpg",
-        ],
+        imageLink: ["https://example.com/images/product9.jpg"],
         title: "Spa Gift Set",
         description: "A luxurious spa gift set.",
         prices: 1300,
@@ -333,9 +305,7 @@ const orders = [
     user: [{ _id: "USER010", name: "Jack Miller" }],
     productDetails: [
       {
-        imageLink: [
-          "https://example.com/images/product10.jpg",
-        ],
+        imageLink: ["https://example.com/images/product10.jpg"],
         title: "Handmade Soap Collection",
         description: "A collection of handmade organic soaps.",
         prices: 600,
@@ -343,9 +313,7 @@ const orders = [
     ],
     addOn: [
       {
-        image: [
-          "https://example.com/images/card.jpg",
-        ],
+        image: ["https://example.com/images/card.jpg"],
         title: "Greeting Card",
         description: "A personalized card.",
         price: 50,
@@ -355,53 +323,105 @@ const orders = [
   },
 ];
 
+const detailorder = {
+  order_id: "ORD123456789",
+  deliveryAddresses: [
+    {
+      recipientName: "John Doe",
+      recipientAddress: "123 Main St, Springfield",
+      recipientMobnumber: "9876543210",
+    },
+  ],
+  addOn: [
+    {
+      title: "Extra Balloon Set",
+      description: "A set of 5 colorful balloons",
+      price: "50",
+      count: { count: 2 },
+      image: ["https://example.com/images/balloon.jpg"],
+    },
+    {
+      title: "Gift Wrapping",
+      description: "Beautifully wrapped gift",
+      price: "30",
+      count: { count: 1 },
+      image: ["https://example.com/images/giftwrap.jpg"],
+    },
+  ],
+  shipping: {
+    delivary_date: "2024-10-31",
+    method: "Express",
+    time: "2-3 days",
+    shipping_amount: "150",
+  },
+  user: [
+    {
+      _id: "user123",
+      name: "Jane Doe",
+      mobile: "9876543210",
+      email: "jane.doe@example.com",
+    },
+  ],
+  productDetails: [
+    {
+      title: "Floral Bouquet",
+      description: "A beautiful bouquet of fresh flowers",
+      prices: "500",
+      imageLink: ["https://example.com/images/bouquet.jpg"],
+    },
+  ],
+  timeDifference: "2 hours",
+  allocationTime: "10:00 AM",
+  acceptanceTime: "12:00 PM",
+  personalizedImage: "https://example.com/images/personalized.jpg",
+  message: "Happy Birthday! Wishing you all the best.",
+  specialInstructions: "Leave at the front door if no one is home.",
+};
 
-
-
-const OwnerOrders = ({ }) => {
+const OwnerOrders = ({}) => {
   const [selectedOrders, setSelectedOrders] = useState([]);
+  const [orderDetailIndex, setOrderDetailIndex] = useState(null);
 
+  const { data } = useGetOrderOfVendorQuery();
+  console.log('data: ', data);
   const handleSelectedOrder = (order) => {
     if (selectedOrders.includes(order.order_id)) {
-      setSelectedOrders((prev) =>
-        prev.filter((id) => id !== order.order_id)
-      );
+      setSelectedOrders((prev) => prev.filter((id) => id !== order.order_id));
     } else {
       setSelectedOrders((prev) => [...prev, order.order_id]);
     }
   };
 
-  const handleDetailView = ({ index }) => {
-    console.log("Viewing details for order at index:", index);
-  };
+  const handleDetailView = ({ index }) => setOrderDetailIndex(index);
+
   return (
     <>
-
       <OwnerHeader isActive={"Orders"}>
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
-
-
-
-          {orders.map((order, index) => (
-            <OrderCard
-              key={order.order_id}
-              order={order}
-              isActive={selectedOrders.includes(order.order_id)}
-              handleSelectedOrder={handleSelectedOrder}
-              handleDetailView={handleDetailView}
-              index={index}
+          {orderDetailIndex !== null ? (
+            <OrderDetailsCard
+              onClose={() => setOrderDetailIndex(null)}
+              order={detailorder}
               darkMode
             />
-          ))}
-
+          ) : (
+            // <OrderDetailsCard order={orders[orderDetailIndex]} />
+            data?.data?.map((order, index) => (
+              <OrderCard
+                key={order.order_id}
+                order={order}
+                isActive={selectedOrders.includes(order.order_id)}
+                handleSelectedOrder={handleSelectedOrder}
+                handleDetailView={handleDetailView}
+                index={index}
+                darkMode
+              />
+            ))
+          )}
         </div>
       </OwnerHeader>
-
-
     </>
   );
 };
-
-
 
 export default OwnerOrders;

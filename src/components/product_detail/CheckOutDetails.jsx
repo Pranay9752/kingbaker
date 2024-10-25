@@ -408,7 +408,7 @@ const PriceDetails = ({ className }) => {
         PROCEED TO PAY
       </button>
     </div>
-  );
+  ); 
 };
 
 function CheckOutDetails() {
@@ -463,7 +463,6 @@ function CheckOutDetails() {
   };
 
   useEffect(() => {
-    console.log(isError);
     if (
       data !== null &&
       data?.delivary_address?.length === 0 &&

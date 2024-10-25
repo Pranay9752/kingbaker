@@ -29,6 +29,7 @@ const OrderDeliveryDetails = ({
   addresses = [],
   isCart = false,
   dense = false,
+  viewOnly = false,
 }) => {
   const [reicipientAddress, setReicipientAddress] = useState([]);
   const [openAddAddress, setOpenAddAddress] = useState(false);
@@ -151,9 +152,10 @@ const OrderDeliveryDetails = ({
               src={mainItem.image}
               alt={mainItem.name}
               onError={(e) => {
-                e.target.src = 'https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg';
+                e.target.src =
+                  "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
               }}
-                            className="w-[75px] h-[75px] object-cover rounded-md mr-4"
+              className="w-[75px] h-[75px] object-cover rounded-md mr-4"
             />
             <div>
               <h2 className="font-medium">{mainItem.name}</h2>
@@ -161,7 +163,10 @@ const OrderDeliveryDetails = ({
             </div>
             <button
               onClick={handleDeleteOrder}
-              className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
+              className={
+                twMerge("ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5",
+                viewOnly && "hidden")
+              }
             >
               DELETE
             </button>
@@ -186,9 +191,9 @@ const OrderDeliveryDetails = ({
                   <p className="text-[13px]">
                     ₹{addon.price} x {addon.quantity}
                   </p>
-                  <div className="flex rounded-md overflow-hidden divide-x border">
+                  <div className={twMerge("flex rounded-md overflow-hidden divide-x border",viewOnly && "hidden")}>
                     <button
-                      className="bg-[#555555]/20 p-1"
+                      className={twMerge("bg-[#555555]/20 p-1")}
                       onClick={() => handleQuantityChange(addon.id, -1)}
                     >
                       <svg
@@ -224,7 +229,7 @@ const OrderDeliveryDetails = ({
                   </div>
                 </div>
               </div>
-              <div className="ml-auto flex items-center">
+              <div className={twMerge("ml-auto flex items-center",viewOnly && "hidden")}>
                 <button
                   onClick={() => handleDelete(addon.id)}
                   className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
