@@ -19,6 +19,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.29",
+    "iframe-resizer-react": "^5.1.5",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "qrcode": "^1.5.4",
