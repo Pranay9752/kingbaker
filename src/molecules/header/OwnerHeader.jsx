@@ -27,7 +27,7 @@ const OwnerHeader = ({ isActive, children }) => {
     if (isActive) {
       setActiveItem(isActive);
     }
-  }, isActive)
+  }, [isActive])
 
   return (
     <div className="bg-black min-h-screen flex">

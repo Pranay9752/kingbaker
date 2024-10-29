@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 const BasicButton = ({
   disabled = false,
   children,
@@ -7,7 +9,7 @@ const BasicButton = ({
 }) => (
   <button
     type={type}
-    className={`py-3  font-semibold ${className}`}
+    className={twMerge(`py-3  font-semibold `, className)}
     onClick={onClick}
     disabled={disabled}
   >
