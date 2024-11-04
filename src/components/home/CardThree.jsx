@@ -13,6 +13,10 @@ const CardThree = ({ data }) => {
           src={data.image}
           alt={data.text}
           className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+          onError={(e) => {
+            e.target.src =
+              "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
+          }}
         />
       </div>
       <div
