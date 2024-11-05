@@ -1,23 +1,26 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 const SizeSelector = ({ image, sizes }) => {
   const { setValue, getValues } = useFormContext();
   const [selectedSize, setSelectedSize] = useState(null);
-  console.log("selectedSize: ", selectedSize);
 
   const handleSpecificationChage = (size) => {
     const body = {
       name: "weight",
       value: {
-        unit: size,
-        price: 0,
+        unit: size.weight,
+        price: size.price,
       },
     };
     setValue("specification", body);
     setSelectedSize(body);
   };
 
+  useEffect(() => {
+    if (sizes && Array.isArray(sizes) && sizes.length > 0)
+      handleSpecificationChage(sizes[0]);
+  }, [sizes]);
   return (
     <div className="w-full ">
       <h3 className="text font-semibold mb-3">Pick an upgrade</h3>
@@ -43,11 +46,12 @@ const SizeSelector = ({ image, sizes }) => {
             />
             <div className="p-2 text-center bg-white rounded-b-lg">
               <p className="font-medium">
-                {size} {size?.unit ?? ""}
+                {size.weight}
+                {/* {size.weight} {size?.unit ?? ""} */}
               </p>
               <p className="text-gray-600">₹ {size?.price ?? 0.0}</p>
             </div>
-            {selectedSize?.value?.unit == size && (
+            {selectedSize?.value?.unit == size.weight && (
               <div className="absolute inset-0 border-2 border-blue-500 rounded-lg pointer-events-none" />
             )}
           </button>

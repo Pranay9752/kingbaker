@@ -5,11 +5,20 @@ import BottomSheet from "../atom/popovers/BottomSheet";
 import ProductAddOns from "../components/product_detail/modals/AddonModal";
 import ModalWrapper from "./wrappers/ModalWrapper";
 import { useGetAddOnQuery } from "../redux/apiSlices/ecom/productsApiSlice";
+import { useFormContext } from "react-hook-form";
+import { toast } from "sonner";
 
-const ActionButtons = ({product, productId }) => {
+const ActionButtons = ({ product, productId }) => {
   const [isAddonOpen, setIsAddonOpen] = useState(false);
   const { data } = useGetAddOnQuery();
+  const { getValues } = useFormContext();
   const handleAddonChange = (e, value = null) => {
+    const delivery = getValues("delivery");
+    if (!delivery) {
+      toast.info("Select Delivery Details first!");
+      return;
+    }
+
     setIsAddonOpen((prev) => (value ? value : !prev));
   };
 
@@ -66,7 +75,7 @@ const ActionButtons = ({product, productId }) => {
         onClose={(e) => handleAddonChange(e, false)}
       >
         <ProductAddOns
-        product={product ?? {}}
+          product={product ?? {}}
           productId={productId}
           addons={data?.data ?? []}
           closeModal={(e) => handleAddonChange(e, false)}

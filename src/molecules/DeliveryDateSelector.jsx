@@ -1,31 +1,16 @@
 import React, { useState } from "react";
-import {
-  format,
-  addMonths,
-  subMonths,
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  isSameMonth,
-  isSameDay,
-  isToday,
-  addDays,
-  startOfWeek,
-  endOfWeek,
-} from "date-fns";
-import { motion, AnimatePresence } from "framer-motion";
-import BottomSheet from "../atom/popovers/BottomSheet";
 import ModalWrapper from "./wrappers/ModalWrapper";
 import { useFormContext } from "react-hook-form";
 import DeliveryDatePicker from "../components/product_detail/modals/DeliveryDatePicker";
 import DeliveryTimeSlotSelector from "../components/product_detail/modals/DeliveryTimeSlotSelector";
 
-const DeliveryDateSelector = () => {
+const DeliveryDateSelector = ({ darkMode = false, isUpdate = false }) => {
   const { setValue } = useFormContext();
 
   const [deliveryData, setDeliveryData] = useState(null);
   const [DateModal, setDateModal] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState(false);
+
   const handleToggleDateModal = (e, value = null) => {
     setDateModal((prev) => (value ? value : !prev));
   };
@@ -33,15 +18,15 @@ const DeliveryDateSelector = () => {
   const handleSelectDate = (day) => {
     setDeliveryData({ date: day });
     setValue("day", day);
-    setDateModal((prev) => false);
-    setDeliveryModal((prev) => true);
+    setDateModal(false);
+    setDeliveryModal(true);
   };
 
   const handleSelectSlot = ({ delivery, slot }) => {
     setValue("delivery", delivery);
     setValue("slot", slot);
     setDeliveryData((prev) => ({ ...prev, ...delivery, selectedSlot: slot }));
-    setDeliveryModal((prev) => false);
+    setDeliveryModal(false);
   };
 
   return (
@@ -49,29 +34,55 @@ const DeliveryDateSelector = () => {
       {deliveryData ? (
         <div
           onClick={handleToggleDateModal}
-          className=" bg-white border-2 border-gray-400 px-3 py-1 flex gap-2 rounded w-full"
+          className={`px-3 py-1 flex gap-2 rounded w-full border-2 ${
+            darkMode
+              ? "bg-[#1a1f25] border-gray-700"
+              : "bg-white border-gray-400"
+          }`}
         >
           <div className="flex items-baseline">
-            <span className="text-5xl [40px] text-[#222222] mr-2">
+            <span
+              className={`text-5xl [40px] mr-2 ${
+                darkMode ? "text-white" : "text-[#222222]"
+              }`}
+            >
               {new Date(deliveryData.date).getDate()}
             </span>
           </div>
           <div className="flex flex-col justify-center item-center text-left pr-4">
-            <span className="text-gray-600 uppercase  mr-2">
+            <span
+              className={`uppercase mr-2 ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               {new Date(deliveryData.date).toLocaleString("default", {
                 month: "short",
               })}
             </span>
-            <span className="text-gray-600 uppercase ">
+            <span
+              className={`uppercase ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               {new Date(deliveryData.date).toLocaleString("default", {
                 weekday: "short",
               })}
             </span>
           </div>
 
-          <div className=" text -sm text-gray-700">
+          <div
+            className={`text-sm ${
+              darkMode ? "text-gray-400" : "text-gray-700"
+            }`}
+          >
             {deliveryData?.title ?? ""}:{" "}
-            <span className="font-bold">₹ {deliveryData?.price ?? ""}</span>
+            <span
+              className={`font-bold ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              ₹ {deliveryData?.price ?? ""}
+            </span>
             <br />
             {deliveryData?.selectedSlot?.time ?? ""}
           </div>
@@ -79,9 +90,15 @@ const DeliveryDateSelector = () => {
       ) : (
         <div
           onClick={handleToggleDateModal}
-          className="flex items-center justify-between bg-white border-2 border-orange-400 animate-glow px-3 py-2 rounded w-full"
+          className={`flex items-center justify-between px-3 py-2 rounded w-full border-2 border-orange-400 ${
+            !isUpdate && `animate-glow`
+          } ${darkMode ? "bg-[#1a1f25]" : "bg-white"}`}
         >
-          <div className="flex items-center gap-2 text-xl truncate w-full">
+          <div
+            className={`flex items-center gap-2 text-xl truncate w-full ${
+              darkMode ? "text-gray-200" : "text-gray-800"
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -116,12 +133,15 @@ const DeliveryDateSelector = () => {
         isOpen={DateModal}
         onClose={(e) => {}}
         maxHeight={"101vh"}
-        className={`p-3`}
+        className={`p-3 ${darkMode ? "bg-[#1a1f25]" : "bg-white"}`}
       >
-        <DeliveryDatePicker handleSelectDate={handleSelectDate} />
+        <DeliveryDatePicker
+          handleSelectDate={handleSelectDate}
+          darkMode={darkMode}
+        />
       </ModalWrapper>
       <ModalWrapper
-        className={`p-3`}
+        className={`p-3 ${darkMode ? "bg-[#1a1f25]" : "bg-white"}`}
         isOpen={deliveryModal}
         onClose={(e) => {}}
         maxHeight={"101vh"}
@@ -129,6 +149,7 @@ const DeliveryDateSelector = () => {
         <DeliveryTimeSlotSelector
           deliverydate={deliveryData?.date}
           handleSelectSlot={handleSelectSlot}
+          darkMode={darkMode}
         />
       </ModalWrapper>
     </>

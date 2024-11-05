@@ -3,6 +3,8 @@ import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import OrderCard from "../../../molecules/cards/OrderCard";
 import OrderDetailsCard from "../../admin/order/OrderDetail";
 import { useGetOrderOfVendorQuery } from "../../../redux/apiSlices/owner/order";
+import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
+import UpdateOrderModal from "./updateOrderModal";
 
 const orders = [
   {
@@ -381,9 +383,8 @@ const detailorder = {
 const OwnerOrders = ({}) => {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [orderDetailIndex, setOrderDetailIndex] = useState(null);
-
+  const [showUpdatePanel, setShowUpdatePanel] = useState(false);
   const { data } = useGetOrderOfVendorQuery();
-  console.log('data: ', data);
   const handleSelectedOrder = (order) => {
     if (selectedOrders.includes(order.order_id)) {
       setSelectedOrders((prev) => prev.filter((id) => id !== order.order_id));
@@ -392,7 +393,56 @@ const OwnerOrders = ({}) => {
     }
   };
 
+
+  const transformOrderData = (data) => {
+    return {
+      order_id: data?.order_id || null,
+      deliveryAddresses: data?.deliveryAddresses?.map((address) => ({
+        recipientName: address?.recipientName || null,
+        recipientAddress: address?.recipientAddress || null,
+        recipientMobnumber: address?.recipientMobnumber || null,
+      })),
+      addOn: data?.addOn?.map((addon) => ({
+        title: addon?.title || null,
+        description: addon?.description || null,
+        price: addon?.price?.toString() || null,
+        count: { count: addon?.count?.count || 0 },
+        image: addon?.images || [],
+      })),
+      shipping: {
+        delivary_date: "2024-10-31", // assuming a fixed date; replace as necessary
+        method: data?.shipping.method || null,
+        time: data?.shipping?.time || null,
+        shipping_amount: data?.shipping?.shipping_amount.toString() || null,
+      },
+      user: [
+        {
+          _id: data?.vendor?._id || null,
+          name: data?.vendor?.name || null,
+          mobile: data?.vendor?.phone || null,
+          email: data?.vendor?.email || null,
+        },
+      ],
+      productDetails: data?.productDetails?.map((product) => ({
+        title: product?.title || null,
+        description: product?.description || null,
+        prices: product?.prices?.toString() || null,
+        imageLink: product?.imageLink || [],
+      })),
+      timeDifference: data?.shipping?.time || null, // assuming a fixed value; replace as necessary
+      allocationTime: "10:00 AM", // assuming a fixed time; replace as necessary
+      acceptanceTime: "12:00 PM", // assuming a fixed time; replace as necessary
+      personalizedImage: data?.images?.[0] || null,
+      message: data?.message_on_product || null,
+      specialInstructions: data?.special_request || null,
+    };
+  };
+
   const handleDetailView = ({ index }) => setOrderDetailIndex(index);
+
+  const onUpdateClick = () => {
+    setShowUpdatePanel(true);
+  };
 
   return (
     <>
@@ -400,8 +450,10 @@ const OwnerOrders = ({}) => {
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           {orderDetailIndex !== null ? (
             <OrderDetailsCard
+              isUpdate
+              onUpdateClick={onUpdateClick}
               onClose={() => setOrderDetailIndex(null)}
-              order={detailorder}
+              order={transformOrderData(data?.data?.[orderDetailIndex]) ?? {}}
               darkMode
             />
           ) : (
@@ -419,6 +471,15 @@ const OwnerOrders = ({}) => {
             ))
           )}
         </div>
+        <ModalWrapper
+          maxHeight={"101vh"}
+          className={`p-3 text-gray-300 `}
+          backgroundColor={"#1a1f25"}
+          isOpen={showUpdatePanel}
+          onClose={() => setShowUpdatePanel(null)}
+        >
+          <UpdateOrderModal data={transformOrderData(data?.data?.[orderDetailIndex]) ?? {}} onClose={() => setShowUpdatePanel(null)} />
+        </ModalWrapper>
       </OwnerHeader>
     </>
   );

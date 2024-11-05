@@ -7,8 +7,6 @@ import getCookie from "../../../atom/utils/getCookies";
 import setCookie from "../../../atom/utils/setCookies";
 import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
 import { toast } from "sonner";
-import { addOrder } from "../../../redux/slices/ecom/orderSlice";
-import { useDispatch } from "react-redux";
 
 const ProductAddOns = ({
   closeModal,
@@ -20,8 +18,9 @@ const ProductAddOns = ({
   const [quantities, setQuantities] = useState({});
   const { getValues } = useFormContext();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
+
+  const delivery = getValues("delivery");
   const categories = useMemo(
     () => ["All", ...new Set(addons.map((p) => p.category))],
     [addons]
@@ -41,10 +40,11 @@ const ProductAddOns = ({
   const total = useMemo(
     () =>
       Object.entries(quantities).reduce(
-        (curr, [productId, quantity]) => {
+        (curr, {productId, quantity}) => {
           const product = addons?.find(
             (p) => p.addOn_id === parseInt(productId)
           );
+          console.log('product: ', product);
           return {
             price: curr?.price + (product ? product.price * quantity : 0),
             quantity: quantity + curr?.quantity,
@@ -60,16 +60,16 @@ const ProductAddOns = ({
 
   const convertData = (order, selectedAddon) => {
     const addonMap = selectedAddon.reduce((map, item) => {
-      map[item.addOn_id] = item.count;  // Key is addOn_id, value is count
+      map[item.addOn_id] = item.count; // Key is addOn_id, value is count
       return map;
     }, {});
 
     // Step 2: Iterate over the addons and attach the count from addonMap
     const result = addons
-      .filter(addon => addonMap[addon._id] !== undefined) // Filter if addon exists in addonMap
-      .map(addon => ({
+      .filter((addon) => addonMap[addon._id] !== undefined) // Filter if addon exists in addonMap
+      .map((addon) => ({
         ...addon, // Spread addon details
-        count: addonMap[addon._id] // Add count from the map
+        count: addonMap[addon._id], // Add count from the map
       }));
     const { delivery_details, location } = order;
     const shipping = delivery_details?.shipping ?? {};
@@ -79,7 +79,8 @@ const ProductAddOns = ({
           {
             _id: product?._id,
             productId: delivery_details?.product_id,
-            prices: product?.prices ?? 0,
+            prices:
+              getValues("specification")?.value?.price ?? product?.prices ?? 0,
             imageLink: product?.imageLink ?? [],
             title: product?.title ?? "",
           },
@@ -98,18 +99,17 @@ const ProductAddOns = ({
         location: location,
         id: delivery_details?.product_id,
         name: product?.title ?? "",
-        price: product?.prices ?? 0,
+        price: getValues("specification")?.value?.price ?? product?.prices ?? 0,
         quantity: 1,
         image: product?.imageLink?.[0] ?? "",
       },
-      addons: result?.map(item => ({
+      addons: result?.map((item) => ({
         id: item?._id,
         name: item?.title,
         price: item?.price,
         quantity: item?.count,
         image: item?.images?.[0] ?? "",
-      }))
-      ,
+      })),
       deliveryDetails: {
         method: shipping?.method ?? "",
         date: shipping?.delivery_date,
@@ -122,7 +122,6 @@ const ProductAddOns = ({
     };
     return baseObject;
   };
-
 
   const handleSubmit = async () => {
     const isLogin = getCookie("_id") ? true : false;
@@ -166,21 +165,19 @@ const ProductAddOns = ({
       },
     };
 
-    console.log(JSON.stringify(newOrder))
-
     const convertedData = convertData(newOrder, addonsArr ?? []);
 
     if (!isLogin) {
       const cartCookie = getCookie("cart");
       const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
-      setCookie("cart", [...cartOrder, convertedData])
+      setCookie("cart", [...cartOrder, convertedData]);
       navigate("/");
     } else {
       try {
         await createOrder(newOrder);
         toast.success("Order created successfully");
         navigate("/");
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
@@ -226,11 +223,11 @@ const ProductAddOns = ({
       <div className=" bg-white rounded-lg p-4">
         <div className="flex justify-between items-center">
           <span>Shipping</span>
-          <span>₹ 49</span>
+          <span>₹ {delivery?.price ?? 0}</span>
         </div>
         <div className="flex justify-between items-center font-bold">
           <span>TOTAL</span>
-          <span>₹ {total?.price ?? 0 + 49}</span>
+          <span>₹ {total?.price ?? 0 + (delivery?.price ?? 0)}</span>
         </div>
         <button
           type="button"

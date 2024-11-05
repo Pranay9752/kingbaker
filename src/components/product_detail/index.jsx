@@ -125,6 +125,8 @@ const ProductDetail = () => {
       document.body.classList.remove("bg-white");
     };
   });
+
+  console.log("ggggg", methods.watch("specification")?.value?.price);
   return (
     <>
       <FormProvider {...methods}>
@@ -155,14 +157,19 @@ const ProductDetail = () => {
               key={"mobileProductDetails"}
               data={data?.data ?? {}}
               title="Decorated Chocolate Truffle Cake Half Kg Egg..."
-              rating={5}
+              rating={1}
               reviews={1256}
-              price={575}
+              price={
+                methods.watch("specification")?.value?.price
+              }
               taxInfo="Inclusive of all taxes"
               timeLeft="01:25:30"
             />
 
-            <ActionButtons product={data?.data ?? {}}  productId={data?.data?._id ?? ""} />
+            <ActionButtons
+              product={data?.data ?? {}}
+              productId={data?.data?._id ?? ""}
+            />
 
             <ImageModal
               isOpen={isModalOpen}
@@ -203,7 +210,9 @@ const ProductDetail = () => {
                   title="Decorated Chocolate Truffle Cake Half Kg Egg..."
                   rating={5}
                   reviews={1256}
-                  price={575}
+                  price={
+                    methods.watch("specification")?.value?.price
+                  }
                   taxInfo="Inclusive of all taxes"
                   timeLeft="01:25:30"
                 />

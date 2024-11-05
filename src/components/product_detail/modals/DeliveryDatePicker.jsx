@@ -1,8 +1,24 @@
-import { addDays, addMonths, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, isToday, startOfMonth, startOfWeek, subMonths, isAfter, startOfDay, isBefore } from "date-fns";
+import {
+  addDays,
+  addMonths,
+  endOfMonth,
+  endOfWeek,
+  format,
+  isSameDay,
+  isSameMonth,
+  isToday,
+  startOfMonth,
+  startOfWeek,
+  subMonths,
+  isAfter,
+  startOfDay,
+  isBefore,
+} from "date-fns";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 
-const DeliveryDatePicker = ({ handleSelectDate }) => {
+const DeliveryDatePicker = ({ handleSelectDate, darkMode = false }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -18,7 +34,7 @@ const DeliveryDatePicker = ({ handleSelectDate }) => {
 
   const isDateSelectable = (day) => {
     const today = startOfDay(currentDateTime);
-    
+
     // If the day is before today, it's not selectable
     if (isBefore(day, today)) return false;
 
@@ -49,7 +65,12 @@ const DeliveryDatePicker = ({ handleSelectDate }) => {
 
   const renderHeader = () => {
     return (
-      <div className="flex items-center justify-between p-4 text-gray-800">
+      <div
+        className={twMerge(
+          "flex items-center justify-between p-4 text-gray-800",
+          darkMode && "text-white"
+        )}
+      >
         <button type="button" onClick={prevMonth} className="p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +190,12 @@ const DeliveryDatePicker = ({ handleSelectDate }) => {
       className="h-[95vh] md:h-fit flex flex-col justify-start item-center w-full text-left "
     >
       <div className="flex items-center p-4 md:p-0 text-gray-800">
-        <h2 className="text-xl font-bold flex-grow text-left pl-3">
+        <h2
+          className={twMerge(
+            "text-xl font-bold flex-grow text-left pl-3",
+            darkMode && "text-white"
+          )}
+        >
           Select Delivery Date
         </h2>
       </div>

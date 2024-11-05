@@ -1,7 +1,12 @@
 import { addHours, isAfter, isBefore, isToday, parse } from "date-fns";
 import { useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
-const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
+const DeliveryTimeSlotSelector = ({
+  handleSelectSlot,
+  deliverydate,
+  darkMode = false,
+}) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -55,7 +60,7 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
 
   const handleSlotSelect = (id) => {
     const delivery = deliveryOptions.find(
-      (delivery) => delivery.id === selectedOption
+      (delivery) => delivery?.id == selectedOption
     );
     const slot = delivery?.expressSlots[id - 1];
 
@@ -122,7 +127,12 @@ const DeliveryTimeSlotSelector = ({ handleSelectSlot, deliverydate }) => {
   return (
     <div className=" mx-auto text-left">
       <div className="text-gray-800 px-2 py-4 flex items-center">
-        <h2 className="text-xl font-semibold ml-4">
+        <h2
+          className={twMerge(
+            "text-xl font-semibold ml-4",
+            darkMode && "text-white"
+          )}
+        >
           Select Delivery Time Slot
         </h2>
       </div>

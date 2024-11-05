@@ -10,6 +10,7 @@ import { productscarousels } from "./dummyData";
 import ActionButtons from "../../molecules/ActionButtons";
 import SizeSelector from "./SizeSelector";
 import CustomizeButton from "./CustomizeButton";
+import { useFormContext } from "react-hook-form";
 
 const ProductDetails = ({
   data,
@@ -20,7 +21,7 @@ const ProductDetails = ({
   taxInfo,
   timeLeft,
 }) => {
-  console.log("data: ", data);
+
   const products = [
     {
       imageUrl:
@@ -78,14 +79,13 @@ const ProductDetails = ({
     },
     // Add more products as needed
   ];
-
   return (
     <>
       <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
         <div className="p-2 flex flex-col gap-2">
           <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
           <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
-          <PriceInfo price={data?.prices ?? 0} taxInfo={taxInfo} />
+          <PriceInfo price={price ?? data?.prices ?? 0} taxInfo={taxInfo} />
           {Array.isArray(data?.weight) && data?.weight?.length > 0 && (
             <SizeSelector
               image={(data?.data?.imageLink ?? [])?.[0] ?? ""}
