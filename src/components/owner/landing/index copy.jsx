@@ -5,69 +5,14 @@ import CardCarousel from "../../home/CardCarousel";
 import Carousel from "../../home/CarouselSlider";
 import { twMerge } from "tailwind-merge";
 import CustomGrid from "../../home/CustomGrid";
+import { Layout, Box, Grid, Layers, ChevronUp, ChevronDown, Plus, Minus } from 'lucide-react';
+
 
 const styleIcons = {
-  containerStyle: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className=""
-    >
-      <rect width="7" height="9" x="3" y="3" rx="1" />
-      <rect width="7" height="5" x="14" y="3" rx="1" />
-      <rect width="7" height="9" x="14" y="12" rx="1" />
-      <rect width="7" height="5" x="3" y="16" rx="1" />
-    </svg>
-  ),
-  boxStyle: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-    >
-      <path
-        fillRule="evenodd"
-        d="M2 3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2Zm0 4.5h16l-.811 7.71a2 2 0 0 1-1.99 1.79H4.802a2 2 0 0 1-1.99-1.79L2 7.5ZM10 9a.75.75 0 0 1 .75.75v2.546l.943-1.048a.75.75 0 1 1 1.114 1.004l-2.25 2.5a.75.75 0 0 1-1.114 0l-2.25-2.5a.75.75 0 1 1 1.114-1.004l.943 1.048V9.75A.75.75 0 0 1 10 9Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  ),
-  innerContainerStyle: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-    >
-      <path
-        fillRule="evenodd"
-        d="M.99 5.24A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25l.01 9.5A2.25 2.25 0 0 1 16.76 17H3.26A2.267 2.267 0 0 1 1 14.74l-.01-9.5Zm8.26 9.52v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75v.615c0 .414.336.75.75.75h5.373a.75.75 0 0 0 .627-.74Zm1.5 0a.75.75 0 0 0 .627.74h5.373a.75.75 0 0 0 .75-.75v-.615a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75v.625Zm6.75-3.63v-.625a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75v.625c0 .414.336.75.75.75h5.25a.75.75 0 0 0 .75-.75Zm-8.25 0v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75v.625c0 .414.336.75.75.75H8.5a.75.75 0 0 0 .75-.75ZM17.5 7.5v-.625a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75V7.5c0 .414.336.75.75.75h5.25a.75.75 0 0 0 .75-.75Zm-8.25 0v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V7.5c0 .414.336.75.75.75H8.5a.75.75 0 0 0 .75-.75Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  ),
-  items: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-5"
-    >
-      <path
-        fillRule="evenodd"
-        d="M.99 5.24A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25l.01 9.5A2.25 2.25 0 0 1 16.76 17H3.26A2.267 2.267 0 0 1 1 14.74l-.01-9.5Zm8.26 9.52v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75v.615c0 .414.336.75.75.75h5.373a.75.75 0 0 0 .627-.74Zm1.5 0a.75.75 0 0 0 .627.74h5.373a.75.75 0 0 0 .75-.75v-.615a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75v.625Zm6.75-3.63v-.625a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75v.625c0 .414.336.75.75.75h5.25a.75.75 0 0 0 .75-.75Zm-8.25 0v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75v.625c0 .414.336.75.75.75H8.5a.75.75 0 0 0 .75-.75ZM17.5 7.5v-.625a.75.75 0 0 0-.75-.75H11.5a.75.75 0 0 0-.75.75V7.5c0 .414.336.75.75.75h5.25a.75.75 0 0 0 .75-.75Zm-8.25 0v-.625a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V7.5c0 .414.336.75.75.75H8.5a.75.75 0 0 0 .75-.75Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  ),
+  containerStyle: Layout,
+  boxStyle: Box,
+  innerContainerStyle: Grid,
+  items: Layers
 };
 
 const SectionButton = ({ index, title, isSelected, onSelect }) => (
@@ -201,12 +146,10 @@ const PaddingControl = ({ updatePadding, initialPadding }) => {
   return (
     <div className="p-4">
       <h3 className="text-sm font-medium text-gray-700 mb-3">Padding</h3>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {Object.entries(initialPadding).map(([side, value]) => (
           <div key={side} className="flex items-center gap-2">
-            <label className="text-sm text-gray-600 capitalize w-16">
-              {side}
-            </label>
+            <label className="text-sm text-gray-600 capitalize w-16">{side}</label>
             <input
               type="range"
               min="0"
@@ -218,9 +161,7 @@ const PaddingControl = ({ updatePadding, initialPadding }) => {
             <input
               type="number"
               value={value}
-              onChange={(e) =>
-                updatePadding(side, parseInt(e.target.value) || 0)
-              }
+              onChange={(e) => updatePadding(side, parseInt(e.target.value) || 0)}
               className="w-16 px-2 py-1 text-sm text-center border border-gray-200 rounded-md"
             />
             <span className="text-sm text-gray-500">px</span>
@@ -230,6 +171,7 @@ const PaddingControl = ({ updatePadding, initialPadding }) => {
     </div>
   );
 };
+
 
 // const GapControl = ({ updateGap, initialGap }) => {
 //   const [gap, setGap] = useState(initialGap || 0);
@@ -350,63 +292,6 @@ const InputControl = ({
     </div>
   );
 };
-
-const StyleSection = ({
-  title,
-  children,
-  isActive,
-  onToggle,
-  IconComponent,
-}) => (
-  <div
-    className={`border-b last:border-b-0 ${
-      isActive ? "bg-blue-50" : "bg-white"
-    }`}
-  >
-    <div>
-
-    <button
-      onClick={onToggle}
-      className="flex items-center justify-between w-full p-4 hover:bg-gray-50 transition-colors"
-    >
-      <div className="flex items-center gap-2">
-        {/* <IconComponent size={18} className="text-gray-400" /> */}
-        {IconComponent}
-        <span className="text-sm font-medium text-gray-700">{title}</span>
-      </div>
-      {isActive ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )}
-    </button>
-    </div>
-    {isActive && children}
-  </div>
-);
-
 
 // const RangeSlider = ({ min = 1, max = 10, initial = 5, onChange }) => {
 //   const [value, setValue] = useState(initial);
@@ -579,14 +464,7 @@ const RangeSlider = ({ initial, onChange, max = 10, label = "Columns" }) => {
             onClick={() => onChange(Math.max(1, initial - 1))}
             className="p-1 text-gray-500 hover:bg-gray-100 rounded-md"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="size-4"
-            >
-              <path d="M3.75 7.25a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z" />
-            </svg>
+            <Minus size={16} />
           </button>
           <input
             type="range"
@@ -600,14 +478,7 @@ const RangeSlider = ({ initial, onChange, max = 10, label = "Columns" }) => {
             onClick={() => onChange(Math.min(max, initial + 1))}
             className="p-1 text-gray-500 hover:bg-gray-100 rounded-md"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="size-4"
-            >
-              <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-            </svg>
+            <Plus size={16} />
           </button>
           <input
             type="number"
@@ -946,113 +817,66 @@ const Landing = () => {
     ]);
   }, []);
 
-  // const handleUpdatePadding = useCallback(
-  //   (padding) => {
-  //     setStruct((prev) => {
-  //       return prev.map((section, index) => {
-  //         if (index === selectedSection) {
-  //           return {
-  //             ...section,
-  //             [selectedKey]: {
-  //               ...section[selectedKey],
-  //               paddingTop: `${padding.top}px`,
-  //               paddingRight: `${padding.right}px`,
-  //               paddingBottom: `${padding.bottom}px`,
-  //               paddingLeft: `${padding.left}px`,
-  //             },
-  //           };
-  //         }
-  //         return section;
-  //       });
-  //     });
-  //   },
-  //   [selectedSection, selectedKey] // Add selectedKey to dependencies
-  // );
-  const handleUpdatePadding = (side, value, styleTag) => {
-    const paddingMap = {
-      top: 'paddingTop',
-      right: 'paddingRight',
-      bottom: 'paddingBottom',
-      left: 'paddingLeft'
-    };
-    handleUpdate({ label: paddingMap[side], value: `${value}px` }, styleTag);
-  };
+  const handleUpdatePadding = useCallback(
+    (padding) => {
+      setStruct((prev) => {
+        return prev.map((section, index) => {
+          if (index === selectedSection) {
+            return {
+              ...section,
+              [selectedKey]: {
+                ...section[selectedKey],
+                paddingTop: `${padding.top}px`,
+                paddingRight: `${padding.right}px`,
+                paddingBottom: `${padding.bottom}px`,
+                paddingLeft: `${padding.left}px`,
+              },
+            };
+          }
+          return section;
+        });
+      });
+    },
+    [selectedSection, selectedKey] // Add selectedKey to dependencies
+  );
 
-
-  // const handleUpdate = useCallback(({ label, value, keySelected }) => {
-  //   setStruct((prev) => {
-  //     return prev.map((section, index) => {
-  //       if (index === selectedSection) {
-  //         return {
-  //           ...section,
-  //           [keySelected || selectedKey]: {
-  //             ...section[keySelected || selectedKey],
-  //             [label]: value,
-  //           },
-  //         };
-  //       }
-  //       return section;
-  //     });
-  //   });
-  // });
-
-  const handleUpdate = ({ label, value }, styleTag) => {
+  const handleUpdate = useCallback(({ label, value, keySelected }) => {
     setStruct((prev) => {
-      const newArr = [...prev];
-      newArr[selectedSection] = {
-        ...newArr[selectedSection],
-        [styleTag]: {
-          ...newArr[selectedSection][styleTag],
-          [label]: value,
-        },
-      };
-      return newArr;
+      return prev.map((section, index) => {
+        if (index === selectedSection) {
+          return {
+            ...section,
+            [keySelected || selectedKey]: {
+              ...section[keySelected || selectedKey],
+              [label]: value,
+            },
+          };
+        }
+        return section;
+      });
     });
-  };
+  });
 
-  // const handleItemCount = (value) => {
-  //   setStruct((prev) => {
-  //     return prev.map((section, index) => {
-  //       if (index === selectedSection) {
-  //         return {
-  //           ...section,
-  //           items: Array(value).fill({
-  //             image:
-  //               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
-  //             type: "card3",
-  //             route: "chocolate",
-  //             text: "Bouquet Of 8 Royal Red Roses",
-  //             cardStyle: {
-  //               borderRadius: "30px",
-  //             },
-  //           }),
-  //         };
-  //       }
-  //       return section;
-  //     });
-  //   });
-  // };
   const handleItemCount = (value) => {
     setStruct((prev) => {
-      const newArr = [...prev];
-      const currentItems = newArr[selectedSection].items || [];
-      const itemTemplate = {
-        image: "",
-        type: "card3",
-        route: "",
-        text: "",
-        cardStyle: { borderRadius: "10px" },
-      };
-
-      if (value > currentItems.length) {
-        newArr[selectedSection].items = [
-          ...currentItems,
-          ...Array(value - currentItems.length).fill(itemTemplate),
-        ];
-      } else {
-        newArr[selectedSection].items = currentItems.slice(0, value);
-      }
-      return newArr;
+      return prev.map((section, index) => {
+        if (index === selectedSection) {
+          return {
+            ...section,
+            items: Array(value).fill({
+              image:
+                "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+              type: "card3",
+              route: "chocolate",
+              text: "Bouquet Of 8 Royal Red Roses",
+              cardStyle: {
+                borderRadius: "30px",
+              },
+            }),
+          };
+        }
+        return section;
+      });
     });
   };
 
@@ -1157,7 +981,7 @@ const Landing = () => {
       </div>
 
       {/* Right Sidebar */}
-      {/* <div className="p-5">
+      <div className="p-5">
         <div className="bg-white w-full h-full border rounded-2xl p-3">
           {["containerStyle", "boxStyle", "innerContainerStyle"].map(
             (styleTag) => (
@@ -1273,173 +1097,6 @@ const Landing = () => {
             )}
           </div>
         </div>
-      </div> */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        {["containerStyle", "boxStyle", "innerContainerStyle", "items"].map(
-          (styleTag) => {
-            const IconComponent = styleIcons[styleTag];
-            return (
-              <>
-              <StyleSection
-                key={styleTag}
-                title={styleTag}
-                isActive={selectedKey === styleTag}
-                onToggle={() => toggleStyleTag(styleTag)}
-                IconComponent={IconComponent}
-              >
-                <div className="p-4 space-y-4">
-                  {styleTag !== "items" ? (
-                    <>
-                      <PaddingControl
-                        updatePadding={(side, value) =>
-                          handleUpdatePadding(side, value, styleTag)
-                        }
-                        initialPadding={{
-                          top:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingTop
-                            ) || 0,
-                          right:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingRight
-                            ) || 0,
-                          bottom:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingBottom
-                            ) || 0,
-                          left:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingLeft
-                            ) || 0,
-                        }}
-                      />
-
-                      {styleTag === "innerContainerStyle" && (
-                        <>
-                          <GapControl
-                            updateGap={(value) =>
-                              handleUpdate(
-                                { label: "gap", value: `${value}px` },
-                                styleTag
-                              )
-                            }
-                            initial={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]?.gap
-                              ) || 0
-                            }
-                          />
-                          <RangeSlider
-                            initial={
-                              parseInt(
-                                struct[selectedSection]?.[
-                                  styleTag
-                                ]?.gridTemplateColumns?.match(/\d+/)?.[0]
-                              ) || 5
-                            }
-                            onChange={(value) =>
-                              handleUpdate(
-                                {
-                                  label: "gridTemplateColumns",
-                                  value: `repeat(${value}, 1fr)`,
-                                },
-                                styleTag
-                              )
-                            }
-                            label="Grid Columns"
-                          />
-                        </>
-                      )}
-
-                      <ColorInput
-                        label="Background Color"
-                        value={
-                          struct[selectedSection]?.[styleTag]
-                            ?.backgroundColor || "#ffffff"
-                        }
-                        onChange={(value) =>
-                          handleUpdate(
-                            { label: "backgroundColor", value },
-                            styleTag
-                          )
-                        }
-                      />
-
-                      <div className="p-3">
-                        <label className="text-sm font-medium text-gray-700">
-                          Border Radius
-                        </label>
-                        <div className="flex items-center gap-2 mt-2">
-                          <input
-                            type="range"
-                            min="0"
-                            max="30"
-                            value={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.borderRadius
-                              ) || 0
-                            }
-                            onChange={(e) =>
-                              handleUpdate(
-                                {
-                                  label: "borderRadius",
-                                  value: `${e.target.value}px`,
-                                },
-                                styleTag
-                              )
-                            }
-                            className="flex-1 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                          />
-                          <input
-                            type="number"
-                            value={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.borderRadius
-                              ) || 0
-                            }
-                            onChange={(e) =>
-                              handleUpdate(
-                                {
-                                  label: "borderRadius",
-                                  value: `${e.target.value}px`,
-                                },
-                                styleTag
-                              )
-                            }
-                            className="w-16 px-2 py-1 text-sm text-center border border-gray-200 rounded-md"
-                          />
-                          <span className="text-sm text-gray-500">px</span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <RangeSlider
-                        initial={struct[selectedSection]?.items?.length ?? 0}
-                        onChange={handleItemCount}
-                        label="Number of Items"
-                      />
-                      <div className="space-y-4">
-                        {struct[selectedSection]?.items?.map((item, index) => (
-                          <ItemEditor
-                            key={index}
-                            item={item}
-                            index={index}
-                            selectedSection={selectedSection}
-                            setStruct={setStruct}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </StyleSection>
-              </>
-            );
-          }
-        )}
       </div>
     </div>
   );
