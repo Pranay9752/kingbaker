@@ -28,7 +28,6 @@ import Landing from "./components/owner/landing";
 
 function App() {
   const location = useLocation();
-  console.log('location: ', location);
   //   // return <MaintenancePage />;
   // console.log(window.location)
   return (

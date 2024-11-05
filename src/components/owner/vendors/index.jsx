@@ -5,14 +5,14 @@ import BasicButton from "../../../atom/button/BasicButton";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import AddVendorModal from "./addVendor";
 
-const OwnerVendors = ({}) => {
+const OwnerVendors = ({ }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
-  const { data, error, isLoading } = useGetAllVendorQuery();
+  const { data, error, isLoading, refetch } = useGetAllVendorQuery();
 
   // Filter vendors based on search, date range, and status
   const filteredVendors = useMemo(() => {
@@ -34,10 +34,17 @@ const OwnerVendors = ({}) => {
   const handleVendorClick = (index) => {
     if (filteredVendors[index]) {
       console.log("Clicked vendor:", filteredVendors[index]);
+      setSelectedVendor(index)
     } else {
       console.error("Vendor not found");
     }
   };
+
+  const handleClose = () => setSelectedVendor(null)
+  const handleSubmit = (data) => {
+    refetch()
+    handleClose()
+  }
 
   return (
     <>
@@ -67,7 +74,7 @@ const OwnerVendors = ({}) => {
                 className="w-full pl-10 pr-8 py-1.5 bg-[#161b22] border border-gray-800 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-300"
               />
             </div>
-            <BasicButton onClick={() => setSelectedVendor(-1)}>
+            <BasicButton onClick={() => setSelectedVendor(-1)} className={`text-xs md:text-base border-2 rounded-xl px-2 py-2 whitespace-nowrap border-[#1a1f25] focus:scale-95 hover:bg-[#1a1f25]`}>
               Add Vendor
             </BasicButton>
           </div>
@@ -94,74 +101,74 @@ const OwnerVendors = ({}) => {
               <tbody>
                 {filteredVendors.length > 0
                   ? filteredVendors.map((vendor, index) => (
-                      <tr
-                        key={vendor._id}
-                        onClick={() => handleVendorClick(index)}
-                        className="group cursor-pointer"
-                      >
-                        <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 rounded-l-lg">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                            <div>
-                              <div className="font-mono text-sm text-white">
-                                {vendor.name}
-                              </div>
-                              <div className="text-xs text-gray-400">
-                                ID: {vendor._id}
-                              </div>
+                    <tr
+                      key={vendor._id}
+                      onClick={() => handleVendorClick(index)}
+                      className="group cursor-pointer"
+                    >
+                      <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 rounded-l-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                          <div>
+                            <div className="font-mono text-sm text-white">
+                              {vendor.name}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              ID: {vendor._id}
                             </div>
                           </div>
-                        </td>
+                        </div>
+                      </td>
 
-                        <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden md:table-cell">
-                          <div className="text-sm text-gray-400">
-                            {vendor.address.street}, {vendor.address.city},{" "}
-                            {vendor.address.state}
-                          </div>
-                        </td>
+                      <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden md:table-cell">
+                        <div className="text-sm text-gray-400">
+                          {vendor.address.street}, {vendor.address.city},{" "}
+                          {vendor.address.state}
+                        </div>
+                      </td>
 
-                        <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden lg:table-cell">
-                          <div className="text-sm text-gray-400">
-                            {vendor.email}
-                          </div>
-                        </td>
+                      <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden lg:table-cell">
+                        <div className="text-sm text-gray-400">
+                          {vendor.email}
+                        </div>
+                      </td>
 
-                        <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden lg:table-cell">
-                          <div className="text-sm text-gray-400">
-                            {vendor.phone}
-                          </div>
-                        </td>
+                      <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 hidden lg:table-cell">
+                        <div className="text-sm text-gray-400">
+                          {vendor.phone}
+                        </div>
+                      </td>
 
-                        <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 rounded-r-lg">
-                          <button
-                            className="p-1 hover:bg-gray-800 rounded"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              // Handle action button click
-                            }}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              className="h-4 w-4"
-                            >
-                              <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  : !isLoading && (
-                      <tr>
-                        <td
-                          colSpan="6"
-                          className="text-center p-4 text-gray-400 bg-[#1a1f25] rounded-lg"
+                      <td className="p-4 bg-[#1a1f25] border border-gray-800 group-hover:bg-[#22272e] transition-all duration-200 rounded-r-lg">
+                        <button
+                          className="p-1 hover:bg-gray-800 rounded"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle action button click
+                          }}
                         >
-                          No vendors found
-                        </td>
-                      </tr>
-                    )}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="h-4 w-4"
+                          >
+                            <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                  : !isLoading && (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="text-center p-4 text-gray-400 bg-[#1a1f25] rounded-lg"
+                      >
+                        No vendors found
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </div>
@@ -175,9 +182,11 @@ const OwnerVendors = ({}) => {
           )}
         </div>
       </OwnerHeader>
-      <ModalWrapper maxHeight={"101vh"}
-        className={`p-3 text-gray-300 `} backgroundColor={'#1a1f25'} isOpen={selectedVendor == -1} onClose={() => setSelectedVendor(null)}>
-        <AddVendorModal onClose={() => setSelectedVendor(null)} />
+      <ModalWrapper maxHeight={"92vh"}
+        className={`p-3 text-gray-300 `} backgroundColor={'#1a1f25'} isOpen={selectedVendor != null} onClose={handleClose}>
+        <AddVendorModal initialData={selectedVendor === -1 ? null : filteredVendors[selectedVendor]}
+          onSubmit={handleSubmit}
+          onClose={handleClose} />
       </ModalWrapper>
     </>
   );

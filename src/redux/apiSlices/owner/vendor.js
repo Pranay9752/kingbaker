@@ -15,6 +15,13 @@ const OwnerVendorAPI = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateOwnerOrVendor: builder.mutation({
+      query: (data) => ({
+        url: "owner/updateOwnerOrVendor",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -22,4 +29,5 @@ const OwnerVendorAPI = apiSlice.injectEndpoints({
 export const {
   useGetAllVendorQuery,
   useCreateVendorMutation,
+  useUpdateOwnerOrVendorMutation,
 } = OwnerVendorAPI;
