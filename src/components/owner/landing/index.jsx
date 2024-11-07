@@ -5,6 +5,8 @@ import CardCarousel from "../../home/CardCarousel";
 import Carousel from "../../home/CarouselSlider";
 import { twMerge } from "tailwind-merge";
 import CustomGrid from "../../home/CustomGrid";
+import BasicButton from "../../../atom/button/BasicButton";
+import { toast } from "sonner";
 
 const styleIcons = {
   containerStyle: (
@@ -75,12 +77,12 @@ const SectionButton = ({ index, title, isSelected, onSelect }) => (
     data-index={index}
     onClick={() => onSelect(index)}
     className={twMerge(
-      "text-slate-800 flex w-full items-center p-3 transition-all hover:bg-slate-100 text-sm font-medium hover:translate-x-2 rounded-lg",
+      "text-slate-800 flex w-full truncate items-center p-3 transition-all hover:bg-slate-100 text-sm font-medium hover:translate-x-2 rounded-lg",
       isSelected && "border border-slate-500"
     )}
   >
     <HashtagIcon className="w-5 h-5 mr-2" />
-    <span>{title || `Section ${index + 1}`}</span>
+    <span className="w-[9 0%] truncate text-left">{title || `Section ${index + 1}`}</span>
     <DeleteIcon className="size-5 ml-auto opacity-0 hover:opacity-100" />
   </button>
 );
@@ -359,49 +361,48 @@ const StyleSection = ({
   IconComponent,
 }) => (
   <div
-    className={`border-b last:border-b-0 ${
-      isActive ? "bg-blue-50" : "bg-white"
-    }`}
+    className={`border-b last:border-b-0 ${isActive ? "bg-blue-50" : "bg-white"
+      }`}
   >
     <div>
 
-    <button
-      onClick={onToggle}
-      className="flex items-center justify-between w-full p-4 hover:bg-gray-50 transition-colors"
-    >
-      <div className="flex items-center gap-2">
-        {/* <IconComponent size={18} className="text-gray-400" /> */}
-        {IconComponent}
-        <span className="text-sm font-medium text-gray-700">{title}</span>
-      </div>
-      {isActive ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )}
-    </button>
+      <button
+        onClick={onToggle}
+        className="flex items-center justify-between w-full p-4 hover:bg-gray-50 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          {/* <IconComponent size={18} className="text-gray-400" /> */}
+          {IconComponent}
+          <span className="text-sm font-medium text-gray-700">{title}</span>
+        </div>
+        {isActive ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="size-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="size-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
+      </button>
     </div>
     {isActive && children}
   </div>
@@ -646,14 +647,14 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
         items: newArr[selectedSection].items.map((itm, i) =>
           i === index
             ? {
-                image: "",
-                type: "card3",
-                route: "",
-                text: "",
-                cardStyle: {
-                  borderRadius: "30px",
-                },
-              }
+              image: "",
+              type: "card3",
+              route: "",
+              text: "",
+              cardStyle: {
+                borderRadius: "30px",
+              },
+            }
             : itm
         ),
       };
@@ -892,7 +893,307 @@ const Landing = () => {
   const [struct, setStruct] = useState([
     {
       item_ranked: 1,
-      title: "",
+      title: null,
+      type: "carusel_full",
+      containerStyle: {},
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
+          type: "image",
+          route: "chocolate",
+          text: "",
+          cardStyle: { height: "30vh" },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
+          type: "image",
+          route: "cake",
+          text: "",
+          cardStyle: { height: "30vh" },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
+          type: "image",
+          route: "flower",
+          text: "",
+          cardStyle: { height: "30vh" },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
+          type: "image",
+          route: "cherry",
+          text: "",
+          cardStyle: { height: "30vh" },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Gourmet_Desk%20(3)-8-9-24.jpg",
+          type: "image",
+          route: "cakes",
+          text: "",
+          cardStyle: { height: "30vh" },
+        },
+      ],
+    },
+    {
+      item_ranked: 2,
+      title: null,
+      type: "grid",
+      containerStyle: {},
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Karwa_Chauth_Squircle03-10-2024.jpg",
+          type: "card1",
+          route: "Birthday",
+          text: "Karwa Chauth",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Diwali_Squircle-7-10-24.jpg",
+          type: "card1",
+          route: "Anniversary",
+          text: "Diwali Gifts",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
+          type: "card1",
+          route: "flowers",
+          text: "Birthday",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/anniversary_Squircle.jpg",
+          type: "card1",
+          route: "chocolate",
+          text: "Anniversary",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/New-Squircle-Icon_Combos-17-10-24.jpg",
+          type: "card1",
+          route: "red",
+          text: "Combos",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
+          type: "card1",
+          route: "pink",
+          text: "Birthday",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
+          type: "card1",
+          route: "voilet flower",
+          text: "Birthday",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
+          type: "card1",
+          route: "gift",
+          text: "Birthday",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Birthday_Squircle.jpg",
+          type: "card1",
+          route: "cakes",
+          text: "Birthday",
+        },
+      ],
+    },
+    // {
+    //   item_ranked: 3,
+    //   type: "gift_finder",
+    //   containerStyle: { margin: "0 10%" },
+    // },
+    {
+      item_ranked: 4,
+      type: "text",
+      title: "Celebrate Occasions with India's #1 Online Gift Store",
+      description:
+        "Thoughtfully curated 139,821 Gift Ideas. Get 2-Hour Delivery & Free Shipping in India.",
+    },
+    // {
+    //   item_ranked: 5,
+    //   title: "Thoughtfully Curated Gifts",
+    //   type: "grid1",
+    //   button: {
+    //     name: "View All",
+    //     style: {
+    //       color: "green",
+    //       fontSize: "16px",
+    //     },
+    //   },
+    //   containerStyle: {
+    //     display: "grid",
+    //     gridTemplateColumns: "repeat(10, 1fr)",
+    //     gridTemplateRows: "repeat(7, 1fr)",
+    //     gap: "20px",
+    //   },
+    //   boxStyle: {
+    //     backgroundColor: "white",
+    //     borderRadius: "10px",
+    //   },
+    //   items: [
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Hero_DeskV2.jpg",
+    //       type: "card2",
+    //       route: "table",
+    //       text: null,
+    //       cardStyle: { gridColumn: "1 / 6", gridRow: "1 / 5" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Hero_DeskV2.jpg",
+    //       type: "card2",
+    //       route: "bag",
+    //       text: null,
+    //       cardStyle: { gridColumn: "6 / 11", gridRow: "1 / 5" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
+    //       type: "card3",
+    //       route: "cake red",
+    //       text: "Let them relish each moment with a Cake from you",
+    //       cardStyle: { gridColumn: "1 / 3", gridRow: "5 / 8" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
+    //       type: "card3",
+    //       route: "chocolate cake",
+    //       text: "Let them relish each moment with a Cake from you",
+    //       cardStyle: { gridColumn: "3 / 5", gridRow: "5 / 8" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
+    //       type: "card3",
+    //       route: "cake",
+    //       text: "Let them relish each moment with a Cake from you",
+    //       cardStyle: { gridColumn: "5 / 7", gridRow: "5 / 8" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
+    //       type: "card3",
+    //       route: "flower",
+    //       text: "Let them relish each moment with a Cake from you",
+    //       cardStyle: { gridColumn: "7 / 9", gridRow: "5 / 8" },
+    //     },
+    //     {
+    //       image:
+    //         "https://www.fnp.com/assets/images/custom/new-desk-home/shop-by-cat/new/SBB-Desk_Eggless-Cakes.jpg",
+    //       type: "card3",
+    //       route: "chocolate",
+    //       text: "Let them relish each moment with a Cake from you",
+    //       cardStyle: { gridColumn: "9 / 11", gridRow: "5 / 8" },
+    //     },
+    //   ],
+    // },
+    {
+      item_ranked: 6,
+      title: "Gifts In Trend",
+      type: "carousel",
+      containerStyle: {},
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "rose",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "jasmine",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "bouquet",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "red cherry",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "The Birthday 2024 Collection",
       type: "customGrid",
       containerStyle: {},
       innerContainerStyle: {
@@ -903,17 +1204,485 @@ const Landing = () => {
         backgroundColor: "white",
         borderRadius: "10px",
       },
-      items: Array(5).fill({
-        image: "",
-        type: "card3",
-        route: "",
-        text: "",
-        cardStyle: {
-          borderRadius: "10px",
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
         },
-      }),
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+      ],
+    },
+
+    {
+      item_ranked: 6,
+      title: "Best Sellers",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "Bakery-Fresh Cakes",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "Anniversary : Rekindle Love",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "Gifts worth waiting for",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          imageStyle: {
+            borderRadius: "100%",
+            backgroundColor: "white",
+            boxShadow:
+              "var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+            "--tw-shadow":
+              "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+            "--tw-shadow-colored":
+              "0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color)",
+            padding: "4px",
+          },
+          cardStyle: {
+            boxShadow: "none",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          imageStyle: {
+            borderRadius: "100%",
+          },
+          cardStyle: {
+            boxShadow: "none",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          imageStyle: {
+            borderRadius: "100%",
+          },
+          cardStyle: {
+            boxShadow: "none",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          imageStyle: {
+            borderRadius: "100%",
+          },
+          cardStyle: {
+            boxShadow: "none",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          imageStyle: {
+            borderRadius: "100%",
+          },
+          cardStyle: {
+            boxShadow: "none",
+          },
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "Gifts that Go together",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "30px",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "30px",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "30px",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "30px",
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "30px",
+          },
+        },
+      ],
+    },
+    {
+      item_ranked: 6,
+      title: "Recently Viewed By You",
+      type: "customGrid",
+      containerStyle: {},
+      innerContainerStyle: {
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+      },
+      boxStyle: {
+        backgroundColor: "white",
+        borderRadius: "10px",
+      },
+      items: [
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "100%",
+          },
+          button: {
+            name: "Buy Now",
+            style: {
+              backgroundColor: "#FFC300",
+              fontSize: "14px",
+              margin: "0 auto",
+            },
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "100%",
+          },
+          button: {
+            name: "Buy Now",
+            style: {
+              backgroundColor: "#FFC300",
+              fontSize: "14px",
+              margin: "0 auto",
+            },
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "100%",
+          },
+          button: {
+            name: "Buy Now",
+            style: {
+              backgroundColor: "#FFC300",
+              fontSize: "14px",
+              margin: "0 auto",
+            },
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "100%",
+          },
+          button: {
+            name: "Buy Now",
+            style: {
+              backgroundColor: "#FFC300",
+              fontSize: "14px",
+              margin: "0 auto",
+            },
+          },
+        },
+        {
+          image:
+            "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
+          type: "card3",
+          route: "chocolate",
+          text: "Bouquet Of 8 Royal Red Roses",
+          cardStyle: {
+            borderRadius: "100%",
+          },
+          button: {
+            name: "Buy Now",
+            style: {
+              backgroundColor: "#000",
+              fontSize: "14px",
+              margin: "0 auto",
+            },
+          },
+        },
+      ],
     },
   ]);
+  // const [struct, setStruct] = useState([
+  //   {
+  //     item_ranked: 1,
+  //     title: "",
+  //     type: "customGrid",
+  //     containerStyle: {},
+  //     innerContainerStyle: {
+  //       display: "grid",
+  //       gridTemplateColumns: "repeat(5, 1fr)",
+  //     },
+  //     boxStyle: {
+  //       backgroundColor: "white",
+  //       borderRadius: "10px",
+  //     },
+  //     items: Array(5).fill({
+  //       image: "",
+  //       type: "card3",
+  //       route: "",
+  //       text: "",
+  //       cardStyle: {
+  //         borderRadius: "10px",
+  //       },
+  //     }),
+  //   },
+  // ]);
 
   const addSection = useCallback(() => {
     setStruct((prev) => [
@@ -1010,6 +1779,14 @@ const Landing = () => {
     });
   };
 
+  const handleTitleUpdate = (e) => {
+    setStruct((prev) => {
+      const newArr = [...prev];
+      newArr[selectedSection].title = e.target.value;
+      return newArr;
+    })
+  }
+
   // const handleItemCount = (value) => {
   //   setStruct((prev) => {
   //     return prev.map((section, index) => {
@@ -1102,6 +1879,18 @@ const Landing = () => {
     [components]
   );
 
+  const handlePublish = () => {
+    const main = JSON.parse(localStorage.getItem("homeDesk"))
+    const newMain = {
+      data: {
+        data: struct,
+        meta_data: main.data.meta_data
+      }
+    }
+    localStorage.setItem("homeDesk", JSON.stringify(newMain))
+    toast.success("Your Page updated successfully!")
+  }
+
   return (
     <div className="grid grid-cols-[15%,60%,25%] absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
       {/* Sidebar */}
@@ -1116,6 +1905,9 @@ const Landing = () => {
               onSelect={setSelectedSection}
             />
           ))}
+          <BasicButton onClick={handlePublish} className={`bg-green-700 w-full mt-auto text-white rounded-lg mt-3`}>
+            Publish
+          </BasicButton>
         </div>
       </div>
 
@@ -1280,162 +2072,190 @@ const Landing = () => {
             const IconComponent = styleIcons[styleTag];
             return (
               <>
-              <StyleSection
-                key={styleTag}
-                title={styleTag}
-                isActive={selectedKey === styleTag}
-                onToggle={() => toggleStyleTag(styleTag)}
-                IconComponent={IconComponent}
-              >
-                <div className="p-4 space-y-4">
-                  {styleTag !== "items" ? (
-                    <>
-                      <PaddingControl
-                        updatePadding={(side, value) =>
-                          handleUpdatePadding(side, value, styleTag)
+                <StyleSection
+                  key={styleTag}
+                  title={styleTag}
+                  isActive={selectedKey === styleTag}
+                  onToggle={() => toggleStyleTag(styleTag)}
+                  IconComponent={IconComponent}
+                >
+                  <div className="p-4 space-y-4">
+                    {styleTag !== "items" ? (
+                      <>
+                        {
+                          styleTag === "boxStyle" && <>
+                            <div className="flex items-center gap-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                className="ext-gray-400 size-5"
+                              >
+                                <polyline points="4 7 4 4 20 4 20 7" />
+                                <line x1="9" x2="15" y1="20" y2="20" />
+                                <line x1="12" x2="12" y1="4" y2="20" />
+                              </svg>
+                              <input
+                                value={struct[selectedSection]?.title ?? ""}
+                                onChange={handleTitleUpdate}
+                                className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                placeholder="Enter title"
+                              />
+                            </div>
+                          </>
                         }
-                        initialPadding={{
-                          top:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingTop
-                            ) || 0,
-                          right:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingRight
-                            ) || 0,
-                          bottom:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingBottom
-                            ) || 0,
-                          left:
-                            parseInt(
-                              struct[selectedSection]?.[styleTag]?.paddingLeft
-                            ) || 0,
-                        }}
-                      />
+                        <PaddingControl
+                          updatePadding={(side, value) =>
+                            handleUpdatePadding(side, value, styleTag)
+                          }
+                          initialPadding={{
+                            top:
+                              parseInt(
+                                struct[selectedSection]?.[styleTag]?.paddingTop
+                              ) || 0,
+                            right:
+                              parseInt(
+                                struct[selectedSection]?.[styleTag]?.paddingRight
+                              ) || 0,
+                            bottom:
+                              parseInt(
+                                struct[selectedSection]?.[styleTag]?.paddingBottom
+                              ) || 0,
+                            left:
+                              parseInt(
+                                struct[selectedSection]?.[styleTag]?.paddingLeft
+                              ) || 0,
+                          }}
+                        />
 
-                      {styleTag === "innerContainerStyle" && (
-                        <>
-                          <GapControl
-                            updateGap={(value) =>
-                              handleUpdate(
-                                { label: "gap", value: `${value}px` },
-                                styleTag
-                              )
-                            }
-                            initial={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]?.gap
-                              ) || 0
-                            }
-                          />
-                          <RangeSlider
-                            initial={
-                              parseInt(
-                                struct[selectedSection]?.[
+                        {styleTag === "innerContainerStyle" && (
+                          <>
+                            <GapControl
+                              updateGap={(value) =>
+                                handleUpdate(
+                                  { label: "gap", value: `${value}px` },
                                   styleTag
-                                ]?.gridTemplateColumns?.match(/\d+/)?.[0]
-                              ) || 5
-                            }
-                            onChange={(value) =>
-                              handleUpdate(
-                                {
-                                  label: "gridTemplateColumns",
-                                  value: `repeat(${value}, 1fr)`,
-                                },
-                                styleTag
-                              )
-                            }
-                            label="Grid Columns"
-                          />
-                        </>
-                      )}
+                                )
+                              }
+                              initial={
+                                parseInt(
+                                  struct[selectedSection]?.[styleTag]?.gap
+                                ) || 0
+                              }
+                            />
+                            <RangeSlider
+                              initial={
+                                parseInt(
+                                  struct[selectedSection]?.[
+                                    styleTag
+                                  ]?.gridTemplateColumns?.match(/\d+/)?.[0]
+                                ) || 5
+                              }
+                              onChange={(value) =>
+                                handleUpdate(
+                                  {
+                                    label: "gridTemplateColumns",
+                                    value: `repeat(${value}, 1fr)`,
+                                  },
+                                  styleTag
+                                )
+                              }
+                              label="Grid Columns"
+                            />
+                          </>
+                        )}
 
-                      <ColorInput
-                        label="Background Color"
-                        value={
-                          struct[selectedSection]?.[styleTag]
-                            ?.backgroundColor || "#ffffff"
-                        }
-                        onChange={(value) =>
-                          handleUpdate(
-                            { label: "backgroundColor", value },
-                            styleTag
-                          )
-                        }
-                      />
+                        <ColorInput
+                          label="Background Color"
+                          value={
+                            struct[selectedSection]?.[styleTag]
+                              ?.backgroundColor || "#ffffff"
+                          }
+                          onChange={(value) =>
+                            handleUpdate(
+                              { label: "backgroundColor", value },
+                              styleTag
+                            )
+                          }
+                        />
 
-                      <div className="p-3">
-                        <label className="text-sm font-medium text-gray-700">
-                          Border Radius
-                        </label>
-                        <div className="flex items-center gap-2 mt-2">
-                          <input
-                            type="range"
-                            min="0"
-                            max="30"
-                            value={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.borderRadius
-                              ) || 0
-                            }
-                            onChange={(e) =>
-                              handleUpdate(
-                                {
-                                  label: "borderRadius",
-                                  value: `${e.target.value}px`,
-                                },
-                                styleTag
-                              )
-                            }
-                            className="flex-1 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                          />
-                          <input
-                            type="number"
-                            value={
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.borderRadius
-                              ) || 0
-                            }
-                            onChange={(e) =>
-                              handleUpdate(
-                                {
-                                  label: "borderRadius",
-                                  value: `${e.target.value}px`,
-                                },
-                                styleTag
-                              )
-                            }
-                            className="w-16 px-2 py-1 text-sm text-center border border-gray-200 rounded-md"
-                          />
-                          <span className="text-sm text-gray-500">px</span>
+                        <div className="p-3">
+                          <label className="text-sm font-medium text-gray-700">
+                            Border Radius
+                          </label>
+                          <div className="flex items-center gap-2 mt-2">
+                            <input
+                              type="range"
+                              min="0"
+                              max="30"
+                              value={
+                                parseInt(
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.borderRadius
+                                ) || 0
+                              }
+                              onChange={(e) =>
+                                handleUpdate(
+                                  {
+                                    label: "borderRadius",
+                                    value: `${e.target.value}px`,
+                                  },
+                                  styleTag
+                                )
+                              }
+                              className="flex-1 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                            />
+                            <input
+                              type="number"
+                              value={
+                                parseInt(
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.borderRadius
+                                ) || 0
+                              }
+                              onChange={(e) =>
+                                handleUpdate(
+                                  {
+                                    label: "borderRadius",
+                                    value: `${e.target.value}px`,
+                                  },
+                                  styleTag
+                                )
+                              }
+                              className="w-16 px-2 py-1 text-sm text-center border border-gray-200 rounded-md"
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                          </div>
                         </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <RangeSlider
-                        initial={struct[selectedSection]?.items?.length ?? 0}
-                        onChange={handleItemCount}
-                        label="Number of Items"
-                      />
-                      <div className="space-y-4">
-                        {struct[selectedSection]?.items?.map((item, index) => (
-                          <ItemEditor
-                            key={index}
-                            item={item}
-                            index={index}
-                            selectedSection={selectedSection}
-                            setStruct={setStruct}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </StyleSection>
+                      </>
+                    ) : (
+                      <>
+                        <RangeSlider
+                          initial={struct[selectedSection]?.items?.length ?? 0}
+                          onChange={handleItemCount}
+                          label="Number of Items"
+                        />
+                        <div className="space-y-4 h-[60vh] overflow-y-auto hide-scrollbar">
+                          {struct[selectedSection]?.items?.map((item, index) => (
+                            <ItemEditor
+                              key={index}
+                              item={item}
+                              index={index}
+                              selectedSection={selectedSection}
+                              setStruct={setStruct}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </StyleSection>
               </>
             );
           }

@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 const MessageInput = () => {
   return (
     <Input
-      placeholder="Message On Cake"
+      placeholder="Message"
       id={"msgOnCake"}
       // value={message}
       // onChange={(e) => setMessage(e.target.value)}

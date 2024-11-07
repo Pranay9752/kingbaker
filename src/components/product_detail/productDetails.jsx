@@ -130,7 +130,7 @@ const ProductDetails = ({
       </div>
 
       <div className="hidden md:flex flex-col gap-2 ">
-        <h2 className="text-xl font-medium  truncate text-left">{title}</h2>
+        <h2 className="text-xl font-medium  truncate text-left">{data?.title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
         {Array.isArray(data?.weight) && data?.weight?.length > 0 && (

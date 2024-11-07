@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import NavBar from "./NavBar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import BirthdayCollection from "./BirthdayCollection";
@@ -14,6 +14,8 @@ import GiftGrid from "./GiftCard";
 import CardThree from "./CardThree";
 import CustomGrid from "./CustomGrid";
 import Footer from "../../molecules/footer/footer";
+import getCookie from "../../atom/utils/getCookies";
+import setCookie from "../../atom/utils/setCookies";
 
 export const getCard = ({ data }) => {
   const cards = {
@@ -1600,6 +1602,20 @@ const Home = () => {
     };
     return components[data.type] || "hiiiii";
   };
+  const main = JSON.parse(localStorage.getItem("homeDesk")) ?? {}
+  const mainMob = JSON.parse(localStorage.getItem("homeMob")) ?? {}
+  useEffect(() => {
+    if(!localStorage.getItem("homeDesk")){
+      localStorage.setItem("homeDesk",JSON.stringify(mainStructure))
+      location.reload()
+    }
+  },[])
+  useEffect(() => {
+    if(!localStorage.getItem("homeMob")){
+      localStorage.setItem("homeMob",JSON.stringify(mainmobileStructure))
+      location.reload()
+    }
+  },[])
 
   // useEffect(() => {
   //   document.body.classList.add((window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data?.backgroundColor ?? "#f2f2f2");
@@ -1627,25 +1643,23 @@ const Home = () => {
       <NavBar />
       <div
         style={
-          (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data
-            .meta_data
+          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ??{}
         }
         className={twMerge(
           "",
-          (window.innerWidth > 768 ? mainStructure : mainmobileStructure).data
-            .meta_data
+          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         )}
       >
         {(window.innerWidth > 768
-          ? mainStructure
-          : mainmobileStructure
-        ).data.data.map((section, index) => {
+          ? main
+          : mainMob
+        )?.data?.data.map((section, index) => {
           return (
             <section key={index} style={section.containerStyle} className={twMerge(index > 0 && "p-0 mx-auto max-w-[1600px] w-full")}>
               <GetComponents data={section} />
             </section>
           );
-        })}
+        }) ?? <></>}
       </div>
       <Footer />
     </>

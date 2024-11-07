@@ -43,7 +43,6 @@ const ProductSearch = () => {
       "Personalised Gifts",
       "Plants",
       "Combos",
-      "Birthday Bestsellers",
     ],
     products: [
       {

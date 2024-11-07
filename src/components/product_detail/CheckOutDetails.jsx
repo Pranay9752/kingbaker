@@ -31,6 +31,7 @@ import { AddressForm } from "./AddAddress";
 import getCookie from "../../atom/utils/getCookies";
 import OrderDeliveryDetails from "./OrderDeliveryDetails";
 import { toast } from "sonner";
+import SenderDetailsForm from "./senderDetails";
 
 const options1 = [
   { value: "birthday", label: "Birthday" },
@@ -516,6 +517,8 @@ function CheckOutDetails() {
                 );
               })}
             </div>
+            <SenderDetailsForm />
+
             <PriceDetails className={`w-full max-w-full`} />
           </>
         ) : isOpen == 1 ? (
@@ -553,6 +556,7 @@ function CheckOutDetails() {
                 </>
               );
             })}
+            <SenderDetailsForm />
           </CheckoutCard>
 
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />

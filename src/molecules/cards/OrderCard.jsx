@@ -148,6 +148,9 @@ const OrderCard = ({
     //     ))}
     //   </div>
     // </motion.div>
+    <>
+{
+  order?.order_id ? 
     <motion.div
       className={classNames("rounded-lg shadow-lg p-6 mb-4 border-2", {
         "border-blue-500": isActive,
@@ -327,7 +330,9 @@ const OrderCard = ({
           </div>
         ))}
       </div>
-    </motion.div>
+    </motion.div> : <></>
+}
+    </>
   );
 };
 

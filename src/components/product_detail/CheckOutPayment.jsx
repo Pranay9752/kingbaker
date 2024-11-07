@@ -42,8 +42,8 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   }
 
   return (
-    <div className=" p-3">
-      <div className="space-y-4">
+    <div className="w-full p-3">
+      <div className="w-full space-y-4">
         {/* Wallets Option */}
         <div className="flex items-center space-x-2">
           <input
@@ -284,7 +284,7 @@ const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
 
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md max-w-sm border">
+    <div className="w-full bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
       <div className="space-y-2">
         <div className="flex justify-between">
@@ -393,6 +393,17 @@ function CheckOutPayment() {
           />
           <SecurePaymentCard />
         </div>
+
+      </div>
+      <div className="md:hidden flex flex-col gap-4 mt-20 justify-start items-center w-full">
+        <PriceDetails
+          orderIds={orderIds}
+          totalAddonPrice={totalAddonPrice}
+          totalPrice={totalPrice}
+          totalitemPrice={totalitemPrice}
+        />
+        <PaymentOptions orderIds={orderIds} totalPrice={totalPrice ?? 0} />
+        <SecurePaymentCard />
       </div>
     </>
   );

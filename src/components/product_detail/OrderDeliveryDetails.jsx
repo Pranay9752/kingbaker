@@ -31,6 +31,7 @@ const OrderDeliveryDetails = ({
   dense = false,
   viewOnly = false,
 }) => {
+  console.log(mainItem)
   const [reicipientAddress, setReicipientAddress] = useState([]);
   const [openAddAddress, setOpenAddAddress] = useState(false);
   const [defaultAddress, setDefaultAddress] = useState({

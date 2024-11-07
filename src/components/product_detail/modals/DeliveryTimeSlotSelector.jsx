@@ -119,7 +119,6 @@ const DeliveryTimeSlotSelector = ({
             { id: 4, time: "17:00 PM - 24:00 PM" },
           ],
         },
-        ,
         ...prev,
       ]);
   }, []);
