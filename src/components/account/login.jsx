@@ -15,8 +15,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleOnLogin = ({ data }) => {
-    console.log("data: ", data);
-    navigate(next ? next : '/');
+    // navigate(next ? next : '/');
   };
 
   useEffect(() => {

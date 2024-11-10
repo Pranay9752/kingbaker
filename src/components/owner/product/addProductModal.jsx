@@ -141,14 +141,45 @@
 // export default AddProductModal
 
 
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Input } from '../vendors/addVendor';
+// import { Input } from '../vendors/addVendor';
 import BasicButton from '../../../atom/button/BasicButton';
 import Select from 'react-select';
 import { useCreateProductMutation } from '../../../redux/apiSlices/owner/product';
+import { toast } from 'sonner';
+import Loader from '../../../atom/loader/loader';
+
+
+
+export const Input = forwardRef(({
+  name,
+  className = "",
+  error,
+  type = "text",
+  step,
+  ...props
+}, ref) => {
+  const baseClasses =
+    "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
+  const errorClasses = error ? "border-red-500" : "";
+
+  return (
+    <input
+      ref={ref}
+      id={name}
+      name={name}
+      type={type}
+      step={step}
+      className={`${baseClasses} ${errorClasses} ${className}`}
+      aria-invalid={error ? "true" : "false"}
+      aria-describedby={error ? `${name}-error` : undefined}
+      {...props}
+    />
+  );
+});
 
 
 // Customized select theme
@@ -207,48 +238,48 @@ const customSelectStyles = {
 };
 
 
+// const validationSchema = Yup.object().shape({
+//   product_details: Yup.array().of(
+//     Yup.object().shape({
+//       prices: Yup.number().required('Price is required'),
+//       imageLink: Yup.array().of(Yup.string().required('Image link is required')).min(1, 'At least one image is required'),
+//       title: Yup.string().required('Title is required'),
+//       description: Yup.string().required('Description is required'),
+//       specifications: Yup.string().required('Specifications are required'),
+//       details: Yup.array().of(
+//         Yup.object().shape({
+//           key: Yup.string().required('Key is required'),
+//           value: Yup.string().required('Value is required'),
+//         })
+//       ).min(1, 'At least one detail is required'),
+//       amenities: Yup.object().shape({
+//         Delivery: Yup.string(),
+//       }),
+//       event: Yup.array().of(Yup.string()).nullable(),
+//       rating: Yup.number().min(1).max(5).nullable(),
+//       reviews: Yup.array().of(
+//         Yup.object().shape({
+//           user_id: Yup.string().nullable(),
+//           reviews: Yup.string().nullable(),
+//         })
+//       ).nullable(),
+//       tags: Yup.array().of(Yup.string()).min(1, 'At least one tag is required'),
+//       weight: Yup.array().of(
+//         Yup.object().shape({
+//           key: Yup.string().required('Key is required'),
+//           value: Yup.number().required('Weight must be a number'),
+//         })
+//       ).min(1, 'At least one weight entry is required'),
+//       brand: Yup.string().required('Brand is required'),
+//       color: Yup.string().nullable(),
+//     })
+//   ).min(1, 'At least one product detail is required'),
+// });
+
 const ProductForm = ({ onSubmit, onClose }) => {
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
 
-  const [createProduct, { isLoading }] = useCreateProductMutation()
-  // const validationSchema = Yup.object().shape({
-  //   product_details: Yup.array().of(
-  //     Yup.object().shape({
-  //       prices: Yup.number().required('Price is required'),
-  //       imageLink: Yup.array().of(Yup.string().required('Image link is required')).min(1, 'At least one image is required'),
-  //       title: Yup.string().required('Title is required'),
-  //       description: Yup.string().required('Description is required'),
-  //       specifications: Yup.string().required('Specifications are required'),
-  //       details: Yup.array().of(
-  //         Yup.object().shape({
-  //           key: Yup.string().required('Key is required'),
-  //           value: Yup.string().required('Value is required'),
-  //         })
-  //       ).min(1, 'At least one detail is required'),
-  //       amenities: Yup.object().shape({
-  //         Delivery: Yup.string(),
-  //       }),
-  //       event: Yup.array().of(Yup.string()).nullable(),
-  //       rating: Yup.number().min(1).max(5).nullable(),
-  //       reviews: Yup.array().of(
-  //         Yup.object().shape({
-  //           user_id: Yup.string().nullable(),
-  //           reviews: Yup.string().nullable(),
-  //         })
-  //       ).nullable(),
-  //       tags: Yup.array().of(Yup.string()).min(1, 'At least one tag is required'),
-  //       weight: Yup.array().of(
-  //         Yup.object().shape({
-  //           key: Yup.string().required('Key is required'),
-  //           value: Yup.number().required('Weight must be a number'),
-  //         })
-  //       ).min(1, 'At least one weight entry is required'),
-  //       brand: Yup.string().required('Brand is required'),
-  //       color: Yup.string().nullable(),
-  //     })
-  //   ).min(1, 'At least one product detail is required'),
-  // });
   const validationSchema = Yup.object().shape({
     product_details: Yup.array().of(
       Yup.object().shape({
@@ -288,7 +319,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
   });
 
 
-  const { register, control, handleSubmit, formState: { errors }, setValue } = useForm({
+  const { register, control, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       product_details: [{
@@ -305,11 +336,10 @@ const ProductForm = ({ onSubmit, onClose }) => {
         tags: [],
         weight: [{ key: '', value: 0 }],
         brand: '',
-        color: null,
+        color: 'white',
       }],
     },
   });
-  console.log(errors);
 
   const { fields: details, append: appendDetail, remove: removeDetail } = useFieldArray({
     control,
@@ -542,21 +572,38 @@ const ProductForm = ({ onSubmit, onClose }) => {
 };
 
 function AddProductModal({ onClose }) {
-  const handleSubmit = (data) => {
-    console.log("njnhb", data);
+  const [createProduct, { isLoading }] = useCreateProductMutation()
+
+  const handleSubmit = async (data) => {
+    try {
+      const response = await createProduct({ data: { product_details: { ...data.product_details?.[0] } } }).unwrap();
+      toast.success(response.message);
+      onClose();
+    } catch (error) {
+      toast.error("Failed to create product"); // You can customize this error message
+      console.error("Order creation error:", error);
+    }
   };
 
+
+  if (isLoading) return <Loader />
+
+
   return (
-    <div>
-      <h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center ">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-          <path d="M3 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3Z" />
-          <path fillRule="evenodd" d="M3 6h10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Zm3 2.75A.75.75 0 0 1 6.75 8h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 6 8.75Z" clipRule="evenodd" />
-        </svg>
-        Add Product
-      </h2>
-      <ProductForm onClose={onClose} onSubmit={handleSubmit} />
-    </div>
+    <>
+
+      <div>
+        <h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center ">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+            <path d="M3 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3Z" />
+            <path fillRule="evenodd" d="M3 6h10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Zm3 2.75A.75.75 0 0 1 6.75 8h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 6 8.75Z" clipRule="evenodd" />
+          </svg>
+          Add Product
+        </h2>
+        <ProductForm onClose={onClose} onSubmit={handleSubmit} />
+      </div>
+
+    </>
   );
 }
 

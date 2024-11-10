@@ -473,12 +473,31 @@ function CheckOutDetails() {
     }
   }, [data]);
 
+  // useEffect(() => {
+  //   const isLogin = getCookie("_id") ? true : false;
+  //   if (!isLogin) {
+  //     if(localStorage.getItem("isAccount") === "true") {
+  //       localStorage.removeItem("isAccount");
+  //       navigate("/");
+  //     }
+  //     localStorage.setItem("isAccount", "true");
+  //     navigate("/checkout/account");
+  //   }
+  // }, []);
   useEffect(() => {
-    const isLogin = getCookie("_id") ? true : false;
+    const isLogin = Boolean(getCookie("_id"));
+    
     if (!isLogin) {
-      navigate("/checkout/account");
+      if (localStorage.getItem("isAccount") === "true") {
+        localStorage.removeItem("isAccount");
+        navigate("/");
+      } else {
+        localStorage.setItem("isAccount", "true");
+        navigate("/checkout/account");
+      }
     }
-  }, []);
+  }, [navigate]);
+  
 
   useEffect(() => {
     if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");

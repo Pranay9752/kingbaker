@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MenuNavbar from "../../atom/nav/MenuSidebar";
 import NavSidebar from "../../atom/nav/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 export default function HeaderLayout({
   id,
@@ -9,6 +10,7 @@ export default function HeaderLayout({
   title,
   children,
 }) {
+  const navigate = useNavigate()
   const userProfile = {
     image: "https://flowbite.com/docs/images/people/profile-picture-5.jpg",
     name: "Pranay Ambre",
@@ -93,8 +95,9 @@ export default function HeaderLayout({
     },
     {
       id: 6,
-      link: "/admin/dashboard",
+      link: "/",
       label: "Place Order",
+     
       iconPath: (
         <>
           <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -127,95 +130,95 @@ export default function HeaderLayout({
         </>
       ),
     },
-    {
-      id: 7,
-      link: "/admin/dashboard",
-      label: "SLA",
-      iconPath: (
-        <>
-          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M3 7.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V7.4C10 7.73137 9.73137 8 9.4 8H3.6C3.26863 8 3 7.73137 3 7.4Z"
-              strokeWidth="1.5"
-            ></path>
-            <path
-              d="M14 20.4V16.6C14 16.2686 14.2686 16 14.6 16H20.4C20.7314 16 21 16.2686 21 16.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z"
-              strokeWidth="1.5"
-            ></path>
-            <path
-              d="M14 12.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V12.4C21 12.7314 20.7314 13 20.4 13H14.6C14.2686 13 14 12.7314 14 12.4Z"
-              strokeWidth="1.5"
-            ></path>
-            <path
-              d="M3 20.4V11.6C3 11.2686 3.26863 11 3.6 11H9.4C9.73137 11 10 11.2686 10 11.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z"
-              strokeWidth="1.5"
-            ></path>
-          </g>
-        </>
-      ),
-    },
-    {
-      id: 8,
-      link: "/admin/dashboard",
-      label: "Fulfiled Report",
-      iconPath: (
-        <>
-          <path
-            fillRule="evenodd"
-            d="M15.988 3.012A2.25 2.25 0 0 1 18 5.25v6.5A2.25 2.25 0 0 1 15.75 14H13.5V7A2.5 2.5 0 0 0 11 4.5H8.128a2.252 2.252 0 0 1 1.884-1.488A2.25 2.25 0 0 1 12.25 1h1.5a2.25 2.25 0 0 1 2.238 2.012ZM11.5 3.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.25h-3v-.25Z"
-            clipRule="evenodd"
-          />
-          <path
-            fillRule="evenodd"
-            d="M2 7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7Zm2 3.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z"
-            clipRule="evenodd"
-          />
-        </>
-      ),
-    },
-    {
-      id: 9,
-      link: "/users",
-      label: "Performance Report",
-      iconPath: (
-        <path d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
-      ),
-    },
-    {
-      id: 10,
-      link: "/admin/dashboard",
-      label: "My Inventory",
-      iconPath: (
-        <>
-          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <g clipPath="url(#clip0_525_127)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M1 0C1.55228 0 2 0.447715 2 1V8H5C4.44772 8 4 7.55228 4 7V5C4 4.44772 4.44772 4 5 4H9C9.55228 4 10 4.44772 10 5V7C10 7.55228 9.55228 8 9 8H13C12.4477 8 12 7.55228 12 7V3C12 2.44772 12.4477 2 13 2H19C19.5523 2 20 2.44772 20 3V7C20 7.55228 19.5523 8 19 8H22V1C22 0.447715 22.4477 0 23 0C23.5523 0 24 0.447715 24 1V23C24 23.5523 23.5523 24 23 24C22.4477 24 22 23.5523 22 23V22H2V23C2 23.5523 1.55228 24 1 24C0.447715 24 0 23.5523 0 23V1C0 0.447715 0.447715 0 1 0ZM22 20H19C19.5523 20 20 19.5523 20 19V15C20 14.4477 19.5523 14 19 14H14C13.4477 14 13 14.4477 13 15V19C13 19.5523 13.4477 20 14 20H10C10.5523 20 11 19.5523 11 19V13C11 12.4477 10.5523 12 10 12H5C4.44772 12 4 12.4477 4 13V19C4 19.5523 4.44772 20 5 20H2V10H22V20Z"
-              ></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_525_127">
-                <rect width="24" height="24" fill="white"></rect>
-              </clipPath>
-            </defs>
-          </g>
-        </>
-      ),
-    },
+    // {
+    //   id: 7,
+    //   link: "/admin/dashboard",
+    //   label: "SLA",
+    //   iconPath: (
+    //     <>
+    //       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    //       <g
+    //         id="SVGRepo_tracerCarrier"
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
+    //       ></g>
+    //       <g id="SVGRepo_iconCarrier">
+    //         <path
+    //           d="M3 7.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V7.4C10 7.73137 9.73137 8 9.4 8H3.6C3.26863 8 3 7.73137 3 7.4Z"
+    //           strokeWidth="1.5"
+    //         ></path>
+    //         <path
+    //           d="M14 20.4V16.6C14 16.2686 14.2686 16 14.6 16H20.4C20.7314 16 21 16.2686 21 16.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z"
+    //           strokeWidth="1.5"
+    //         ></path>
+    //         <path
+    //           d="M14 12.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V12.4C21 12.7314 20.7314 13 20.4 13H14.6C14.2686 13 14 12.7314 14 12.4Z"
+    //           strokeWidth="1.5"
+    //         ></path>
+    //         <path
+    //           d="M3 20.4V11.6C3 11.2686 3.26863 11 3.6 11H9.4C9.73137 11 10 11.2686 10 11.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z"
+    //           strokeWidth="1.5"
+    //         ></path>
+    //       </g>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   id: 8,
+    //   link: "/admin/dashboard",
+    //   label: "Fulfiled Report",
+    //   iconPath: (
+    //     <>
+    //       <path
+    //         fillRule="evenodd"
+    //         d="M15.988 3.012A2.25 2.25 0 0 1 18 5.25v6.5A2.25 2.25 0 0 1 15.75 14H13.5V7A2.5 2.5 0 0 0 11 4.5H8.128a2.252 2.252 0 0 1 1.884-1.488A2.25 2.25 0 0 1 12.25 1h1.5a2.25 2.25 0 0 1 2.238 2.012ZM11.5 3.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.25h-3v-.25Z"
+    //         clipRule="evenodd"
+    //       />
+    //       <path
+    //         fillRule="evenodd"
+    //         d="M2 7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7Zm2 3.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z"
+    //         clipRule="evenodd"
+    //       />
+    //     </>
+    //   ),
+    // },
+    // {
+    //   id: 9,
+    //   link: "/users",
+    //   label: "Performance Report",
+    //   iconPath: (
+    //     <path d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
+    //   ),
+    // },
+    // {
+    //   id: 10,
+    //   link: "/admin/dashboard",
+    //   label: "My Inventory",
+    //   iconPath: (
+    //     <>
+    //       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    //       <g
+    //         id="SVGRepo_tracerCarrier"
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
+    //       ></g>
+    //       <g id="SVGRepo_iconCarrier">
+    //         <g clipPath="url(#clip0_525_127)">
+    //           <path
+    //             fillRule="evenodd"
+    //             clipRule="evenodd"
+    //             d="M1 0C1.55228 0 2 0.447715 2 1V8H5C4.44772 8 4 7.55228 4 7V5C4 4.44772 4.44772 4 5 4H9C9.55228 4 10 4.44772 10 5V7C10 7.55228 9.55228 8 9 8H13C12.4477 8 12 7.55228 12 7V3C12 2.44772 12.4477 2 13 2H19C19.5523 2 20 2.44772 20 3V7C20 7.55228 19.5523 8 19 8H22V1C22 0.447715 22.4477 0 23 0C23.5523 0 24 0.447715 24 1V23C24 23.5523 23.5523 24 23 24C22.4477 24 22 23.5523 22 23V22H2V23C2 23.5523 1.55228 24 1 24C0.447715 24 0 23.5523 0 23V1C0 0.447715 0.447715 0 1 0ZM22 20H19C19.5523 20 20 19.5523 20 19V15C20 14.4477 19.5523 14 19 14H14C13.4477 14 13 14.4477 13 15V19C13 19.5523 13.4477 20 14 20H10C10.5523 20 11 19.5523 11 19V13C11 12.4477 10.5523 12 10 12H5C4.44772 12 4 12.4477 4 13V19C4 19.5523 4.44772 20 5 20H2V10H22V20Z"
+    //           ></path>
+    //         </g>
+    //         <defs>
+    //           <clipPath id="clip0_525_127">
+    //             <rect width="24" height="24" fill="white"></rect>
+    //           </clipPath>
+    //         </defs>
+    //       </g>
+    //     </>
+    //   ),
+    // },
   ];
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = (value) => setIsOpen((prev) => value ?? !prev);

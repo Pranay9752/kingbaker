@@ -12,6 +12,15 @@ const DeliveryTimeSlotSelector = ({
 
   const [deliveryOptions, setDeliveryOptions] = useState([
     {
+      id: "courier",
+      title: "Courier Delivery",
+      price: 60,
+      description: "",
+      expressSlots: [
+        { id: 1, time: "09:00 AM - 9:00 PM" },
+      ],
+    },
+    {
       id: "standard",
       title: "Standard Delivery",
       price: 19,

@@ -13,13 +13,14 @@ function CheckOutLogin() {
   const navigate = useNavigate();
 
   const handleOnLogin = ({ data }) => {
-    console.log("data: ", data);
+    localStorage.removeItem("isAccount");
     navigate("/checkout/details");
   };
 
   useEffect(() => {
     const isLogin = getCookie("_id") ? true : false;
     if (isLogin) {
+      
       navigate("/checkout/details");
     }
 
