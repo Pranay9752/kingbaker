@@ -40,14 +40,15 @@ const ProductAddOns = ({
   const total = useMemo(
     () =>
       Object.entries(quantities).reduce(
-        (curr, {productId, quantity}) => {
+        (acc, current) => {
           const product = addons?.find(
-            (p) => p.addOn_id === parseInt(productId)
+            (p) => p.addOn_id == current[0]
           );
-          console.log('product: ', product);
+          console.log(product)
+
           return {
-            price: curr?.price + (product ? product.price * quantity : 0),
-            quantity: quantity + curr?.quantity,
+            price: acc?.price + (product ? product.price * current[1] : 0),
+            quantity: current[1] + acc?.quantity,
           };
         },
         {
@@ -177,7 +178,7 @@ const ProductAddOns = ({
         await createOrder(newOrder);
         toast.success("Order created successfully");
         navigate("/");
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 

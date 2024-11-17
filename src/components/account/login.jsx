@@ -15,7 +15,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleOnLogin = ({ data }) => {
-    // navigate(next ? next : '/');
+    navigate(next ? next : '/');
   };
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function Login() {
     <>
       <Basicheader title={"Login/Register"} link={"/"} />
       <div className="max-w-[1600px] mx-auto flex justify-center h-full items-center ">
-        <section className="px-3 mt-20 flex flex-col gap-3 md:w-[30%] ">
+        <section className="px-3 mt-20 flex flex-col gap-3 w-full md:w-[30%] ">
           <AccountAuth handleOnLogin={handleOnLogin} />
           <SecurePaymentCard />
         </section>
