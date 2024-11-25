@@ -7,7 +7,7 @@ import AddNewAddress from "./components/product_detail/AddAddress";
 import { Toaster } from "sonner";
 import Home from "./components/home";
 import CheckOutDetails from "./components/product_detail/CheckOutDetails";
-import ProductSearch from "./components/productListing";
+import ProductSearch from "./components/productListing/index.jsx";
 import Login from "./components/account/login";
 import MyAccount from "./components/accountProfile/MyAccount";
 import AdminDashboard from "./components/admin/dashboard";
