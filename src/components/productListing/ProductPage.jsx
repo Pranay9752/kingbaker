@@ -49,7 +49,7 @@ const ProductListing = ({
   return (
 
     <div className="max-w-7xl mx-auto md:p-4 md:pl-0 ">
-      <div className="p-3 pb-0 rounded-lg bg-white">
+      <div className="p-3 mx-4 md:mx-0 pb-0 rounded-lg bg-white">
         <div className="md:flex hidden items-center mb-4">
           <h1 className="text-2xl font-semibold capitalize">{title}{"    "}</h1>
           <div className="flex items-center gap-4">
@@ -109,7 +109,7 @@ const ProductListing = ({
         </div>
       )}
 
-      <div className="grid grid-cols-3 sm:grid-cols-3 md:flex gap-4 mb-6">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:flex gap-4 mb-6 mx-4 md:mx-0">
         {categories.map((category, index) => (
           <button
             type="button"
@@ -144,7 +144,7 @@ const ProductListing = ({
       </div>
 
       {hasProducts ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 gap-0 divide-y divide-x md:divide-x-0 md:divide-y-0 divide-gray-400">
           {products.map((product, index) => (
             <FlowerBouquetCard
               key={product.productId}

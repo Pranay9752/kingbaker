@@ -213,7 +213,7 @@ const ProductSearch = () => {
         userGreeting="Hi Guest"
       />
       <NavBar />
-      <div className="flex h-screen max-w-[1600px] md:mx-auto gap-4 bg-gray-100 mt-4 md:px-4 pl-4">
+      <div className="flex h-screen max-w-[1600px] md:mx-auto md:gap-4 bg-gray-100 mt-4 md:px-4 md:pl-4">
         <div className="hidden md:block w-3/12 bg-gray-100 h-fit rounded-lg overflow-hidden mt-4 sticky top-4">
           <Sidebar
             mode="filter"
@@ -225,7 +225,7 @@ const ProductSearch = () => {
         </div>
 
         {/* Product Listing */}
-        <div className="w-full 9/12 overflow-y-scroll h-full hide-scrollbar">
+        <div className="w-full overflow-y-scroll h-full hide-scrollbar">
           <ProductListing
             {...birthdayGiftsData}
             title={tag?.tag}
