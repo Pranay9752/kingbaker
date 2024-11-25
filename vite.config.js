@@ -7,4 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['chunk-PL7FREAV'], // Add the problematic dependency here
   },
+  server: {
+    historyApiFallback: true,
+  },
 })
