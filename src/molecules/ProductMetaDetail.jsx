@@ -1,40 +1,55 @@
 import { useState } from "react";
 import BasicButton from "../atom/button/BasicButton";
 
-const SECTIONS = [
-  { label: "Description", value: "Description" },
-  { label: "Delivery Info", value: "Delivery Info" },
-  { label: "Care Info", value: "Care Info" },
+
+const details = [
+  {
+    label: "Description",
+    detail: {
+      "Product Details": {
+        "Cake Flavour": "Truffle",
+        Version: "Eggless",
+        "Type of Cake": "Cream Cake",
+        Shape: "Round",
+        Weight: "500 gm",
+        "Net Quantity": "1 Cake",
+        Diameter: "7.5 inch",
+        "Country Of Origin": "India",
+        Serves: "4-6 People",
+      },
+      Ingredients: [
+        "Chocolate premix",
+        "Refined oil",
+        "Breakfast Sugar",
+        "Chocolate Truffle Base",
+        "Dark Chocolate compound",
+        "Milk chocolate compound",
+        "Chocolate Glaze",
+      ],
+    },
+  },
+  {
+    label: "Delivery Info",
+    detail: {
+      "Please Note": [
+        "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.",
+        "This cake is hand delivered in a good quality cardboard box.",
+      ],
+    },
+  },
+  {
+    label: "Care Info",
+    detail: {
+      "Storage Instructions": [
+        "Keep the cake in a refrigerator.",
+        "Consume within 24 hours for best taste.",
+      ],
+    },
+  },
 ];
 
-const productDetails = {
-  "Product Details": {
-    "Cake Flavour": "Truffle",
-    Version: "Eggless",
-    "Type of Cake": "Cream Cake",
-    Shape: "Round",
-    Weight: "500 gm",
-    "Net Quantity": "1 Cake",
-    Diameter: "7.5 inch",
-    "Country Of Origin": "India",
-    Serves: "4-6 People",
-  },
-  Ingredients: [
-    "Chocolate premix",
-    "Refined oil",
-    "Breakfast Sugar",
-    "Chocolate Truffle Base",
-    "Dark Chocolate compound",
-    "Milk chocolate compound",
-    "Chocolate Glaze",
-  ],
-  "Please Note": [
-    "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.",
-    "This cake is hand delivered in a good quality cardboard box.",
-  ],
-};
-
-const ProductMetaDetail = ({ details }) => {
+const ProductMetaDetail = ({details}) => {
+  console.log('details: ', details);
   const [selectedSection, setSelectedSection] = useState(0);
 
   const handleChange = (index) => {
@@ -43,7 +58,6 @@ const ProductMetaDetail = ({ details }) => {
   if (details?.length === 0) {
     return <></>;
   }
-  console.log(details?.[selectedSection]?.detail ?? {});
 
   return (
     <>

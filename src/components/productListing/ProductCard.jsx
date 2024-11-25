@@ -16,7 +16,7 @@ export const FallbackImage = ({ src, alt, className, index, currentImageIndex })
     <img
       src={imgSrc}
       alt={alt}
-      className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+      className={`absolute top-0 left-0 w-full h- full object- transition-opacity duration-500 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
         } ${className}`}
       onError={handleError}
     />
@@ -60,7 +60,7 @@ const FlowerBouquetCard = ({
       }}
       onClick={() => navigate(`/product/${productId}`)}
     >
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-[176px] md:h-64 overflow-hidden">
         {images?.length > 0 &&
           images.map((image, index) => (
             <FallbackImage

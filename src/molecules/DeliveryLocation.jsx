@@ -63,7 +63,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
         </div>
 
         {/* Right section */}
-        <div className="flex justify-around w-full items-center gap-2 text-xl truncate">
+        <div  onClick={handleTogglePincodeModal} className="flex justify-around w-full items-center gap-2 text-xl truncate">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -80,7 +80,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
             {pincode}, {location}
           </span>
           <svg
-            onClick={handleTogglePincodeModal}
+           
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"

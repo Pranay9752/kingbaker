@@ -1,4 +1,5 @@
 import BasicButton from "../atom/button/BasicButton";
+import scrollToDiv from "../atom/utils/scrollToDiv";
 
 const PriceInfo = ({ price, taxInfo }) => (
   <>

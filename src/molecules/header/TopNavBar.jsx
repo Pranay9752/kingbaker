@@ -232,8 +232,13 @@ const TopNavbar = ({
                   <AddToCartModal />
                 </div>
               </div>
-             {Array.isArray(cartData) && cartData?.length > 0 && <span className={`absolute bg-red-400 text-xs font-bold rounded-full px-1 -top-2 -right-1`}>{cartData.length}</span>}
-
+              {Array.isArray(cartData) && cartData?.length > 0 && (
+                <span
+                  className={`absolute bg-red-400 text-xs font-bold rounded-full px-1 -top-2 -right-1`}
+                >
+                  {cartData.length}
+                </span>
+              )}
             </div>
 
             <div
@@ -253,8 +258,9 @@ const TopNavbar = ({
 
               <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <div
-                  className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"
-                    }`}
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "" : "hidden"
+                  }`}
                 >
                   <Link
                     to="/account/login"
@@ -279,8 +285,9 @@ const TopNavbar = ({
                   ))}
                 </ul>
                 <div
-                  className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""
-                    }`}
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "hidden" : ""
+                  }`}
                 >
                   <div
                     onClick={() => {
@@ -344,21 +351,6 @@ const TopNavbar = ({
                   />
                 </svg>
               </button>
-              <button className="text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-6"
-                >
-                  <path d="M12 11.993a.75.75 0 0 0-.75.75v.006c0 .414.336.75.75.75h.006a.75.75 0 0 0 .75-.75v-.006a.75.75 0 0 0-.75-.75H12ZM12 16.494a.75.75 0 0 0-.75.75v.005c0 .414.335.75.75.75h.005a.75.75 0 0 0 .75-.75v-.005a.75.75 0 0 0-.75-.75H12ZM8.999 17.244a.75.75 0 0 1 .75-.75h.006a.75.75 0 0 1 .75.75v.006a.75.75 0 0 1-.75.75h-.006a.75.75 0 0 1-.75-.75v-.006ZM7.499 16.494a.75.75 0 0 0-.75.75v.005c0 .414.336.75.75.75h.005a.75.75 0 0 0 .75-.75v-.005a.75.75 0 0 0-.75-.75H7.5ZM13.499 14.997a.75.75 0 0 1 .75-.75h.006a.75.75 0 0 1 .75.75v.005a.75.75 0 0 1-.75.75h-.006a.75.75 0 0 1-.75-.75v-.005ZM14.25 16.494a.75.75 0 0 0-.75.75v.006c0 .414.335.75.75.75h.005a.75.75 0 0 0 .75-.75v-.006a.75.75 0 0 0-.75-.75h-.005ZM15.75 14.995a.75.75 0 0 1 .75-.75h.005a.75.75 0 0 1 .75.75v.006a.75.75 0 0 1-.75.75H16.5a.75.75 0 0 1-.75-.75v-.006ZM13.498 12.743a.75.75 0 0 1 .75-.75h2.25a.75.75 0 1 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75ZM6.748 14.993a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M18 2.993a.75.75 0 0 0-1.5 0v1.5h-9V2.994a.75.75 0 1 0-1.5 0v1.497h-.752a3 3 0 0 0-3 3v11.252a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3V7.492a3 3 0 0 0-3-3H18V2.993ZM3.748 18.743v-7.5a1.5 1.5 0 0 1 1.5-1.5h13.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-13.5a1.5 1.5 0 0 1-1.5-1.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
               <div className="group relative">
                 <svg
                   onClick={() => setIsOpen(true)}
@@ -369,8 +361,13 @@ const TopNavbar = ({
                 >
                   <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
                 </svg>
-             {Array.isArray(cartData) && cartData?.length > 0 && <span className={`absolute bg-red-400 text-xs font-bold rounded-full px-1 -top-2 -right-1`}>{cartData.length}</span>}
-
+                {Array.isArray(cartData) && cartData?.length > 0 && (
+                  <span
+                    className={`absolute bg-red-400 text-xs font-bold rounded-full px-1 -top-2 -right-1`}
+                  >
+                    {cartData.length}
+                  </span>
+                )}
               </div>
               <button
                 type="button"

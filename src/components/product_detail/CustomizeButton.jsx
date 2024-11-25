@@ -7,7 +7,6 @@ const CustomizeButton = ({className}) => {
   const [saving, setSaving] = useState(false);
 
   const { setValue, getValues } = useFormContext();
-  console.log("getValues: ", getValues());
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -66,7 +65,7 @@ const CustomizeButton = ({className}) => {
               </svg>
 
               <span className="text-gray-700">
-                {saving ? "Saving..." : "Upload Photos and fill other details"}
+                {saving ? "Saving..." : "Upload Personalized Image - 100 KB - 10 MB. Only JPG, JPEG, PNG."}
               </span>
             </>
           )}

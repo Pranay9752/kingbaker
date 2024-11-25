@@ -101,7 +101,7 @@ const ProductDetails = ({
         </div>
         <div className="p-2 flex flex-col gap-4">
           <OffersAvailable />
-          {/* <ProductMetaDetail details={data?.details ?? []} /> */}
+          <ProductMetaDetail details={data?.details ?? []} />
 
           <ReviewCarousel
             reviews={data?.reviews ?? []}
@@ -149,7 +149,7 @@ const ProductDetails = ({
         />
         <ActionButtons product={data} productId={data?._id} />
         <OffersAvailable />
-        {/* <ProductMetaDetail details={data?.details ?? []} /> */}
+        <ProductMetaDetail details={data?.details ?? []} />
       </div>
     </>
   );

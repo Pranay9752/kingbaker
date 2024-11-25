@@ -5,8 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import getCookie from "../../../atom/utils/getCookies";
 import setCookie from "../../../atom/utils/setCookies";
-import { useCreateOrderMutation } from "../../../redux/apiSlices/ecom/checkoutApiSlice";
+import {
+  useCreateOrderMutation,
+  useGetCartItemQuery,
+} from "../../../redux/apiSlices/ecom/checkoutApiSlice";
 import { toast } from "sonner";
+import { addInit } from "../../../redux/slices/ecom/orderSlice";
+import { useDispatch } from "react-redux";
 
 const ProductAddOns = ({
   closeModal,
@@ -18,7 +23,10 @@ const ProductAddOns = ({
   const [quantities, setQuantities] = useState({});
   const { getValues } = useFormContext();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
+  const { data } = useGetCartItemQuery();
 
   const delivery = getValues("delivery");
   const categories = useMemo(
@@ -41,10 +49,8 @@ const ProductAddOns = ({
     () =>
       Object.entries(quantities).reduce(
         (acc, current) => {
-          const product = addons?.find(
-            (p) => p.addOn_id == current[0]
-          );
-          console.log(product)
+          const product = addons?.find((p) => p.addOn_id == current[0]);
+          console.log(product);
 
           return {
             price: acc?.price + (product ? product.price * current[1] : 0),
@@ -124,6 +130,50 @@ const ProductAddOns = ({
     return baseObject;
   };
 
+  const transformData = (data) => {
+    const tData = data.map((item, index) => {
+      const main = item?.mainItem ?? {};
+      const productDetail = main?.productDetails?.[0];
+      const addons = item?.addOn ?? [];
+      return {
+        mainItem: {
+          ...main,
+          id: productDetail._id,
+          name: productDetail?.title,
+          price: productDetail?.prices,
+          quantity: 1,
+          image: productDetail?.imageLink?.[0],
+        },
+        addons: addons?.map((addon) => ({
+          id: addon?._id ?? "",
+          name: addon?.title ?? "",
+          price: addon?.price ?? 0,
+          quantity: addon?.count?.count ?? 0,
+          image: addon?.images?.[0] ?? "",
+        })),
+        deliveryDetails: {
+          method: main?.shipping?.method,
+          date: main?.shipping?.delivary_date,
+          timeSlot: main?.shipping?.time,
+          fee: main?.shipping?.shipping_amount ?? 0,
+        },
+        occasion: null,
+        messageCard: "",
+        messageOnCake: "",
+      };
+    });
+
+    return tData;
+  };
+
+  const addToCartItem = async () => {
+    // if (data) {
+    //   const transformedData = transformData(data?.data?.delivery_details);
+    //   dispatch(addInit(transformedData));
+    //   navigate("/");
+    // }
+  };
+
   const handleSubmit = async () => {
     const isLogin = getCookie("_id") ? true : false;
     const addonsArr = Object.keys(quantities)?.map((item) => {
@@ -177,8 +227,9 @@ const ProductAddOns = ({
       try {
         await createOrder(newOrder);
         toast.success("Order created successfully");
-        navigate("/");
-      } catch (error) { }
+        await addToCartItem();
+        location.reload();
+      } catch (error) {}
     }
   };
 
