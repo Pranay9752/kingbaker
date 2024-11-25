@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import getCookie from "../../atom/utils/getCookies";
+import { twMerge } from "tailwind-merge";
 
 const MenuItem = ({
   onClick = () => {},
@@ -10,7 +11,6 @@ const MenuItem = ({
   level = 0,
   isFilterMode = false,
 }) => {
-  console.log("item: ", item);
   const [isOpen, setIsOpen] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
 
@@ -35,7 +35,11 @@ const MenuItem = ({
           onClick={() => onClick(`/search/${item}`)}
         >
           {/* <input type="checkbox" className="mr-2" /> */}
-          <span className="text-gray-700">{item}</span>
+          <span
+            className={twMerge("text-gray-700", level === 0 && "font-bold")}
+          >
+            {item}
+          </span>
           {/* {item.count && (
             <span className="ml-1 text-gray-500">({ item})</span>
           )} */}
@@ -47,7 +51,7 @@ const MenuItem = ({
   return (
     <div>
       <div
-        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold border-b ${
+        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold borde r-b ${
           level > 0 ? "pl-8" : ""
         } cursor-pointer `}
         onClick={() => {
@@ -245,7 +249,7 @@ const navItems = [
     ],
   },
   {
-    title: "BIRTHDAY",
+    title: "Aniversary",
     content: [
       {
         category: "MUST HAVES",
@@ -312,7 +316,7 @@ const navItems = [
     ],
   },
   {
-    title: "CAKES",
+    title: "Rakhi",
     content: [
       {
         category: "MUST",
@@ -406,11 +410,6 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
                 <span className="text-xl font-bold text-white ">
                   {getCookie("user") == "" ? "U" : getCookie("user")[0]}
                 </span>
-                {/* <img
-                  src="https://your-image-url-here.com/profile.jpg"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                /> */}
               </div>
               <span>
                 Hi {getCookie("user") == "" ? "Guest" : getCookie("user")}
@@ -427,16 +426,6 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
               )}
             </div>
           </div>
-          {/* <div className="p-2 bg-white text-white flex items-center border-b">
-            {textTop && (
-              <span className="mr-1 text-gray-700 text-sm ml-2 font-semibold">
-                {textTop}
-              </span>
-            )}
-            {isNew && (
-              <span className="text-xs bg-red-500 px-1 rounded">New</span>
-            )}
-          </div> */}
         </>
       )}
 
@@ -446,8 +435,8 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
         </div>
       )}
 
-      <div className="overflow-y-auto h-[calc(100%-112px)]">
-        <div className="h-72 overflow-y-scroll scrollbar-thin">
+      <div className="overflow-y-auto mt-2 h-[calc(100%-112px)]">
+        <div className="overflow-y-auto scrollbar-thin">
           {items.map((item, index) => (
             <MenuItem
               key={index}
@@ -457,6 +446,22 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
             />
           ))}
         </div>
+        <div className="px-4 pt-2 border-t">
+          <div
+            onClick={() => navigate("/account/details")}
+            className="text-gray-700 font-semibold"
+          >
+            My Account
+          </div>
+        </div>
+      </div>
+      <div className="fixed bottom-1 h-32 w-72 bg-white">
+        <img
+          src="https://i.ibb.co/LPFC6F8/logoking.png"
+          alt="logo Logo"
+          className="object-cover h-32"
+          // class="h-8"
+        ></img>
       </div>
     </div>
   );
