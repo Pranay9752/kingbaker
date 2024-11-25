@@ -29,7 +29,6 @@ import Landing from "./components/owner/landing";
 function App() {
   const location = useLocation();
   //   // return <MaintenancePage />;
-  // console.log(window.location)
   return (
     <>
       {/* <TopNavbar /> */}

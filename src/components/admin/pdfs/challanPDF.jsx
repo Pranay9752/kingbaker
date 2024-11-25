@@ -214,7 +214,6 @@ const ChallanPDF = ({ data = [] }) => {
                         ...styles.text,
                         border: "1px solid #000",
                         padding: 5,
-                        marginTop: "8px",
                         alignSelf: "flex-start",
                         marginHorizontal: "auto",
                         marginTop: "auto",
