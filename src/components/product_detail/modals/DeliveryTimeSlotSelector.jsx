@@ -12,12 +12,22 @@ const DeliveryTimeSlotSelector = ({
 
   const [deliveryOptions, setDeliveryOptions] = useState([
     {
-      id: "courier",
-      title: "Courier Delivery",
-      price: 60,
-      description: "",
+      id: "fixed",
+      title: "Fixed Time Delivery",
+      price: 99,
+      description: "Choose from any 1-hour slot",
       expressSlots: [
-        { id: 1, time: "09:00 AM - 9:00 PM" },
+        { id: 1, time: "10:00 AM - 11:00 AM" },
+        { id: 2, time: "11:00 AM - 12:00 PM" },
+        { id: 3, time: "12:00 PM - 1:00 PM" },
+        { id: 4, time: "1:00 PM - 2:00 PM" },
+        { id: 5, time: "2:00 PM - 3:00 PM" },
+        { id: 6, time: "3:00 PM - 4:00 PM" },
+        { id: 7, time: "4:00 PM - 5:00 PM" },
+        { id: 8, time: "5:00 PM - 6:00 PM" },
+        { id: 9, time: "6:00 PM - 7:00 PM" },
+        { id: 10, time: "7:00 PM - 8:00 PM" },
+        { id: 11, time: "8:00 PM - 9:00 PM" },
       ],
     },
     {
@@ -33,23 +43,17 @@ const DeliveryTimeSlotSelector = ({
       ],
     },
     {
+      id: "courier",
+      title: "Courier Delivery",
+      price: 60,
+      description: "",
+      expressSlots: [{ id: 1, time: "09:00 AM - 9:00 PM" }],
+    },
+    {
       id: "express",
       title: "Express Delivery",
       price: 49,
       description: "Choose from any 3-hour slot during the day",
-      expressSlots: [
-        { id: 1, time: "08:00 AM - 09:00 PM" },
-        { id: 2, time: "09:00 AM - 02:00 PM" },
-        { id: 3, time: "12:00 PM - 05:00 PM" },
-        { id: 4, time: "04:00 PM - 09:00 PM" },
-        { id: 5, time: "05:00 PM - 11:00 PM" },
-      ],
-    },
-    {
-      id: "fixed",
-      title: "Fixed Time Delivery",
-      price: 99,
-      description: "Choose from any 1-hour slot",
       expressSlots: [
         { id: 1, time: "08:00 AM - 09:00 PM" },
         { id: 2, time: "09:00 AM - 02:00 PM" },
