@@ -11,6 +11,7 @@ import ActionButtons from "../../molecules/ActionButtons";
 import SizeSelector from "./SizeSelector";
 import CustomizeButton from "./CustomizeButton";
 import { useFormContext } from "react-hook-form";
+import MessageInput from "../../molecules/MessageInput";
 
 const ProductDetails = ({
   data,
@@ -82,7 +83,7 @@ const ProductDetails = ({
   return (
     <>
       <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
-        <div className="p-2 flex flex-col gap-2">
+        <div className="p-2 flex flex-col gap-3">
           <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
           <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
           <PriceInfo price={price ?? data?.prices ?? 0} taxInfo={taxInfo} />
@@ -95,6 +96,7 @@ const ProductDetails = ({
 
           {data?.is_veg && <EggOptions />}
           {data?.is_image && <CustomizeButton />}
+          {data?.is_message && <MessageInput />}
         </div>
         <div className="bg-gray-100 p-2">
           <DeliveryInfo key={"mobileDel"} />
