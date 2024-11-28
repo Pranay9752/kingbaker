@@ -36,10 +36,10 @@ const DeliveryTimeSlotSelector = ({
       price: 19,
       description: "Choose between 1st half or 2nd half of the day",
       expressSlots: [
-        { id: 1, time: "09:00 AM - 14:00 PM" },
-        { id: 2, time: "12:00 AM - 17:00 PM" },
-        { id: 3, time: "16:00 PM - 21:00 PM" },
-        { id: 4, time: "17:00 PM - 24:00 PM" },
+        { id: 1, time: "9:00 AM - 2:00 PM" },
+        { id: 2, time: "12:00 AM - 5:00 PM" },
+        { id: 3, time: "4:00 PM - 9:00 PM" },
+        { id: 4, time: "5:00 PM - 12:00 AM" },
       ],
     },
     {
@@ -120,19 +120,19 @@ const DeliveryTimeSlotSelector = ({
     const isFree = true;
     isFree &&
       setDeliveryOptions((prev) => [
+        ...prev,
         {
           id: "freeDelivery",
           title: "Free Delivery",
           price: 0,
           description: "Choose for free in your given timeslot.",
           expressSlots: [
-            { id: 1, time: "09:00 AM - 14:00 PM" },
-            { id: 2, time: "12:00 AM - 17:00 PM" },
-            { id: 3, time: "16:00 PM - 21:00 PM" },
-            { id: 4, time: "17:00 PM - 24:00 PM" },
+            { id: 1, time: "9:00 AM - 2:00 PM" },
+            { id: 2, time: "12:00 AM - 5:00 PM" },
+            { id: 3, time: "4:00 PM - 9:00 PM" },
+            { id: 4, time: "5:00 PM - 12:00 AM" },
           ],
         },
-        ...prev,
       ]);
   }, []);
 
