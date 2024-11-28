@@ -86,48 +86,8 @@ const TopNavbar = ({
 
   return (
     <>
-      <nav className={twMerge("bg-[#7d8035] text-white", className)}>
+      <nav className={twMerge("bg-[#7d8035] text-white ", className)}>
         <div className="hidden md:flex bg-[#707428] w-full h-6  items-center text-xs font-semibold justify-end gap-2">
-          {/* <div className="relative">
-            <button
-              onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
-              className="flex items-center space-x-1"
-            >
-              <span>Currency</span>
-              <span>{currency.code}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="size-5"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-            {isCurrencyOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 z-10 max-h-60 overflow-y-auto">
-                {currencies.map((curr) => (
-                  <button
-                    key={curr.code}
-                    onClick={() => {
-                      setCurrency(curr);
-                      setIsCurrencyOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  >
-                    {curr.code} - {curr.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {franchiseEnquiriesText && <button>{franchiseEnquiriesText}</button>}
-          {corporateGiftsText && <button>{corporateGiftsText}</button>} */}
 
           {moreOptions.length > 0 && (
             <div className="relative">
@@ -165,7 +125,7 @@ const TopNavbar = ({
             </div>
           )}
         </div>
-        <div className="container mx-auto hidden md:flex items-center justify-between p-4">
+        <div className="container mx-auto hidden  md:flex items-center justify-between p-4">
           <div className="flex items-center space-x-4 ml-4">
             {logo && (
               <img

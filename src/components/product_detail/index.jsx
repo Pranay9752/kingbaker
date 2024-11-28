@@ -130,24 +130,24 @@ const ProductDetail = () => {
   return (
     <>
       <FormProvider {...methods}>
+        {/* <MobileHeader /> */}
+        <TopNavbar
+          className={`fixed top-0 z-50 w-full md:hidden`}
+          logo="/path/to/your/logo.png"
+          title="logo"
+          searchPlaceholder="Search flowers, cakes, gifts, etc."
+          currencies={["INR", "USD", "EUR"]}
+          deliveryLocationText="Select Delivery Location"
+          franchiseEnquiriesText="Franchise Enquiries"
+          corporateGiftsText="Corporate Gifts"
+          moreOptions={[
+            { label: "About Us", link: "/about" },
+            { label: "Contact", link: "/contact" },
+            { label: "FAQ", link: "/faq" },
+          ]}
+          userGreeting="Hi Guest"
+        />
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          {/* <MobileHeader /> */}
-          <TopNavbar
-            className={`fixed top-0 z-50 w-[100vw] md:hidden`}
-            logo="/path/to/your/logo.png"
-            title="logo"
-            searchPlaceholder="Search flowers, cakes, gifts, etc."
-            currencies={["INR", "USD", "EUR"]}
-            deliveryLocationText="Select Delivery Location"
-            franchiseEnquiriesText="Franchise Enquiries"
-            corporateGiftsText="Corporate Gifts"
-            moreOptions={[
-              { label: "About Us", link: "/about" },
-              { label: "Contact", link: "/contact" },
-              { label: "FAQ", link: "/faq" },
-            ]}
-            userGreeting="Hi Guest"
-          />
           <div className="md:hidden relative h-screen px-52 bg-gray-100">
             <ImageCarousel
               images={data?.data?.imageLink ?? []}
@@ -159,9 +159,7 @@ const ProductDetail = () => {
               title="Decorated Chocolate Truffle Cake Half Kg Egg..."
               rating={1}
               reviews={1256}
-              price={
-                methods.watch("specification")?.value?.price
-              }
+              price={methods.watch("specification")?.value?.price}
               taxInfo="Inclusive of all taxes"
               timeLeft="01:25:30"
             />
@@ -210,9 +208,7 @@ const ProductDetail = () => {
                   title="Decorated Chocolate Truffle Cake Half Kg Egg..."
                   rating={5}
                   reviews={1256}
-                  price={
-                    methods.watch("specification")?.value?.price
-                  }
+                  price={methods.watch("specification")?.value?.price}
                   taxInfo="Inclusive of all taxes"
                   timeLeft="01:25:30"
                 />

@@ -340,7 +340,7 @@ const MyAccount = () => {
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 bg-gray-100 flex justify-around py-2">
-              <button className="text-center">
+              <button onClick={() => navigate("/")} className="text-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -356,7 +356,7 @@ const MyAccount = () => {
 
                 <span className="text-xs">Home</span>
               </button>
-              <button className="text-center">
+              <button onClick={() => navigate("/search/today")} className="text-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -372,42 +372,7 @@ const MyAccount = () => {
                   />
                 </svg>
 
-                <span className="text-xs">Same Day</span>
-              </button>
-              <button className="text-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5 mx-auto mb-1 text-gray-500"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"
-                  />
-                </svg>
-
-                <span className="text-xs">Chat with us</span>
-              </button>
-              <button className="text-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="size-5 mx-auto mb-1 text-gray-500"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M14 6a2.5 2.5 0 0 0-4-3 2.5 2.5 0 0 0-4 3H3.25C2.56 6 2 6.56 2 7.25v.5C2 8.44 2.56 9 3.25 9h6V6h1.5v3h6C17.44 9 18 8.44 18 7.75v-.5C18 6.56 17.44 6 16.75 6H14Zm-1-1.5a1 1 0 0 1-1 1h-1v-1a1 1 0 1 1 2 0Zm-6 0a1 1 0 0 0 1 1h1v-1a1 1 0 0 0-2 0Z"
-                    clipRule="evenodd"
-                  />
-                  <path d="M9.25 10.5H3v4.75A2.75 2.75 0 0 0 5.75 18h3.5v-7.5ZM10.75 18v-7.5H17v4.75A2.75 2.75 0 0 1 14.25 18h-3.5Z" />
-                </svg>
-
-                <span className="text-xs">Offers</span>
+                <span className="text-xs">Search</span>
               </button>
               <button className="text-center">
                 <svg

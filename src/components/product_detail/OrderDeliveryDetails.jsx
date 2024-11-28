@@ -31,7 +31,6 @@ const OrderDeliveryDetails = ({
   dense = false,
   viewOnly = false,
 }) => {
-  console.log(mainItem)
   const [reicipientAddress, setReicipientAddress] = useState([]);
   const [openAddAddress, setOpenAddAddress] = useState(false);
   const [defaultAddress, setDefaultAddress] = useState({
@@ -55,6 +54,7 @@ const OrderDeliveryDetails = ({
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
 
   const handleQuantityChange = (id, change) => {
+    console.log('id, change: ', id, change);
     dispatch(updateAddonQuantity({ id, change, orderIndex: index }));
   };
 

@@ -7,20 +7,23 @@ import { addInit } from "../../redux/slices/ecom/orderSlice";
 import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
 import setCookie from "../../atom/utils/setCookies";
 
-
-const AddToCartModal = ({onClose = ()=>{}}) => {
+const AddToCartModal = ({ onClose = () => {} }) => {
   const { data, isLoading, isError } = useGetCartItemQuery();
 
   const cartData = useSelector((state) => state.order);
+  console.log('cartData: ', cartData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = useMemo(() => getCookie("_id") ? true : false, [getCookie("_id")]);
-
+  const isLogin = useMemo(
+    () => (getCookie("_id") ? true : false),
+    [getCookie("_id")]
+  );
 
   const totalAddons = useMemo(() => {
-    const totalAddons = cartData?.reduce((prev, curr) => {
-      return prev + (curr?.addons?.length ?? 0);
-    }, 0) ?? 0;
+    const totalAddons =
+      cartData?.reduce((prev, curr) => {
+        return prev + (curr?.addons?.length ?? 0);
+      }, 0) ?? 0;
     return totalAddons;
   }, [cartData]);
   const totalPrice = useMemo(() => {
@@ -80,7 +83,6 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
       return;
     }
     if (data) {
-     
       const transformedData = transformData(data?.data?.delivery_details);
 
       dispatch(addInit(transformedData));
@@ -88,10 +90,10 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
   }, [data]);
 
   useEffect(() => {
-    if(!isLogin){
-      setCookie("cart", cartData)
+    if (!isLogin) {
+      setCookie("cart", cartData);
     }
-  },[cartData])
+  }, [cartData]);
 
   return (
     <>
@@ -119,7 +121,6 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
           <>
             <div className="max-h-[50vh] overflow-y-auto hide-scrollbar">
               {cartData.map((cartItem, index) => {
-
                 return (
                   <div className="relative">
                     <OrderDeliveryDetails
@@ -133,7 +134,7 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
                       occasion={cartItem?.occasion ?? null}
                       isCart={true}
                       dense={true}
-                      handleOccation={() => { }}
+                      handleOccation={() => {}}
                     />
                     <div className="absolute bg-[#7D8035] rounded-br-lg py-1 px-1.5 text-xs text-white font-semibold left-0 top-0">
                       {index + 1}
@@ -153,7 +154,12 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
               </p>
               <p className="text-gray-500  ">
                 Total Addons:{" "}
-                <span className="font-bold">{totalAddons ?? 0}</span>
+                <span className="font-bold">
+                  {cartData?.reduce((prev, curr) => {
+                    return prev + (curr?.addons?.length ?? 0);
+                  }, 0) ??
+                    0}
+                </span>
               </p>
             </div>
             <button
@@ -207,8 +213,9 @@ const AddToCartModal = ({onClose = ()=>{}}) => {
 
           <button
             onClick={() => {
-              onClose()
-              navigate("/")}}
+              onClose();
+              navigate("/");
+            }}
             className="w-full text-orange-500 py-2 rounded-md border border-orange-500 font-semibold"
           >
             CONTINUE SHOPPING
