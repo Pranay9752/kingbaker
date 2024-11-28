@@ -8,22 +8,22 @@ const OffersAvailable = ({ offers }) => (
             </svg><span className='ml-2 md:text-xl md:font-medium'>Offers Available</span>
         </h3>
         <OfferItem
-            logo="https://i1.fnp.com/assets/images/custom/pdp-offer-img/PDP-creative_1.jpg"
+            logo="https://i.ibb.co/LPFC6F8/logoking.png"
             description="FLAT 10% Off. Code: WOWFNP (for deliveries in India)"
             terms
         />
         <OfferItem
-            logo="https://i1.fnp.com/assets/images/custom/pdp-offer-img/PDP-creative_1.jpg"
+            logo="https://i.ibb.co/LPFC6F8/logoking.png"
             description="15% Off* on 1st Order, Code: FIRSTORDER"
             terms
         />
         <OfferItem
-            logo="https://i1.fnp.com/assets/images/custom/pdp-offer-img/PDP-creative_1.jpg"
+            logo="https://i.ibb.co/LPFC6F8/logoking.png"
             description="Amazon Pay - Get cashback upto Rs 250"
             terms
         />
         <OfferItem
-            logo="https://i1.fnp.com/assets/images/custom/pdp-offer-img/PDP-creative_1.jpg"
+            logo="https://i.ibb.co/LPFC6F8/logoking.png"
             description="Cred - Get cash back upto INR 200"
             terms
         />
