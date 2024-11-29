@@ -51,7 +51,7 @@ const MenuItem = ({
   return (
     <div>
       <div
-        className={`flex justify-between items-center py-2 px-4 text-gray-700 text-sm font-semibold borde r-b ${
+        className={`flex justify-between items-center py-3 px-4 text-gray-700 text-sm font-semibold borde r-b ${
           level > 0 ? "pl-8" : ""
         } cursor-pointer `}
         onClick={() => {
