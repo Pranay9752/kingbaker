@@ -283,23 +283,12 @@ const PriceDetails = ({ className }) => {
       return acc + curr?.deliveryDetails?.fee;
     }, 0) ?? 0;
 
-  const totalPrice = useMemo(() => {
-    const totalAddons = data?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0;
-      let addonPrice = 0;
-      curr?.addons?.forEach((element) => {
-        addonPrice = addonPrice + element.price;
-      });
-
-      return prev + itemPrice + addonPrice;
-    }, 0);
-    return totalAddons;
-  }, [data]);
+ 
   const totalAddonPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
       let addonPrice = 0;
       curr?.addons?.forEach((element) => {
-        addonPrice = addonPrice + element.price;
+        addonPrice += (element.price || 0) * (element.quantity || 0);
       });
 
       return prev + addonPrice;
@@ -398,7 +387,14 @@ const PriceDetails = ({ className }) => {
       <div className="border-t border-gray-200 my-4"></div>
       <div className="flex justify-between font-semibold">
         <span>TOTAL</span>
-        <span>₹ {((totalAddonPrice ?? 0) + (totalDelivery ?? 0) + (totalitemPrice ?? 0))?.toLocaleString("en-IN") ?? 0}</span>
+        <span>
+          ₹{" "}
+          {(
+            (totalAddonPrice ?? 0) +
+            (totalDelivery ?? 0) +
+            (totalitemPrice ?? 0)
+          )?.toLocaleString("en-IN") ?? 0}
+        </span>
       </div>
 
       <p className="text-xs text-gray-500 mb-4">

@@ -283,7 +283,12 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   );
 };
 
-const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
+const PriceDetails = ({
+  totalPrice,
+  totalAddonPrice = 0,
+  totalitemPrice = 0,
+  totalShipping = 0,
+}) => {
   return (
     <div className="w-full bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
@@ -292,10 +297,10 @@ const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
           <span>Total Product Price</span>
           <span>₹ {totalitemPrice}</span>
         </div>
-        {/* <div className="flex justify-between">
+        <div className="flex justify-between">
           <span>Shipping</span>
-          <span>₹ 118</span>
-        </div> */}
+          <span>₹ {totalShipping}</span>
+        </div>
         <div className="flex justify-between">
           <span>Total Addon Charge</span>
           <span>₹ {totalAddonPrice}</span>
@@ -311,7 +316,14 @@ const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
       <div className="border-t border-gray-200 my-4"></div>
       <div className="flex justify-between font-semibold">
         <span>TOTAL</span>
-        <span>₹ {totalPrice ?? 0}</span>
+        <span>
+          ₹{" "}
+          {(
+            (totalitemPrice || 0) +
+            (totalShipping || 0) +
+            (totalAddonPrice || 0)
+          )?.toLocaleString("en-IN") ?? 0}
+        </span>
       </div>
 
       <p className="text-xs text-gray-500 mb-4">
@@ -345,17 +357,20 @@ function CheckOutPayment() {
     return totalAddons;
   }, [data]);
 
-  const totalAddonPrice = useMemo(() => {
-    const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
-      let addonPrice = 0;
-      curr?.addons?.forEach((element) => {
-        addonPrice = addonPrice + element.price;
-      });
+  const totalShipping =
+    data?.data?.delivery_details?.reduce((acc, cur) => {
+      return acc + (cur?.mainItem?.shipping?.shipping_amount ?? 0);
+    }, 0) ?? 0;
 
-      return prev + addonPrice;
-    }, 0);
-    return totalAddons;
-  }, [data]);
+  const totalAddonPrice =
+    data?.data?.delivery_details?.reduce((acc, cur) => {
+      let totalprice = 0;
+
+      cur?.addOn?.forEach((item) => {
+        totalprice += (item?.price || 0) * (item?.count?.count || 0);
+      });
+      return acc + totalprice;
+    }, 0) ?? 0;
   const totalitemPrice = useMemo(() => {
     const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
       return prev + (curr?.mainItem?.productDetails?.[0]?.prices ?? 0);
@@ -392,6 +407,7 @@ function CheckOutPayment() {
             totalAddonPrice={totalAddonPrice}
             totalPrice={totalPrice}
             totalitemPrice={totalitemPrice}
+            totalShipping={totalShipping}
           />
           <SecurePaymentCard />
         </div>
@@ -401,6 +417,7 @@ function CheckOutPayment() {
           orderIds={orderIds}
           totalAddonPrice={totalAddonPrice}
           totalPrice={totalPrice}
+          totalShipping={totalShipping}
           totalitemPrice={totalitemPrice}
         />
         <PaymentOptions orderIds={orderIds} totalPrice={totalPrice ?? 0} />

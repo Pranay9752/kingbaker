@@ -26,6 +26,16 @@ const AddToCartModal = ({ onClose = () => {} }) => {
       });
       return acc + total;
     }, 0) ?? 0;
+  const totalPriceAddons =
+    cartData.reduce((acc, curr) => {
+      let total = 0;
+      curr?.addons?.forEach((item) => {
+        console.log("item: ", item);
+        total += (item?.quantity || 0) * (item?.price || 0);
+      });
+      return acc + total;
+    }, 0) ?? 0;
+  console.log("totalPriceAddons: ", totalPriceAddons);
 
   const totalDelivery =
     cartData?.reduce((acc, curr) => {
@@ -152,15 +162,13 @@ const AddToCartModal = ({ onClose = () => {} }) => {
                 <span className="font-bold">
                   ₹{" "}
                   {(
-                    totalAddons + totalDelivery + totalPrice ?? 0
+                    totalPriceAddons + totalDelivery + totalPrice ?? 0
                   )?.toLocaleString("en-IN") ?? 0}
                 </span>
               </p>
               <p className="text-gray-500  ">
                 Total Addons:{" "}
-                <span className="font-bold">
-                  {totalAddons ?? 0}
-                </span>
+                <span className="font-bold">{totalAddons ?? 0}</span>
               </p>
               <p className="text-gray-500  ">
                 Delivery Charges:{" "}
