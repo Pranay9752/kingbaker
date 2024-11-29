@@ -21,25 +21,25 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [placeOrder] = usePlaceOrderMutation()
+  const [placeOrder] = usePlaceOrderMutation();
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
 
   const handleSubmit = () => {
     if (orderIds?.length == 0) {
-      toast.info('No Order available to place!')
+      toast.info("No Order available to place!");
     }
-    console.log('orderIds: ', orderIds);
-    Array.isArray(orderIds) && orderIds.forEach(async (item) => {
-      await placeOrder({ order_id: item })
-    })
-    toast.success('Order added successfully')
+    console.log("orderIds: ", orderIds);
+    Array.isArray(orderIds) &&
+      orderIds.forEach(async (item) => {
+        await placeOrder({ order_id: item });
+      });
+    toast.success("Order added successfully");
     // window.location.href = '/'
-
-  }
+  };
 
   return (
     <div className="w-full p-3">
@@ -60,8 +60,11 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
         </div>
         {selectedOption === "cod" && (
           <div className="ml-6 space-y-4">
-            <button onClick={handleSubmit} className="w-full bg-orange-500 text-white py-2 rounded">
-              PAY ₹ ${totalPrice}
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-orange-500 text-white py-2 rounded"
+            >
+              PAY ₹{totalPrice}
             </button>
           </div>
         )}
@@ -222,7 +225,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
               </label>
             </div>
             <button className="w-full bg-orange-500 text-white py-2 rounded">
-              PAY ₹ ${totalPrice}
+              PAY ₹{totalPrice}
             </button>
           </div>
         )}
@@ -281,8 +284,6 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
 };
 
 const PriceDetails = ({ totalPrice, totalAddonPrice, totalitemPrice }) => {
-
-
   return (
     <div className="w-full bg-white p-4 rounded-lg shadow-md max-w-sm border">
       <h2 className="text-lg font-semibold mb-4">PRICE DETAILS</h2>
@@ -325,9 +326,10 @@ function CheckOutPayment() {
   const { data, isLoading, isError } = useGetCartItemQuery();
 
   const orderIds = useMemo(() => {
-
-    return Array.isArray(data?.data?.delivery_details) ? data?.data?.delivery_details.map((item) => item?.mainItem?.order_id) : []
-  }, [data?.data])
+    return Array.isArray(data?.data?.delivery_details)
+      ? data?.data?.delivery_details.map((item) => item?.mainItem?.order_id)
+      : [];
+  }, [data?.data]);
 
   const totalPrice = useMemo(() => {
     const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
@@ -393,7 +395,6 @@ function CheckOutPayment() {
           />
           <SecurePaymentCard />
         </div>
-
       </div>
       <div className="md:hidden flex flex-col gap-4 mt-20 justify-start items-center w-full">
         <PriceDetails

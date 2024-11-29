@@ -278,6 +278,10 @@ const PriceDetails = ({ className }) => {
   const navigate = useNavigate();
   const [createOrder] = useCreateOrderMutation();
   const data = useSelector((state) => state.order);
+  const totalDelivery =
+    data?.reduce((acc, curr) => {
+      return acc + curr?.deliveryDetails?.fee;
+    }, 0) ?? 0;
 
   const totalPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
@@ -314,7 +318,6 @@ const PriceDetails = ({ className }) => {
     try {
       data.forEach(async (item) => {
         const { mainItem, addons, deliveryDetails } = item;
-        console.log("mainItem: ", mainItem);
         const newOrder = {
           user_id: getCookie("_id"),
           order_status: "PENDING",
@@ -376,10 +379,10 @@ const PriceDetails = ({ className }) => {
           <span>Total Product Price</span>
           <span>₹ {totalitemPrice}</span>
         </div>
-        {/* <div className="flex justify-between">
-          <span>Shipping</span>
-          <span>₹ 118</span>
-        </div> */}
+        <div className="flex justify-between">
+          <span>Total Shipping</span>
+          <span>₹ {totalDelivery}</span>
+        </div>
         <div className="flex justify-between">
           <span>Total Addon Charge</span>
           <span>₹ {totalAddonPrice}</span>
@@ -395,7 +398,7 @@ const PriceDetails = ({ className }) => {
       <div className="border-t border-gray-200 my-4"></div>
       <div className="flex justify-between font-semibold">
         <span>TOTAL</span>
-        <span>₹ {totalPrice ?? 0}</span>
+        <span>₹ {((totalAddonPrice ?? 0) + (totalDelivery ?? 0) + (totalitemPrice ?? 0))?.toLocaleString("en-IN") ?? 0}</span>
       </div>
 
       <p className="text-xs text-gray-500 mb-4">
@@ -409,7 +412,7 @@ const PriceDetails = ({ className }) => {
         PROCEED TO PAY
       </button>
     </div>
-  ); 
+  );
 };
 
 function CheckOutDetails() {
@@ -486,7 +489,7 @@ function CheckOutDetails() {
   // }, []);
   useEffect(() => {
     const isLogin = Boolean(getCookie("_id"));
-    
+
     if (!isLogin) {
       if (localStorage.getItem("isAccount") === "true") {
         localStorage.removeItem("isAccount");
@@ -497,7 +500,6 @@ function CheckOutDetails() {
       }
     }
   }, [navigate]);
-  
 
   useEffect(() => {
     if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");
