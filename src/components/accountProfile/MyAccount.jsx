@@ -29,6 +29,16 @@ const Card = ({ Icon, title, description, onClick, color }) => (
   </div>
 );
 
+const LogoutComp = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    deleteAllCookies();
+    navigate("/");
+  }, []);
+  return <></>;
+};
+
 const SecondComponent = ({ selectedPage, setCurrentPage, accountOptions }) => {
   const navigate = useNavigate();
 
@@ -50,6 +60,8 @@ const SecondComponent = ({ selectedPage, setCurrentPage, accountOptions }) => {
         return <div>Orders data</div>;
       case "addresses":
         return <AddressData />;
+      case "logout":
+        return <LogoutComp />;
       default:
         return <div className="p-6">Content for {selectedPage}</div>;
     }
@@ -147,24 +159,24 @@ const MyAccount = () => {
   };
 
   const accountOptions = [
-    {
-      Icon: (
-        <>
-          <>
-            <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
-            <path
-              fillRule="evenodd"
-              d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z"
-              clipRule="evenodd"
-            />
-          </>
-        </>
-      ),
-      color: "text-pink-600",
-      title: "My Orders",
-      description: "View Order Status, Track Order & Download Invoice",
-      page: "orders",
-    },
+    // {
+    //   Icon: (
+    //     <>
+    //       <>
+    //         <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
+    //         <path
+    //           fillRule="evenodd"
+    //           d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z"
+    //           clipRule="evenodd"
+    //         />
+    //       </>
+    //     </>
+    //   ),
+    //   color: "text-pink-600",
+    //   title: "My Orders",
+    //   description: "View Order Status, Track Order & Download Invoice",
+    //   page: "orders",
+    // },
 
     {
       Icon: (
@@ -356,7 +368,10 @@ const MyAccount = () => {
 
                 <span className="text-xs">Home</span>
               </button>
-              <button onClick={() => navigate("/search/today")} className="text-center">
+              <button
+                onClick={() => navigate("/search/today")}
+                className="text-center"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

@@ -41,7 +41,7 @@ const SenderDetailsForm = () => {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData.name == "undefined" ? "" : formData.name}
             onChange={handleInputChange}
             disabled={!isEditable}
             className={`border rounded-md p-2 text-gray-700 ${isEditable ? 'bg-white' : 'bg-gray-100'} focus:outline-none`}
@@ -52,7 +52,7 @@ const SenderDetailsForm = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email == "undefined" ? "" : formData.email}
             onChange={handleInputChange}
             disabled={!isEditable}
             className={`border rounded-md p-2 text-gray-700 ${isEditable ? 'bg-white' : 'bg-gray-100'} focus:outline-none`}
@@ -63,7 +63,7 @@ const SenderDetailsForm = () => {
           <input
             type="text"
             name="phone"
-            value={formData.phone}
+            value={formData.phon == "undefined" ? "" : formData.phone}
             onChange={handleInputChange}
             disabled={!isEditable}
             className={`border rounded-md p-2 text-gray-700 ${isEditable ? 'bg-white' : 'bg-gray-100'} focus:outline-none`}
@@ -74,7 +74,7 @@ const SenderDetailsForm = () => {
           <input
             type="text"
             name="location"
-            value={formData.location}
+            value={formData.location == "undefined" ? "" : formData.location}
             onChange={handleInputChange}
             disabled={!isEditable}
             className={`border rounded-md p-2 text-gray-700 ${isEditable ? 'bg-white' : 'bg-gray-100'} focus:outline-none`}

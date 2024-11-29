@@ -11,7 +11,6 @@ const AddToCartModal = ({ onClose = () => {} }) => {
   const { data, isLoading, isError } = useGetCartItemQuery();
 
   const cartData = useSelector((state) => state.order);
-  console.log('cartData: ', cartData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = useMemo(
@@ -19,28 +18,27 @@ const AddToCartModal = ({ onClose = () => {} }) => {
     [getCookie("_id")]
   );
 
-  const totalAddons = useMemo(() => {
-    const totalAddons =
-      cartData?.reduce((prev, curr) => {
-        return prev + (curr?.addons?.length ?? 0);
-      }, 0) ?? 0;
-    return totalAddons;
-  }, [cartData]);
-  const totalPrice = useMemo(() => {
-    const totalAddons = cartData?.reduce((prev, curr) => {
-      const itemPrice = curr?.mainItem?.price ?? 0;
-      let addonPrice = 0;
-      curr?.addons?.forEach((element) => {
-        addonPrice = addonPrice + element.price;
+  const totalAddons =
+    cartData.reduce((acc, curr) => {
+      let total = 0;
+      curr?.addons?.forEach((item) => {
+        total += item?.quantity || 0;
       });
+      return acc + total;
+    }, 0) ?? 0;
 
-      return prev + itemPrice + addonPrice;
-    }, 0);
-    return totalAddons;
-  }, [cartData]);
+  const totalDelivery =
+    cartData?.reduce((acc, curr) => {
+      return acc + curr?.deliveryDetails?.fee;
+    }, 0) ?? 0;
 
-  const transformData = (data) => {
-    const tData = data.map((item, index) => {
+  const totalPrice =
+    cartData?.reduce((acc, curr) => {
+      return acc + curr?.mainItem?.price;
+    }, 0) ?? 0;
+
+  const transformData = (cartdetails) => {
+    const tData = cartdetails.map((item, index) => {
       const main = item?.mainItem ?? {};
       const productDetail = main?.productDetails?.[0];
       const addons = item?.addOn ?? [];
@@ -150,15 +148,24 @@ const AddToCartModal = ({ onClose = () => {} }) => {
                 <span className="font-bold">{cartData?.length ?? 0}</span>
               </p>
               <p className="text-lg text-gray-500 font-mwdium text-right">
-                Total: <span className="font-bold">₹ {totalPrice ?? 0}</span>
+                Total:{" "}
+                <span className="font-bold">
+                  ₹{" "}
+                  {(
+                    totalAddons + totalDelivery + totalPrice ?? 0
+                  )?.toLocaleString("en-IN") ?? 0}
+                </span>
               </p>
               <p className="text-gray-500  ">
                 Total Addons:{" "}
                 <span className="font-bold">
-                  {cartData?.reduce((prev, curr) => {
-                    return prev + (curr?.addons?.length ?? 0);
-                  }, 0) ??
-                    0}
+                  {totalAddons ?? 0}
+                </span>
+              </p>
+              <p className="text-gray-500  ">
+                Delivery Charges:{" "}
+                <span className="font-bold">
+                  ₹ {totalDelivery?.toLocaleString("en-IN") ?? 0}
                 </span>
               </p>
             </div>
