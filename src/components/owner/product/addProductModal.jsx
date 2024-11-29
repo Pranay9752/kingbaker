@@ -1,5 +1,3 @@
-
-
 // import React from 'react'
 // import { useForm } from 'react-hook-form';
 // import * as Yup from 'yup';
@@ -126,8 +124,6 @@
 //   );
 // };
 
-
-
 // function AddProductModal() {
 //   return (
 //     <div><h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center">
@@ -140,103 +136,93 @@
 
 // export default AddProductModal
 
-
-import React, { useState, forwardRef } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState, forwardRef } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 // import { Input } from '../vendors/addVendor';
-import BasicButton from '../../../atom/button/BasicButton';
-import Select from 'react-select';
-import { useCreateProductMutation } from '../../../redux/apiSlices/owner/product';
-import { toast } from 'sonner';
-import Loader from '../../../atom/loader/loader';
+import BasicButton from "../../../atom/button/BasicButton";
+import Select from "react-select";
+import { useCreateProductMutation } from "../../../redux/apiSlices/owner/product";
+import { toast } from "sonner";
+import Loader from "../../../atom/loader/loader";
 
+export const Input = forwardRef(
+  ({ name, className = "", error, type = "text", step, ...props }, ref) => {
+    const baseClasses =
+      "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
+    const errorClasses = error ? "border-red-500" : "";
 
-
-export const Input = forwardRef(({
-  name,
-  className = "",
-  error,
-  type = "text",
-  step,
-  ...props
-}, ref) => {
-  const baseClasses =
-    "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
-  const errorClasses = error ? "border-red-500" : "";
-
-  return (
-    <input
-      ref={ref}
-      id={name}
-      name={name}
-      type={type}
-      step={step}
-      className={`${baseClasses} ${errorClasses} ${className}`}
-      aria-invalid={error ? "true" : "false"}
-      aria-describedby={error ? `${name}-error` : undefined}
-      {...props}
-    />
-  );
-});
-
+    return (
+      <input
+        ref={ref}
+        id={name}
+        name={name}
+        type={type}
+        step={step}
+        className={`${baseClasses} ${errorClasses} ${className}`}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error ? `${name}-error` : undefined}
+        {...props}
+      />
+    );
+  }
+);
 
 // Customized select theme
 const customSelectStyles = {
   control: (provided, state) => ({
     ...provided,
-    backgroundColor: '#161b22',
-    borderColor: state.isFocused ? '#2563eb' : '#374151',
-    color: '#d1d5db',
-    padding: '4px',
-    borderRadius: '0.375rem',
-    boxShadow: state.isFocused ? '0 0 0 2px #2563eb' : 'none',
-    '&:hover': {
-      borderColor: '#2563eb',
+    backgroundColor: "#161b22",
+    borderColor: state.isFocused ? "#2563eb" : "#374151",
+    color: "#d1d5db",
+    padding: "4px",
+    borderRadius: "0.375rem",
+    boxShadow: state.isFocused ? "0 0 0 2px #2563eb" : "none",
+    "&:hover": {
+      borderColor: "#2563eb",
     },
   }),
   singleValue: (provided) => ({
     ...provided,
-    color: '#d1d5db', // Text color for selected option
+    color: "#d1d5db", // Text color for selected option
   }),
   menu: (provided) => ({
     ...provided,
-    backgroundColor: '#161b22',
-    borderRadius: '0.375rem',
+    backgroundColor: "#161b22",
+    borderRadius: "0.375rem",
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? '#2563eb' : '#161b22',
-    color: state.isFocused ? '#ffffff' : '#d1d5db',
-    '&:hover': {
-      backgroundColor: '#2563eb',
-      color: '#ffffff',
+    backgroundColor: state.isFocused ? "#2563eb" : "#161b22",
+    color: state.isFocused ? "#ffffff" : "#d1d5db",
+    "&:hover": {
+      backgroundColor: "#2563eb",
+      color: "#ffffff",
     },
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: '#6b7280', // Placeholder color
+    color: "#6b7280", // Placeholder color
   }),
   multiValue: (provided) => ({
     ...provided,
-    backgroundColor: '#2563eb',
-    color: '#ffffff',
+    backgroundColor: "#2563eb",
+    color: "#ffffff",
   }),
   multiValueLabel: (provided) => ({
     ...provided,
-    color: '#ffffff',
+    color: "#ffffff",
   }),
   multiValueRemove: (provided) => ({
     ...provided,
-    color: '#ffffff',
-    '&:hover': {
-      backgroundColor: '#1d4ed8',
-      color: '#ffffff',
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#1d4ed8",
+      color: "#ffffff",
     },
   }),
 };
-
 
 // const validationSchema = Yup.object().shape({
 //   product_details: Yup.array().of(
@@ -281,74 +267,98 @@ const ProductForm = ({ onSubmit, onClose }) => {
   const [images, setImages] = useState([]);
 
   const validationSchema = Yup.object().shape({
-    product_details: Yup.array().of(
-      Yup.object().shape({
-        prices: Yup.number().nullable(),
-        imageLink: Yup.array().of(Yup.string()).nullable(),
-        title: Yup.string().nullable(),
-        description: Yup.string().nullable(),
-        specifications: Yup.string().nullable(),
-        details: Yup.array().of(
-          Yup.object().shape({
-            key: Yup.string().nullable(),
-            value: Yup.string().nullable(),
-          })
-        ).nullable(),
-        amenities: Yup.object().shape({
-          Delivery: Yup.string().nullable(),
-        }),
-        event: Yup.array().of(Yup.string()).nullable(),
-        rating: Yup.number().min(1).max(5).nullable(),
-        reviews: Yup.array().of(
-          Yup.object().shape({
-            user_id: Yup.string().nullable(),
-            reviews: Yup.string().nullable(),
-          })
-        ).nullable(),
-        tags: Yup.array().of(Yup.string()).nullable(),
-        weight: Yup.array().of(
-          Yup.object().shape({
-            key: Yup.string().nullable(),
-            value: Yup.number().nullable(),
-          })
-        ).nullable(),
-        brand: Yup.string().nullable(),
-        color: Yup.string().nullable(),
-      })
-    ).nullable(),
+    product_details: Yup.array()
+      .of(
+        Yup.object().shape({
+          prices: Yup.number().nullable(),
+          imageLink: Yup.array().of(Yup.string()).nullable(),
+          title: Yup.string().nullable(),
+          description: Yup.string().nullable(),
+          specifications: Yup.string().nullable(),
+          details: Yup.array()
+            .of(
+              Yup.object().shape({
+                key: Yup.string().nullable(),
+                value: Yup.string().nullable(),
+              })
+            )
+            .nullable(),
+          amenities: Yup.object().shape({
+            Delivery: Yup.string().nullable(),
+          }),
+          event: Yup.array().of(Yup.string()).nullable(),
+          rating: Yup.number().min(1).max(5).nullable(),
+          reviews: Yup.array()
+            .of(
+              Yup.object().shape({
+                user_id: Yup.string().nullable(),
+                reviews: Yup.string().nullable(),
+              })
+            )
+            .nullable(),
+          tags: Yup.array().of(Yup.string()).nullable(),
+          weight: Yup.array()
+            .of(
+              Yup.object().shape({
+                key: Yup.string().nullable(),
+                value: Yup.number().nullable(),
+              })
+            )
+            .nullable(),
+          brand: Yup.string().nullable(),
+          color: Yup.string().nullable(),
+        })
+      )
+      .nullable(),
   });
 
-
-  const { register, control, handleSubmit, formState: { errors }, setValue, getValues } = useForm({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      product_details: [{
-        prices: 0,
-        imageLink: [],
-        title: '',
-        description: '',
-        specifications: '',
-        details: [{ key: '', value: '' }],
-        amenities: { Delivery: '' },
-        event: [],
-        rating: 1,
-        reviews: [{ user_id: '', reviews: '' }],
-        tags: [],
-        weight: [{ key: '', value: 0 }],
-        brand: '',
-        color: 'white',
-      }],
+      product_details: [
+        {
+          prices: 0,
+          imageLink: [],
+          title: "",
+          description: "",
+          specifications: "",
+          details: [{ key: "", value: "" }],
+          amenities: { Delivery: "" },
+          event: [],
+          rating: 1,
+          reviews: [{ user_id: "", reviews: "" }],
+          tags: [],
+          weight: [{ key: "", value: 0 }],
+          brand: "",
+          color: "white",
+        },
+      ],
     },
   });
 
-  const { fields: details, append: appendDetail, remove: removeDetail } = useFieldArray({
+  const {
+    fields: details,
+    append: appendDetail,
+    remove: removeDetail,
+  } = useFieldArray({
     control,
-    name: 'product_details.0.details',
+    name: "product_details.0.details",
   });
 
-  const { fields: weight, append: appendWeight, remove: removeWeight } = useFieldArray({
+  const {
+    fields: weight,
+    append: appendWeight,
+    remove: removeWeight,
+  } = useFieldArray({
     control,
-    name: 'product_details.0.weight',
+    name: "product_details.0.weight",
   });
 
   const handleAddTag = (e) => {
@@ -356,44 +366,50 @@ const ProductForm = ({ onSubmit, onClose }) => {
     const newTag = e.target.value.trim();
     if (newTag && !tags.includes(newTag)) {
       setTags([...tags, newTag]);
-      setValue('product_details.0.tags', [...tags, newTag]);
+      setValue("product_details.0.tags", [...tags, newTag]);
     }
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const handleRemoveTag = (tag) => {
-    const newTags = tags.filter(t => t !== tag);
+    const newTags = tags.filter((t) => t !== tag);
     setTags(newTags);
-    setValue('product_details.0.tags', newTags);
+    setValue("product_details.0.tags", newTags);
   };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => ({
+    const newImages = files.map((file) => ({
       id: URL.createObjectURL(file), // Unique identifier for each image
-      src: URL.createObjectURL(file)
+      src: URL.createObjectURL(file),
     }));
     setImages([...images, ...newImages]);
-    setValue('product_details.0.imageLink', [...images, ...newImages.map(img => img.src)]);
+    setValue("product_details.0.imageLink", [
+      ...images,
+      ...newImages.map((img) => img.src),
+    ]);
   };
 
   const handleDeleteImage = (id) => {
-    const updatedImages = images.filter(img => img.id !== id);
+    const updatedImages = images.filter((img) => img.id !== id);
     setImages(updatedImages);
-    setValue('product_details.0.imageLink', updatedImages.map(img => img.src));
+    setValue(
+      "product_details.0.imageLink",
+      updatedImages.map((img) => img.src)
+    );
   };
 
   const deliveryOptions = [
-    { value: 'Standard', label: 'Standard' },
-    { value: 'Express', label: 'Express' },
-    { value: 'Same Day', label: 'Same Day' },
+    { value: "Standard", label: "Standard" },
+    { value: "Express", label: "Express" },
+    { value: "Same Day", label: "Same Day" },
   ];
 
   const eventOptions = [
-    { value: 'Birthday', label: 'Birthday' },
-    { value: 'Anniversary', label: 'Anniversary' },
-    { value: 'Wedding', label: 'Wedding' },
-    { value: 'Graduation', label: 'Graduation' },
+    { value: "Birthday", label: "Birthday" },
+    { value: "Anniversary", label: "Anniversary" },
+    { value: "Wedding", label: "Wedding" },
+    { value: "Graduation", label: "Graduation" },
   ];
 
   return (
@@ -403,7 +419,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-400">Title</label>
           <Input
-            {...register('product_details.0.title')}
+            {...register("product_details.0.title")}
             className="bg-[#161b22] border-gray-800 text-gray-300"
             error={errors.product_details?.[0]?.title?.message}
           />
@@ -414,25 +430,26 @@ const ProductForm = ({ onSubmit, onClose }) => {
           <label className="text-sm font-medium text-gray-400">Price</label>
           <Input
             type="number"
-            {...register('product_details.0.prices')}
+            {...register("product_details.0.prices")}
             className="bg-[#161b22] border-gray-800 text-gray-300"
             error={errors.product_details?.[0]?.prices?.message}
           />
         </div>
 
-
         {/* Specifications */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-400">Specifications</label>
+          <label className="text-sm font-medium text-gray-400">
+            Specifications
+          </label>
           <Input
-            {...register('product_details.0.specifications')}
+            {...register("product_details.0.specifications")}
             className="bg-[#161b22] border-gray-800 text-gray-300"
             error={errors.product_details?.[0]?.specifications?.message}
           />
         </div>
 
         {/* Dynamic Details */}
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <label className="text-sm font-medium text-gray-400">Details</label>
           {details.map((item, index) => (
             <div key={item.id} className="flex gap-2 mb-2">
@@ -455,6 +472,56 @@ const ProductForm = ({ onSubmit, onClose }) => {
             </div>
           ))}
           <button type="button" onClick={() => appendDetail({ key: '', value: '' })} className="text-blue-500">+ Add Detail</button>
+        </div> */}
+
+        <div className="space-y-4">
+          <label className="text-sm font-medium text-gray-400">Details</label>
+          {details.map((item, index) => (
+            <div key={item.id} className="flex flex-col gap-2 mb-2">
+              <Input
+                placeholder="Key"
+                {...register(`product_details.0.details.${index}.key`)}
+                className="bg-[#161b22] border-gray-800 text-gray-300"
+                error={
+                  errors.product_details?.[0]?.details?.[index]?.key?.message
+                }
+              />
+              <textarea
+                placeholder="Value"
+                {...register(`product_details.0.details.${index}.value`)}
+                className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300"
+                // rows={3}
+                error={
+                  errors.product_details?.[0]?.details?.[index]?.value?.message
+                }
+              />
+              <button
+                type="button"
+                onClick={() => removeDetail(index)}
+                className="text-red-500 self-start mt-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => appendDetail({ key: "", value: "" })}
+            className="text-blue-500"
+          >
+            + Add Detail
+          </button>
         </div>
 
         {/* Image Upload with Delete Functionality */}
@@ -479,10 +546,14 @@ const ProductForm = ({ onSubmit, onClose }) => {
                   onClick={() => handleDeleteImage(img.id)}
                   className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="size-4"
+                  >
                     <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                   </svg>
-
                 </button>
               </div>
             ))}
@@ -492,12 +563,26 @@ const ProductForm = ({ onSubmit, onClose }) => {
         {/* Dynamic Tags */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-400">Tags</label>
-          <input className='bg-[#161b22] border-gray-800 text-gray-300 w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors' type="text" onKeyDown={(e) => e.key === 'Enter' && handleAddTag(e)} placeholder="Add a tag" />
+          <input
+            className="bg-[#161b22] border-gray-800 text-gray-300 w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+            type="text"
+            onKeyDown={(e) => e.key === "Enter" && handleAddTag(e)}
+            placeholder="Add a tag"
+          />
           <div className="flex gap-2 mt-2 flex-wrap">
             {tags.map((tag, index) => (
-              <span key={index} className="bg-white font-bold text-sm text-gray-800 px-2 py-1 rounded-md flex justify-center items-center">
+              <span
+                key={index}
+                className="bg-white font-bold text-sm text-gray-800 px-2 py-1 rounded-md flex justify-center items-center"
+              >
                 {tag}
-                <button type="button" onClick={() => handleRemoveTag(tag)} className="ml-1 text-red-500">x</button>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag)}
+                  className="ml-1 text-red-500"
+                >
+                  x
+                </button>
               </span>
             ))}
           </div>
@@ -508,38 +593,67 @@ const ProductForm = ({ onSubmit, onClose }) => {
           <label className="text-sm font-medium text-gray-400">Weight</label>
           {weight.map((item, index) => (
             <div key={item.id} className="flex gap-2 mb-2">
-              <Input className="bg-[#161b22] border-gray-800 text-gray-300" placeholder="Key" {...register(`product_details.0.weight.${index}.key`)} />
-              <Input className="bg-[#161b22] border-gray-800 text-gray-300" type="number" placeholder="Value" {...register(`product_details.0.weight.${index}.value`)} />
-              <button type="button" onClick={() => removeWeight(index)} className="text-red-500"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
-              </svg>
+              <Input
+                className="bg-[#161b22] border-gray-800 text-gray-300"
+                placeholder="Key"
+                {...register(`product_details.0.weight.${index}.key`)}
+              />
+              <Input
+                className="bg-[#161b22] border-gray-800 text-gray-300"
+                type="number"
+                placeholder="Value"
+                {...register(`product_details.0.weight.${index}.value`)}
+              />
+              <button
+                type="button"
+                onClick={() => removeWeight(index)}
+                className="text-red-500"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </button>
             </div>
           ))}
-          <button type="button" onClick={() => appendWeight({ key: '', value: 0 })} className="text-blue-500">+ Add Weight</button>
+          <button
+            type="button"
+            onClick={() => appendWeight({ key: "", value: 0 })}
+            className="text-blue-500"
+          >
+            + Add Weight
+          </button>
         </div>
 
         {/* Brand */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-400">Brand</label>
           <Input
-            label="Brand" {...register('product_details.0.brand')} error={errors.product_details?.[0]?.brand?.message}
+            label="Brand"
+            {...register("product_details.0.brand")}
+            error={errors.product_details?.[0]?.brand?.message}
             type="text"
-            {...register('product_details.0.brand')}
+            {...register("product_details.0.brand")}
             className="bg-[#161b22] border-gray-800 text-gray-300"
-
           />
         </div>
         {/* Color */}
         {/* <Input label="Color" {...register('product_details.0.color')} error={errors.product_details?.[0]?.color?.message} /> */}
-
 
         {/* Delivery Dropdown */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-400">Delivery</label>
           <Select
             options={deliveryOptions}
-            {...register('product_details.0.amenities.Delivery')}
+            {...register("product_details.0.amenities.Delivery")}
             onChange={(option) => option?.value}
             styles={customSelectStyles}
           />
@@ -551,8 +665,8 @@ const ProductForm = ({ onSubmit, onClose }) => {
           <Select
             options={eventOptions}
             isMulti
-            {...register('product_details.0.event')}
-            onChange={(options) => options?.map(option => option.value)}
+            {...register("product_details.0.event")}
+            onChange={(options) => options?.map((option) => option.value)}
             className="bg-[#161b22] border-gray-800 text-gray-300"
             styles={customSelectStyles}
           />
@@ -560,10 +674,17 @@ const ProductForm = ({ onSubmit, onClose }) => {
       </div>
 
       <div className="flex justify-end gap-4">
-        <BasicButton type="button" onClick={onClose} className="bg-red-800/50 hover:bg-red-800 text-gray-300 px-4 py-2 rounded-lg">
+        <BasicButton
+          type="button"
+          onClick={onClose}
+          className="bg-red-800/50 hover:bg-red-800 text-gray-300 px-4 py-2 rounded-lg"
+        >
           Cancel
         </BasicButton>
-        <BasicButton type="submit" className="bg-blue-800/50 hover:bg-blue-800 text-gray-300 px-4 py-2 rounded-lg">
+        <BasicButton
+          type="submit"
+          className="bg-blue-800/50 hover:bg-blue-800 text-gray-300 px-4 py-2 rounded-lg"
+        >
           Save
         </BasicButton>
       </div>
@@ -572,11 +693,13 @@ const ProductForm = ({ onSubmit, onClose }) => {
 };
 
 function AddProductModal({ onClose }) {
-  const [createProduct, { isLoading }] = useCreateProductMutation()
+  const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const handleSubmit = async (data) => {
     try {
-      const response = await createProduct({ data: { product_details: { ...data.product_details?.[0] } } }).unwrap();
+      const response = await createProduct({
+        data: { product_details: { ...data.product_details?.[0] } },
+      }).unwrap();
       toast.success(response.message);
       onClose();
     } catch (error) {
@@ -585,24 +708,29 @@ function AddProductModal({ onClose }) {
     }
   };
 
-
-  if (isLoading) return <Loader />
-
+  if (isLoading) return <Loader />;
 
   return (
     <>
-
       <div>
         <h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center ">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            className="size-4"
+          >
             <path d="M3 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3Z" />
-            <path fillRule="evenodd" d="M3 6h10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Zm3 2.75A.75.75 0 0 1 6.75 8h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 6 8.75Z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M3 6h10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Zm3 2.75A.75.75 0 0 1 6.75 8h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 6 8.75Z"
+              clipRule="evenodd"
+            />
           </svg>
           Add Product
         </h2>
         <ProductForm onClose={onClose} onSubmit={handleSubmit} />
       </div>
-
     </>
   );
 }
