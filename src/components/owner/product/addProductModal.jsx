@@ -697,11 +697,22 @@ function AddProductModal({ onClose }) {
 
   const handleSubmit = async (data) => {
     try {
-      const response = await createProduct({
+      console.log({
         data: { product_details: { ...data.product_details?.[0] } },
+      });
+      const response = await createProduct({
+        data: {
+          product_details: {
+            ...data.product_details?.[0],
+            weight: data.product_details?.[0]?.weight?.map((item) => ({
+              weight: item.key,
+              price: item.value,
+            })),
+          },
+        },
       }).unwrap();
       toast.success(response.message);
-      onClose();
+      // onClose();
     } catch (error) {
       toast.error("Failed to create product"); // You can customize this error message
       console.error("Order creation error:", error);
