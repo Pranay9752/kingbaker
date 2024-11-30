@@ -82,7 +82,7 @@ const ProductDetails = ({
   ];
   return (
     <>
-      <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0 m in-h-[calc(100vh-100px)] bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
+      <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0  bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
         <div className="p-2 flex flex-col gap-3">
           <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
           <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
@@ -93,7 +93,6 @@ const ProductDetails = ({
               sizes={data?.weight}
             />
           )}
-
           {data?.is_veg && <EggOptions />}
           {data?.is_image && <CustomizeButton />}
           {data?.is_message && <MessageInput />}
@@ -131,7 +130,7 @@ const ProductDetails = ({
         </div>
       </div>
 
-      <div className="hidden md:flex flex-col gap-2 ">
+      {/* <div className="hidden md:flex flex-col gap-2 ">
         <h2 className="text-xl font-medium  truncate text-left">{data?.title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
@@ -152,7 +151,7 @@ const ProductDetails = ({
         <ActionButtons product={data} productId={data?._id} />
         <OffersAvailable />
         <ProductMetaDetail details={data?.details ?? []} />
-      </div>
+      </div> */}
     </>
   );
 };

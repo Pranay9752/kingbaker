@@ -32,8 +32,8 @@ const DeliveryInfo = ({ data }) => {
           The product not availabe in pincode
         </BasicButton>
       ) : (
-        <div className="grid md:grid-cols-2 gap-x-8 gap-y-3 md:mt-10">
-          <div>
+        <div className="grid md:grid-cols-2 md:gap-x-8 gap-y-3 md:mt-10">
+          <div className="w-[96vw] md:w-auto">
             <DeliveryLocation
               country="IND"
               pincode={pincode ?? ""}
