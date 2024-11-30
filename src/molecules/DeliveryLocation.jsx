@@ -33,7 +33,6 @@ const DeliveryLocation = ({ country, pincode, location }) => {
   return (
     <>
       <div className="flex items-center justify-between bg-white border-2 border-gray-400 rounded w-full">
-        {/* Left section */}
         <div
           onClick={handleToggleCountryModal}
           className="flex items-center border py-2 px-3 md:py-0 bg-slate-100 select-none"
@@ -61,9 +60,7 @@ const DeliveryLocation = ({ country, pincode, location }) => {
             />
           </svg>
         </div>
-
-        {/* Right section */}
-        <div  onClick={handleTogglePincodeModal} className="flex justify-around w-full items-center gap-2 text-xl truncate">
+        <div onClick={handleTogglePincodeModal} className="flex justify-around w-full items-center gap-2 text-xl truncate">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
