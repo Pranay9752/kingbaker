@@ -130,7 +130,7 @@ const ProductDetails = ({
         </div>
       </div>
 
-      {/* <div className="hidden md:flex flex-col gap-2 ">
+      <div className="hidden md:flex flex-col gap-2 ">
         <h2 className="text-xl font-medium  truncate text-left">{data?.title}</h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
@@ -151,7 +151,7 @@ const ProductDetails = ({
         <ActionButtons product={data} productId={data?._id} />
         <OffersAvailable />
         <ProductMetaDetail details={data?.details ?? []} />
-      </div> */}
+      </div>
     </>
   );
 };

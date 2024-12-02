@@ -136,8 +136,8 @@
 
 // export default AddProductModal
 
-import React, { useState, forwardRef } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import React, { useState, forwardRef, useRef, useEffect } from "react";
+import { useForm, useFieldArray, useFormContext } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 // import { Input } from '../vendors/addVendor';
@@ -146,6 +146,10 @@ import Select from "react-select";
 import { useCreateProductMutation } from "../../../redux/apiSlices/owner/product";
 import { toast } from "sonner";
 import Loader from "../../../atom/loader/loader";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import RichTextEditor from "./richTextEditor";
+import { X } from "lucide-react";
 
 export const Input = forwardRef(
   ({ name, className = "", error, type = "text", step, ...props }, ref) => {
@@ -223,6 +227,91 @@ const customSelectStyles = {
     },
   }),
 };
+
+// const RichTextEditor = ({ methods, fieldPath }) => {
+//   const editorRef = useRef(null);
+
+//   // Execute commands for rich text formatting
+//   const formatText = (command, value = null) => {
+//     document.execCommand(command, false, value);
+//     editorRef.current.focus(); // Keep the editor focused
+//   };
+
+//   // Handle input changes and update value
+//   const handleInput = () => {
+//     const content = editorRef.current.innerHTML; // Get current content
+//     methods.setValue(fieldPath, content); // Update form value using setValue
+//   };
+
+//   return (
+//     <div>
+//       {/* Toolbar */}
+//       <div className="flex items-center gap-3 p-2 border border-gray-700 rounded-md bg-gray-800 shadow-sm">
+//         <button
+//           type="button"
+//           onClick={() => formatText("bold")}
+//           title="Bold"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           <strong>B</strong>
+//         </button>
+//         <button
+//           type="button"
+//           onClick={() => formatText("italic")}
+//           title="Italic"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           <em>I</em>
+//         </button>
+//         <button
+//           type="button"
+//           onClick={() => formatText("insertOrderedList")}
+//           title="Ordered List"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           1.
+//         </button>
+//         <button
+//           type="button"
+//           onClick={() => formatText("insertUnorderedList")}
+//           title="Unordered List"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           •
+//         </button>
+//         <button
+//           onClick={() => formatText("formatBlock", "blockquote")}
+//           type="button"
+//           title="Quote"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           “ ”
+//         </button>
+//         <button
+//           type="button"
+//           onClick={() => formatText("code")}
+//           title="Code"
+//           className="p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none"
+//         >
+//           {`</>`}
+//         </button>
+//       </div>
+
+//       {/* ContentEditable Editor */}
+//       <div
+//         ref={editorRef}
+//         onInput={handleInput} // Trigger handleInput on content changes
+//         className="editor"
+//         contentEditable
+//         suppressContentEditableWarning={true}
+//       >
+//         <p className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300">
+//           Type here...
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
 
 // const validationSchema = Yup.object().shape({
 //   product_details: Yup.array().of(
@@ -312,14 +401,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
       .nullable(),
   });
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-  } = useForm({
+  const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       product_details: [
@@ -342,6 +424,15 @@ const ProductForm = ({ onSubmit, onClose }) => {
       ],
     },
   });
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = methods;
 
   const {
     fields: details,
@@ -413,7 +504,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
       <div className="space-y-4  md:h-[80vh] hide-scrollbar overflow-y-auto">
         {/* Title */}
         <div className="space-y-2">
@@ -473,7 +564,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
           ))}
           <button type="button" onClick={() => appendDetail({ key: '', value: '' })} className="text-blue-500">+ Add Detail</button>
         </div> */}
-
+        {/* 
         <div className="space-y-4">
           <label className="text-sm font-medium text-gray-400">Details</label>
           {details.map((item, index) => (
@@ -486,7 +577,24 @@ const ProductForm = ({ onSubmit, onClose }) => {
                   errors.product_details?.[0]?.details?.[index]?.key?.message
                 }
               />
-              <textarea
+              <ReactMarkdown
+                components={{
+                  // Map HTML elements to React components
+                  // (optional, but makes sense for basic Markdown)
+                  p: "p",
+                  strong: "strong",
+                  em: "em",
+                  h1: "h1",
+                  h2: "h2",
+                  h3: "h3",
+                  blockquote: "blockquote",
+                  // Add more mappings as needed
+                }}
+                remarkPlugins={[remarkGfm]}
+                className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300"
+                {...register(`product_details.0.details.${index}.value`)}
+              /> */}
+        {/* <textarea
                 placeholder="Value"
                 {...register(`product_details.0.details.${index}.value`)}
                 className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300"
@@ -494,11 +602,57 @@ const ProductForm = ({ onSubmit, onClose }) => {
                 error={
                   errors.product_details?.[0]?.details?.[index]?.value?.message
                 }
-              />
-              <button
+              /> */}
+        {/* <button
                 type="button"
                 onClick={() => removeDetail(index)}
                 className="text-red-500 self-start mt-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => appendDetail({ key: "", value: "" })}
+            className="text-blue-500"
+          >
+            + Add Detail
+          </button>
+        </div> */}
+
+        {/* Dynamic Details */}
+        <div className="space-y-4 px-2">
+          <label className="text-sm font-medium text-gray-400">Details</label>
+          {details.map((item, index) => (
+            <div key={item.id} className="flex flex-col gap-2 mb-4">
+              {/* Key Input */}
+              <input
+                placeholder="Key"
+                {...register(`product_details.0.details.${index}.key`)}
+                className="bg-[#161b22] border-gray-800 text-gray-300 p-2 rounded-md focus:ring focus:ring-blue-500"
+              />
+
+              <RichTextEditor
+                methods={methods}
+                fieldPath={`product_details.0.details.${index}.value`}
+              />
+              {/* Remove Button */}
+              <button
+                type="button"
+                onClick={() => removeDetail(index)}
+                className="text-red-500"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -698,7 +852,15 @@ function AddProductModal({ onClose }) {
   const handleSubmit = async (data) => {
     try {
       console.log({
-        data: { product_details: { ...data.product_details?.[0] } },
+        data: {
+          product_details: {
+            ...data.product_details?.[0],
+            weight: data.product_details?.[0]?.weight?.map((item) => ({
+              weight: item.key,
+              price: item.value,
+            })),
+          },
+        },
       });
       const response = await createProduct({
         data: {
@@ -723,7 +885,10 @@ function AddProductModal({ onClose }) {
 
   return (
     <>
-      <div>
+      <div className="p-3 md:max-w-2xl relative">
+        <div onClick={onClose} className="absolute right-2 top-2 w-fit cursor-pointer">
+          <X />
+        </div>
         <h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center ">
           <svg
             xmlns="http://www.w3.org/2000/svg"

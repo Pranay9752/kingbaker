@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalWrapper from "../wrappers/ModalWrapper";
@@ -8,51 +7,53 @@ const OwnerHeader = ({ isActive, children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar toggle
   const [activeItem, setActiveItem] = useState("Vendors");
   const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const navItems = [
     { label: "Vendors", link: "/owner/vendors" },
     { label: "Tickets", link: "/owner/tickets" },
     { label: "Orders", link: "/owner/orders" },
   ];
   const onNavItemClick = (item) => {
-
     setActiveItem(item?.label);
-    navigate(item?.link)
-  }
+    navigate(item?.link);
+  };
 
   const handleOpenNewWindow = () => {
-    window.open('/owner/landing', '_blank');
+    window.open("/owner/landing", "_blank");
     // navigate('/your-new-route', { replace: true }, newWindow);
   };
 
-  const handleAddProduct = (value) => setShowAddProductModal((prev) => value || !prev)
-
+  const handleAddProduct = (value) =>
+    setShowAddProductModal((prev) => value || !prev);
 
   useEffect(() => {
     if (isActive) {
       setActiveItem(isActive);
     }
-  }, [isActive])
+  }, [isActive]);
 
   return (
     <>
-
       <div className="bg-black min-h-screen flex">
         {/* Sidebar for mobile */}
         <div
-          className={`fixed inset-y-0 left-0 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } transition-transform duration-300 ease-in-out bg-[#0a0a0a] z-50 w-64 md:hidden`}
+          className={`fixed inset-y-0 left-0 transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 ease-in-out bg-[#0a0a0a] z-50 w-64 md:hidden`}
         >
           <div className="px-4 py-6">
-            <h2 className="text-white text-lg font-semibold mb-4">Navigation</h2>
+            <h2 className="text-white text-lg font-semibold mb-4">
+              Navigation
+            </h2>
             <nav className="flex flex-col space-y-2">
               {navItems.map((item, index) => (
                 <button
                   key={index}
-                  className={`text-sm text-left px-3 py-2 rounded-md ${activeItem === item.label
-                    ? "bg-gray-800 text-white"
-                    : "text-gray-400 hover:bg-gray-700"
-                    }`}
+                  className={`text-sm text-left px-3 py-2 rounded-md ${
+                    activeItem === item.label
+                      ? "bg-gray-800 text-white"
+                      : "text-gray-400 hover:bg-gray-700"
+                  }`}
                   onClick={() => onNavItemClick(item)}
                 >
                   {item.label}
@@ -101,22 +102,37 @@ const OwnerHeader = ({ isActive, children }) => {
                     pranay9752's projects
                   </span> */}
                   </button>
-
                 </div>
               </div>
 
               {/* Right Side Navigation */}
               <div className="flex items-center space-x-4">
-
-                <button type="button" onClick={handleAddProduct} className="flex items-center px-3 py-1 text-sm text-gray-400 hover:text-gray-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4 md:mr-1">
+                <button
+                  type="button"
+                  onClick={handleAddProduct}
+                  className="flex items-center px-3 py-1 text-sm text-gray-400 hover:text-gray-300"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="size-4 md:mr-1"
+                  >
                     <path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3Z" />
-                    <path fillRule="evenodd" d="M13 6H3v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6ZM8.75 7.75a.75.75 0 0 0-1.5 0v2.69L6.03 9.22a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l2.5-2.5a.75.75 0 1 0-1.06-1.06l-1.22 1.22V7.75Z" clipRule="evenodd" />
+                    <path
+                      fillRule="evenodd"
+                      d="M13 6H3v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6ZM8.75 7.75a.75.75 0 0 0-1.5 0v2.69L6.03 9.22a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l2.5-2.5a.75.75 0 1 0-1.06-1.06l-1.22 1.22V7.75Z"
+                      clipRule="evenodd"
+                    />
                   </svg>
 
                   <span className={`hidden md:block`}>Add Product</span>
                 </button>
-                <button type="button" onClick={handleOpenNewWindow} className="flex items-center px-3 py-1 text-sm text-gray-400 hover:text-gray-300">
+                <button
+                  type="button"
+                  onClick={handleOpenNewWindow}
+                  className="flex items-center px-3 py-1 text-sm text-gray-400 hover:text-gray-300"
+                >
                   <svg
                     className="h-4 w-4 md:mr-2"
                     fill="none"
@@ -133,7 +149,6 @@ const OwnerHeader = ({ isActive, children }) => {
                   </svg>
                   <span className={`hidden md:block`}> Update Landing</span>
                 </button>
-
 
                 <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center">
                   <span className="text-sm text-white">P</span>
@@ -169,10 +184,11 @@ const OwnerHeader = ({ isActive, children }) => {
               {navItems.map((item, index) => (
                 <button
                   key={index}
-                  className={`px-3 py-4 text-sm font-medium border-b-2 ${activeItem === item.label
-                    ? "border-white text-white"
-                    : "border-transparent text-gray-400 hover:text-gray-300"
-                    }`}
+                  className={`px-3 py-4 text-sm font-medium border-b-2 ${
+                    activeItem === item.label
+                      ? "border-white text-white"
+                      : "border-transparent text-gray-400 hover:text-gray-300"
+                  }`}
                   onClick={() => onNavItemClick(item)}
                 >
                   {item.label}
@@ -188,10 +204,11 @@ const OwnerHeader = ({ isActive, children }) => {
       </div>
       <ModalWrapper
         maxHeight={"101vh"}
-        className={`p-3 text-gray-300 `}
+        className={`p-0 text-gray-300 `}
         backgroundColor={"#1a1f25"}
         isOpen={showAddProductModal}
-        onClose={() => handleAddProduct(false)}
+        onClose={() => {}}
+        // onClose={() => handleAddProduct(false)}
       >
         <AddProductModal onClose={() => handleAddProduct(false)} />
       </ModalWrapper>

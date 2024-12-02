@@ -32,13 +32,13 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
     if (orderIds?.length == 0) {
       toast.info("No Order available to place!");
     }
-    console.log("orderIds: ", orderIds);
     Array.isArray(orderIds) &&
-      orderIds.forEach(async (item) => {
-        await placeOrder({ order_id: item });
+      orderIds.forEach(async (item, index) => {
+        await placeOrder({ order_id: item }).unwrap();
+        index == 1 &&
+          toast.success("Order added successfully with order id: " + item);
       });
-    toast.success("Order added successfully");
-    // window.location.href = '/'
+    window.location.href = '/'
   };
 
   return (
