@@ -129,7 +129,7 @@ const TopNavbar = ({
           <div className="flex items-center space-x-4 ml-4">
             {logo && (
               <img
-              onClick={()  => navigate("/")}
+                onClick={() => navigate("/")}
                 src={"https://i.ibb.co/LPFC6F8/logoking.png"}
                 alt={`${title} Logo`}
                 className="h-10"
@@ -219,9 +219,8 @@ const TopNavbar = ({
 
               <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <div
-                  className={`py-1 ${
-                    getCookie("isAuth") !== "true" ? "" : "hidden"
-                  }`}
+                  className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"
+                    }`}
                 >
                   <Link
                     to="/account/login"
@@ -246,9 +245,8 @@ const TopNavbar = ({
                   ))}
                 </ul>
                 <div
-                  className={`py-1 ${
-                    getCookie("isAuth") !== "true" ? "hidden" : ""
-                  }`}
+                  className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""
+                    }`}
                 >
                   <div
                     onClick={() => {
@@ -284,7 +282,7 @@ const TopNavbar = ({
                   />
                 </svg>
               </button>
-              <div className="flex items-center space-x-2">
+              <div onClick={() => navigate("/")} className="flex items-center space-x-2">
                 <img
                   src={"https://i.ibb.co/LPFC6F8/logoking.png"}
                   alt={`${title} Logo`}
