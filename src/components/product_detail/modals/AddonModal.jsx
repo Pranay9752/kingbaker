@@ -222,7 +222,7 @@ const ProductAddOns = ({
       const cartCookie = getCookie("cart");
       const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
       setCookie("cart", [...cartOrder, convertedData]);
-      navigate("/");
+      navigate();
     } else {
       try {
         await createOrder(newOrder);
