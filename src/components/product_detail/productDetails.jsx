@@ -89,7 +89,7 @@ const ProductDetails = ({
           <PriceInfo price={price ?? data?.prices ?? 0} taxInfo={taxInfo} />
           {Array.isArray(data?.weight) && data?.weight?.length > 0 && (
             <SizeSelector
-              image={(data?.data?.imageLink ?? [])?.[0] ?? ""}
+              image={(data?.imageLink ?? [])?.[0] ?? ""}
               sizes={data?.weight}
             />
           )}
@@ -136,7 +136,7 @@ const ProductDetails = ({
         <PriceInfo price={price} taxInfo={taxInfo} />
         {Array.isArray(data?.weight) && data?.weight?.length > 0 && (
           <SizeSelector
-            image={(data?.data?.imageLink ?? [])?.[0] ?? ""}
+            image={(data?.imageLink ?? [])?.[0] ?? ""}
             sizes={data?.weight}
           />
         )}
