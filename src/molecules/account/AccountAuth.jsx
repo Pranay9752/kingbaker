@@ -195,7 +195,7 @@ function AccountAuth({ className, handleOnLogin }) {
     }
   };
 
-  // Helper function to get default user details
+  // Helper function to get default user detail s
   const getDefaultUser = () => ({
     username: "",
     email: "",
