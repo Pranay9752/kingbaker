@@ -130,7 +130,6 @@ function AccountAuth({ className, handleOnLogin }) {
           user_details: { ...getDefaultUser(), ...userData },
         });
 
-      console.log(response);
 
       if ("error" in response) {
         toast.error(response.error.data.message);
@@ -138,8 +137,12 @@ function AccountAuth({ className, handleOnLogin }) {
       }
       const { user, user_id, email, authcode, message, _id, role } =
         response?.data || {};
-      const cartCookie = getCookie("cart");
-      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
+      const cartCookie = getCookie("cart", true);
+      const cartOrder = cartCookie
+        ? typeof cartCookie == "object"
+          ? cartCookie
+          : JSON.parse(cartCookie)
+        : [];
       if (cartOrder.length > 0) {
         cartOrder?.forEach(async (element) => {
           const { addons, mainItem } = element;
@@ -169,12 +172,12 @@ function AccountAuth({ className, handleOnLogin }) {
             },
           };
           try {
-            await createOrder(newOrder);
+           const response = await createOrder(newOrder);
           } catch (error) { }
         });
       }
-      setCookie("cart", []);
-      setCookie("user", user);
+      setCookie("cart", [], true);
+      setCookie("user", email);
       setCookie("user_id", user_id);
       setCookie("email", email);
       setCookie("authcode", authcode);

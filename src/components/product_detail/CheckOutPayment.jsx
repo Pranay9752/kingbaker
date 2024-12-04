@@ -13,6 +13,8 @@ import {
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
 import SecurePaymentCard from "../../molecules/cards/SecurePaymentCard";
 import { toast } from "sonner";
+import setCookie from "../../atom/utils/setCookies";
+import { addInit } from "../../redux/slices/ecom/orderSlice";
 
 const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [selectedOption, setSelectedOption] = useState("cod");
@@ -22,7 +24,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [placeOrder] = usePlaceOrderMutation();
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -31,6 +33,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const handleSubmit = () => {
     if (orderIds?.length == 0) {
       toast.info("No Order available to place!");
+      return;
     }
     Array.isArray(orderIds) &&
       orderIds.forEach(async (item, index) => {
@@ -38,7 +41,12 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
         index == 1 &&
           toast.success("Order added successfully with order id: " + item);
       });
-    window.location.href = '/'
+
+    setCookie("cart", [], true);
+    dispatch(addInit([]));
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
   };
 
   return (

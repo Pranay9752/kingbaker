@@ -219,10 +219,15 @@ const ProductAddOns = ({
     const convertedData = convertData(newOrder, addonsArr ?? []);
 
     if (!isLogin) {
-      const cartCookie = getCookie("cart");
-      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
-      setCookie("cart", [...cartOrder, convertedData]);
-      navigate();
+      const cartCookie = getCookie("cart", true);
+      const cartOrder = cartCookie
+        ? typeof cartCookie == "object"
+          ? cartCookie
+          : JSON.parse(cartCookie)
+        : [];
+      setCookie("cart", [...cartOrder, convertedData], true);
+      dispatch(addInit([...cartOrder, convertedData]));
+      closeModal();
     } else {
       try {
         await createOrder(newOrder);

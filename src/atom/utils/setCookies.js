@@ -1,19 +1,30 @@
 import Cookies from "js-cookie";
 
-const setCookie = (key, value) => {
+const setCookie = (key, value, isLocal = false) => {
   try {
-    Cookies.set(
-      key,
-      typeof value === "object" && value !== null
-        ? JSON.stringify(value)
-        : value,
-      {
-        expires: 7,
-      }
-    );
+    if (isLocal) {
+      localStorage.setItem(
+        key,
+        typeof value === "object" && value !== null
+          ? JSON.stringify(value)
+          : value
+      );
+    } else {
+      Cookies.set(
+        key,
+        typeof value === "object" && value !== null
+          ? JSON.stringify(value)
+          : value,
+        {
+          expires: 7,
+        }
+      );
+    }
   } catch (error) {
-    console.error(`Error reading cookie for ${key}:`, error);
-    return "";
+    console.error(
+      `Error setting ${isLocal ? "localStorage" : "cookie"} for ${key}:`,
+      error
+    );
   }
 };
 

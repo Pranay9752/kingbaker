@@ -35,7 +35,6 @@ const AddToCartModal = ({ onClose = () => {} }) => {
       });
       return acc + total;
     }, 0) ?? 0;
-  console.log("totalPriceAddons: ", totalPriceAddons);
 
   const totalDelivery =
     cartData?.reduce((acc, curr) => {
@@ -85,8 +84,12 @@ const AddToCartModal = ({ onClose = () => {} }) => {
 
   useEffect(() => {
     if (!isLogin) {
-      const cartCookie = getCookie("cart");
-      const cartOrder = cartCookie ? JSON.parse(cartCookie) : [];
+      const cartCookie = getCookie("cart", true);
+      const cartOrder = cartCookie
+        ? typeof cartCookie == "object"
+          ? cartCookie
+          : JSON.parse(cartCookie)
+        : [];
       dispatch(addInit(cartOrder));
       return;
     }
@@ -99,7 +102,7 @@ const AddToCartModal = ({ onClose = () => {} }) => {
 
   useEffect(() => {
     if (!isLogin) {
-      setCookie("cart", cartData);
+      setCookie("cart", cartData, true);
     }
   }, [cartData]);
 

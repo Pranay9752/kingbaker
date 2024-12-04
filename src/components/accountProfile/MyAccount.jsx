@@ -34,7 +34,7 @@ const LogoutComp = () => {
 
   useEffect(() => {
     deleteAllCookies();
-    navigate("/");
+    location.href = "/";
   }, []);
   return <></>;
 };
@@ -45,7 +45,7 @@ const SecondComponent = ({ selectedPage, setCurrentPage, accountOptions }) => {
   const handleOptionClick = (option) => {
     if (option.page == "logout") {
       deleteAllCookies();
-      navigate("/");
+      location.href = "/";
     } else {
       navigate(`/account/details/${option.page}`);
       setCurrentPage(option.page);
@@ -63,7 +63,7 @@ const SecondComponent = ({ selectedPage, setCurrentPage, accountOptions }) => {
       case "logout":
         return <LogoutComp />;
       default:
-        return <div className="p-6">Content for {selectedPage}</div>;
+        return <div className="p-6">Loading...</div>;
     }
   };
 
@@ -151,7 +151,7 @@ const MyAccount = () => {
   const handleOptionClick = (option) => {
     if (option.page == "logout") {
       deleteAllCookies();
-      navigate("/");
+      location.href = "/";
     } else {
       navigate(`/account/details/${option.page}`);
       setCurrentPage(option.page);
@@ -240,7 +240,7 @@ const MyAccount = () => {
       page: "logout",
       onClick: () => {
         deleteAllCookies();
-        navigate("/");
+        location.href = "/";
       },
     },
   ];
@@ -248,7 +248,7 @@ const MyAccount = () => {
   useEffect(() => {
     if (phase == "logout") {
       deleteAllCookies();
-      navigate("/");
+      location.href = "/";
     }
     setCurrentPage(() => {
       if (accountOptions?.map((item) => item.page).includes(phase)) {

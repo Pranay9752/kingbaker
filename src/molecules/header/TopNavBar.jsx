@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import EventBar from "./EventBar";
 import AddToCartModal from "../../components/addtocart";
 import { twMerge } from "tailwind-merge";
@@ -12,7 +12,8 @@ import logo from "../../assets/logoking.png";
 import deleteAllCookies from "../../atom/utils/deleteAllCookies";
 import SuggestionSearch from "../search/SuggestionSearch";
 import ModalWrapper from "../wrappers/ModalWrapper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addInit } from "../../redux/slices/ecom/orderSlice";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -55,6 +56,11 @@ const TopNavbar = ({
   const [showSearch, setShowSearch] = useState(false);
   const sidebarRef = useRef();
   const cartData = useSelector((state) => state.order);
+  const dispatch = useDispatch();
+  const isLogin = useMemo(
+    () => (getCookie("_id") ? true : false),
+    [getCookie("_id")]
+  );
 
   // Function to close the sidebar when clicking outside
   useEffect(() => {
@@ -84,11 +90,24 @@ const TopNavbar = ({
     }
   };
 
+  useEffect(() => {
+    if (!isLogin) {
+      const cartCookie = localStorage.getItem("cart");
+
+      const cartOrder = cartCookie
+        ? typeof cartCookie == "object"
+          ? cartCookie
+          : JSON.parse(cartCookie)
+        : [];
+      dispatch(addInit(cartOrder));
+      return;
+    }
+  }, [localStorage.getItem("cart")]);
+
   return (
     <>
       <nav className={twMerge("bg-[#7d8035] text-white ", className)}>
         <div className="hidden md:flex bg-[#707428] w-full h-6  items-center text-xs font-semibold justify-end gap-2">
-
           {moreOptions.length > 0 && (
             <div className="relative">
               <button
@@ -135,7 +154,6 @@ const TopNavbar = ({
                 className="h-10"
               />
             )}
-            {/* <h1 className="text-2xl font-bold">{title}</h1> */}
             <div className="flex gap-4">
               <SuggestionSearch />
               <button className="flex items-center space-x-1 bg-white text-gray-700 text-xs font-semibold rounded p-2 w-full">
@@ -219,8 +237,9 @@ const TopNavbar = ({
 
               <div className="z-10 absolute right-0 top-8 hidden group-hover:block font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <div
-                  className={`py-1 ${getCookie("isAuth") !== "true" ? "" : "hidden"
-                    }`}
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "" : "hidden"
+                  }`}
                 >
                   <Link
                     to="/account/login"
@@ -245,13 +264,14 @@ const TopNavbar = ({
                   ))}
                 </ul>
                 <div
-                  className={`py-1 ${getCookie("isAuth") !== "true" ? "hidden" : ""
-                    }`}
+                  className={`py-1 ${
+                    getCookie("isAuth") !== "true" ? "hidden" : ""
+                  }`}
                 >
                   <div
                     onClick={() => {
                       deleteAllCookies();
-                      navigate("/");
+                      location.href = "/";
                     }}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                   >
@@ -282,7 +302,10 @@ const TopNavbar = ({
                   />
                 </svg>
               </button>
-              <div onClick={() => navigate("/")} className="flex items-center space-x-2">
+              <div
+                onClick={() => navigate("/")}
+                className="flex items-center space-x-2"
+              >
                 <img
                   src={"https://i.ibb.co/LPFC6F8/logoking.png"}
                   alt={`${title} Logo`}

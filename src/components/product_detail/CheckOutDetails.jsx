@@ -283,7 +283,6 @@ const PriceDetails = ({ className }) => {
       return acc + curr?.deliveryDetails?.fee;
     }, 0) ?? 0;
 
- 
   const totalAddonPrice = useMemo(() => {
     const totalAddons = data?.reduce((prev, curr) => {
       let addonPrice = 0;
@@ -418,7 +417,7 @@ function CheckOutDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isError, isLoading } = useGetAddressQuery();
-  const { data: cartOrder } = useGetCartItemQuery();
+  const { data: cartOrder, refetch: refetchCartOrder } = useGetCartItemQuery();
   const orderData = useSelector((state) => state.order);
 
   const handleOccation = ({ index, data }) => {
@@ -472,6 +471,12 @@ function CheckOutDetails() {
     }
   }, [data]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      refetchCartOrder();
+    }, 1000);
+  }, []);
+
   // useEffect(() => {
   //   const isLogin = getCookie("_id") ? true : false;
   //   if (!isLogin) {
@@ -514,7 +519,7 @@ function CheckOutDetails() {
 
   return (
     <>
-      <Basicheader num={2} title={"Order & Delivery Details"} />
+      <Basicheader link={"/"} num={2} title={"Order & Delivery Details"} />
       <div className="md:hidden">
         {isOpen === 0 ? (
           <>
