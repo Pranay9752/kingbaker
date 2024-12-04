@@ -194,7 +194,7 @@ function AccountAuth({ className, handleOnLogin }) {
       toast.error("An error occurred");
     }
   };
-
+ 
   // Helper function to get default user detail s
   const getDefaultUser = () => ({
     username: "",
