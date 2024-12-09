@@ -220,6 +220,10 @@ const ProductAddOns = ({
     const convertedData = convertData(newOrder, addonsArr ?? []);
 
     if (!isLogin) {
+      if(action === "BN") {
+        navigate(`/account/login?next=${encodeURIComponent(location.pathname)}`)
+        return;
+      }
       const cartCookie = getCookie("cart", true);
       const cartOrder = cartCookie
         ? typeof cartCookie == "object"

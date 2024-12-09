@@ -383,12 +383,12 @@ const SuggestionSearch = () => {
       )}
 
       {suggestions.length > 0 && (
-        <ul className="absolute top-full mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-y-auto">
+        <ul className="absolute z-10 top-full mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-y-auto">
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="p-2 hover:bg-gray-100 cursor-pointer transition-colors duration-200"
+              className="p-2 text-gray-800 hover:bg-gray-100 cursor-pointer transition-colors duration-200"
             >
               {suggestion}
             </li>
