@@ -17,6 +17,13 @@ import { useCreateOrderMutation } from "../../redux/apiSlices/ecom/checkoutApiSl
 function AccountAuth({ className, handleOnLogin }) {
   const [isExistingUser, setIsExistingUser] = useState(null);
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const schema =
     isExistingUser == null
       ? yup.object().shape({
@@ -311,7 +318,7 @@ function AccountAuth({ className, handleOnLogin }) {
           <AnimatePresence>
             {isExistingUser != null ? (
               <>
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0, x: 300 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -300 }}
@@ -346,6 +353,86 @@ function AccountAuth({ className, handleOnLogin }) {
                     <p className="text-left text-red-500 text-xs">
                       {errors.password.message}
                     </p>
+                  )}
+                </motion.div> */}
+                <motion.div
+                  initial={{ opacity: 0, x: 300 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -300 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative mt-4"
+                >
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id={"password"}
+                      className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer pr-10"
+                      placeholder=" "
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 7,
+                          message: "Password must be at least 7 characters long",
+                        },
+                        pattern: {
+                          value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+                          message:
+                            "Password must contain at least one uppercase letter and one special character",
+                        },
+                      })}
+                    />
+
+                    {/* Password Visibility Toggle */}
+                    <motion.button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      whileTap={{ scale: 0.9 }}
+                      className="absolute right-2 top-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      <AnimatePresence mode="wait">
+                        {showPassword ? (
+                          <motion.div
+                            key="hide"
+                            initial={{ opacity: 0, rotate: -180 }}
+                            animate={{ opacity: 1, rotate: 0 }}
+                            exit={{ opacity: 0, rotate: 180 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6"><path d="m15 18-.722-3.25" /><path d="M2 8a10.645 10.645 0 0 0 20 0" /><path d="m20 15-1.726-2.05" /><path d="m4 15 1.726-2.05" /><path d="m9 18 .722-3.25" /></svg>              </motion.div>
+                        ) : (
+                          <motion.div
+                            key="show"
+                            initial={{ opacity: 0, rotate: 180 }}
+                            animate={{ opacity: 1, rotate: 0 }}
+                            exit={{ opacity: 0, rotate: -180 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round" className="size-6">
+                              <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                              <circle cx="12" cy="12" r="3" />
+                            </svg>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.button>
+
+                    <label
+                      htmlFor={"password"}
+                      className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                    >
+                     Password
+                    </label>
+                  </div>
+
+                  {errors.password && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-left text-red-500 text-xs mt-1"
+                    >
+                      {errors.password.message}
+                    </motion.p>
                   )}
                 </motion.div>
                 {!isExistingUser && (
