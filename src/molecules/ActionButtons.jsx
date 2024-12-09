@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 const ActionButtons = ({ product, productId }) => {
   const [isAddonOpen, setIsAddonOpen] = useState(false);
+  const [action, setAction] = useState("ATC");
   const { data } = useGetAddOnQuery();
   const { getValues } = useFormContext();
   const handleAddonChange = (e, value = null) => {
@@ -29,7 +30,7 @@ const ActionButtons = ({ product, productId }) => {
         <div className="flex md:grid md:grid-cols-2 md:gap-x-8 md:mt-5">
           <BasicButton
             type={"button"}
-            onClick={handleAddonChange}
+            onClick={() => { setAction("ATC"), handleAddonChange() }}
             className="flex-1 bg-white text-orange-500 md:text-white md:bg-[#7D8035] md:rounded-lg  md:shadow"
           >
             <div className="text-lg font-extrabold flex gap-2 justify-center items-center">
@@ -47,7 +48,7 @@ const ActionButtons = ({ product, productId }) => {
           </BasicButton>
           <BasicButton
             type={"button"}
-            onClick={handleAddonChange}
+            onClick={() => { setAction("BN"), handleAddonChange() }}
             className="flex-1 bg-orange-500 text-white md:rounded-lg md:shadow"
           >
             <div className="text-lg font-extrabold flex gap-2 justify-center items-center">
@@ -79,6 +80,7 @@ const ActionButtons = ({ product, productId }) => {
           productId={productId}
           addons={data?.data ?? []}
           closeModal={(e) => handleAddonChange(e, false)}
+          action={action}
         />
       </ModalWrapper>
     </>

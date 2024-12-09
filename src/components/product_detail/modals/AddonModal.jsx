@@ -18,6 +18,7 @@ const ProductAddOns = ({
   addons,
   product,
   productId: selectedProductId,
+  action
 }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
@@ -230,11 +231,16 @@ const ProductAddOns = ({
       closeModal();
     } else {
       try {
-        await createOrder(newOrder);
+        const response = await createOrder(newOrder);
+        if (action === "BN") {
+          const order_id = response.data.data.order.order_id
+          navigate(`/checkout/details/?orderid=${encodeURIComponent(order_id)}`);
+          return;
+        }
         toast.success("Order created successfully");
         await addToCartItem();
         location.reload();
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useState, useEffect, useMemo } from "react";
 
 import Basicheader from "./header/Basicheader";
@@ -38,7 +38,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
     Array.isArray(orderIds) &&
       orderIds.forEach(async (item, index) => {
         await placeOrder({ order_id: item }).unwrap();
-        index == 1 &&
+        index == 0 &&
           toast.success("Order added successfully with order id: " + item);
       });
 
@@ -342,17 +342,25 @@ const PriceDetails = ({
 };
 
 function CheckOutPayment() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCartItemQuery();
 
+  const handleBuyNowData = (orderData) => {
+    const orderId = searchParams.get('orderid')
+    if (!orderId || orderId == "") {
+      return orderData || [];
+    }
+    return orderData?.filter((item) => item?.mainItem.order_id === orderId) || []
+  }
   const orderIds = useMemo(() => {
     return Array.isArray(data?.data?.delivery_details)
-      ? data?.data?.delivery_details.map((item) => item?.mainItem?.order_id)
+      ? handleBuyNowData(data?.data?.delivery_details || []).map((item) => item?.mainItem?.order_id)
       : [];
-  }, [data?.data]);
+  }, [data?.data, searchParams.get('orderid')]);
 
   const totalPrice = useMemo(() => {
-    const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
+    const totalAddons = handleBuyNowData(data?.data?.delivery_details || [])?.reduce((prev, curr) => {
       const itemPrice = curr?.mainItem?.productDetails?.[0]?.prices ?? 0;
       let addonPrice = 0;
       curr?.addOn?.forEach((element) => {
@@ -363,15 +371,15 @@ function CheckOutPayment() {
       return prev + itemPrice + addonPrice;
     }, 0);
     return totalAddons;
-  }, [data]);
+  }, [data, searchParams.get('orderid')]);
 
   const totalShipping =
-    data?.data?.delivery_details?.reduce((acc, cur) => {
+    handleBuyNowData(data?.data?.delivery_details || [])?.reduce((acc, cur) => {
       return acc + (cur?.mainItem?.shipping?.shipping_amount ?? 0);
     }, 0) ?? 0;
 
   const totalAddonPrice =
-    data?.data?.delivery_details?.reduce((acc, cur) => {
+    handleBuyNowData(data?.data?.delivery_details || [])?.reduce((acc, cur) => {
       let totalprice = 0;
 
       cur?.addOn?.forEach((item) => {
@@ -380,11 +388,11 @@ function CheckOutPayment() {
       return acc + totalprice;
     }, 0) ?? 0;
   const totalitemPrice = useMemo(() => {
-    const totalAddons = data?.data?.delivery_details?.reduce((prev, curr) => {
+    const totalAddons = handleBuyNowData(data?.data?.delivery_details || [])?.reduce((prev, curr) => {
       return prev + (curr?.mainItem?.productDetails?.[0]?.prices ?? 0);
     }, 0);
     return totalAddons;
-  }, [data]);
+  }, [data, searchParams.get('orderid')]);
 
   useEffect(() => {
     if (window.innerWidth > 768) document.body.classList.add("bg-[#f2f2f2]");
@@ -406,7 +414,9 @@ function CheckOutPayment() {
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS" done />
 
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS">
-            <PaymentOptions orderIds={orderIds} totalPrice={totalPrice ?? 0} />
+            <PaymentOptions orderIds={orderIds} totalPrice={((totalitemPrice || 0) +
+              (totalShipping || 0) +
+              (totalAddonPrice || 0)) ?? 0} />
           </CheckoutCard>
         </div>
         <div className="sticky">
@@ -428,7 +438,9 @@ function CheckOutPayment() {
           totalShipping={totalShipping}
           totalitemPrice={totalitemPrice}
         />
-        <PaymentOptions orderIds={orderIds} totalPrice={totalPrice ?? 0} />
+        <PaymentOptions orderIds={orderIds} totalPrice={((totalitemPrice || 0) +
+          (totalShipping || 0) +
+          (totalAddonPrice || 0)) ?? 0} />
         <SecurePaymentCard />
       </div>
     </>

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useState, useEffect, useMemo } from "react";
 // import {
 //   useGetAddressQuery,
@@ -274,17 +274,24 @@ const Icon = ({ name }) => {
   return icons[name] || null;
 };
 
-const PriceDetails = ({ className }) => {
+const PriceDetails = ({ orderId, className }) => {
   const navigate = useNavigate();
   const [createOrder] = useCreateOrderMutation();
   const data = useSelector((state) => state.order);
+
+  const handleBuyNowData = (orderData) => {
+    if (!orderId || orderId == "") {
+      return orderData || [];
+    }
+    return orderData?.filter((item) => item?.mainItem.order_id === orderId) || []
+  }
   const totalDelivery =
-    data?.reduce((acc, curr) => {
+  handleBuyNowData(data)?.reduce((acc, curr) => {
       return acc + curr?.deliveryDetails?.fee;
     }, 0) ?? 0;
 
   const totalAddonPrice = useMemo(() => {
-    const totalAddons = data?.reduce((prev, curr) => {
+    const totalAddons = handleBuyNowData(data)?.reduce((prev, curr) => {
       let addonPrice = 0;
       curr?.addons?.forEach((element) => {
         addonPrice += (element.price || 0) * (element.quantity || 0);
@@ -293,18 +300,18 @@ const PriceDetails = ({ className }) => {
       return prev + addonPrice;
     }, 0);
     return totalAddons;
-  }, [data]);
+  }, [data, orderId]);
   const totalitemPrice = useMemo(() => {
-    const totalAddons = data?.reduce((prev, curr) => {
+    const totalAddons = handleBuyNowData(data)?.reduce((prev, curr) => {
       const itemPrice = curr?.mainItem?.price ?? 0;
       return prev + itemPrice;
     }, 0);
     return totalAddons;
-  }, [data]);
+  }, [data, orderId]);
 
   const handleProceedToPay = async () => {
     try {
-      data.forEach(async (item) => {
+      handleBuyNowData(data).forEach(async (item) => {
         const { mainItem, addons, deliveryDetails } = item;
         const newOrder = {
           user_id: getCookie("_id"),
@@ -339,9 +346,9 @@ const PriceDetails = ({ className }) => {
             },
             addOn: Array.isArray(addons)
               ? addons?.map((item) => ({
-                  addOn_id: item?.id,
-                  count: item?.quantity,
-                }))
+                addOn_id: item?.id,
+                count: item?.quantity,
+              }))
               : [],
           },
         };
@@ -350,8 +357,8 @@ const PriceDetails = ({ className }) => {
       });
       // await createOrder(newOrder);
       toast.success("Order created successfully");
-      navigate("/checkout/payment");
-    } catch (error) {}
+      navigate(`/checkout/payment/?orderid=${encodeURIComponent(orderId || "")}`);
+    } catch (error) { }
   };
 
   return (
@@ -411,6 +418,7 @@ const PriceDetails = ({ className }) => {
 };
 
 function CheckOutDetails() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(0);
   const [occationIndex, setOccationIndex] = useState(0);
 
@@ -419,6 +427,15 @@ function CheckOutDetails() {
   const { data, isError, isLoading } = useGetAddressQuery();
   const { data: cartOrder, refetch: refetchCartOrder } = useGetCartItemQuery();
   const orderData = useSelector((state) => state.order);
+
+  const handleBuyNowData = (data) => {
+    const orderId = searchParams.get("orderid")
+    if (!orderId || orderId == "") {
+      return data || [];
+    }
+    return orderData?.filter((item) => item?.mainItem.order_id === searchParams.get("orderid")) || []
+
+  }
 
   const handleOccation = ({ index, data }) => {
     setOccationIndex(index);
@@ -525,8 +542,23 @@ function CheckOutDetails() {
           <>
             <div className="mt-14 p-2">
               {orderData?.map((order, index) => {
-                return (
-                  <OrderDeliveryDetails
+                const orderId = searchParams.get("orderid")
+                if (!orderId || orderId == "") {
+                  return <OrderDeliveryDetails
+                    key={order?.mainItem?.id}
+                    index={index}
+                    addons={order?.addons ?? []}
+                    deliveryDetails={order?.deliveryDetails ?? {}}
+                    mainItem={order?.mainItem ?? {}}
+                    occasion={order?.occasion ?? null}
+                    addresses={data?.delivery_address ?? []}
+                    handleOccation={handleOccation}
+                  />;
+                }
+
+
+                if (order.mainItem.order_id === searchParams.get("orderid") && orderId !== null) {
+                  return <OrderDeliveryDetails
                     key={order?.mainItem?.id}
                     index={index}
                     addons={order?.addons ?? []}
@@ -536,12 +568,15 @@ function CheckOutDetails() {
                     addresses={data?.delivery_address ?? []}
                     handleOccation={handleOccation}
                   />
+                }
+                return (
+                  <></>
                 );
               })}
             </div>
             <SenderDetailsForm />
 
-            <PriceDetails className={`w-full max-w-full`} />
+            <PriceDetails  orderId={searchParams?.get("orderid") || null} className={`w-full max-w-full`} />
           </>
         ) : isOpen == 1 ? (
           <AddOccation
@@ -561,8 +596,9 @@ function CheckOutDetails() {
           {/* Card 2 */}
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS">
             {orderData?.map((order, index) => {
-              return (
-                <>
+              const orderId = searchParams.get("orderid")
+                if (!orderId || orderId == "") {
+                  return <>
                   <OrderDeliveryDetails
                     className={"border-none shadow-none "}
                     key={order?.mainItem?.id}
@@ -575,8 +611,30 @@ function CheckOutDetails() {
                     handleOccation={handleOccation}
                   />
                   <div className="border" />
-                </>
-              );
+                  </>
+                }
+
+
+                if (order.mainItem.order_id === searchParams.get("orderid") && orderId !== null) {
+                  return <>
+                  <OrderDeliveryDetails
+                    className={"border-none shadow-none "}
+                    key={order?.mainItem?.id}
+                    index={index}
+                    addons={order?.addons ?? []}
+                    deliveryDetails={order?.deliveryDetails ?? {}}
+                    addresses={data?.delivery_address ?? []}
+                    mainItem={order?.mainItem ?? {}}
+                    occasion={order?.occasion ?? null}
+                    handleOccation={handleOccation}
+                  />
+                  <div className="border" />
+                  </>
+                }
+                return (
+                  <></>
+                );
+             
             })}
             <SenderDetailsForm />
           </CheckoutCard>
@@ -584,7 +642,7 @@ function CheckOutDetails() {
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
         </div>
         <div className="sticky">
-          <PriceDetails />
+          <PriceDetails orderId={searchParams?.get("orderid") || null}/>
           <SecurePaymentCard />
         </div>
       </div>
