@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { method } from "lodash";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -65,12 +66,13 @@ const BecomeAPartner = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    reset();
     alert("Form submitted successfully!");
   };
 
@@ -106,8 +108,8 @@ const BecomeAPartner = () => {
           Become an King Bakers Partner Today!
         </h2>
         <p className="text-lg text-gray-600">
-          Partner with King Bakers to grow your business with our extensive brand
-          network and timely support.
+          Partner with King Bakers to grow your business with our extensive
+          brand network and timely support.
         </p>
         <div className="grid grid-cols-2 md:flex flex-wrap justify-center gap-8 mt-8 max-w-4xl mx-auto">
           {[
