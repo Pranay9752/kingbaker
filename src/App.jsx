@@ -26,6 +26,7 @@ import OwnerOrders from "./components/owner/orders";
 import OwnerVendors from "./components/owner/vendors";
 import Landing from "./components/owner/landing";
 import BecomeAPartner from "./components/partner/partner.jsx";
+import ContactUs from "./components/contactus/contackus.jsx";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
           <Route element={<CountryWrapper />}>
             <Route path="/account/login" element={<Login />} />
             <Route path="/become-a-partner" element={<BecomeAPartner />} />
+            <Route path="/contact-us" element={<ContactUs />} />
             <Route element={<PrivateRoute />}>
               <Route path="/account/details/:phase?" element={<MyAccount />} />
             </Route>

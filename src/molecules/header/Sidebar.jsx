@@ -36,7 +36,10 @@ const MenuItem = ({
         >
           {/* <input type="checkbox" className="mr-2" /> */}
           <span
-            className={twMerge("text-gray-700  text-sm", level === 0 && "font-bold")}
+            className={twMerge(
+              "text-gray-700  text-sm",
+              level === 0 && "font-bold"
+            )}
           >
             {item}
           </span>
@@ -399,17 +402,14 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
             My Account
           </div>
           <div
+            onClick={() => navigate("/contact-us")}
             className="text-gray-800 text-sm font-semibold"
           >
             Contact Us
           </div>
         </div>
         <div className="px-4  border-y flex flex-col space-y-4 py-4">
-          <div
-            className="text-gray-500 text-sm font-semibold"
-          >
-            Enquires
-          </div>
+          <div className="text-gray-500 text-sm font-semibold">Enquires</div>
           <div
             onClick={() => navigate("/search/corporate")}
             className="text-gray-800 pl-2 text-sm font-semibold"

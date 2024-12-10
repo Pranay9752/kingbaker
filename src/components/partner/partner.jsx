@@ -79,7 +79,7 @@ const BecomeAPartner = () => {
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
       {/* Header */}
-      <header className="bg-green-600 text-white p-4 text-center shadow-md flex justify-center items-center">
+      <header className="bg-[#7d8035] text-white p-4 text-center shadow-md flex justify-center items-center">
         <svg
           onClick={() => navigate(-1)}
           xmlns="http://www.w3.org/2000/svg"
