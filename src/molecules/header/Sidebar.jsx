@@ -36,7 +36,7 @@ const MenuItem = ({
         >
           {/* <input type="checkbox" className="mr-2" /> */}
           <span
-            className={twMerge("text-gray-700", level === 0 && "font-bold")}
+            className={twMerge("text-gray-700  text-sm", level === 0 && "font-bold")}
           >
             {item}
           </span>
@@ -391,12 +391,42 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
             />
           ))}
         </div>
-        <div className="px-4 pt-2 border-t">
+        <div className="px-4  border-y flex flex-col space-y-4 py-4">
           <div
             onClick={() => navigate("/account/details")}
-            className="text-gray-700 font-semibold"
+            className="text-gray-800 text-sm font-semibold"
           >
             My Account
+          </div>
+          <div
+            className="text-gray-800 text-sm font-semibold"
+          >
+            Contact Us
+          </div>
+        </div>
+        <div className="px-4  border-y flex flex-col space-y-4 py-4">
+          <div
+            className="text-gray-500 text-sm font-semibold"
+          >
+            Enquires
+          </div>
+          <div
+            onClick={() => navigate("/search/corporate")}
+            className="text-gray-800 pl-2 text-sm font-semibold"
+          >
+            Corporate Gift
+          </div>
+          <div
+            onClick={() => navigate("/search/wedding")}
+            className="text-gray-800 pl-2 text-sm font-semibold"
+          >
+            Wedding
+          </div>
+          <div
+            onClick={() => navigate("/become-a-partner")}
+            className="text-gray-800 pl-2 text-sm font-semibold"
+          >
+            Become A Partner
           </div>
         </div>
       </div>
