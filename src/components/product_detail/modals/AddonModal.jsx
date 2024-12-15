@@ -218,10 +218,12 @@ const ProductAddOns = ({
     };
 
     const convertedData = convertData(newOrder, addonsArr ?? []);
-
+    console.log(convertedData)
     if (!isLogin) {
-      if(action === "BN") {
-        navigate(`/account/login?next=${encodeURIComponent(location.pathname)}`)
+      if (action === "BN") {
+        localStorage.setItem("buynow", JSON.stringify(convertedData))
+        setCookie("buynow", convertedData, true)
+        navigate(`/account/login`)
         return;
       }
       const cartCookie = getCookie("cart", true);

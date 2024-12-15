@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
     return (
         <footer className="bg-white text-gray-600 py-8 mt-2">
@@ -5,7 +7,8 @@ const Footer = () => {
                 {/* Features Section */}
                 <div className="flex flex-wrap justify-between mb-8">
                     <div className="w-full sm:w-1/2 md:w-1/4 text-center mb-4">
-                        <svg className="w-8 h-8 mx-auto mb-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        {/* <svg className="w-8 h-8 mx-auto mb-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg> */}
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 mx-auto mb-2 text-blue-500"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" /></svg>
                         <h3 className="font-semibold mb-1">Worldwide Delivery</h3>
                         <p className="text-sm">We deliver gifts to over 70 countries</p>
                     </div>
@@ -65,7 +68,7 @@ const Footer = () => {
                     <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
                         <h4 className="font-bold mb-2">NEED HELP ?</h4>
                         <ul className="text-sm">
-                            <li><a href="#" className="hover:text-gray-800">Contact Us</a></li>
+                            <li><Link to={''} className="hover:text-gray-800">Contact Us</Link></li>
                             <li><a href="#" className="hover:text-gray-800">FAQs</a></li>
                         </ul>
                     </div>
@@ -109,7 +112,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                
+
             </div>
         </footer>
     )

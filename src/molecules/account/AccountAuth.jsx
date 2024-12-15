@@ -144,6 +144,7 @@ function AccountAuth({ className, handleOnLogin }) {
       }
       const { user, user_id, email, authcode, message, _id, role } =
         response?.data || {};
+        
       const cartCookie = getCookie("cart", true);
       const cartOrder = cartCookie
         ? typeof cartCookie == "object"
@@ -183,6 +184,9 @@ function AccountAuth({ className, handleOnLogin }) {
           } catch (error) { }
         });
       }
+
+
+      
       setCookie("cart", [], true);
       setCookie("user", email);
       setCookie("user_id", user_id);
@@ -190,6 +194,45 @@ function AccountAuth({ className, handleOnLogin }) {
       setCookie("authcode", authcode);
       setCookie("isAuth", true);
       setCookie("_id", _id);
+
+      const buyNow = getCookie("buynow", true)
+      if(typeof buyNow == "object") {
+        console.log(buyNow)
+        const { addons, mainItem } = buyNow;
+          const productDetails = mainItem?.productDetails?.[0] ?? {};
+          const newOrder = {
+            user_id: _id,
+            order_status: "PENDING",
+            payment_status: "PENDING",
+            location: mainItem?.location ?? {},
+            pincode: 12345,
+            delivery_details: {
+              product_id: productDetails?._id,
+              delivery_address: null,
+              message_on_product: mainItem?.message_on_product ?? "",
+              imgaes_on_product: mainItem?.imgaes_on_product ?? "",
+              is_message: mainItem?.is_message,
+              is_image: mainItem?.is_image,
+              is_veg: mainItem?.is_veg,
+              special_request: mainItem?.special_request ?? "",
+              delivary_date: mainItem.shipping.delivary_date,
+              shipping: mainItem.shipping,
+              addOn:
+                addons?.map((addOn) => ({
+                  addOn_id: addOn?.id,
+                  count: addOn?.quantity ?? 0,
+                })) ?? [],
+            },
+          };
+          try {
+           const response = await createOrder(newOrder);
+           const order_id = response.data.data.order.order_id
+           console.log(order_id)
+           setCookie("buynow", "", true);
+            navigate(`/checkout/details/?orderid=${encodeURIComponent(order_id)}`);
+            return;
+          } catch (error) { }
+      }
 
       toast.success(message || "Operation successful");
       if (role == "Vendor") {
