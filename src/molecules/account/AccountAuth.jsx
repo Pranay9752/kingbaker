@@ -27,29 +27,29 @@ function AccountAuth({ className, handleOnLogin }) {
   const schema =
     isExistingUser == null
       ? yup.object().shape({
-        email: yup
-          .string()
-          .email("Invalid email")
-          .required("Email is required"),
-      })
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+        })
       : yup.object().shape({
-        email: yup
-          .string()
-          .email("Invalid email")
-          .required("Email is required"),
-        password: yup.string().when("isExistingUser", {
-          is: true,
-          then: yup.string().required("Password is required"),
-        }),
-        name: yup.string().when("isExistingUser", {
-          is: false,
-          then: yup.string().required("Name is required"),
-        }),
-        mobile: yup.string().when("isExistingUser", {
-          is: false,
-          then: yup.string().required("Phone number is required"),
-        }),
-      });
+          email: yup
+            .string()
+            .email("Invalid email")
+            .required("Email is required"),
+          password: yup.string().when("isExistingUser", {
+            is: true,
+            then: yup.string().required("Password is required"),
+          }),
+          name: yup.string().when("isExistingUser", {
+            is: false,
+            then: yup.string().required("Name is required"),
+          }),
+          mobile: yup.string().when("isExistingUser", {
+            is: false,
+            then: yup.string().required("Phone number is required"),
+          }),
+        });
   const methods = useForm({
     // resolver: yupResolver(schema),
     defaultValues: {
@@ -104,11 +104,11 @@ function AccountAuth({ className, handleOnLogin }) {
     // Handle email existence check
     if (isExistingUser == null) {
       try {
-        if (data.email == "owner@bestbakery.com") {
-          setIsExistingUser(true);
-          setValue("isExistingUser", true);
-          return;
-        }
+        // if (data.email == "owner@bestbakery.com") {
+        //   setIsExistingUser(true);
+        //   setValue("isExistingUser", true);
+        //   return;
+        // }
         const exists = await checkEmailExists(data.email);
         if (exists === null) {
           toast.info("Something Went Wrong!");
@@ -124,19 +124,18 @@ function AccountAuth({ className, handleOnLogin }) {
 
     // Handle login or user creation
     try {
-      if (data.email == "owner@bestbakery.com" && data.password == "One@123") {
-        navigate('/owner/vendors')
-        return;
-      }
+      // if (data.email == "owner@bestbakery.com" && data.password == "One@123") {
+      //   navigate('/owner/vendors')
+      //   return;
+      // }
       const response = isExistingUser
         ? await loginUser({
-          email: data.email,
-          password: data.password,
-        }).unwrap()
+            email: data.email,
+            password: data.password,
+          }).unwrap()
         : await createUser({
-          user_details: { ...getDefaultUser(), ...userData },
-        });
-
+            user_details: { ...getDefaultUser(), ...userData },
+          });
 
       if ("error" in response) {
         toast.error(response.error.data.message);
@@ -144,7 +143,7 @@ function AccountAuth({ className, handleOnLogin }) {
       }
       const { user, user_id, email, authcode, message, _id, role } =
         response?.data || {};
-        
+
       const cartCookie = getCookie("cart", true);
       const cartOrder = cartCookie
         ? typeof cartCookie == "object"
@@ -180,13 +179,11 @@ function AccountAuth({ className, handleOnLogin }) {
             },
           };
           try {
-           const response = await createOrder(newOrder);
-          } catch (error) { }
+            const response = await createOrder(newOrder);
+          } catch (error) {}
         });
       }
 
-
-      
       setCookie("cart", [], true);
       setCookie("user", email);
       setCookie("user_id", user_id);
@@ -195,48 +192,52 @@ function AccountAuth({ className, handleOnLogin }) {
       setCookie("isAuth", true);
       setCookie("_id", _id);
 
-      const buyNow = getCookie("buynow", true)
-      if(typeof buyNow == "object") {
-        console.log(buyNow)
+      const buyNow = getCookie("buynow", true);
+      if (typeof buyNow == "object") {
+        console.log(buyNow);
         const { addons, mainItem } = buyNow;
-          const productDetails = mainItem?.productDetails?.[0] ?? {};
-          const newOrder = {
-            user_id: _id,
-            order_status: "PENDING",
-            payment_status: "PENDING",
-            location: mainItem?.location ?? {},
-            pincode: 12345,
-            delivery_details: {
-              product_id: productDetails?._id,
-              delivery_address: null,
-              message_on_product: mainItem?.message_on_product ?? "",
-              imgaes_on_product: mainItem?.imgaes_on_product ?? "",
-              is_message: mainItem?.is_message,
-              is_image: mainItem?.is_image,
-              is_veg: mainItem?.is_veg,
-              special_request: mainItem?.special_request ?? "",
-              delivary_date: mainItem.shipping.delivary_date,
-              shipping: mainItem.shipping,
-              addOn:
-                addons?.map((addOn) => ({
-                  addOn_id: addOn?.id,
-                  count: addOn?.quantity ?? 0,
-                })) ?? [],
-            },
-          };
-          try {
-           const response = await createOrder(newOrder);
-           const order_id = response.data.data.order.order_id
-           console.log(order_id)
-           setCookie("buynow", "", true);
-            navigate(`/checkout/details/?orderid=${encodeURIComponent(order_id)}`);
-            return;
-          } catch (error) { }
+        const productDetails = mainItem?.productDetails?.[0] ?? {};
+        const newOrder = {
+          user_id: _id,
+          order_status: "PENDING",
+          payment_status: "PENDING",
+          location: mainItem?.location ?? {},
+          pincode: 12345,
+          delivery_details: {
+            product_id: productDetails?._id,
+            delivery_address: null,
+            message_on_product: mainItem?.message_on_product ?? "",
+            imgaes_on_product: mainItem?.imgaes_on_product ?? "",
+            is_message: mainItem?.is_message,
+            is_image: mainItem?.is_image,
+            is_veg: mainItem?.is_veg,
+            special_request: mainItem?.special_request ?? "",
+            delivary_date: mainItem.shipping.delivary_date,
+            shipping: mainItem.shipping,
+            addOn:
+              addons?.map((addOn) => ({
+                addOn_id: addOn?.id,
+                count: addOn?.quantity ?? 0,
+              })) ?? [],
+          },
+        };
+        try {
+          const response = await createOrder(newOrder);
+          const order_id = response.data.data.order.order_id;
+          console.log(order_id);
+          setCookie("buynow", "", true);
+          navigate(
+            `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+          );
+          return;
+        } catch (error) {}
       }
 
       toast.success(message || "Operation successful");
       if (role == "Vendor") {
         navigate("/admin/dashboard");
+      } else if (role == "Owner") {
+        navigate("/owner/vendors");
       } else {
         handleOnLogin({ data: response?.data });
       }
@@ -244,7 +245,7 @@ function AccountAuth({ className, handleOnLogin }) {
       toast.error("An error occurred");
     }
   };
- 
+
   // Helper function to get default user detail s
   const getDefaultUser = () => ({
     username: "",
@@ -288,8 +289,8 @@ function AccountAuth({ className, handleOnLogin }) {
               {isExistingUser == null
                 ? "Check Email Exist"
                 : isExistingUser
-                  ? "Log In"
-                  : "Sign Up"}
+                ? "Log In"
+                : "Sign Up"}
             </motion.h3>
           </AnimatePresence>
 
@@ -297,8 +298,9 @@ function AccountAuth({ className, handleOnLogin }) {
             <input
               type="text"
               id="email"
-              className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${isExistingUser ? "border-green-600" : "border-slate-200"
-                } appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
+              className={`block px-2.5 pb-2.5 pt-2 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 ${
+                isExistingUser ? "border-green-600" : "border-slate-200"
+              } appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer`}
               placeholder=" "
               {...register("email", {
                 required: "Email is required",
@@ -347,8 +349,9 @@ function AccountAuth({ className, handleOnLogin }) {
 
             <label
               htmlFor="email"
-              className={`absolute  left-3  text-sm ${isExistingUser ? "text-green-600" : "text-gray-500"
-                } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}
+              className={`absolute  left-3  text-sm ${
+                isExistingUser ? "text-green-600" : "text-gray-500"
+              } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4`}
             >
               Email
             </label>
@@ -415,12 +418,13 @@ function AccountAuth({ className, handleOnLogin }) {
                         required: "Password is required",
                         minLength: {
                           value: 7,
-                          message: "Password must be at least 7 characters long",
+                          message:
+                            "Password must be at least 7 characters long",
                         },
                         pattern: {
-                          value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+                          value: /^(?=.*[A-Z]).*$/,
                           message:
-                            "Password must contain at least one uppercase letter and one special character",
+                            "Password must contain at least one uppercase letter",
                         },
                       })}
                     />
@@ -431,7 +435,9 @@ function AccountAuth({ className, handleOnLogin }) {
                       onClick={togglePasswordVisibility}
                       whileTap={{ scale: 0.9 }}
                       className="absolute right-2 top-4 text-gray-500 hover:text-gray-700 focus:outline-none"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
                     >
                       <AnimatePresence mode="wait">
                         {showPassword ? (
@@ -442,7 +448,23 @@ function AccountAuth({ className, handleOnLogin }) {
                             exit={{ opacity: 0, rotate: 180 }}
                             transition={{ duration: 0.2 }}
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6"><path d="m15 18-.722-3.25" /><path d="M2 8a10.645 10.645 0 0 0 20 0" /><path d="m20 15-1.726-2.05" /><path d="m4 15 1.726-2.05" /><path d="m9 18 .722-3.25" /></svg>              </motion.div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="size-6"
+                            >
+                              <path d="m15 18-.722-3.25" />
+                              <path d="M2 8a10.645 10.645 0 0 0 20 0" />
+                              <path d="m20 15-1.726-2.05" />
+                              <path d="m4 15 1.726-2.05" />
+                              <path d="m9 18 .722-3.25" />
+                            </svg>{" "}
+                          </motion.div>
                         ) : (
                           <motion.div
                             key="show"
@@ -451,7 +473,16 @@ function AccountAuth({ className, handleOnLogin }) {
                             exit={{ opacity: 0, rotate: -180 }}
                             transition={{ duration: 0.2 }}
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round" className="size-6">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              stroke-linejoin="round"
+                              className="size-6"
+                            >
                               <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                               <circle cx="12" cy="12" r="3" />
                             </svg>
@@ -464,7 +495,7 @@ function AccountAuth({ className, handleOnLogin }) {
                       htmlFor={"password"}
                       className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
                     >
-                     Password
+                      Password
                     </label>
                   </div>
 

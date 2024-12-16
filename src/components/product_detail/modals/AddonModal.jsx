@@ -18,7 +18,7 @@ const ProductAddOns = ({
   addons,
   product,
   productId: selectedProductId,
-  action
+  action,
 }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [quantities, setQuantities] = useState({});
@@ -218,12 +218,12 @@ const ProductAddOns = ({
     };
 
     const convertedData = convertData(newOrder, addonsArr ?? []);
-    console.log(convertedData)
+    console.log(convertedData);
     if (!isLogin) {
       if (action === "BN") {
-        localStorage.setItem("buynow", JSON.stringify(convertedData))
-        setCookie("buynow", convertedData, true)
-        navigate(`/account/login`)
+        localStorage.setItem("buynow", JSON.stringify(convertedData));
+        setCookie("buynow", convertedData, true);
+        navigate(`/account/login`);
         return;
       }
       const cartCookie = getCookie("cart", true);
@@ -239,19 +239,21 @@ const ProductAddOns = ({
       try {
         const response = await createOrder(newOrder);
         if (action === "BN") {
-          const order_id = response.data.data.order.order_id
-          navigate(`/checkout/details/?orderid=${encodeURIComponent(order_id)}`);
+          const order_id = response.data.data.order.order_id;
+          navigate(
+            `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+          );
           return;
         }
         toast.success("Order created successfully");
         await addToCartItem();
         location.reload();
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
   return (
-    <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden ">
+    <section className=" h-[110vh] md:h-[90vh] md:w-[80vw] overflow-hidden relative">
       <div className="flex items-center mb-4">
         <svg
           onClick={closeModal}
@@ -277,6 +279,14 @@ const ProductAddOns = ({
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
+      <button
+          type="button"
+          onClick={handleSubmit}
+          className=" hidden md:block bg-orange-500 text-white rounded-lg font-medium ml-auto py-1.5 px-3 absolute right-0 top-10 z-[99999]"
+        >
+          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"}{" "}
+          ADDON
+        </button>
 
       <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[62vh] ">
         {filteredProducts.map((product) => (
@@ -301,7 +311,7 @@ const ProductAddOns = ({
         <button
           type="button"
           onClick={handleSubmit}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold"
+          className="w-full md:hidden bg-orange-500 text-white py-3 rounded-lg mt-4 font-bold"
         >
           CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"}{" "}
           ADDON

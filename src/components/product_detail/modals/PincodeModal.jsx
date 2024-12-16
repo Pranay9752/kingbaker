@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import setCookie from "../../../atom/utils/setCookies";
 
 const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
   const { register } = useFormContext();
@@ -46,8 +47,12 @@ const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
               type="text"
               placeholder="Enter Pincode"
               value={pincode}
-              onChange={(e) => setPincode(e.target.value)}
-              {...register("pincode")}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d{0,6}$/.test(value)) {
+                  setPincode(value);
+                }
+              }}
               className="w-full outline-none text-gray-700 placeholder-gray-500"
             />
           </div>
@@ -58,6 +63,16 @@ const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
         className="text-blue-600 text-sm mt-2 text-left"
       >
         Don't Know Pincode?
+      </button>
+      <button
+        onClick={() => {
+          setCookie("pincode", pincode);
+          closeModal();
+          window.location.reload();
+        }}
+        className="bg-orange-400 px-4 py-3 rounded-md text-white font-medium mt-5"
+      >
+        Update Pincode
       </button>
     </section>
   );

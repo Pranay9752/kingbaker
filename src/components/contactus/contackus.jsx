@@ -24,7 +24,6 @@ const ContactUs = () => {
           />
         </svg>
         <div className="text-lg font-bold">King Baker</div>
-     
       </div>
 
       {/* Content */}
