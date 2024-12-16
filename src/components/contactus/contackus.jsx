@@ -42,13 +42,7 @@ const ContactUs = () => {
           {/* Left Section */}
           <div>
             <div className="space-y-3">
-              <motion.button
-                onClick={() => navigate("/")}
-                className="bg-blue-600 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-blue-700"
-                whileHover={{ scale: 1.05 }}
-              >
-                Continue Shopping
-              </motion.button>
+              
               {/* <motion.button
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded w-full md:w-auto hover:bg-gray-400"
                 whileHover={{ scale: 1.05 }}
@@ -81,10 +75,17 @@ const ContactUs = () => {
               </div>
              
             </div>
+            <motion.button
+                onClick={() => navigate("/")}
+                className="bg-orange-500 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-orange-700 mt-10"
+                whileHover={{ scale: 1.05 }}
+              >
+                Continue Shopping
+              </motion.button>
           </div>
 
           {/* Right Section */}
-          <div className="flex flex-col items-center justify-center space-y-4">
+          {/* <div className="flex flex-col items-center justify-center space-y-4">
             <motion.button
               className="bg-yellow-500 text-white px-6 py-3 rounded w-full hover:bg-yellow-600"
               whileHover={{ scale: 1.05 }}
@@ -97,7 +98,7 @@ const ContactUs = () => {
             >
               General Query
             </motion.button>
-          </div>
+          </div> */}
         </div>
       </div>
 
