@@ -60,6 +60,11 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
 
   return (
     <>
+     {loading && (
+        <div className="fixed inset-0 bg-black/30 z-50  flex justify-center items-center">
+          <Lottie className="size-[600px]" animationData={createOrderAnimationData} loop={false} />
+        </div>
+      )}
       <div className="w-full p-3">
         <div className="w-full space-y-4">
           {/* Wallets Option */}
@@ -298,11 +303,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
           )}
         </div>
       </div>
-      {loading && (
-        <div className="fixed inset-0 bg-black/30 ">
-          <Lottie animationData={createOrderAnimationData} loop={false} />
-        </div>
-      )}
+     
     </>
   );
 };
