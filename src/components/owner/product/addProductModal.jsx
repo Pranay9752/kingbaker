@@ -396,6 +396,9 @@ const ProductForm = ({ onSubmit, onClose }) => {
             .nullable(),
           brand: Yup.string().nullable(),
           color: Yup.string().nullable(),
+          is_veg: Yup.boolean().nullable(),
+          is_image: Yup.boolean().nullable(),
+          is_message: Yup.boolean().nullable(),
         })
       )
       .nullable(),
@@ -420,6 +423,9 @@ const ProductForm = ({ onSubmit, onClose }) => {
           weight: [{ key: "", value: 0 }],
           brand: "",
           color: "white",
+          is_veg: false,
+          is_image: false,
+          is_message: false,
         },
       ],
     },
@@ -538,101 +544,6 @@ const ProductForm = ({ onSubmit, onClose }) => {
             error={errors.product_details?.[0]?.specifications?.message}
           />
         </div>
-
-        {/* Dynamic Details */}
-        {/* <div className="space-y-4">
-          <label className="text-sm font-medium text-gray-400">Details</label>
-          {details.map((item, index) => (
-            <div key={item.id} className="flex gap-2 mb-2">
-              <Input
-                placeholder="Key"
-                {...register(`product_details.0.details.${index}.key`)}
-                className="bg-[#161b22] border-gray-800 text-gray-300"
-                error={errors.product_details?.[0]?.details?.[index]?.key?.message}
-              />
-              <Input
-                placeholder="Value"
-                {...register(`product_details.0.details.${index}.value`)}
-                className="bg-[#161b22] border-gray-800 text-gray-300"
-                error={errors.product_details?.[0]?.details?.[index]?.value?.message}
-              />
-              <button type="button" onClick={() => removeDetail(index)} className="text-red-500"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
-              </svg>
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={() => appendDetail({ key: '', value: '' })} className="text-blue-500">+ Add Detail</button>
-        </div> */}
-        {/* 
-        <div className="space-y-4">
-          <label className="text-sm font-medium text-gray-400">Details</label>
-          {details.map((item, index) => (
-            <div key={item.id} className="flex flex-col gap-2 mb-2">
-              <Input
-                placeholder="Key"
-                {...register(`product_details.0.details.${index}.key`)}
-                className="bg-[#161b22] border-gray-800 text-gray-300"
-                error={
-                  errors.product_details?.[0]?.details?.[index]?.key?.message
-                }
-              />
-              <ReactMarkdown
-                components={{
-                  // Map HTML elements to React components
-                  // (optional, but makes sense for basic Markdown)
-                  p: "p",
-                  strong: "strong",
-                  em: "em",
-                  h1: "h1",
-                  h2: "h2",
-                  h3: "h3",
-                  blockquote: "blockquote",
-                  // Add more mappings as needed
-                }}
-                remarkPlugins={[remarkGfm]}
-                className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300"
-                {...register(`product_details.0.details.${index}.value`)}
-              /> */}
-        {/* <textarea
-                placeholder="Value"
-                {...register(`product_details.0.details.${index}.value`)}
-                className="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors bg-[#161b22] border-gray-800 text-gray-300"
-                // rows={3}
-                error={
-                  errors.product_details?.[0]?.details?.[index]?.value?.message
-                }
-              /> */}
-        {/* <button
-                type="button"
-                onClick={() => removeDetail(index)}
-                className="text-red-500 self-start mt-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="size-4"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={() => appendDetail({ key: "", value: "" })}
-            className="text-blue-500"
-          >
-            + Add Detail
-          </button>
-        </div> */}
-
-        {/* Dynamic Details */}
         <div className="space-y-4 px-2">
           <label className="text-sm font-medium text-gray-400">Details</label>
           {details.map((item, index) => (
@@ -825,6 +736,36 @@ const ProductForm = ({ onSubmit, onClose }) => {
             styles={customSelectStyles}
           />
         </div>
+        <div className="flex items-center space-x-2 my-2">
+          <input
+            type="checkbox"
+            {...register("product_details.0.is_veg")}
+            className="toggle-checkbox size-4"
+          />
+          <label className="text-sm font-medium text-gray-400">
+            Show veg/non-veg option while ordering.
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              {...register("product_details.0.is_message")}
+              className="toggle-checkbox size-4"
+            />
+          <label className="text-sm font-medium text-gray-400">
+            Show "Message On Cake" option while ordering.
+          </label>
+        </div>
+        <div className="flex items-center space-x-2 my-2">
+          <input
+            type="checkbox"
+            {...register("product_details.0.is_image")}
+            className="toggle-checkbox size-4"
+          />
+          <label className="text-sm font-medium text-gray-400">
+            Take personalised images from user.
+          </label>
+        </div>
       </div>
 
       <div className="flex justify-end gap-4">
@@ -886,7 +827,10 @@ function AddProductModal({ onClose }) {
   return (
     <>
       <div className="p-3 md:max-w-2xl relative">
-        <div onClick={onClose} className="absolute right-2 top-2 w-fit cursor-pointer">
+        <div
+          onClick={onClose}
+          className="absolute right-2 top-2 w-fit cursor-pointer"
+        >
           <X />
         </div>
         <h2 className="text-xl font-semibold text-gray-300 mb-5 flex gap-2 items-center ">
