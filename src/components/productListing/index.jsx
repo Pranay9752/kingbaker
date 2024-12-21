@@ -24,7 +24,7 @@ const ProductSearch = () => {
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
     rating: 4.0,
-    reviewCount: 81202,
+    reviewCount: 0,
     totalItems: 36,
     sortOptions: [
       // { label: "Recommended", value: "new" },

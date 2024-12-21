@@ -13,10 +13,10 @@ const ProductListing = ({
   products,
   onScrollEnd,
   sortClick,
-  sortKeys
+  sortKeys,
 }) => {
   const listingRef = useRef(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Scroll event handler
   const handleScroll = () => {
     if (listingRef.current) {
@@ -47,11 +47,13 @@ const ProductListing = ({
   const hasProducts = Array.isArray(products) && products?.length > 0;
 
   return (
-
     <div className="max-w-7xl mx-auto md:p-4 md:pl-0 ">
       <div className="p-3 mx-4 md:mx-0 pb-0 rounded-lg bg-white">
         <div className="md:flex hidden items-center mb-4">
-          <h1 className="text-2xl font-semibold capitalize">{title}{"    "}</h1>
+          <h1 className="text-2xl font-semibold capitalize">
+            {title}
+            {"    "}
+          </h1>
           <div className="flex items-center gap-4">
             {/* <span className="bg-[#008539] text-white px-2 py-0 rounded-md flex items-center ml-2 text-sm">
               {rating}{" "}
@@ -70,7 +72,8 @@ const ProductListing = ({
             </span> */}
             {/* <span className="text-blue-600 mr-2">{reviewCount} Reviews</span> */}
             <span className="text-gray-600 text-md font-md  capitalize">
-              | {products.length ?? 0} of {hasProducts ? products.length : 0} {title}
+              | {products.length ?? 0} of {hasProducts ? products.length : 0}{" "}
+              {title}
             </span>
           </div>
         </div>
@@ -83,10 +86,11 @@ const ProductListing = ({
             <button
               key={index}
               onClick={() => sortClick(option)}
-              className={`px-3 py-1 font-semibold text-sm ${option?.value === sortKeys?.value
-                ? " text-[#e87325] border-b-2 border-[#e87325]"
-                : " text-gray-500"
-                }`}
+              className={`px-3 py-1 font-semibold text-sm ${
+                option?.value === sortKeys?.value
+                  ? " text-[#e87325] border-b-2 border-[#e87325]"
+                  : " text-gray-500"
+              }`}
             >
               {option?.label}
             </button>
@@ -145,18 +149,24 @@ const ProductListing = ({
 
       {hasProducts ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 md:gap-6 gap-0 divide-y divide-x md:divide-x-0 md:divide-y-0 divide-gray-400">
-          {products.map((product, index) => (
-            <FlowerBouquetCard
-              key={product.productId}
-              productId={product.productId}
-              images={product.imageLink || ["/api/placeholder/400/320"]}
-              title={product.title || "Untitled Product"}
-              price={product.prices || "Price not available"}
-              rating={product.rating || rating}
-              reviews={product?.reviews?.length || reviewCount}
-              deliveryInfo={product.deliveryInfo || "Earliest Delivery: Today"}
-            />
-          ))}
+          {products.map((product, index) => {
+            console.log("product: ", product.weight?.[0]?.price, product || 0);
+
+            return (
+              <FlowerBouquetCard
+                key={product.productId}
+                productId={product.productId}
+                images={product.imageLink || ["/api/placeholder/400/320"]}
+                title={product.title || "Untitled Product"}
+                price={product.weight?.[0]?.price || "Price not available"}
+                rating={product.rating || rating}
+                reviews={product?.reviews?.length || reviewCount}
+                deliveryInfo={
+                  product.deliveryInfo || "Earliest Delivery: Today"
+                }
+              />
+            );
+          })}
         </div>
       ) : (
         <div className="text-center py-10">
