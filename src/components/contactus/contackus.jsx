@@ -42,13 +42,7 @@ const ContactUs = () => {
           {/* Left Section */}
           <div>
             <div className="space-y-3">
-              <motion.button
-                onClick={() => navigate("/")}
-                className="bg-blue-600 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-blue-700"
-                whileHover={{ scale: 1.05 }}
-              >
-                Continue Shopping
-              </motion.button>
+              
               {/* <motion.button
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded w-full md:w-auto hover:bg-gray-400"
                 whileHover={{ scale: 1.05 }}
@@ -59,46 +53,39 @@ const ContactUs = () => {
 
             <div className="mt-6 space-y-4">
               <div className="text-lg">
-                <span className="font-medium">Phone:</span> +91 9212422000 /
-                9755-248-248
+                <span className="font-medium">Phone:</span> +91 7217250250
               </div>
               <div className="text-lg">
                 <span className="font-medium">Email:</span>{" "}
-                <a href="mailto:help@kingbaker.com" className="text-blue-600">
-                  help@kingbaker.com
+                <a href="mailto:support@kingbakers.com" className="text-blue-600">
+                  support@kingbakers.com
                 </a>
               </div>
-              <div className="text-lg">
-                <span className="font-medium">Corporate Orders:</span>{" "}
-                <a href="mailto:sale@King Baker.com" className="text-blue-600">
-                  sale@King Baker.com
-                </a>
-              </div>
+              
             </div>
 
             <div className="mt-6 space-y-4">
               <div>
                 <span className="font-bold text-red-600">
-                  Corporate Office:
+                  Visit Us:
                 </span>
                 <p className="text-sm">
-                  King Baker Estates, Ashram Marg, Sultanpur Mandi Road,
-                  Chattarpur Farms, New Delhi 110030
+                1st Floor Hotel King City Novelty Chock Roorkee Road, Muzaffarnagar, Uttar Pradesh, 251001
                 </p>
               </div>
-              <div>
-                <span className="font-bold text-red-600">
-                  Centre of Excellence:
-                </span>
-                <p className="text-sm">
-                  Western Aqua Building, Hitech City, Hyderabad, 500081
-                </p>
-              </div>
+             
             </div>
+            <motion.button
+                onClick={() => navigate("/")}
+                className="bg-orange-500 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-orange-700 mt-10"
+                whileHover={{ scale: 1.05 }}
+              >
+                Continue Shopping
+              </motion.button>
           </div>
 
           {/* Right Section */}
-          <div className="flex flex-col items-center justify-center space-y-4">
+          {/* <div className="flex flex-col items-center justify-center space-y-4">
             <motion.button
               className="bg-yellow-500 text-white px-6 py-3 rounded w-full hover:bg-yellow-600"
               whileHover={{ scale: 1.05 }}
@@ -111,7 +98,7 @@ const ContactUs = () => {
             >
               General Query
             </motion.button>
-          </div>
+          </div> */}
         </div>
       </div>
 
