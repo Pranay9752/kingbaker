@@ -655,7 +655,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
 
         {/* Dynamic Weight */}
         <div>
-          <label className="text-sm font-medium text-gray-400">Weight</label>
+          <label className="text-sm font-medium text-gray-400">Types</label>
           {weight.map((item, index) => (
             <div key={item.id} className="flex gap-2 mb-2">
               <Input
@@ -694,7 +694,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
             onClick={() => appendWeight({ key: "", value: 0 })}
             className="text-blue-500"
           >
-            + Add Weight
+            + Add Types
           </button>
         </div>
 
