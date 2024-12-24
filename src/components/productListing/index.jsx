@@ -20,7 +20,7 @@ import filterNonEmptyValues from "../../atom/utils/filterNonEmptyvalues";
 //PROD6756,PROD3181,PROD2465
 const ProductSearch = () => {
   const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" });
-
+ 
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
     rating: 4.0,
