@@ -391,6 +391,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
               Yup.object().shape({
                 key: Yup.string().nullable(),
                 value: Yup.number().nullable(),
+                images: Yup.array().nullable(),
               })
             )
             .nullable(),
@@ -420,7 +421,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
           rating: 1,
           reviews: [{ user_id: "", reviews: "" }],
           tags: [],
-          weight: [{ key: "", value: 0 }],
+          weight: [{ key: "", value: 0, images: [] }],
           brand: "",
           color: "white",
           is_veg: false,
@@ -453,6 +454,7 @@ const ProductForm = ({ onSubmit, onClose }) => {
     fields: weight,
     append: appendWeight,
     remove: removeWeight,
+    update,
   } = useFieldArray({
     control,
     name: "product_details.0.weight",
@@ -486,6 +488,19 @@ const ProductForm = ({ onSubmit, onClose }) => {
       ...newImages.map((img) => img.src),
     ]);
   };
+  const handleTypeImageUpload = async (e, index) => {
+    const files = Array.from(e.target.files);
+    const newImages = files.map((file) => URL.createObjectURL(file));
+
+    const currentField = methods.getValues(`product_details.0.weight.${index}`);
+
+    // Update the specific field using update method while preserving all values
+    update(index, {
+      key: currentField.key,
+      value: currentField.value,
+      images: [...(currentField.images || []), ...newImages],
+    });
+  };
 
   const handleDeleteImage = (id) => {
     const updatedImages = images.filter((img) => img.id !== id);
@@ -495,6 +510,29 @@ const ProductForm = ({ onSubmit, onClose }) => {
       updatedImages.map((img) => img.src)
     );
   };
+
+// Delete image handler
+const handleWeightDeleteImage = (weightIndex, imageIndex) => {
+  // Get current values using getValues
+  const currentField = methods.getValues(`product_details.0.weight.${weightIndex}`);
+  const currentImages = [...currentField.images];
+  const imageToDelete = currentImages[imageIndex];
+  
+  // Revoke the object URL if it's a blob URL
+  if (imageToDelete.startsWith('blob:')) {
+    URL.revokeObjectURL(imageToDelete);
+  }
+  
+  // Remove the image from the array
+  currentImages.splice(imageIndex, 1);
+  
+  // Update while preserving all values
+  update(weightIndex, {
+    key: currentField.key,
+    value: currentField.value,
+    images: currentImages
+  });
+};
 
   const deliveryOptions = [
     { value: "Standard", label: "Standard" },
@@ -508,6 +546,20 @@ const ProductForm = ({ onSubmit, onClose }) => {
     { value: "Wedding", label: "Wedding" },
     { value: "Graduation", label: "Graduation" },
   ];
+
+  // Add cleanup for URL.createObjectURL
+  useEffect(() => {
+    return () => {
+      // Cleanup object URLs when component unmounts
+      weight.forEach((item) => {
+        item.images?.forEach((img) => {
+          if (img.startsWith("blob:")) {
+            URL.revokeObjectURL(img);
+          }
+        });
+      });
+    };
+  }, [weight]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
@@ -654,45 +706,88 @@ const ProductForm = ({ onSubmit, onClose }) => {
         </div>
 
         {/* Dynamic Weight */}
-        <div>
+        <div className="">
           <label className="text-sm font-medium text-gray-400">Types</label>
-          {weight.map((item, index) => (
-            <div key={item.id} className="flex gap-2 mb-2">
-              <Input
-                className="bg-[#161b22] border-gray-800 text-gray-300"
-                placeholder="Key"
-                {...register(`product_details.0.weight.${index}.key`)}
-              />
-              <Input
-                className="bg-[#161b22] border-gray-800 text-gray-300"
-                type="number"
-                placeholder="Value"
-                {...register(`product_details.0.weight.${index}.value`)}
-              />
-              <button
-                type="button"
-                onClick={() => removeWeight(index)}
-                className="text-red-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="size-4"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-          ))}
+          <div className="flex flex-col gap-5">
+            {weight.map((item, index) => {
+              return (
+                <div className="flex flex-col ">
+                  <div key={item.id} className="flex gap-2 mb-2 ">
+                    <Input
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      placeholder="Key"
+                      {...register(`product_details.0.weight.${index}.key`)}
+                    />
+                    <Input
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      type="number"
+                      placeholder="Value"
+                      {...register(`product_details.0.weight.${index}.value`)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeWeight(index)}
+                      className="text-red-500"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        className="size-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="space-y-2 flex flex-col">
+                    <input
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      type="file"
+                      multiple
+                      onChange={(e) => handleTypeImageUpload(e, index)}
+                    />
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {item?.images.map((img, i) => {
+                        console.log("img: ", img);
+
+                        return (
+                          <div key={img} className="relative w-20 h-20">
+                            <img
+                              src={img}
+                              alt="Preview"
+                              className="w-full h-full object-cover rounded"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleTypesDeleteImage(index, i)}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="size-4"
+                              >
+                                <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                              </svg>
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           <button
             type="button"
-            onClick={() => appendWeight({ key: "", value: 0 })}
-            className="text-blue-500"
+            onClick={() => appendWeight({ key: "", value: 0, images: [] })}
+            className="text-blue-500 mt-5"
           >
             + Add Types
           </button>
@@ -747,11 +842,11 @@ const ProductForm = ({ onSubmit, onClose }) => {
           </label>
         </div>
         <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              {...register("product_details.0.is_message")}
-              className="toggle-checkbox size-4"
-            />
+          <input
+            type="checkbox"
+            {...register("product_details.0.is_message")}
+            className="toggle-checkbox size-4"
+          />
           <label className="text-sm font-medium text-gray-400">
             Show "Message On Cake" option while ordering.
           </label>
@@ -799,6 +894,7 @@ function AddProductModal({ onClose }) {
             weight: data.product_details?.[0]?.weight?.map((item) => ({
               weight: item.key,
               price: item.value,
+              images: item?.images || [],
             })),
           },
         },
@@ -810,6 +906,7 @@ function AddProductModal({ onClose }) {
             weight: data.product_details?.[0]?.weight?.map((item) => ({
               weight: item.key,
               price: item.value,
+              // images: item?.images || [],
             })),
           },
         },
