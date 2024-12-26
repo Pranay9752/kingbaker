@@ -34,6 +34,7 @@ const ProductMetaDetail = ({ details }) => {
         `}
         </style>
         {details?.map((item, index) => {
+          console.log(item)
           return (
             <BasicButton
               type={"button"}
@@ -49,35 +50,7 @@ const ProductMetaDetail = ({ details }) => {
           );
         })}
         <div className="col-span-3">
-          {/* {Object.keys(details?.[selectedSection]?.detail ?? {}).map(
-            (key, index) => (
-              <div>
-                <h3 className="text-base font-bold text-gray-800">{key}:</h3>
-                {Array.isArray(details?.[selectedSection]?.detail?.[key]) ? (
-                  <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                    {details?.[selectedSection]?.detail[key].map((item, i) => (
-                      <li key={i}>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                    {Object.keys(details?.[selectedSection]?.detail?.[key]).map(
-                      (item, i) => (
-                        <li key={i}>
-                          {item} -{" "}
-                          {details?.[selectedSection]?.detail?.[key]?.[item]}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
-              </div>
-            )
-          )} */}
           {parse(details?.[selectedSection]?.value || '<p>No content to preview</p>')}
-
         </div>
       </div>
       <div id="productMeta" className="hidden md:flex flex-col gap-3 text-left">
@@ -88,32 +61,9 @@ const ProductMetaDetail = ({ details }) => {
                 {item?.key ?? ""}
               </h4>
               <div className="w-full h-[2px] bg-gray-800 rounded-lg my-3" />
-              {/* {Object.keys(item?.detail ?? {}).map((key, i) => (
-                <div>
-                  <b className="text-sm  text-gray-800">{key}:</b>
-                  {Array.isArray((item?.detail ?? {})?.[key]) ? (
-                    <ul className="list-disc list-inside text-gray-600 flex flex-col gap-2 m-3 mt-2">
-                      {(item?.detail ?? {})?.[key].map((item, i) => (
-                        <li key={i}>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <ul className="list-disc list-inside text-gray-600 flex flex-col gap-1 m-3 mt-2 text-sm ">
-                      {Object.keys((item?.detail ?? {})?.[key]).map(
-                        (item, i) => (
-                          <li key={i}>
-                            {item} - {(item?.detail ?? {})?.[key]?.[item]}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
-              ))} */}
+
               <div className="editor">
-                {parse(details?.[selectedSection]?.value || '<p>No content to preview</p>')}
+                {parse(item?.value || '<p>No content to preview</p>')}
               </div>
 
             </div>
