@@ -100,7 +100,6 @@ const ProductSearch = () => {
   const [searchData, setSearchData] = useState([]);
   const filter = useSelector((state) => state.filter);
   const selectedFilter = useSelector((state) => state.selectedFilter);
-  console.log("selectedFilter: ", selectedFilter);
   const advFilter = useSelector((state) => state.advFilter);
   const [limit, setLimit] = useState({
     name: "prices",

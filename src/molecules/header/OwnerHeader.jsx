@@ -12,6 +12,7 @@ const OwnerHeader = ({ isActive, children }) => {
     { label: "Vendors", link: "/owner/vendors" },
     { label: "Tickets", link: "/owner/tickets" },
     { label: "Orders", link: "/owner/orders" },
+    { label: "Products", link: "/owner/products" },
   ];
   const onNavItemClick = (item) => {
     setActiveItem(item?.label);
