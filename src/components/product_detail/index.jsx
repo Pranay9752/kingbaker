@@ -25,6 +25,7 @@ const ProductDetail = () => {
       productId: productId,
     },
   });
+  const [typeImages, setTypeImages] = useState(null)
 
   const { data, isError, isLoading } = useGetProductQuery(
     {
@@ -116,7 +117,8 @@ const ProductDetail = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log("data: ", data);
+    console.log("dat5555555555 a: ", data?.specification?.value?.images);
+    setTypeImages(data?.specification?.value?.images)
   };
 
   useEffect(() => {
@@ -148,7 +150,7 @@ const ProductDetail = () => {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="md:hidden relative h-screen px -52 bg-gray-100">
             <ImageCarousel
-              images={data?.data?.imageLink ?? []}
+              images={typeImages || data?.data?.imageLink || []}
               onImageClick={() => setIsModalOpen(true)}
             />
             <ProductDetails
@@ -194,7 +196,7 @@ const ProductDetail = () => {
               <div className=" sticky top-4 self-start">
                 <ImageCarousel
                   autoSlide={false}
-                  images={data?.data?.imageLink ?? []}
+                  images={typeImages || data?.data?.imageLink || []}
                   onImageClick={() => setIsModalOpen(true)}
                 />
               </div>

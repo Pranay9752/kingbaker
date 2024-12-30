@@ -10,8 +10,15 @@ const ProductOrderAPI = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    uploadImages: builder.mutation({
+      query: (formData) => ({
+        url: '/uploadimages',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateProductMutation } = ProductOrderAPI;
+export const { useCreateProductMutation, useUploadImagesMutation  } = ProductOrderAPI;

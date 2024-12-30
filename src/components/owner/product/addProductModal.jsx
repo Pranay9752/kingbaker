@@ -150,6 +150,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import RichTextEditor from "./richTextEditor";
 import { X } from "lucide-react";
+import useImageUpload from "../../../atom/utils/useUploadImages";
 
 export const Input = forwardRef(
   ({ name, className = "", error, type = "text", step, ...props }, ref) => {
@@ -354,6 +355,7 @@ const customSelectStyles = {
 const ProductForm = ({ onSubmit, onClose }) => {
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
+  const { uploadImages, loading, error } = useImageUpload();
 
   const validationSchema = Yup.object().shape({
     product_details: Yup.array()
@@ -476,30 +478,52 @@ const ProductForm = ({ onSubmit, onClose }) => {
     setValue("product_details.0.tags", newTags);
   };
 
-  const handleImageUpload = (e) => {
+  // const handleImageUpload = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   const newImages = files.map((file) => ({
+  //     id: URL.createObjectURL(file), // Unique identifier for each image
+  //     src: URL.createObjectURL(file),
+  //   }));
+  //   setImages([...images, ...newImages]);
+  //   setValue("product_details.0.imageLink", [
+  //     ...images,
+  //     ...newImages.map((img) => img.src),
+  //   ]);
+  // };
+
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
+
+    // Update the preview with local URLs
     const newImages = files.map((file) => ({
       id: URL.createObjectURL(file), // Unique identifier for each image
       src: URL.createObjectURL(file),
     }));
     setImages([...images, ...newImages]);
-    setValue("product_details.0.imageLink", [
-      ...images,
-      ...newImages.map((img) => img.src),
-    ]);
+
+    // Use the custom hook to upload the images
+    uploadImages(files, (uploadedUrls) => {
+      setValue("product_details.0.imageLink", [
+        ...images.map((img) => img.src),
+        ...uploadedUrls,
+      ]);
+    });
   };
+
   const handleTypeImageUpload = async (e, index) => {
     const files = Array.from(e.target.files);
     const newImages = files.map((file) => URL.createObjectURL(file));
+    uploadImages(files, (uploadedUrls) => {
+      const currentField = methods.getValues(`product_details.0.weight.${index}`);
 
-    const currentField = methods.getValues(`product_details.0.weight.${index}`);
-
-    // Update the specific field using update method while preserving all values
-    update(index, {
-      key: currentField.key,
-      value: currentField.value,
-      images: [...(currentField.images || []), ...newImages],
+      // Update the specific field using update method while preserving all values
+      update(index, {
+        key: currentField.key,
+        value: currentField.value,
+        images: [...(currentField.images || []), ...uploadedUrls],
+      });
     });
+   
   };
 
   const handleDeleteImage = (id) => {
@@ -511,28 +535,30 @@ const ProductForm = ({ onSubmit, onClose }) => {
     );
   };
 
-// Delete image handler
-const handleWeightDeleteImage = (weightIndex, imageIndex) => {
-  // Get current values using getValues
-  const currentField = methods.getValues(`product_details.0.weight.${weightIndex}`);
-  const currentImages = [...currentField.images];
-  const imageToDelete = currentImages[imageIndex];
-  
-  // Revoke the object URL if it's a blob URL
-  if (imageToDelete.startsWith('blob:')) {
-    URL.revokeObjectURL(imageToDelete);
-  }
-  
-  // Remove the image from the array
-  currentImages.splice(imageIndex, 1);
-  
-  // Update while preserving all values
-  update(weightIndex, {
-    key: currentField.key,
-    value: currentField.value,
-    images: currentImages
-  });
-};
+  // Delete image handler
+  const handleWeightDeleteImage = (weightIndex, imageIndex) => {
+    // Get current values using getValues
+    const currentField = methods.getValues(
+      `product_details.0.weight.${weightIndex}`
+    );
+    const currentImages = [...currentField.images];
+    const imageToDelete = currentImages[imageIndex];
+
+    // Revoke the object URL if it's a blob URL
+    if (imageToDelete.startsWith("blob:")) {
+      URL.revokeObjectURL(imageToDelete);
+    }
+
+    // Remove the image from the array
+    currentImages.splice(imageIndex, 1);
+
+    // Update while preserving all values
+    update(weightIndex, {
+      key: currentField.key,
+      value: currentField.value,
+      images: currentImages,
+    });
+  };
 
   const deliveryOptions = [
     { value: "Standard", label: "Standard" },
@@ -906,7 +932,7 @@ function AddProductModal({ onClose }) {
             weight: data.product_details?.[0]?.weight?.map((item) => ({
               weight: item.key,
               price: item.value,
-              // images: item?.images || [],
+              images: item?.images || [],
             })),
           },
         },

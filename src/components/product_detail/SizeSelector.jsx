@@ -4,13 +4,13 @@ import { useFormContext } from "react-hook-form";
 const SizeSelector = ({ image, sizes }) => {
   const { setValue, getValues } = useFormContext();
   const [selectedSize, setSelectedSize] = useState(null);
-
-  const handleSpecificationChage = (size) => {
+  const handleSpecificationChage = (size, decimal = 1) => {
     const body = {
       name: "weight",
       value: {
         unit: size.weight,
         price: size.price,
+        images: decimal == 1 ? size.images : null
       },
     };
     setValue("specification", body);
@@ -19,7 +19,7 @@ const SizeSelector = ({ image, sizes }) => {
 
   useEffect(() => {
     if (sizes && Array.isArray(sizes) && sizes.length > 0)
-      handleSpecificationChage(sizes[0]);
+      handleSpecificationChage(sizes[0], 0);
   }, [sizes]);
   return (
     <div className="w-full ">
@@ -36,7 +36,7 @@ const SizeSelector = ({ image, sizes }) => {
             }`}
           >
             <img
-              src={image}
+              src={size.images?.[0] || image}
               alt={`${size}${size?.unit ?? ""} size`}
               className="w-full aspect-square object-cover rounded-t-lg"
               onError={(e) => {
