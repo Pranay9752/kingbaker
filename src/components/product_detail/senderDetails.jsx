@@ -4,9 +4,9 @@ import getCookie from '../../atom/utils/getCookies';
 const SenderDetailsForm = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState({
-    name: 'Pranay',
+    name: '',
     email: getCookie("email") ?? "",
-    phone: '+91 - 8788373686',
+    phone: '+91 - ',
     location: `${getCookie("city")}, ${getCookie("region")}`
   });
 

@@ -191,6 +191,7 @@ function AccountAuth({ className, handleOnLogin }) {
       setCookie("authcode", authcode);
       setCookie("isAuth", true);
       setCookie("_id", _id);
+      setCookie("role", role);
 
       const buyNow = getCookie("buynow", true);
       if (typeof buyNow == "object") {
@@ -224,7 +225,6 @@ function AccountAuth({ className, handleOnLogin }) {
         try {
           const response = await createOrder(newOrder);
           const order_id = response.data.data.order.order_id;
-          console.log(order_id);
           setCookie("buynow", "", true);
           navigate(
             `/checkout/details/?orderid=${encodeURIComponent(order_id)}`

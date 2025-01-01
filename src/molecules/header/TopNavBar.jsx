@@ -32,7 +32,7 @@ const currencies = [
 const menuItems = [
   { label: "My Account", href: "/account/details/profile" },
   { label: "My Orders", href: "/account/details/orders" },
-  { label: "Contact Us", href: "#" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 const TopNavbar = ({
@@ -107,7 +107,7 @@ const TopNavbar = ({
   return (
     <>
       <nav className={twMerge("bg-[#7d8035] text-white ", className)}>
-        <div className="hidden md:flex bg-[#707428] w-full h-6  items-center text-xs font-semibold justify-end gap-2">
+        {/* <div className="hidden md:flex bg-[#707428] w-full h-6  items-center text-xs font-semibold justify-end gap-2">
           {moreOptions.length > 0 && (
             <div className="relative">
               <button
@@ -143,7 +143,7 @@ const TopNavbar = ({
               )}
             </div>
           )}
-        </div>
+        </div> */}
         <div className="container mx-auto hidden  md:flex items-center justify-between p-4">
           <div className="flex items-center space-x-4 ml-4">
             {logo && (
@@ -226,6 +226,26 @@ const TopNavbar = ({
                   className="py-2 text-sm text-gray-700 "
                   aria-labelledby="dropdownLargeButton"
                 >
+                  {
+                    getCookie("role") === "Vendor" && <li >
+                      <Link
+                        to={'/admin/dashboard'}
+                        className="block px-4 py-2 hover:bg-gray-100 "
+                      >
+                        Vendor dashboard
+                      </Link>
+                    </li>
+                  }
+                  {
+                    getCookie("role") === "Owner" && <li>
+                      <Link
+                        to={'/owner/vendors'}
+                        className="block px-4 py-2 hover:bg-gray-100 "
+                      >
+                        Admin dashboard
+                      </Link>
+                    </li>
+                  }
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Link

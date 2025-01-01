@@ -307,7 +307,7 @@ const NavBar = () => {
               key={index}
               className="relative group"
               onMouseEnter={() => setActiveItem(index)}
-              onClick={() => navigate('search/' + item.title)}
+              onClick={() => navigate('/search/' + item.title)}
 
             >
               <button
@@ -342,7 +342,7 @@ const NavBar = () => {
                     <ul className="space-y-1">
                       {category.items.map((item, itemIndex) => (
                         <li
-                          onClick={() => navigate('search/' + item)}
+                          onClick={() => navigate('/search/' + item)}
                           key={itemIndex}
                           className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer"
                         >

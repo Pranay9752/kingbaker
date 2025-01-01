@@ -30,6 +30,12 @@ const accountApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getOrderOfUser: builder.query({
+      query: ({user_id}) => ({
+        url: `user/getOrderOfVendor?user_id=${user_id}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -37,7 +43,7 @@ const accountApi = apiSlice.injectEndpoints({
 export const {
   //GET
   useGetProfileQuery,
-
+  useGetOrderOfUserQuery,
   //POST
   useLoginUserMutation,
   useCreateUserMutation,

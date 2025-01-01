@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import formatDate from "../../atom/utils/formatDate";
 import classNames from "classnames"; // Optional utility for conditional class names
 
-const OrderCard = ({
+const UserOrderCard = ({
   handleSelectedOrder,
   order,
   isActive,
@@ -213,4 +213,4 @@ const OrderCard = ({
   );
 };
 
-export default memo(OrderCard);
+export default memo(UserOrderCard);
