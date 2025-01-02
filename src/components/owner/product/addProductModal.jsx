@@ -462,6 +462,9 @@ const ProductForm = ({ onSubmit, onClose }) => {
     name: "product_details.0.weight",
   });
 
+  const productPrice = methods.watch('product_details.0.prices')
+  const firstTypePrice = methods.watch('product_details.0.weight.0.value')
+
   const handleAddTag = (e) => {
     e.preventDefault();
     const newTag = e.target.value.trim();
@@ -586,6 +589,17 @@ const ProductForm = ({ onSubmit, onClose }) => {
       });
     };
   }, [weight]);
+  useEffect(() => {
+    if(productPrice) {
+      methods.setValue('product_details.0.weight.0.value', productPrice)
+    }
+  }, [productPrice])
+console.log("HERE")
+  useEffect(() => {
+    if(firstTypePrice && productPrice !== firstTypePrice) {
+      methods.setValue('product_details.0.prices', firstTypePrice)
+    }
+  }, [firstTypePrice])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">

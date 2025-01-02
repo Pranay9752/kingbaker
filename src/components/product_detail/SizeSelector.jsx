@@ -21,6 +21,8 @@ const SizeSelector = ({ image, sizes }) => {
     if (sizes && Array.isArray(sizes) && sizes.length > 0)
       handleSpecificationChage(sizes[0], 0);
   }, [sizes]);
+
+  if(sizes && Array.isArray(sizes) && sizes?.length == 1) return <></>
   return (
     <div className="w-full ">
       <h3 className="text font-semibold mb-3">Pick an upgrade</h3>
