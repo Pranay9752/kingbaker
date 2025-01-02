@@ -29,6 +29,7 @@ import BecomeAPartner from "./components/partner/partner.jsx";
 import ContactUs from "./components/contactus/contackus.jsx";
 import OwnerProducts from "./components/owner/products/index.jsx";
 
+
 function App() {
   const location = useLocation();
   //   // return <MaintenancePage />;
