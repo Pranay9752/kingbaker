@@ -242,7 +242,7 @@ const OrderDeliveryDetails = ({
           ))}
         </div>
         <div
-          className={`w-full px-4 flex flex-col gap-2 ${isCart && "hidden"}`}
+          className={`w-full px-4 flex flex-col gap-2 mb-10 ${isCart && "hidden"}`}
         >
           {openAddAddress ? (
             <div className="border rounded-md bg-yellow-300/20">

@@ -15,6 +15,7 @@ import { DevTool } from "@hookform/devtools";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import Footer from "../../molecules/footer/footer";
 import Breadcrumb from "../../atom/breadcrumb";
+import Loader from "../../atom/loader/loader";
 
 // Main Component
 const ProductDetail = () => {
@@ -25,7 +26,7 @@ const ProductDetail = () => {
       productId: productId,
     },
   });
-  const [typeImages, setTypeImages] = useState(null)
+  const [typeImages, setTypeImages] = useState(null);
 
   const { data, isError, isLoading } = useGetProductQuery(
     {
@@ -118,7 +119,7 @@ const ProductDetail = () => {
 
   const onSubmit = (data) => {
     console.log("dat5555555555 a: ", data?.specification?.value?.images);
-    setTypeImages(data?.specification?.value?.images)
+    setTypeImages(data?.specification?.value?.images);
   };
 
   useEffect(() => {
@@ -130,6 +131,11 @@ const ProductDetail = () => {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 w-[100vw] h-[100vh] flex justify-center items-center bg-black/20">
+          <Loader />
+        </div>
+      )}
       <FormProvider {...methods}>
         <TopNavbar
           className={`fixed top-0 z-50 w-full md:hidden`}
