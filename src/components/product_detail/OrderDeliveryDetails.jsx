@@ -68,7 +68,7 @@ const OrderDeliveryDetails = ({
 
   const onAddAddress = (data) => {
     const newAddress = {
-      user_id: getCookie("user_id"),
+      user_id: getCookie("_id"),
       _id: data?._id ?? null,
       delivary_address: {
         pincode: getCookie("pincode"),

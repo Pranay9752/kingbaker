@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
 import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import { useSuggestionProductMutation } from "../../../redux/apiSlices/ecom/productsApiSlice";
@@ -243,6 +243,10 @@ const OwnerProducts = () => {
       handleSuggestionClick(searchTerm.trim());
     }
   };
+
+  useEffect(() => {
+    handleSuggestionClick('cake');
+  },[])
 
   return (
     <OwnerHeader isActive="Products">
