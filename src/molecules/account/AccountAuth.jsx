@@ -242,6 +242,7 @@ function AccountAuth({ className, handleOnLogin }) {
         handleOnLogin({ data: response?.data });
       }
     } catch (error) {
+      console.log('error: ', error);
       toast.error("An error occurred");
     }
   };

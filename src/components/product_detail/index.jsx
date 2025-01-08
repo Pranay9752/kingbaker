@@ -224,7 +224,7 @@ const ProductDetail = () => {
               title={"What customers are saying"}
             />
             <div className="w-full">
-              <ProductCarousel
+              {/* <ProductCarousel
                 title="Recently viewed by you"
                 products={products}
                 className="my-custom-class"
@@ -241,7 +241,7 @@ const ProductDetail = () => {
                 products={products}
                 className="my-custom-class"
                 cardClassName="my-card-class"
-              />
+              /> */}
             </div>
           </div>
         </form>
