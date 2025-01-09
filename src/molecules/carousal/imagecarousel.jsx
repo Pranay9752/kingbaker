@@ -64,11 +64,13 @@ const ImageMagnifier = ({ imageSrc, altText }) => {
 };
 
 const ImageCarousel = ({
+  title,
   images,
   onImageClick,
   autoSlide = true,
   slideInterval = 3000,
 }) => {
+  console.log(title);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const scrollContainerRef = useRef(null);
 
@@ -127,7 +129,7 @@ const ImageCarousel = ({
             >
               <img
                 src={image}
-                alt={`Slide ${index + 1}`}
+                alt={`${title} ${index + 1}`}
                 className=" h-[50vh] object-cover aspect-video"
                 onClick={() => onImageClick(index)}
                 onError={(e) => {
@@ -194,7 +196,7 @@ const ImageCarousel = ({
                 >
                   <img
                     src={image}
-                    alt={`Slide ${index + 1}`}
+                    alt={`${title} ${index + 1}`}
                     className=" h-16 object-cover aspect-square"
                     onClick={() => onImageClick(index)}
                     onError={(e) => {

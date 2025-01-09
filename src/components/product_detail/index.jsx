@@ -156,6 +156,7 @@ const ProductDetail = () => {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="md:hidden relative h-screen px -52 bg-gray-100">
             <ImageCarousel
+              title={data?.data?.title || ""}
               images={typeImages || data?.data?.imageLink || []}
               onImageClick={() => setIsModalOpen(true)}
             />
@@ -201,6 +202,7 @@ const ProductDetail = () => {
             <div className=" flex gap-5 w-full ">
               <div className=" sticky top-4 self-start">
                 <ImageCarousel
+                  title={data?.data?.title || ""}
                   autoSlide={false}
                   images={typeImages || data?.data?.imageLink || []}
                   onImageClick={() => setIsModalOpen(true)}
