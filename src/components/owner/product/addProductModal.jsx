@@ -143,7 +143,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 // import { Input } from '../vendors/addVendor';
 import BasicButton from "../../../atom/button/BasicButton";
 import Select from "react-select";
-import { useCreateProductMutation } from "../../../redux/apiSlices/owner/product";
+import {
+  useCreateProductMutation,
+  useUpdateProductMutation,
+} from "../../../redux/apiSlices/owner/product";
 import { toast } from "sonner";
 import Loader from "../../../atom/loader/loader";
 import ReactMarkdown from "react-markdown";
@@ -352,7 +355,7 @@ const customSelectStyles = {
 //   ).min(1, 'At least one product detail is required'),
 // });
 
-const ProductForm = ({ onSubmit, onClose }) => {
+const ProductForm = ({ onSubmit, onClose, defaultData }) => {
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
   const { uploadImages, loading, error } = useImageUpload();
@@ -411,25 +414,34 @@ const ProductForm = ({ onSubmit, onClose }) => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       product_details: [
-        {
-          prices: 0,
-          imageLink: [],
-          title: "",
-          description: "",
-          specifications: "",
-          details: [{ key: "", value: "" }],
-          amenities: { Delivery: "" },
-          event: [],
-          rating: 1,
-          reviews: [{ user_id: "", reviews: "" }],
-          tags: [],
-          weight: [{ key: "", value: 0, images: [] }],
-          brand: "",
-          color: "white",
-          is_veg: false,
-          is_image: false,
-          is_message: false,
-        },
+        defaultData
+          ? {
+              ...defaultData,
+              weight: defaultData.weight?.map((item) => ({
+                key: item.weight,
+                value: item.price,
+                images: item?.images || [],
+              })),
+            }
+          : {
+              prices: 0,
+              imageLink: [],
+              title: "",
+              description: "",
+              specifications: "",
+              details: [{ key: "", value: "" }],
+              amenities: { Delivery: "" },
+              event: [],
+              rating: 1,
+              reviews: [{ user_id: "", reviews: "" }],
+              tags: [],
+              weight: [{ key: "", value: 0, images: [] }],
+              brand: "",
+              color: "white",
+              is_veg: false,
+              is_image: false,
+              is_message: false,
+            },
       ],
     },
   });
@@ -462,8 +474,8 @@ const ProductForm = ({ onSubmit, onClose }) => {
     name: "product_details.0.weight",
   });
 
-  const productPrice = methods.watch('product_details.0.prices')
-  const firstTypePrice = methods.watch('product_details.0.weight.0.value')
+  const productPrice = methods.watch("product_details.0.prices");
+  const firstTypePrice = methods.watch("product_details.0.weight.0.value");
 
   const handleAddTag = (e) => {
     e.preventDefault();
@@ -517,7 +529,9 @@ const ProductForm = ({ onSubmit, onClose }) => {
     const files = Array.from(e.target.files);
     const newImages = files.map((file) => URL.createObjectURL(file));
     uploadImages(files, (uploadedUrls) => {
-      const currentField = methods.getValues(`product_details.0.weight.${index}`);
+      const currentField = methods.getValues(
+        `product_details.0.weight.${index}`
+      );
 
       // Update the specific field using update method while preserving all values
       update(index, {
@@ -526,7 +540,6 @@ const ProductForm = ({ onSubmit, onClose }) => {
         images: [...(currentField.images || []), ...uploadedUrls],
       });
     });
-   
   };
 
   const handleDeleteImage = (id) => {
@@ -590,16 +603,24 @@ const ProductForm = ({ onSubmit, onClose }) => {
     };
   }, [weight]);
   useEffect(() => {
-    if(productPrice) {
-      methods.setValue('product_details.0.weight.0.value', productPrice)
+    if (productPrice) {
+      methods.setValue("product_details.0.weight.0.value", productPrice);
     }
-  }, [productPrice])
-console.log("HERE")
+  }, [productPrice]);
+
   useEffect(() => {
-    if(firstTypePrice && productPrice !== firstTypePrice) {
-      methods.setValue('product_details.0.prices', firstTypePrice)
+    if (firstTypePrice && productPrice !== firstTypePrice) {
+      methods.setValue("product_details.0.prices", firstTypePrice);
     }
-  }, [firstTypePrice])
+  }, [firstTypePrice]);
+
+  useEffect(() => {
+    if (defaultData) {
+      setImages(
+        (defaultData?.imageLink || [])?.map((item, i) => ({ id: i, src: item }))
+      );
+    }
+  }, [defaultData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
@@ -792,8 +813,6 @@ console.log("HERE")
                     />
                     <div className="flex gap-2 mt-2 flex-wrap">
                       {item?.images.map((img, i) => {
-                        console.log("img: ", img);
-
                         return (
                           <div key={img} className="relative w-20 h-20">
                             <img
@@ -912,6 +931,10 @@ console.log("HERE")
           Cancel
         </BasicButton>
         <BasicButton
+          onClick={() => {
+            methods.trigger();
+            onSubmit(getValues());
+          }}
           type="submit"
           className="bg-blue-800/50 hover:bg-blue-800 text-gray-300 px-4 py-2 rounded-lg"
         >
@@ -922,44 +945,43 @@ console.log("HERE")
   );
 };
 
-function AddProductModal({ onClose }) {
-  const [createProduct, { isLoading }] = useCreateProductMutation();
-
+function AddProductModal({ postSubmit, defaultData, onClose }) {
+  const [createProduct, { isLoading: createLoading }] =
+    useCreateProductMutation();
+  const [updateProduct, { isLoading: UpdateLoading }] =
+    useUpdateProductMutation();
   const handleSubmit = async (data) => {
     try {
-      console.log({
-        data: {
-          product_details: {
-            ...data.product_details?.[0],
-            weight: data.product_details?.[0]?.weight?.map((item) => ({
-              weight: item.key,
-              price: item.value,
-              images: item?.images || [],
-            })),
+      if (defaultData) {
+        const updatedDetails = data?.product_details?.[0] ?? {};
+        const product_id = updatedDetails?._id;
+        // delete updatedDetails["productId"];
+        console.log({ product_id, updatedDetails });
+        const response = await updateProduct({data: { product_id, updatedDetails }}).unwrap()
+        toast.success(response.message)
+        onClose();
+      } else {
+        const response = await createProduct({
+          data: {
+            product_details: {
+              ...data.product_details?.[0],
+              weight: data.product_details?.[0]?.weight?.map((item) => ({
+                weight: item.key,
+                price: item.value,
+                images: item?.images || [],
+              })),
+            },
           },
-        },
-      });
-      const response = await createProduct({
-        data: {
-          product_details: {
-            ...data.product_details?.[0],
-            weight: data.product_details?.[0]?.weight?.map((item) => ({
-              weight: item.key,
-              price: item.value,
-              images: item?.images || [],
-            })),
-          },
-        },
-      }).unwrap();
-      toast.success(response.message);
-      // onClose();
+        }).unwrap();
+        toast.success(response.message);
+      }
     } catch (error) {
       toast.error("Failed to create product"); // You can customize this error message
       console.error("Order creation error:", error);
     }
   };
 
-  if (isLoading) return <Loader />;
+  if (createLoading || UpdateLoading) return <Loader />;
 
   return (
     <>
@@ -984,9 +1006,13 @@ function AddProductModal({ onClose }) {
               clipRule="evenodd"
             />
           </svg>
-          Add Product
+          {defaultData ? "Update Product" : "Add Product"}
         </h2>
-        <ProductForm onClose={onClose} onSubmit={handleSubmit} />
+        <ProductForm
+          defaultData={defaultData}
+          onClose={onClose}
+          onSubmit={handleSubmit}
+        />
       </div>
     </>
   );

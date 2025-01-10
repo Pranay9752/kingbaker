@@ -10,6 +10,13 @@ const ProductOrderAPI = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateProduct: builder.mutation({
+      query: ({data}) => ({
+        url: '/update_product',
+        method: 'PATCH',
+        body: data,
+      }),
+    }),
     uploadImages: builder.mutation({
       query: (formData) => ({
         url: '/uploadimages',
@@ -21,4 +28,4 @@ const ProductOrderAPI = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useCreateProductMutation, useUploadImagesMutation  } = ProductOrderAPI;
+export const { useCreateProductMutation, useUploadImagesMutation, useUpdateProductMutation  } = ProductOrderAPI;

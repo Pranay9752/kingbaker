@@ -209,7 +209,6 @@ const OwnerHeader = ({ isActive, children }) => {
         backgroundColor={"#1a1f25"}
         isOpen={showAddProductModal}
         onClose={() => {}}
-        // onClose={() => handleAddProduct(false)}
       >
         <AddProductModal onClose={() => handleAddProduct(false)} />
       </ModalWrapper>
