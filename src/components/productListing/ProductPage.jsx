@@ -98,7 +98,7 @@ const ProductListing = ({
         </div>
       </div>
 
-      {promoCard && (
+      {/* {promoCard && (
         <div className="bg-gradient-to-r from-red-500 to-pink-500 rounded-lg p-4 md:p-6 text-white mb-4 md:mb-6 flex  md:flex-row justify-between items-center w-full max-w-full mx-auto">
           <div className="w-full md:w-1/2">
             <h2 className="text-sm md:text-2xl font-bold mb-2">
@@ -111,7 +111,7 @@ const ProductListing = ({
             <p className="text-md md:text-3xl font-bold">{promoCard.code}</p>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="grid grid-cols-3 sm:grid-cols-3 md:flex gap-4 mb-6 mx-4 md:mx-0">
         {categories.map((category, index) => (
