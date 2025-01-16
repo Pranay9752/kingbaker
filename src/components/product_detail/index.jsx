@@ -27,6 +27,7 @@ const ProductDetail = () => {
     },
   });
   const [typeImages, setTypeImages] = useState(null);
+  console.log("typeImages: ", typeImages);
 
   const { data, isError, isLoading } = useGetProductQuery(
     {
@@ -118,7 +119,6 @@ const ProductDetail = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log("dat5555555555 a: ", data?.specification?.value?.images);
     setTypeImages(data?.specification?.value?.images);
   };
 
@@ -204,7 +204,12 @@ const ProductDetail = () => {
                 <ImageCarousel
                   title={data?.data?.title || ""}
                   autoSlide={false}
-                  images={typeImages || data?.data?.imageLink || []}
+                  images={
+                    (Array.isArray(typeImages) && typeImages?.length == 0) ||
+                    typeImages == null
+                      ? data?.data?.imageLink || []
+                      : typeImages || []
+                  }
                   onImageClick={() => setIsModalOpen(true)}
                 />
               </div>
@@ -215,7 +220,7 @@ const ProductDetail = () => {
                   title="Decorated Chocolate Truffle Cake Half Kg Egg..."
                   rating={5}
                   reviews={1256}
-                  price={methods.watch("specification")?.value?.price}
+                  price={methods.watch("specification")?.value?.price || 0}
                   taxInfo="Inclusive of all taxes"
                   timeLeft="01:25:30"
                 />

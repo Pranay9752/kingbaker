@@ -6,7 +6,6 @@ import parse from 'html-react-parser';
 
 
 const ProductMetaDetail = ({ details }) => {
-  console.log('details: ', details);
   const [selectedSection, setSelectedSection] = useState(0);
 
   const handleChange = (index) => {
@@ -16,7 +15,6 @@ const ProductMetaDetail = ({ details }) => {
     return <></>;
   }
 
-  console.log(details[selectedSection])
 
   if (details?.[0]?.key) {
     return <>
@@ -34,7 +32,6 @@ const ProductMetaDetail = ({ details }) => {
         `}
         </style>
         {details?.map((item, index) => {
-          console.log(item)
           return (
             <BasicButton
               type={"button"}
