@@ -7,6 +7,8 @@ import { twMerge } from "tailwind-merge";
 import CustomGrid from "../../home/CustomGrid";
 import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
+import useImageUpload from "../../../atom/utils/useUploadImages";
+import { useUpdateCarosolMutation } from "../../../redux/apiSlices/owner/landing";
 
 const styleIcons = {
   containerStyle: (
@@ -82,7 +84,9 @@ const SectionButton = ({ index, title, isSelected, onSelect }) => (
     )}
   >
     <HashtagIcon className="w-5 h-5 mr-2" />
-    <span className="w-[9 0%] truncate text-left">{title || `Section ${index + 1}`}</span>
+    <span className="w-[9 0%] truncate text-left">
+      {title || `Section ${index + 1}`}
+    </span>
     <DeleteIcon className="size-5 ml-auto opacity-0 hover:opacity-100" />
   </button>
 );
@@ -361,11 +365,11 @@ const StyleSection = ({
   IconComponent,
 }) => (
   <div
-    className={`border-b last:border-b-0 ${isActive ? "bg-blue-50" : "bg-white"
-      }`}
+    className={`border-b last:border-b-0 ${
+      isActive ? "bg-blue-50" : "bg-white"
+    }`}
   >
     <div>
-
       <button
         onClick={onToggle}
         className="flex items-center justify-between w-full p-4 hover:bg-gray-50 transition-colors"
@@ -407,167 +411,6 @@ const StyleSection = ({
     {isActive && children}
   </div>
 );
-
-
-// const RangeSlider = ({ min = 1, max = 10, initial = 5, onChange }) => {
-//   const [value, setValue] = useState(initial);
-
-//   const handleSliderChange = useCallback(
-//     (e) => {
-//       const newValue = parseInt(e.target.value, 10);
-//       setValue(newValue);
-//       if (onChange) onChange(newValue);
-//     },
-//     [onChange]
-//   );
-
-//   const handleInputChange = useCallback(
-//     (e) => {
-//       let newValue = parseInt(e.target.value, 10);
-//       if (isNaN(newValue)) newValue = min;
-//       newValue = Math.max(min, Math.min(newValue, max)); // Clamp within range
-//       setValue(newValue);
-//       if (onChange) onChange(newValue);
-//     },
-//     [min, max, onChange]
-//   );
-
-//   return (
-//     <div className="flex items-center space-x-4 py-2 px-4 ">
-//       <label className="text-sm font-medium text-slate-800">Value:</label>
-//       <input
-//         type="range"
-//         min={min}
-//         max={max}
-//         value={value}
-//         onChange={handleSliderChange}
-//         className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring focus:ring-slate-300"
-//       />
-//       <input
-//         type="number"
-//         min={min}
-//         max={max}
-//         value={value}
-//         onChange={handleInputChange}
-//         className="w-16 p-2 text-center border border-gray-300 rounded-lg focus:ring focus:ring-slate-300 focus:outline-none"
-//       />
-//     </div>
-//   );
-// };
-
-// const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
-//   const handleTextChange = (value) => {
-//     setStruct((prev) => {
-//       const newArr = [...prev];
-//       newArr[selectedSection] = {
-//         ...newArr[selectedSection],
-//         items: newArr[selectedSection].items.map((itm, i) =>
-//           i === index ? { ...itm, text: value } : itm
-//         ),
-//       };
-//       return newArr;
-//     });
-//   };
-
-//   const handleImageUpload = (event) => {
-//     const file = event.target.files[0];
-//     if (file) {
-//       const imageUrl = URL.createObjectURL(file);
-//       setStruct((prev) => {
-//         const newArr = [...prev];
-//         newArr[selectedSection] = {
-//           ...newArr[selectedSection],
-//           items: newArr[selectedSection].items.map((itm, i) =>
-//             i === index ? { ...itm, image: imageUrl } : itm
-//           ),
-//         };
-//         return newArr;
-//       });
-//     }
-//   };
-
-//   const handleRouteChange = (e) => {
-//     setStruct((prev) => {
-//       const newArr = [...prev];
-//       newArr[selectedSection] = {
-//         ...newArr[selectedSection],
-//         items: newArr[selectedSection].items.map((itm, i) =>
-//           i === index ? { ...itm, route: e.target.value?.trim() ?? "" } : itm
-//         ),
-//       };
-//       return newArr;
-//     });
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center justify-start space-x-4 py-2 px-4 gap-3">
-//       <div className="flex w-full items-center justify-start gap-3">
-//         <span className="px-2 font-bold">{index + 1}</span>
-//         <input
-//           value={item?.text ?? ""}
-//           onChange={(e) => handleTextChange(e.target.value)}
-//           className="px-2 py-1 w-full border border-gray-300 rounded-lg focus:ring-0 focus:ring-slate-300 focus:outline-none"
-//           placeholder="Title"
-//         />
-//       </div>
-//       <div className="w-full">
-//         <label htmlFor={`uploadImage-${index}`}>
-//           <img
-//             src={item?.image}
-//             onError={(e) => {
-//               e.target.src =
-//                 "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
-//             }}
-//             alt={`item-${index}`}
-//             className="w-16 h-16 object-cover rounded-md mr-4"
-//           />
-//           <input
-//             type="file"
-//             id={`uploadImage-${index}`}
-//             onChange={handleImageUpload}
-//             className="hidden"
-//           />
-//         </label>
-//       </div>
-//       <div className=" flex items-center gap-3 w-full  ">
-//         <label className="text-sm font-medium text-slate-800">Tag</label>
-//         <div className="flex items-center space-x-2 ">
-//           <input
-//             type="tag"
-//             value={item?.route || ""}
-//             onChange={handleRouteChange}
-//             className="w-full px-2 py-1 border border-gray-300 rounded-lg focus:ring focus:ring-slate-300 focus:outline-none"
-//             placeholder="Tags"
-//           />
-//         </div>
-//       </div>
-//       <InputControl
-//         initialInput={item?.cardStyle?.borderRadius}
-//         title={"Border Radius"}
-//         updateInput={(value) => {
-//           setStruct((prev) => {
-//             const newArr = [...prev];
-//             newArr[selectedSection] = {
-//               ...newArr[selectedSection],
-//               items: newArr[selectedSection].items.map((itm, i) =>
-//                 i === index
-//                   ? {
-//                       ...itm,
-//                       cardStyle: {
-//                         ...item.cardStyle,
-//                         borderRadius: `${value ?? 0}px`,
-//                       },
-//                     }
-//                   : itm
-//               ),
-//             };
-//             return newArr;
-//           });
-//         }}
-//       />
-//     </div>
-//   );
-// };
 
 // Main component
 const RangeSlider = ({ initial, onChange, max = 10, label = "Columns" }) => {
@@ -623,6 +466,7 @@ const RangeSlider = ({ initial, onChange, max = 10, label = "Columns" }) => {
 };
 
 const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
+  const { uploadImages, loading, error } = useImageUpload();
   const handleUpdate = useCallback(
     (updateFn) => {
       setStruct((prev) => {
@@ -647,14 +491,14 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
         items: newArr[selectedSection].items.map((itm, i) =>
           i === index
             ? {
-              image: "",
-              type: "card3",
-              route: "",
-              text: "",
-              cardStyle: {
-                borderRadius: "30px",
-              },
-            }
+                image: "",
+                type: "card3",
+                route: "",
+                text: "",
+                cardStyle: {
+                  borderRadius: "30px",
+                },
+              }
             : itm
         ),
       };
@@ -679,8 +523,10 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
     (event) => {
       const file = event.target.files[0];
       if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        handleUpdate((item) => ({ ...item, image: imageUrl }));
+        uploadImages([file], (uploadedUrls) => {
+          const imageUrl = uploadedUrls[0];
+          handleUpdate((item) => ({ ...item, image: imageUrl }));
+        });
       }
     },
     [handleUpdate]
@@ -889,7 +735,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 const Landing = () => {
   const [selectedSection, setSelectedSection] = useState(0);
   const [selectedKey, setSelectedKey] = useState("containerStyle");
-  const [selectedView, setSelectedView] = useState("homeDesk")
+  const [selectedView, setSelectedView] = useState("homeDesk");
+  const [updateCarosol, { data, isLoading, error }] =
+    useUpdateCarosolMutation();
 
   // const [struct, setStruct] = useState([
   //   {
@@ -1685,7 +1533,7 @@ const Landing = () => {
   //   },
   // ]);
 
-  const [struct, setStruct] = useState([])
+  const [struct, setStruct] = useState([]);
   const addSection = useCallback(() => {
     setStruct((prev) => [
       ...prev,
@@ -1717,55 +1565,15 @@ const Landing = () => {
     ]);
   }, []);
 
-  // const handleUpdatePadding = useCallback(
-  //   (padding) => {
-  //     setStruct((prev) => {
-  //       return prev.map((section, index) => {
-  //         if (index === selectedSection) {
-  //           return {
-  //             ...section,
-  //             [selectedKey]: {
-  //               ...section[selectedKey],
-  //               paddingTop: `${padding.top}px`,
-  //               paddingRight: `${padding.right}px`,
-  //               paddingBottom: `${padding.bottom}px`,
-  //               paddingLeft: `${padding.left}px`,
-  //             },
-  //           };
-  //         }
-  //         return section;
-  //       });
-  //     });
-  //   },
-  //   [selectedSection, selectedKey] // Add selectedKey to dependencies
-  // );
   const handleUpdatePadding = (side, value, styleTag) => {
     const paddingMap = {
-      top: 'paddingTop',
-      right: 'paddingRight',
-      bottom: 'paddingBottom',
-      left: 'paddingLeft'
+      top: "paddingTop",
+      right: "paddingRight",
+      bottom: "paddingBottom",
+      left: "paddingLeft",
     };
     handleUpdate({ label: paddingMap[side], value: `${value}px` }, styleTag);
   };
-
-
-  // const handleUpdate = useCallback(({ label, value, keySelected }) => {
-  //   setStruct((prev) => {
-  //     return prev.map((section, index) => {
-  //       if (index === selectedSection) {
-  //         return {
-  //           ...section,
-  //           [keySelected || selectedKey]: {
-  //             ...section[keySelected || selectedKey],
-  //             [label]: value,
-  //           },
-  //         };
-  //       }
-  //       return section;
-  //     });
-  //   });
-  // });
 
   const handleUpdate = ({ label, value }, styleTag) => {
     setStruct((prev) => {
@@ -1786,31 +1594,9 @@ const Landing = () => {
       const newArr = [...prev];
       newArr[selectedSection].title = e.target.value;
       return newArr;
-    })
-  }
+    });
+  };
 
-  // const handleItemCount = (value) => {
-  //   setStruct((prev) => {
-  //     return prev.map((section, index) => {
-  //       if (index === selectedSection) {
-  //         return {
-  //           ...section,
-  //           items: Array(value).fill({
-  //             image:
-  //               "https://www.fnp.com/assets/images/custom/new-desk-home/birthday-bestsellers/2023/BIRTHDAY_Web_Flowers-14324.jpg",
-  //             type: "card3",
-  //             route: "chocolate",
-  //             text: "Bouquet Of 8 Royal Red Roses",
-  //             cardStyle: {
-  //               borderRadius: "30px",
-  //             },
-  //           }),
-  //         };
-  //       }
-  //       return section;
-  //     });
-  //   });
-  // };
   const handleItemCount = (value) => {
     setStruct((prev) => {
       const newArr = [...prev];
@@ -1872,33 +1658,31 @@ const Landing = () => {
   const GetComponents = useCallback(
     ({ data }) => {
       const Component = components[data.type];
-      return Component ? (
-        <Component data={data} />
-      ) : (
-        <div>Component not found</div>
-      );
+      return Component ? <Component data={data} /> : <></>;
     },
     [components]
   );
 
-  const handlePublish = () => {
-    const main = JSON.parse(localStorage.getItem(selectedView))
+  const handlePublish = async () => {
+    const main = JSON.parse(localStorage.getItem(selectedView));
     const newMain = {
       data: {
         data: struct,
-        meta_data: main.data.meta_data
-      }
-    }
-    localStorage.setItem(selectedView, JSON.stringify(newMain))
-    toast.success("Your Page updated successfully!")
-  }
+        meta_data: main.data.meta_data,
+      },
+    };
+    localStorage.setItem(selectedView, JSON.stringify(newMain));
+
+    await updateCarosol({ key: selectedView, value: JSON.stringify(newMain) });
+    toast.success("Your Page updated successfully!");
+  };
 
   useEffect(() => {
     if (selectedView) {
-      const main = JSON.parse(localStorage.getItem(selectedView))
-      setStruct(main?.data?.data)
+      const main = JSON.parse(localStorage.getItem(selectedView));
+      setStruct(main?.data?.data);
     }
-  }, [selectedView])
+  }, [selectedView]);
 
   return (
     <>
@@ -1915,7 +1699,10 @@ const Landing = () => {
                 onSelect={setSelectedSection}
               />
             ))}
-            <BasicButton onClick={handlePublish} className={`bg-green-700 w-full mt-auto text-white rounded-lg mt-3`}>
+            <BasicButton
+              onClick={handlePublish}
+              className={`bg-green-700 w-full mt-auto text-white rounded-lg mt-3`}
+            >
               Publish
             </BasicButton>
           </div>
@@ -1958,124 +1745,6 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* Right Sidebar */}
-        {/* <div className="p-5">
-        <div className="bg-white w-full h-full border rounded-2xl p-3">
-          {["containerStyle", "boxStyle", "innerContainerStyle"].map(
-            (styleTag) => (
-              <div
-                key={styleTag}
-                className={
-                  selectedKey === styleTag && " bg-slate-50 rounded-lg"
-                }
-              >
-                <div
-                  role="button"
-                  onClick={() => toggleStyleTag(styleTag)}
-                  className="text-slate-800 flex justify-between w-full items-center p-3 transition-all hover:bg-slate-100 text-sm font-medium rounded-lg cursor-pointer"
-                >
-                  <span>{styleTag}</span>
-                  <span>{selectedKey === styleTag ? "▲" : "▼"}</span>
-                </div>
-
-                {selectedKey === styleTag && (
-                  <div className="p-3 ">
-                    <div className="bg-white  border rounded-2xl shadow-md divide-y">
-                      <>
-                        <PaddingControl
-                          updatePadding={handleUpdatePadding}
-                          initialPadding={{
-                            top:
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]?.paddingTop
-                              ) || 0,
-                            right:
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.paddingRight
-                              ) || 0,
-                            bottom:
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]
-                                  ?.paddingBottom
-                              ) || 0,
-                            left:
-                              parseInt(
-                                struct[selectedSection]?.[styleTag]?.paddingLeft
-                              ) || 0,
-                          }}
-                        />
-                        {styleTag === "innerContainerStyle" && (
-                          <>
-                            <GapControl
-                              updateGap={(value) =>
-                                handleUpdate({
-                                  label: "gap",
-                                  value: `${value}px`,
-                                })
-                              }
-                              initial={
-                                parseInt(
-                                  struct[selectedSection]?.[styleTag]?.gap
-                                ) || 0
-                              }
-                            />
-                            <RangeSlider
-                              initial={
-                                struct[selectedSection]?.items?.length ?? 0
-                              }
-                              onChange={(value) =>
-                                handleUpdate({
-                                  label: "gridTemplateColumns",
-                                  value: `repeat(${value}, 1fr)`,
-                                })
-                              }
-                            />
-                          </>
-                        )}
-                      </>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )
-          )}
-          <div key={"items"}>
-            <div
-              role="button"
-              onClick={() => toggleStyleTag("items")}
-              className="text-slate-800 flex justify-between w-full items-center p-3 transition-all hover:bg-slate-100 text-sm font-medium rounded-lg cursor-pointer"
-            >
-              <span>{"items"}</span>
-              <span>{selectedKey === "items" ? "▲" : "▼"}</span>
-            </div>
-
-            {selectedKey === "items" && (
-              <div className="p-3 bg-slate-50 rounded-lg mt-2">
-                <div className="bg-white  border rounded-2xl shadow-md divide-y ">
-                  <>
-                    <RangeSlider
-                      initial={struct[selectedSection]?.items?.length ?? 0}
-                      onChange={handleItemCount}
-                    />
-                  </>
-                  <div className="h-[70svh] overflow-y-auto overflow-hidden hide-scrollbar">
-                    {struct[selectedSection]?.items?.map((item, index) => (
-                      <ItemEditor
-                        key={index}
-                        item={item}
-                        index={index}
-                        selectedSection={selectedSection}
-                        setStruct={setStruct}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div> */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           {["containerStyle", "boxStyle", "innerContainerStyle", "items"].map(
             (styleTag) => {
@@ -2092,8 +1761,8 @@ const Landing = () => {
                     <div className="p-4 space-y-4">
                       {styleTag !== "items" ? (
                         <>
-                          {
-                            styleTag === "boxStyle" && <>
+                          {styleTag === "boxStyle" && (
+                            <>
                               <div className="flex items-center gap-3">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -2119,7 +1788,7 @@ const Landing = () => {
                                 />
                               </div>
                             </>
-                          }
+                          )}
                           <PaddingControl
                             updatePadding={(side, value) =>
                               handleUpdatePadding(side, value, styleTag)
@@ -2127,19 +1796,23 @@ const Landing = () => {
                             initialPadding={{
                               top:
                                 parseInt(
-                                  struct[selectedSection]?.[styleTag]?.paddingTop
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.paddingTop
                                 ) || 0,
                               right:
                                 parseInt(
-                                  struct[selectedSection]?.[styleTag]?.paddingRight
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.paddingRight
                                 ) || 0,
                               bottom:
                                 parseInt(
-                                  struct[selectedSection]?.[styleTag]?.paddingBottom
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.paddingBottom
                                 ) || 0,
                               left:
                                 parseInt(
-                                  struct[selectedSection]?.[styleTag]?.paddingLeft
+                                  struct[selectedSection]?.[styleTag]
+                                    ?.paddingLeft
                                 ) || 0,
                             }}
                           />
@@ -2247,20 +1920,24 @@ const Landing = () => {
                       ) : (
                         <>
                           <RangeSlider
-                            initial={struct[selectedSection]?.items?.length ?? 0}
+                            initial={
+                              struct[selectedSection]?.items?.length ?? 0
+                            }
                             onChange={handleItemCount}
                             label="Number of Items"
                           />
                           <div className="space-y-4 h-[60vh] overflow-y-auto hide-scrollbar">
-                            {struct[selectedSection]?.items?.map((item, index) => (
-                              <ItemEditor
-                                key={index}
-                                item={item}
-                                index={index}
-                                selectedSection={selectedSection}
-                                setStruct={setStruct}
-                              />
-                            ))}
+                            {struct[selectedSection]?.items?.map(
+                              (item, index) => (
+                                <ItemEditor
+                                  key={index}
+                                  item={item}
+                                  index={index}
+                                  selectedSection={selectedSection}
+                                  setStruct={setStruct}
+                                />
+                              )
+                            )}
                           </div>
                         </>
                       )}
@@ -2272,16 +1949,45 @@ const Landing = () => {
           )}
         </div>
       </div>
-      <div onClick={()=> setSelectedView((prev) => prev === "homeDesk" ? "homeMob" : "homeDesk")} className="fixed bottom-10 left-10 bg-white hover:bg-black/5 p-4 rounded-full shadow-xl border cursor-pointer">
-        {
-          selectedView === "homeDesk" ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-          </svg> : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-          </svg>
-
-
+      <div
+        onClick={() =>
+          setSelectedView((prev) =>
+            prev === "homeDesk" ? "homeMob" : "homeDesk"
+          )
         }
+        className="fixed bottom-10 left-10 bg-white hover:bg-black/5 p-4 rounded-full shadow-xl border cursor-pointer"
+      >
+        {selectedView === "homeDesk" ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+            />
+          </svg>
+        )}
       </div>
     </>
   );

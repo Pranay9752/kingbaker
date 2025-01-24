@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import NavBar from "./NavBar";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import BirthdayCollection from "./BirthdayCollection";
@@ -16,6 +16,7 @@ import CustomGrid from "./CustomGrid";
 import Footer from "../../molecules/footer/footer";
 import getCookie from "../../atom/utils/getCookies";
 import setCookie from "../../atom/utils/setCookies";
+import { useGetCarosolQuery } from "../../redux/apiSlices/owner/landing";
 
 export const getCard = ({ data }) => {
   const cards = {
@@ -1556,7 +1557,30 @@ const mainmobileStructure = {
     ],
   },
 };
+
+const useScreenSizeKey = () => {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return useMemo(
+    () => (screenWidth >= 768 ? "homeDesk" : "homeMob"),
+    [screenWidth]
+  );
+};
+
 const Home = () => {
+  const key = useScreenSizeKey();
+  const { data, error, isLoading } = useGetCarosolQuery(key, {
+    refetchOnMountOrArgChange: true,
+  });
+  console.log("data: ", key, data);
+
   const GetComponents = ({ data }) => {
     const components = {
       carusel_full: (
@@ -1602,20 +1626,20 @@ const Home = () => {
     };
     return components[data.type] || "hiiiii";
   };
-  const main = JSON.parse(localStorage.getItem("homeDesk")) ?? {}
-  const mainMob = JSON.parse(localStorage.getItem("homeMob")) ?? {}
-  useEffect(() => {
-    if(!localStorage.getItem("homeDesk")){
-      localStorage.setItem("homeDesk",JSON.stringify(mainStructure))
-      location.reload()
-    }
-  },[])
-  useEffect(() => {
-    if(!localStorage.getItem("homeMob")){
-      localStorage.setItem("homeMob",JSON.stringify(mainmobileStructure))
-      location.reload()
-    }
-  },[])
+  const main = JSON.parse(localStorage.getItem("homeDesk")) ?? {};
+  const mainMob = JSON.parse(localStorage.getItem("homeMob")) ?? {};
+  // useEffect(() => {
+  //   if (!localStorage.getItem("homeDesk")) {
+  //     localStorage.setItem("homeDesk", JSON.stringify(mainStructure));
+  //     location.reload();
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("homeMob")) {
+  //     localStorage.setItem("homeMob", JSON.stringify(mainmobileStructure));
+  //     location.reload();
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   document.body.classList.add((window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data?.backgroundColor ?? "#f2f2f2");
@@ -1623,6 +1647,11 @@ const Home = () => {
   //     document.body.classList.remove((window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data?.backgroundColor ?? "#f2f2f2");
   //   }
   // }, []);
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem(key, data.data[key]);
+    }
+  }, [data]);
   return (
     <>
       <TopNavbar
@@ -1643,23 +1672,28 @@ const Home = () => {
       <NavBar />
       <div
         style={
-          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ??{}
+          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         }
         className={twMerge(
           "",
           (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         )}
       >
-        {(window.innerWidth > 768
-          ? main
-          : mainMob
-        )?.data?.data.map((section, index) => {
-          return (
-            <section key={index} style={section.containerStyle} className={twMerge(index > 0 && "p-0 mx-auto max-w-[1600px] w-full")}>
-              <GetComponents data={section} />
-            </section>
-          );
-        }) ?? <></>}
+        {(window.innerWidth > 768 ? main : mainMob)?.data?.data.map(
+          (section, index) => {
+            return (
+              <section
+                key={index}
+                style={section.containerStyle}
+                className={twMerge(
+                  index > 0 && "p-0 mx-auto max-w-[1600px] w-full"
+                )}
+              >
+                <GetComponents data={section} />
+              </section>
+            );
+          }
+        ) ?? <></>}
       </div>
       <Footer />
     </>

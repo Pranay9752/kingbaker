@@ -40,6 +40,7 @@ const FlowerBouquetCard = ({
   reviews,
   deliveryInfo,
 }) => {
+  console.log('images: ', images, title);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef(null);
@@ -70,7 +71,7 @@ const FlowerBouquetCard = ({
       <div className="relative h- [176px] m d:h-64 overflow-hidden">
         <img
           src={
-            images?.[0] ??
+            images?.[0] ||
             "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg"
           }
           alt={`${title} - Image`}
