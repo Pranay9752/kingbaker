@@ -33,12 +33,12 @@ const Carousel = ({ slides, data }) => {
             <div
               onClick={() => navigate(`/search/${slide.route}`)}
               key={index}
-              className="w-full flex-shrink-0"
+              className="w-full h-[22svh] md:h-fit flex-shrink-0"
             >
               <img
                 src={slide.image}
                 alt="Placeholder 1"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-fill"
               />
             </div>
           ))}
