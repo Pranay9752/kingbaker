@@ -894,9 +894,9 @@ const Landing = () => {
           />
         </div>
       ),
-      customGrid: ({ data }) => <CustomGrid cards={data} />,
+      customGrid: ({ data }) => <CustomGrid cards={data} isMobileView={selectedView === "homeMob"} />,
     }),
-    []
+    [selectedView]
   );
 
   const GetComponents = useCallback(
@@ -945,7 +945,7 @@ const Landing = () => {
             ))}
             <BasicButton
               onClick={handlePublish}
-              className={`bg-green-700 w-full mt-auto text-white rounded-lg mt-3`}
+              className={`bg-green-700 w-full  text-white rounded-lg mt-3`}
             >
               Publish
             </BasicButton>
@@ -954,7 +954,9 @@ const Landing = () => {
 
         {/* Main Content */}
         <div className="p-5">
-          <div className="bg-white w-full h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden">
+          <div className={twMerge("bg-white h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden",
+          selectedView == "homeDesk" ? "w-full" :"w-[500px] mx-auto"
+          )}>
             {struct?.map((section, index) => (
               <section
                 key={index}

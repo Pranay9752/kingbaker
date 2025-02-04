@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import BasicButton from "../../atom/button/BasicButton";
+import { twMerge } from "tailwind-merge";
 
-const CardThree = ({ data }) => {
+const CardThree = ({ data, isMobileView = false }) => {
   return (
     <div
       style={data?.cardStyle}
       className=" bg-white rounded-lg shadow-md overflow-hidden transition-all p-2 duration-300 hover:shadow-lg"
     >
-      <div style={data?.imageStyle} className="h-64 overflow-hidden">
+      <div style={data?.imageStyle} className={twMerge(" overflow-hidden", isMobileView ? "h-52 md:h-52" : 'h-52 md:h-64')}>
         <img
           src={data.image}
           alt={data.text}
