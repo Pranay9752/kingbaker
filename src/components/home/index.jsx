@@ -18,9 +18,9 @@ import getCookie from "../../atom/utils/getCookies";
 import setCookie from "../../atom/utils/setCookies";
 import { useGetCarosolQuery } from "../../redux/apiSlices/owner/landing";
 
-export const getCard = ({ data }) => {
+export const getCard = ({ data, isMobileView = false }) => {
   const cards = {
-    card3: <CardThree data={data} />,
+    card3: <CardThree data={data}  isMobileView={isMobileView} />,
   };
 
   return cards[data?.type] ?? <></>;

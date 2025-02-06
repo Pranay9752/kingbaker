@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardThree from "./CardThree";
 import { getCard } from ".";
-const CustomGrid = ({ cards }) => {
+const CustomGrid = ({ cards, isMobileView= false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
 
@@ -20,9 +20,9 @@ const CustomGrid = ({ cards }) => {
           <div
             key={index}
             onClick={() => navigate(`/search/${card.route}`)}
-            className="w-1/8 flex-shrink-0 px-2"
+            className="w-1/8 flex-shrink-0 "
           >
-            {getCard({ data: card })}
+            {getCard({ data: card, isMobileView })}
           </div>
         ))}
       </div>
