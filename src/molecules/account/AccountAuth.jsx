@@ -138,9 +138,15 @@ function AccountAuth({ className, handleOnLogin }) {
           });
 
       if ("error" in response) {
-        toast.error(response.error.data.message);
+        toast.error("Add Correct Credentials" || response.error.data.message);
         return;
       }
+
+      if (!isExistingUser) {
+        window.location.reload();
+        return
+      }
+
       const { user, user_id, email, authcode, message, _id, role } =
         response?.data || {};
 
@@ -195,7 +201,6 @@ function AccountAuth({ className, handleOnLogin }) {
 
       const buyNow = getCookie("buynow", true);
       if (typeof buyNow == "object") {
-        console.log(buyNow);
         const { addons, mainItem } = buyNow;
         const productDetails = mainItem?.productDetails?.[0] ?? {};
         const newOrder = {
@@ -242,7 +247,7 @@ function AccountAuth({ className, handleOnLogin }) {
         handleOnLogin({ data: response?.data });
       }
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
       toast.error("An error occurred");
     }
   };
