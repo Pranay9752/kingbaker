@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useCreateVendorMutation,
   useUpdateOwnerOrVendorMutation,
@@ -6,6 +6,9 @@ import {
 import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
 import getCookie from "../../../atom/utils/getCookies";
+
+
+import { Eye, EyeOff } from "lucide-react";
 
 export const Input = ({
   name,
@@ -17,25 +20,40 @@ export const Input = ({
   step,
   ...props
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+
   const baseClasses =
     "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
   const errorClasses = error ? "border-red-500" : "";
 
   return (
-    <input
-      id={name}
-      name={name}
-      type={type}
-      value={value}
-      onChange={onChange}
-      step={step}
-      className={`${baseClasses} ${errorClasses} ${className}`}
-      aria-invalid={error ? "true" : "false"}
-      aria-describedby={error ? `${name}-error` : undefined}
-      {...props}
-    />
+    <div className="relative w-full">
+      <input
+        id={name}
+        name={name}
+        type={isPassword && !showPassword ? "password" : "text"}
+        value={value}
+        onChange={onChange}
+        step={step}
+        className={`${baseClasses} ${errorClasses} ${className} pr-10`}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error ? `${name}-error` : undefined}
+        {...props}
+      />
+      {isPassword && (
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </button>
+      )}
+    </div>
   );
 };
+
 
 const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   const isUpdate = !!initialData;
