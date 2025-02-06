@@ -204,9 +204,9 @@ const DeliveryDatePicker = ({ handleSelectDate, darkMode = false }) => {
       {renderCells()}
       <div className="p-4 text-sm text-gray-600">
         <p>Gift may be delivered prior or after the chosen date.</p>
-        <p className="mt-2 text-blue-600 cursor-pointer">
+        {/* <p className="mt-2 text-blue-600 cursor-pointer">
           Want Delivery on Same Day? View Available Gifts
-        </p>
+        </p> */}
       </div>
     </motion.div>
   );

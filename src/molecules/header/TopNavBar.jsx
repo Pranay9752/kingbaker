@@ -372,7 +372,7 @@ const TopNavbar = ({
                 onClose={() => setIsMobileMenuOpen(false)}
                 mode="menu"
                 isNew={true}
-                textTop={"FnpCash"}
+                textTop={"JOJO"}
               />
             </div>
           </>

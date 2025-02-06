@@ -9,7 +9,7 @@ const OffersAvailable = ({ offers }) => (
         </h3>
         <OfferItem
             logo="https://i.ibb.co/LPFC6F8/logoking.png"
-            description="FLAT 10% Off. Code: WOWFNP (for deliveries in India)"
+            description="FLAT 10% Off. Code: JOJO (for deliveries in India)"
             terms
         />
         <OfferItem

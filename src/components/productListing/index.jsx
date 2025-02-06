@@ -35,7 +35,7 @@ const ProductSearch = () => {
     promoCard: {
       title: "Get Flat 10% Off",
       subtitle: "on orders worth ₹1500 & above.",
-      code: "WOWFNP",
+      code: "JOJO",
     },
     categories: [
       "Flowers",

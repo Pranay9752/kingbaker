@@ -120,22 +120,22 @@ export const product_detail = {
     offers: [
         {
             logo: "https://i1.fnp.com/assets/images/custom/pdp-offer-img/aritel-logo.png",
-            desc: "FLAT 10% Off. Code: WOWFNP (for deliveries in India)",
+            desc: "FLAT 10% Off. Code: WOW (for deliveries in India)",
             terms: ["The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake."]
         },
         {
             logo: "https://i1.fnp.com/assets/images/custom/pdp-offer-img/aritel-logo.png",
-            desc: "FLAT 10% Off. Code: WOWFNP (for deliveries in India)",
+            desc: "FLAT 10% Off. Code: WOW (for deliveries in India)",
             terms: ["The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake."]
         },
         {
             logo: "https://i1.fnp.com/assets/images/custom/pdp-offer-img/aritel-logo.png",
-            desc: "FLAT 10% Off. Code: WOWFNP (for deliveries in India)",
+            desc: "FLAT 10% Off. Code: WOW (for deliveries in India)",
             terms: ["The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake."]
         },
         {
             logo: "https://i1.fnp.com/assets/images/custom/pdp-offer-img/aritel-logo.png",
-            desc: "FLAT 10% Off. Code: WOWFNP (for deliveries in India)",
+            desc: "FLAT 10% Off. Code: WOW (for deliveries in India)",
             terms: ["The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake.", "The cake stand, cutlery accessories used in the image are only for representation purposes. They are not delivered with the cake."]
         },
     ],
