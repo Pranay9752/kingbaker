@@ -5,6 +5,7 @@ import DeliveryDateSelector from "../../../molecules/DeliveryDateSelector";
 import BasicButton from "../../../atom/button/BasicButton";
 import AddAddonModal from "./addAddonModal";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
+import getCookie from "../../../atom/utils/getCookies";
 
 function UpdateOrderModal({ data, onClose }) {
   const [updateOrderByOwner, { isLoading }] = useUpdateOrderByOwnerMutation();
@@ -57,7 +58,7 @@ function UpdateOrderModal({ data, onClose }) {
     try {
         await updateOrderByOwner({
           orderId: data.order_id,
-          ownerId: "6718b65ecd48abaa7b95e285",
+          ownerId: getCookie("_id"),
           vendorId: data.user?.[0]?._id,
           data: orderData,
         });

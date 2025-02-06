@@ -1,7 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useCreateVendorMutation, useUpdateOwnerOrVendorMutation } from "../../../redux/apiSlices/owner/vendor";
+import {
+  useCreateVendorMutation,
+  useUpdateOwnerOrVendorMutation,
+} from "../../../redux/apiSlices/owner/vendor";
 import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
+import getCookie from "../../../atom/utils/getCookies";
 
 export const Input = ({
   name,
@@ -383,8 +387,6 @@ export const Input = ({
 
 // export default AddVendorModal;
 
-
-
 const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   const isUpdate = !!initialData;
 
@@ -412,23 +414,23 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   const [errors, setErrors] = useState({});
 
   const [createVendor, { isLoading: isCreating }] = useCreateVendorMutation();
-  const [updateVendor, { isLoading: isUpdating }] = useUpdateOwnerOrVendorMutation();
+  const [updateVendor, { isLoading: isUpdating }] =
+    useUpdateOwnerOrVendorMutation();
 
   // Transform and set initial data if in update mode
   useEffect(() => {
     if (initialData) {
-
       setFormData(initialData);
     }
   }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDirtyFields(prev => new Set(prev).add(name));
+    setDirtyFields((prev) => new Set(prev).add(name));
 
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         [parent]: {
           ...prev[parent],
@@ -436,7 +438,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         },
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
@@ -449,23 +451,34 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     // Skip password validation if updating
     if (!isUpdate) {
       if (!formData.password) newErrors.password = "Password is required";
-      else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(formData.password)) {
-        newErrors.password = "Password must contain at least 8 characters, one uppercase, one number and one special character";
+      else if (
+        !/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          formData.password
+        )
+      ) {
+        newErrors.password =
+          "Password must contain at least 8 characters, one uppercase, one number and one special character";
       }
     }
 
     // Always validate these fields
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email format";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Invalid email format";
     if (!formData.phone.trim()) newErrors.phone = "Phone is required";
 
     // Address validation
-    if (!formData.address.street.trim()) newErrors["address.street"] = "Street is required";
-    if (!formData.address.city.trim()) newErrors["address.city"] = "City is required";
-    if (!formData.address.state.trim()) newErrors["address.state"] = "State is required";
-    if (!formData.address.country.trim()) newErrors["address.country"] = "Country is required";
-    if (!formData.address.pincode) newErrors["address.pincode"] = "Pincode is required";
+    if (!formData.address.street.trim())
+      newErrors["address.street"] = "Street is required";
+    if (!formData.address.city.trim())
+      newErrors["address.city"] = "City is required";
+    if (!formData.address.state.trim())
+      newErrors["address.state"] = "State is required";
+    if (!formData.address.country.trim())
+      newErrors["address.country"] = "Country is required";
+    if (!formData.address.pincode)
+      newErrors["address.pincode"] = "Pincode is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -491,19 +504,16 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         },
         geoLocation: {
           type: "Point",
-          coordinates: [
-            72.868725,
-            19.027004,
-          ],
+          coordinates: [72.868725, 19.027004],
         },
       };
 
       if (isUpdate) {
         // For update, only include dirty fields
         const dirtyFieldsPayload = {};
-        dirtyFields.forEach(field => {
-          if (field.includes('.')) {
-            const [parent, child] = field.split('.');
+        dirtyFields.forEach((field) => {
+          if (field.includes(".")) {
+            const [parent, child] = field.split(".");
             if (!dirtyFieldsPayload[parent]) {
               dirtyFieldsPayload[parent] = {};
             }
@@ -513,32 +523,34 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
           }
         });
         await updateVendor({
-          email: 'email' in dirtyFieldsPayload ? dirtyFieldsPayload['email'] : formData.email,
-          ...dirtyFieldsPayload
+          email:
+            "email" in dirtyFieldsPayload
+              ? dirtyFieldsPayload["email"]
+              : formData.email,
+          ...dirtyFieldsPayload,
         }).unwrap();
-        toast.success("Vendor updated successfully")
+        toast.success("Vendor updated successfully");
 
         onSubmit({
           name: dirtyFieldsPayload?.name || formData.name,
           ...payload,
           address: {
             ...payload.address,
-            ...dirtyFieldsPayload?.address
-          }
-        })
+            ...dirtyFieldsPayload?.address,
+          },
+        });
       } else {
         // For create, include owner_id and password
         await createVendor({
-          owner_id: "6718b65ecd48abaa7b95e285",
+          owner_id: getCookie("_id"),
           password: formData.password,
-          ...payload
+          ...payload,
         }).unwrap();
-        toast.success("Vendor created successfully")
+        toast.success("Vendor created successfully");
         onSubmit(payload);
       }
-
     } catch (error) {
-      console.error('Operation failed:', error);
+      console.error("Operation failed:", error);
       // You might want to show an error message to the user here
     }
   };
@@ -554,7 +566,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         >
           <path d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
         </svg>
-        {isUpdate ? 'Edit Vendor' : 'Add New Vendor'}
+        {isUpdate ? "Edit Vendor" : "Add New Vendor"}
       </h2>
 
       {/* Rest of the form JSX remains the same */}
@@ -582,58 +594,59 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                   <span className="text-xs text-red-400">{errors.name}</span>
                 )}
               </div>
-              {
-                !isUpdate && (
-                  <>
+              {!isUpdate && (
+                <>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Email</label>
+                    <Input
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      error={errors.email}
+                    />
+                    {errors.email && (
+                      <span className="text-xs text-red-400">
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
 
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Email</label>
-                      <Input
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="bg-[#161b22] border-gray-800 text-gray-300"
-                        error={errors.email}
-                      />
-                      {errors.email && (
-                        <span className="text-xs text-red-400">{errors.email}</span>
-                      )}
-                    </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Phone</label>
+                    <Input
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      error={errors.phone}
+                    />
+                    {errors.phone && (
+                      <span className="text-xs text-red-400">
+                        {errors.phone}
+                      </span>
+                    )}
+                  </div>
 
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Phone</label>
-                      <Input
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="bg-[#161b22] border-gray-800 text-gray-300"
-                        error={errors.phone}
-                      />
-                      {errors.phone && (
-                        <span className="text-xs text-red-400">{errors.phone}</span>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Password</label>
-                      <Input
-                        name="password"
-                        type="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="bg-[#161b22] border-gray-800 text-gray-300"
-                        error={errors.password}
-                      />
-                      {errors.password && (
-                        <span className="text-xs text-red-400">
-                          {errors.password}
-                        </span>
-                      )}
-                    </div>
-                  </>
-                )
-              }
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Password</label>
+                    <Input
+                      name="password"
+                      type="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="bg-[#161b22] border-gray-800 text-gray-300"
+                      error={errors.password}
+                    />
+                    {errors.password && (
+                      <span className="text-xs text-red-400">
+                        {errors.password}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -762,7 +775,11 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
             className="border-gray-300 text-gray-300 px-4 py-2 bg-green-800/50 rounded-lg"
             disabled={isCreating || isUpdating}
           >
-            {isCreating || isUpdating ? "Processing..." : isUpdate ? "Update Vendor" : "Create Vendor"}
+            {isCreating || isUpdating
+              ? "Processing..."
+              : isUpdate
+              ? "Update Vendor"
+              : "Create Vendor"}
           </BasicButton>
         </div>
       </form>

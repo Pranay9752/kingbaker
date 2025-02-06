@@ -1,10 +1,11 @@
+import getCookie from "../../../atom/utils/getCookies";
 import { apiSlice } from "../apiSlice";
 
 const OwnerVendorAPI = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllVendor: builder.query({
       query: () => ({
-        url: `owner/getAllVendor?owner_id=6718b65ecd48abaa7b95e285`,
+        url: `owner/getAllVendor?owner_id=${getCookie("_id")}`,
         method: "GET",
       }),
     }),
