@@ -15,10 +15,15 @@ import {
   isBefore,
 } from "date-fns";
 import { motion } from "framer-motion";
+import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
-const DeliveryDatePicker = ({ handleSelectDate, darkMode = false }) => {
+const DeliveryDatePicker = ({
+  handleSelectDate,
+  darkMode = false,
+  onClose = () => {},
+}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -187,8 +192,11 @@ const DeliveryDatePicker = ({ handleSelectDate, darkMode = false }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="h-[95vh] md:h-fit flex flex-col justify-start item-center w-full text-left "
+      className="h-[95vh] relative md:h-fit flex flex-col justify-start item-center w-full text-left "
     >
+      <div onClick={onClose} className="absolute right-0 cursor-pointer ">
+        <X />
+      </div>
       <div className="flex items-center p-4 md:p-0 text-gray-800">
         <h2
           className={twMerge(

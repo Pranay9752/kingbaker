@@ -136,6 +136,7 @@ const DeliveryDateSelector = ({ darkMode = false, isUpdate = false }) => {
         className={`p-3 ${darkMode ? "bg-[#1a1f25]" : "bg-white"}`}
       >
         <DeliveryDatePicker
+          onClose={() => setDateModal(false)}
           handleSelectDate={handleSelectDate}
           darkMode={darkMode}
         />
@@ -150,6 +151,7 @@ const DeliveryDateSelector = ({ darkMode = false, isUpdate = false }) => {
           deliverydate={deliveryData?.date}
           handleSelectSlot={handleSelectSlot}
           darkMode={darkMode}
+          onClose={() => setDeliveryModal(false)}
         />
       </ModalWrapper>
     </>

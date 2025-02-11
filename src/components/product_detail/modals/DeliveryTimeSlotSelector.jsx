@@ -1,4 +1,5 @@
 import { addHours, isAfter, isBefore, isToday, parse } from "date-fns";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -6,6 +7,7 @@ const DeliveryTimeSlotSelector = ({
   handleSelectSlot,
   deliverydate,
   darkMode = false,
+  onClose = () => {},
 }) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -137,7 +139,10 @@ const DeliveryTimeSlotSelector = ({
   }, []);
 
   return (
-    <div className=" mx-auto text-left">
+    <div className="relative mx-auto text-left">
+      <div onClick={onClose} className="absolute right-0 cursor-pointer ">
+        <X />
+      </div>
       <div className="text-gray-800 px-2 py-4 flex items-center">
         <h2
           className={twMerge(

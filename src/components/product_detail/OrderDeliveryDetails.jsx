@@ -416,7 +416,7 @@ const OrderDeliveryDetails = ({
         maxHeight={"101vh"}
         className={`p-3 text-gray-800`}
       >
-        <DeliveryDatePicker handleSelectDate={handleSelectDate} />
+        <DeliveryDatePicker onClose={() => setDateModal(false)} handleSelectDate={handleSelectDate} />
       </ModalWrapper>
       <ModalWrapper
         className={`p-3 text-gray-800`}
@@ -427,6 +427,7 @@ const OrderDeliveryDetails = ({
         <DeliveryTimeSlotSelector
           deliverydate={deliveryDate}
           handleSelectSlot={handleSelectSlot}
+          onClose={() => setDeliveryModal(false)}
         />
       </ModalWrapper>
     </>
