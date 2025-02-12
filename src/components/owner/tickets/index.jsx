@@ -1,251 +1,3 @@
-// import React from "react";
-// import OwnerHeader from "../../../molecules/header/OwnerHeader";
-// import { useGetTicketOfVendorQuery } from "../../../redux/apiSlices/owner/tickets";
-
-// function OwnerTickets() {
-//   const { data, isLoading } = useGetTicketOfVendorQuery();
-//   return <OwnerHeader>{}</OwnerHeader>;
-// }
-
-// export default OwnerTickets;
-
-// import React, { useState } from "react";
-// import OwnerHeader from "../../../molecules/header/OwnerHeader";
-// import { useGetTicketOfVendorQuery } from "../../../redux/apiSlices/owner/tickets";
-// import {motion} from 'framer-motion'
-// const OwnerTickets = ({}) => {
-//   const { data, isLoading } = useGetTicketOfVendorQuery();
-
-//   const [expandedTickets, setExpandedTickets] = useState({});
-
-//   const toggleExpand = (ownerId, ticketId) => {
-//     setExpandedTickets((prev) => ({
-//       ...prev,
-//       [`${ownerId}-${ticketId}`]: !prev[`${ownerId}-${ticketId}`],
-//     }));
-//   };
-
-//   const formatDate = (dateString) => {
-//     return new Date(dateString).toLocaleString("en-US", {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       hour: "2-digit",
-//       minute: "2-digit",
-//     });
-//   };
-
-//   return (
-//     <OwnerHeader>
-//       <div className="w-full overflow-x-auto bg-[#0a0a0a] rounded-lg shadow-xl">
-//         {Array.isArray(data?.data) &&
-//           data?.data?.map((ownerData) => (
-//             <div key={ownerData.owner_name} className="mb-4">
-//               <div className="text-gray-400 text-lg font-semibold p-4 border-b border-gray-400">
-//                 {ownerData.owner_name}'s Tickets ({ownerData.count})
-//               </div>
-//               <table className="w-full">
-//                 <thead>
-//                   <tr className="border-b border-gray-400">
-//                     <th className="p-4 text-left text-gray-400">Ticket ID</th>
-//                     <th className="p-4 text-left text-gray-400">Order ID</th>
-//                     <th className="p-4 text-left text-gray-400">Status</th>
-//                     <th className="p-4 text-left text-gray-400">Date</th>
-//                     <th className="p-4 text-left text-gray-400">Vendor</th>
-//                     <th className="p-4 text-left text-gray-400">Query Type</th>
-//                     <th className="p-4 text-left text-gray-400"></th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {ownerData.tickets.map((ticket) => (
-//                     <React.Fragment key={ticket.ticket_id}>
-//                       <tr className="border-b border-gray-400 hover:bg-gray-900 transition-colors">
-//                         <td className="p-4 text-gray-400">
-//                           {ticket.ticket_reference_number}
-//                         </td>
-//                         <td className="p-4 text-gray-400">
-//                           {ticket.ticket_subOrderId}
-//                         </td>
-//                         <td className="p-4">
-//                           <span
-//                             className={`px-2 py-1 rounded-full text-xs ${
-//                               ticket.ticket_status === "open"
-//                                 ? "bg-green-900 text-green-300"
-//                                 : "bg-gray-800 text-gray-300"
-//                             }`}
-//                           >
-//                             {ticket.ticket_status}
-//                           </span>
-//                         </td>
-//                         <td className="p-4 text-gray-400">
-//                           {formatDate(ticket.ticket_date)}
-//                         </td>
-//                         <td className="p-4 text-gray-400">
-//                           {ticket.vendor_name}
-//                         </td>
-//                         <td className="p-4 text-gray-400">
-//                           {ticket.ticket_query} - {ticket.ticket_subquery}
-//                         </td>
-//                         <td className="p-4 text-gray-400">
-//                           <button
-//                             onClick={() =>
-//                               toggleExpand(
-//                                 ownerData.owner_name,
-//                                 ticket.ticket_id
-//                               )
-//                             }
-//                             className="text-gray-400 hover:text-white transition-colors"
-//                           >
-//                             {expandedTickets[
-//                               `${ownerData.owner_name}-${ticket.ticket_id}`
-//                             ] ? (
-//                               <svg
-//                                 xmlns="http://www.w3.org/2000/svg"
-//                                 viewBox="0 0 20 20"
-//                                 fill="currentColor"
-//                                 className="size-5"
-//                               >
-//                                 <path
-//                                   fillRule="evenodd"
-//                                   d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-//                                   clipRule="evenodd"
-//                                 />
-//                               </svg>
-//                             ) : (
-//                               <svg
-//                                 xmlns="http://www.w3.org/2000/svg"
-//                                 viewBox="0 0 20 20"
-//                                 fill="currentColor"
-//                                 className="size-5"
-//                               >
-//                                 <path
-//                                   fillRule="evenodd"
-//                                   d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-//                                   clipRule="evenodd"
-//                                 />
-//                               </svg>
-//                             )}
-//                           </button>
-//                         </td>
-//                       </tr>
-//                       {expandedTickets[
-//                         `${ownerData.owner_name}-${ticket.ticket_id}`
-//                       ] && (
-//                         <tr className="bg-gray-900">
-//                           <td colSpan="7" className="p-4">
-//                             <div className="space-y-4">
-//                               {ticket.ticket_chat.map((chat) => (
-//                                 <div
-//                                   key={chat._id}
-//                                   className="border-l-2 border-gray-400 pl-4"
-//                                 >
-//                                   <div className="flex justify-between text-sm text-gray-400">
-//                                     <span>
-//                                       {chat.user_name} ({chat.Updated_By})
-//                                     </span>
-//                                     <span>{formatDate(chat.date)}</span>
-//                                   </div>
-//                                   <p className="mt-1 text-gray-400">
-//                                     {chat.text}
-//                                   </p>
-//                                 </div>
-//                               ))}
-//                             </div>
-//                           </td>
-//                         </tr>
-//                       )}
-//                     </React.Fragment>
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-//           ))}
-
-//         <div className="overflow-x-auto rounded-lg border border-gray-700">
-//           <table className="min-w-full divide-y divide-gray-700">
-//             <thead className="bg-gray-800">
-//               <tr className="divide-x divide-gray-700">
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Reference Id
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Sub-Order ID
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Subject
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Status
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Created At
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Last Updated At
-//                 </th>
-//                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-//                   Last Updated By
-//                 </th>
-//               </tr>
-//             </thead>
-//             <tbody className="divide-y divide-gray-700 bg-gray-900">
-//               {Array.isArray(data?.data) &&
-//                 data?.data?.map((ticket) => {
-//                   const chat = ticket?.chat?.[0] ?? {};
-//                   return (
-//                     <motion.tr
-//                       key={ticket.reference_number}
-//                       initial={{ opacity: 0 }}
-//                       animate={{ opacity: 1 }}
-//                       transition={{ duration: 0.3 }}
-//                       className="hover:bg-gray-800 divide-x divide-gray-700"
-//                     >
-//                       <td className="px-4 py-4 whitespace-nowrap text-blue-400 hover:text-blue-300 cursor-pointer">
-//                         {ticket?.reference_number ?? ""}
-//                       </td>
-//                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">
-//                         {ticket?.sub_orderId ?? ""}
-//                       </td>
-//                       <td className="px-4 py-4 text-gray-400">
-//                         {ticket?.query ?? ""}{" "}
-//                         {ticket?.subquery && `> ${ticket?.subquery}`}
-//                       </td>
-//                       <td className="px-4 py-4 whitespace-nowrap">
-//                         <span
-//                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-//                             ticket.status === "Closed"
-//                               ? "bg-green-900 text-green-200"
-//                               : "bg-yellow-900 text-yellow-200"
-//                           }`}
-//                         >
-//                           {ticket?.status ?? "open"}
-//                         </span>
-//                       </td>
-//                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">
-//                         {ticket?.createdAt
-//                           ? format(new Date(ticket?.createdAt), "yyyy-MM-dd")
-//                           : ""}
-//                       </td>
-//                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">
-//                         {chat?.date
-//                           ? format(new Date(chat?.date), "yyyy-MM-dd")
-//                           : ""}
-//                       </td>
-//                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">
-//                         {chat?.Updated_By ?? ""}
-//                       </td>
-//                     </motion.tr>
-//                   );
-//                 })}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </OwnerHeader>
-//   );
-// };
-
-// export default OwnerTickets;
 
 import { useEffect, useState } from "react";
 import { useGetTicketOfVendorQuery } from "../../../redux/apiSlices/owner/tickets";
@@ -257,8 +9,6 @@ import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import TicketDetailsModal from "../../admin/order/modal/TicketDetailModal";
 
 
-
-
 const OwnerTickets = ({ tickets, onSearch }) => {
   const [filteredTickets, setFilteredTickets] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
@@ -267,7 +17,6 @@ const OwnerTickets = ({ tickets, onSearch }) => {
   const [status, setStatus] = useState(""); // Status filter
   const [selectedTicket, setSelectedTicket] = useState(null);
   const { data:ticketData, isLoading } = useGetTicketOfVendorQuery();
-  console.log('data: ', ticketData);
   const data = {
     data: [
       {
@@ -310,7 +59,6 @@ const OwnerTickets = ({ tickets, onSearch }) => {
     { value: "closed", label: "Closed" },
     { value: "pending", label: "Pending" },
   ];
-console.log(filteredTickets, selectedTicket);
   // Function to filter tickets based on search term, status, and date range
   const filterTickets = () => {
     const tickets = ticketData?.data
@@ -345,7 +93,6 @@ console.log(filteredTickets, selectedTicket);
 
   useEffect(() => {
     if(ticketData) {
-      console.log('ticketData?.data: ', ticketData?.data);
       setFilteredTickets(ticketData?.data?.[0]?.tickets ?? [])
     }
   },[ticketData])

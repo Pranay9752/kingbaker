@@ -253,7 +253,7 @@ function AddNewAddress({ selectedAddress }) {
     resolver: yupResolver(schema),
   });
   const orderData = useSelector((state) => state.order);
-  console.log('orderData: ', orderData);
+  console.log("orderData: ", orderData);
 
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
   const [defaultAddress, setDefaultAddress] = useState({

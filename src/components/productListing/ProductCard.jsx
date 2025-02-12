@@ -75,7 +75,7 @@ const FlowerBouquetCard = ({
             "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg"
           }
           alt={`${title} - Image`}
-          className={twMerge("w-full aspect-square ")}
+          className={twMerge("w-full aspect-square")}
           onError={(e) => {
             e.target.src =
               "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
