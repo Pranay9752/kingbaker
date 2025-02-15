@@ -78,7 +78,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
               className="form-radio text-orange-500"
             />
             <label htmlFor="cod" className="font-medium">
-              Cash On Delivery
+              Pay
             </label>
           </div>
           {selectedOption === "cod" && (

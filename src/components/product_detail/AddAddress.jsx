@@ -23,8 +23,8 @@ const schema = yup.object().shape({
     .matches(mobileNumberPattern, "Invalid mobile number"),
   recipientAltMobile: yup
     .string()
-    .notRequired()
-    .matches(mobileNumberPattern, "Invalid mobile number"),
+    .notRequired(), 
+    // .matches(mobileNumberPattern, "Invalid mobile number"),
   recipientEmail: yup.string().email("Invalid email"),
   landmark: yup.string(),
 });
@@ -50,26 +50,37 @@ const InputField = ({
   errors,
   type = "text",
   boxClass = "",
-}) => (
-  <div className={`relative ${boxClass}`}>
-    <input
-      type={type}
-      id={id}
-      className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
-      placeholder=" "
-      {...register(id)}
-    />
-    <label
-      htmlFor={id}
-      className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
-    >
-      {label}
-    </label>
-    {errors[id] && (
-      <p className="text-left text-red-500 text-xs">{errors[id].message}</p>
-    )}
-  </div>
-);
+  required = true,
+  validation = {},
+}) => {
+  // Combine default validation with any custom validation rules
+  const registerOptions = {
+    ...(required ? { required: `${label} is required` } : {}),
+    ...validation,
+  };
+
+  return (
+    <div className={`relative ${boxClass}`}>
+      <input
+        type={type}
+        id={id}
+        className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
+        placeholder=" "
+        {...register(id, registerOptions)}
+      />
+      <label
+        htmlFor={id}
+        className="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+      >
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      {errors[id] && (
+        <p className="text-left text-red-500 text-xs">{errors[id].message}</p>
+      )}
+    </div>
+  );
+};
 
 const SelectField = ({ id, label, register, options, hideLabel = false }) => (
   <div className="relative z-0 w-full">
@@ -208,6 +219,7 @@ export const AddressForm = ({ defaultValues, onSubmit }) => {
             label="Alternate Mobile"
             register={register}
             errors={errors}
+            required={false}
           />
         </div>
         <InputField
@@ -215,6 +227,7 @@ export const AddressForm = ({ defaultValues, onSubmit }) => {
           label="Recipient Alt Email"
           register={register}
           errors={errors}
+          required={false}
         />
         <div className="flex justify-between mt-4">
           <label className="text-sm">Address Type</label>

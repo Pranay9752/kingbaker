@@ -17,21 +17,25 @@ import Footer from "../../molecules/footer/footer";
 import Breadcrumb from "../../atom/breadcrumb";
 import Loader from "../../atom/loader/loader";
 
+
+const getProductID = (id) => {  
+  return `PROD${id?.split("_")?.pop()}`
+}
 // Main Component
 const ProductDetail = () => {
   const { productId } = useParams();
+  console.log('productId: ', getProductID(productId));
   const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
-      productId: productId,
+      productId: getProductID(productId),
     },
   });
   const [typeImages, setTypeImages] = useState(null);
-  console.log("typeImages: ", typeImages);
 
   const { data, isError, isLoading } = useGetProductQuery(
     {
-      productId: productId,
+      productId: getProductID(productId),
     },
     {
       refetchOnMountOrArgChange: true,

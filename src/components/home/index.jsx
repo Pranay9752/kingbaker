@@ -1579,7 +1579,6 @@ const Home = () => {
   const { data, error, isLoading } = useGetCarosolQuery(key, {
     refetchOnMountOrArgChange: true,
   });
-  console.log("data: ", key, data);
 
   const GetComponents = ({ data }) => {
     const components = {
@@ -1648,8 +1647,9 @@ const Home = () => {
   //   }
   // }, []);
   useEffect(() => {
-    if (data) {
+    if (data && !!!localStorage.getItem(key)) {
       localStorage.setItem(key, data.data[key]);
+      location.reload()
     }
   }, [data]);
   return (

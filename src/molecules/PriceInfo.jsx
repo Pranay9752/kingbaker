@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import BasicButton from "../atom/button/BasicButton";
 import scrollToDiv from "../atom/utils/scrollToDiv";
 
@@ -29,20 +30,56 @@ const PriceInfo = ({ price, taxInfo }) => (
       <div className="flex flex-col ml-2">
         <p className="text-sm text-gray-400 flex items-center">
           {taxInfo}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+          <Tooltip
+            color="white"
+            overlayInnerStyle={{
+              borderRadius: "12px",
+              padding: "16px",
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+              minWidth: "320px", // Added fixed minimum width
+            }}
+            title={
+              <div className="text-gray-800">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                  <h3 className="text-sm font-medium">Price Details</h3>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex justify-between items-start space-x-4">
+                    <div className="flex flex-col min-w-0">
+                      {" "}
+                      {/* Added min-w-0 to allow text truncation */}
+                      <span className="font-medium text-sm truncate">
+                        Maximum Retail Price
+                      </span>
+                      <span className="text-gray-500 text-xs mt-1 truncate">
+                        ({taxInfo})
+                      </span>
+                    </div>
+                    <span className="font-semibold text-lg whitespace-nowrap">
+                      ₹{price}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-            />
-          </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+              />
+            </svg>
+          </Tooltip>
         </p>
         <div
           onClick={() => scrollToDiv("offersAvailable")}

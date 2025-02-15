@@ -66,7 +66,7 @@ const FlowerBouquetCard = ({
         setIsHovering(false);
         setCurrentImageIndex(0);
       }}
-      onClick={() => navigate(`/product/${productId}`)}
+      onClick={() => navigate(`/product/${title.split(' ').join("_")}_${String(productId || "").replace("PROD", "")}`)}
     >
       <div className="relative h- [176px] m d:h-64 overflow-hidden">
         <img
