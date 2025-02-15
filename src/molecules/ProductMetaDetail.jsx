@@ -18,7 +18,7 @@ const ProductMetaDetail = ({ details }) => {
 
   if (details?.[0]?.key) {
     return <>
-      <div id="productMeta" className="grid grid-cols-3 py-2 gap-2 md:hidden">
+      <div id="prouctMeta" className="grid grid-cols-3 py-2 gap-2 md:hidden">
         <style>
           {`
           .editor ol {

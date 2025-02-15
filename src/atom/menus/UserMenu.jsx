@@ -1,8 +1,10 @@
 import { useState } from "react";
 import AnimatedWrapper from "../../molecules/wrappers/AnimatedWrapper";
 import { AnimatePresence } from "framer-motion";
+import getCookie from "../utils/getCookies";
 
 const UserMenu = ({ profile }) => {
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const handleIsOpen = (e,value) => setIsOpen((prev) => (value ? value : !prev));
@@ -31,9 +33,9 @@ const UserMenu = ({ profile }) => {
               id="dropdown-user"
             >
               <div className="px-4 py-3">
-                <p className="text-sm text-gray-900">{profile.name}</p>
+                {/* <p className="text-sm text-gray-900">{profile.name}</p> */}
                 <p className="text-sm font-medium text-gray-900 truncate">
-                  {profile.email}
+                  {getCookie("email") || ""}
                 </p>
               </div>
               <ul className="py-1">

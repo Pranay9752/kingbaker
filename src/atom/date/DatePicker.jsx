@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Calendar } from "react-date-range";
-import { format, isEqual } from "date-fns";
+import { format, isEqual, subDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { AnimatePresence } from "framer-motion";
@@ -132,7 +132,7 @@ function ReactDateRangePicker({
           <div className="relative w-full py-1.5 rounded-xl  flex items-center px-3 gap-3 truncate border-2 border-gray-600 bg-white hover:bg-rsecondary/60">
             <div className=" cursor-pointer ">
               <svg
-              className="w-5 h-5"
+                className="w-5 h-5"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -188,7 +188,7 @@ function ReactDateRangePicker({
           <div className="relative w-full py-1.5  rounded-xl  flex items-center px-3 gap-3 truncate border-2 border-gray-600 bg-white hover:bg-rsecondary/60">
             <div className=" cursor-pointer ">
               <svg
-              className="w-5 h-5"
+                className="w-5 h-5"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -242,7 +242,15 @@ function ReactDateRangePicker({
             handleApply();
           }}
         />
-      </div> 
+        <BasicButton2
+          className={"w-1/4 py-2 bg-gray-800 text-gray-50"}
+          title={"Reset"}
+          onClick={() => {
+            setstartDate(subDays(new Date(), 1));
+            setendDate(new Date());
+          }}
+        />
+      </div>
       <div className="lg:hidden z-10 relative rounded-md hover:bg-rsecondary/40 p-2 cursor-pointer flex justify-center items-center gap-2 font-semibold active:scale-90  transition-all ease-in duration-100 active:bg-rsecondary/70">
         <svg
           onClick={() => setShowDateModal((prev) => !prev)}
