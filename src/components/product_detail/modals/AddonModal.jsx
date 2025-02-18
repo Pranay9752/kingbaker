@@ -241,7 +241,8 @@ const ProductAddOns = ({
         if (action === "BN") {
           const order_id = response.data.data.order.order_id;
           navigate(
-            `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+            // `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+            `/checkout/details/`
           );
           return;
         }
@@ -280,13 +281,12 @@ const ProductAddOns = ({
         onCategoryChange={setActiveCategory}
       />
       <button
-          type="button"
-          onClick={handleSubmit}
-          className=" hidden md:block bg-orange-500 text-white rounded-lg font-medium ml-auto py-1.5 px-3 absolute right-0 top-10 z-[99999]"
-        >
-          CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"}{" "}
-          ADDON
-        </button>
+        type="button"
+        onClick={handleSubmit}
+        className=" hidden md:block bg-orange-500 text-white rounded-lg font-medium ml-auto py-1.5 px-3 absolute right-0 top-10 z-[99999]"
+      >
+        CONTINUE WITH{total?.quantity > 0 ? ` ${total?.quantity}` : "OUT"} ADDON
+      </button>
 
       <div className="mt-4 md:mt-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 overflow-y-auto h-[62vh] ">
         {filteredProducts.map((product) => (

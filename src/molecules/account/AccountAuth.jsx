@@ -232,7 +232,8 @@ function AccountAuth({ className, handleOnLogin }) {
           const order_id = response.data.data.order.order_id;
           setCookie("buynow", "", true);
           navigate(
-            `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+            // `/checkout/details/?orderid=${encodeURIComponent(order_id)}`
+            `/checkout/details`
           );
           return;
         } catch (error) {}
