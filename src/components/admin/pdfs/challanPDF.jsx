@@ -105,7 +105,7 @@ const ChallanPDF = ({ data = [] }) => {
                 <Image
                   style={{ height: "50px", width: "150px" }}
                   src={
-                    "https://i.ibb.co/LPFC6F8/logoking.png"
+                    "https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
                   }
                 />
               </View>

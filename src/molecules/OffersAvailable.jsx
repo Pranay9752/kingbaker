@@ -8,22 +8,22 @@ const OffersAvailable = ({ offers }) => (
             </svg><span className='ml-2 md:text-xl md:font-medium'>Offers Available</span>
         </h3>
         <OfferItem
-            logo="https://i.ibb.co/LPFC6F8/logoking.png"
+            logo="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
             description="FLAT 10% Off. Code: JOJO (for deliveries in India)"
             terms
         />
         <OfferItem
-            logo="https://i.ibb.co/LPFC6F8/logoking.png"
+            logo="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
             description="15% Off* on 1st Order, Code: FIRSTORDER"
             terms
         />
         <OfferItem
-            logo="https://i.ibb.co/LPFC6F8/logoking.png"
+            logo="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
             description="Amazon Pay - Get cashback upto Rs 250"
             terms
         />
         <OfferItem
-            logo="https://i.ibb.co/LPFC6F8/logoking.png"
+            logo="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
             description="Cred - Get cash back upto INR 200"
             terms
         />

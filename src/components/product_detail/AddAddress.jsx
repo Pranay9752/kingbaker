@@ -289,7 +289,7 @@ function AddNewAddress({ selectedAddress }) {
   const handleFormSubmit = (data) => {
     const newAddress = {
       user_id: getCookie("_id"),
-      delivary_address: {
+      delivery_address: {
         pincode: getCookie("pincode"),
         city: "Mumbai",
         country: "India",

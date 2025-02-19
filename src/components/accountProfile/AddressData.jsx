@@ -109,7 +109,7 @@ const AddressData = () => {
     const newAddress = {
       user_id: getCookie("_id"),
       _id: data?._id ?? null,
-      delivary_address: {
+      delivery_address: {
         pincode: getCookie("pincode"),
         city: "Mumbai",
         country: "India",
