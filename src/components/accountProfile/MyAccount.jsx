@@ -11,6 +11,7 @@ import Footer from "../../molecules/footer/footer";
 import ProfileForm from "./ProfileForm";
 import AddressData from "./AddressData";
 import UserOrders from "./UserOrders";
+import SEO from "../../atom/seo/SEO";
 const Card = ({ Icon, title, description, onClick, color }) => (
   <div
     className="bg-white p-4 text-center rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 w-1/3 m-2 cursor-pointer h-32 flex flex-col items-center   justify-center"
@@ -279,6 +280,7 @@ const MyAccount = () => {
         ]}
         userGreeting="Hi Guest"
       />
+      <SEO title={"My Account"} />
       <NavBar />
       {currentPage !== "main" ? (
         <>

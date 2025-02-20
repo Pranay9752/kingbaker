@@ -12,6 +12,8 @@ import SizeSelector from "./SizeSelector";
 import CustomizeButton from "./CustomizeButton";
 import { useFormContext } from "react-hook-form";
 import MessageInput from "../../molecules/MessageInput";
+import { Helmet } from "react-helmet-async";
+import SEO from "../../atom/seo/SEO";
 
 const ProductDetails = ({
   data,
@@ -22,7 +24,6 @@ const ProductDetails = ({
   taxInfo,
   timeLeft,
 }) => {
-
   const products = [
     {
       imageUrl:
@@ -83,6 +84,7 @@ const ProductDetails = ({
   return (
     <>
       <div className="md:hidden absolute top-[calc(48vh+56px)] left-0 right-0  bg-white rounded-t-lg  flex flex-col text-left gap-4 ">
+      <SEO title={data?.title} />
         <div className="p-2 flex flex-col gap-3">
           <h2 className="text-lg mb-2 truncate">{data?.title}</h2>
           <Rating score={data?.rating ?? 0} reviews={data?.reviews ?? []} />
@@ -131,7 +133,9 @@ const ProductDetails = ({
       </div>
 
       <div className="hidden md:flex flex-col gap-2 ">
-        <h2 className="text-xl font-medium  truncate text-left">{data?.title}</h2>
+        <h2 className="text-xl font-medium  truncate text-left">
+          {data?.title}
+        </h2>
         <Rating score={rating} reviews={reviews} />
         <PriceInfo price={price} taxInfo={taxInfo} />
         {Array.isArray(data?.weight) && data?.weight?.length > 0 && (

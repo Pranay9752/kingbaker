@@ -9,6 +9,7 @@ import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
 import useImageUpload from "../../../atom/utils/useUploadImages";
 import { useUpdateCarosolMutation } from "../../../redux/apiSlices/owner/landing";
+import SEO from "../../../atom/seo/SEO";
 
 const styleIcons = {
   containerStyle: (
@@ -931,6 +932,8 @@ const Landing = () => {
   return (
     <>
       <div className="grid grid-cols-[15%,60%,25%] absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+      <SEO title={'Landing'} />
+
         {/* Sidebar */}
         <div className="p-5">
           <div className="bg-white w-full h-full border rounded-2xl p-3">

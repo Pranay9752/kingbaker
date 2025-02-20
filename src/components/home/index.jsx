@@ -17,6 +17,7 @@ import Footer from "../../molecules/footer/footer";
 import getCookie from "../../atom/utils/getCookies";
 import setCookie from "../../atom/utils/setCookies";
 import { useGetCarosolQuery } from "../../redux/apiSlices/owner/landing";
+import SEO from "../../atom/seo/SEO";
 
 export const getCard = ({ data, isMobileView = false }) => {
   const cards = {
@@ -1669,6 +1670,7 @@ const Home = () => {
         ]}
         userGreeting="Hi Guest"
       />
+       <SEO  />
       <NavBar />
       <div
         style={

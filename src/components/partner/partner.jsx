@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { method } from "lodash";
+import SEO from "../../atom/seo/SEO";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -78,6 +79,7 @@ const BecomeAPartner = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
+       <SEO title={'Become a partner'} />
       {/* Header */}
       <header className="bg-[#7d8035] text-white p-4 text-center shadow-md flex justify-center items-center">
         <svg

@@ -104,6 +104,7 @@ import ReactPDF from "@react-pdf/renderer";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import AllocateDeliveryBoy from "./AllocateDeliveryBoy";
 import getCookie from "../../../atom/utils/getCookies";
+import SEO from "../../../atom/seo/SEO";
 
 function OrderList() {
   const { type, day, ids } = useParams();
@@ -112,7 +113,7 @@ function OrderList() {
   const [orders, setOrders] = useState([]);
   const [orderDetailIndex, setOrderDetailIndex] = useState(null);
   const [allocateDelivery, setAllocateDelivery] = useState(false);
-  console.log('allocateDelivery: ', allocateDelivery);
+  console.log("allocateDelivery: ", allocateDelivery);
 
   const [getOrders, { isLoading }] = useGetOrdersMutation();
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
@@ -124,7 +125,7 @@ function OrderList() {
         updateOrderStatus({
           order_id: item?.order_id,
           user_id: item?.user_id,
-          vendor_id: getCookie('_id'),
+          vendor_id: getCookie("_id"),
         });
       });
 
@@ -142,7 +143,7 @@ function OrderList() {
         await updatePrintStatus({
           order_ids: [item?.order_id],
           user_id: item?.user_id,
-          vendor_id: getCookie('_id'),
+          vendor_id: getCookie("_id"),
         });
       });
 
@@ -156,7 +157,9 @@ function OrderList() {
       const blob = await ReactPDF.pdf(
         <BrandingChallanPDF data={filteredOrders} />
       ).toBlob();
-      {/* <ChallanPDF data={filteredOrders} /> */}
+      {
+        /* <ChallanPDF data={filteredOrders} /> */
+      }
 
       // Create a download link
       const url = URL.createObjectURL(blob);
@@ -173,7 +176,7 @@ function OrderList() {
       toast.error("Something went wrong!");
     }
   };
-  const printBrandingChallan = () => { };
+  const printBrandingChallan = () => {};
 
   // Updated handleSelectedOrder to store both order_id and user_id
   const handleSelectedOrder = useCallback(({ order_id, user_id }) => {
@@ -216,8 +219,13 @@ function OrderList() {
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >
+        <SEO title={"Orders"} />
+
         {orderDetailIndex !== null ? (
-          <OrderDetailsCard order={orders[orderDetailIndex]} onClose={() => setOrderDetailIndex(null)} />
+          <OrderDetailsCard
+            order={orders[orderDetailIndex]}
+            onClose={() => setOrderDetailIndex(null)}
+          />
         ) : (
           <div className="flex flex-col justify-start items-start gap-4 w-full">
             <div className="w-full flex gap-3">
@@ -260,8 +268,10 @@ function OrderList() {
               height={"50vh"}
               onClose={() => setAllocateDelivery(true)}
             >
-
-              <AllocateDeliveryBoy onClose={() => setAllocateDelivery(true)} selectedOrders={selectedOrders?.map((item) => item?.order_id)} />
+              <AllocateDeliveryBoy
+                onClose={() => setAllocateDelivery(true)}
+                selectedOrders={selectedOrders?.map((item) => item?.order_id)}
+              />
             </ModalWrapper>
             <div className="flex flex-col w-full gap-2">
               {Array.isArray(orders) &&

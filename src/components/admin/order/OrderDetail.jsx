@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import ChallanPDF from "../pdfs/challanPDF";
 import ReactPDF from "@react-pdf/renderer";
 import getCookie from "../../../atom/utils/getCookies";
+import SEO from "../../../atom/seo/SEO";
 
 const OrderDetailsCard = ({
   isUpdate = false,
@@ -77,6 +78,8 @@ const OrderDetailsCard = ({
       className={`rounded-lg w-full shadow-lg p-6 mb-4 relative ${darkMode ? "bg-[#1a1f25]" : "bg-white"
         }`}
     >
+      <SEO title={'Orders'} />
+
       <div
         onClick={onClose}
         className="absolute right-2 top-2 text-gray-200 cursor-pointer"

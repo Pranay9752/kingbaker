@@ -5,6 +5,7 @@ import OrderDetailsCard from "../../admin/order/OrderDetail";
 import { useGetOrderOfVendorQuery } from "../../../redux/apiSlices/owner/order";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import UpdateOrderModal from "./updateOrderModal";
+import SEO from "../../../atom/seo/SEO";
 
 const orders = [
   {
@@ -447,6 +448,8 @@ const OwnerOrders = ({}) => {
   return (
     <>
       <OwnerHeader isActive={"Orders"}>
+      <SEO title={'Orders'} />
+
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           {orderDetailIndex !== null ? (
             <OrderDetailsCard

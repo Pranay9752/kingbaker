@@ -1,3 +1,4 @@
+import SEO from "../../../atom/seo/SEO";
 import NumberCard from "../../../molecules/cards/NumberCard";
 import HeaderLayout from "../../../molecules/header/HeaderLayout";
 import NpsSection from "../dashboard/NpsSection";
@@ -19,6 +20,8 @@ function AdminSales() {
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >
+      <SEO title={'Sales'} />
+
         {/* <DateRangeOneFilter handleDateChange={(date) => console.log(date)} /> */}
         <NpsSection />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">

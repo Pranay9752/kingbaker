@@ -14,6 +14,7 @@ import {
   useGetOrdersMutation,
 } from "../../../redux/apiSlices/admin/vendor";
 import getCookie from "../../../atom/utils/getCookies";
+import SEO from "../../../atom/seo/SEO";
 
 const types = {
   order: 1,
@@ -138,6 +139,8 @@ function AdminDashboard() {
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >
+      <SEO title={'Dashboard'} />
+
         <NpsSection />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <NumberCard

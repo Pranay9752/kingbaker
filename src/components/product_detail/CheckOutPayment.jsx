@@ -17,6 +17,7 @@ import setCookie from "../../atom/utils/setCookies";
 import { addInit } from "../../redux/slices/ecom/orderSlice";
 import createOrderAnimationData from "./create_order_animation.json";
 import Lottie from "lottie-react";
+import SEO from "../../atom/seo/SEO";
 const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [selectedOption, setSelectedOption] = useState("cod");
   const [cardNumber, setCardNumber] = useState("");
@@ -430,6 +431,8 @@ function CheckOutPayment() {
   return (
     <>
       <Basicheader num={2} title={"Payment Details"} />
+      <SEO title={'Checkout'} />
+
       <div className="hidden md:flex justify-center items-start gap-4 py-20 mx-auto max-w-[1600px]">
         <div className="flex flex-col gap-4 overflow-y-auto h-[90vh] hide-scrollbar">
           {/* Card 1 */}

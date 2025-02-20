@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import FlowerBouquetCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
+import SEO from "../../atom/seo/SEO";
 
 const ProductListing = ({
   title,
@@ -48,6 +49,7 @@ const ProductListing = ({
 
   return (
     <div className="max-w-7xl mx-auto md:p-4 md:pl-0 ">
+       <SEO title={title} />
       <div className="p-3 mx-4 md:mx-0 pb-0 rounded-lg bg-white">
         <div className="md:flex hidden items-center mb-4 gap-2">
           <h1 className="text-2xl font-semibold capitalize">{title}</h1>|

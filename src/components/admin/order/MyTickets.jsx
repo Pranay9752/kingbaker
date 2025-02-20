@@ -8,6 +8,7 @@ import Modal from "../../../atom/popovers/Modal";
 import Loader from "../../../atom/loader/loader";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import TicketDetailsModal from "./modal/TicketDetailModal";
+import SEO from "../../../atom/seo/SEO";
 
 const MyTicket = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,6 +70,8 @@ const MyTicket = () => {
         logoAlt="King Baker Logo"
         title="KING BAKER"
       >
+      <SEO title={'Tickets'} />
+
         <motion.div className={`md:p-6 bg-gray-100`}>
           <div className="mb-6 flex flex-wrap gap-4">
             <form

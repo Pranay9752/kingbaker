@@ -1,14 +1,16 @@
 // src/App.jsx
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import SEO from "../../atom/seo/SEO";
 
 const ContactUs = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center">
+      <SEO title={"Countact Us"} />
       {/* Navbar */}
       <div className="bg-[#7d8035] w-full py-3 px-5 text-white flex justify-start items-center">
-      <svg
+        <svg
           onClick={() => navigate(-1)}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -42,7 +44,6 @@ const ContactUs = () => {
           {/* Left Section */}
           <div>
             <div className="space-y-3">
-              
               {/* <motion.button
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded w-full md:w-auto hover:bg-gray-400"
                 whileHover={{ scale: 1.05 }}
@@ -57,31 +58,31 @@ const ContactUs = () => {
               </div>
               <div className="text-lg">
                 <span className="font-medium">Email:</span>{" "}
-                <a href="mailto:support@kingbakers.com" className="text-blue-600">
+                <a
+                  href="mailto:support@kingbakers.com"
+                  className="text-blue-600"
+                >
                   support@kingbakers.com
                 </a>
               </div>
-              
             </div>
 
             <div className="mt-6 space-y-4">
               <div>
-                <span className="font-bold text-red-600">
-                  Visit Us:
-                </span>
+                <span className="font-bold text-red-600">Visit Us:</span>
                 <p className="text-sm">
-                1st Floor Hotel King City Novelty Chock Roorkee Road, Muzaffarnagar, Uttar Pradesh, 251001
+                  1st Floor Hotel King City Novelty Chock Roorkee Road,
+                  Muzaffarnagar, Uttar Pradesh, 251001
                 </p>
               </div>
-             
             </div>
             <motion.button
-                onClick={() => navigate("/")}
-                className="bg-orange-500 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-orange-700 mt-10"
-                whileHover={{ scale: 1.05 }}
-              >
-                Continue Shopping
-              </motion.button>
+              onClick={() => navigate("/")}
+              className="bg-orange-500 text-white px-4 py-2 rounded w-full md:w-auto hover:bg-orange-700 mt-10"
+              whileHover={{ scale: 1.05 }}
+            >
+              Continue Shopping
+            </motion.button>
           </div>
 
           {/* Right Section */}

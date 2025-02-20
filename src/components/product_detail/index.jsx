@@ -16,15 +16,14 @@ import TopNavbar from "../../molecules/header/TopNavBar";
 import Footer from "../../molecules/footer/footer";
 import Breadcrumb from "../../atom/breadcrumb";
 import Loader from "../../atom/loader/loader";
+import { Helmet } from "react-helmet-async";
 
-
-const getProductID = (id) => {  
-  return `PROD${id?.split("_")?.pop()}`
-}
+const getProductID = (id) => {
+  return `PROD${id?.split("_")?.pop()}`;
+};
 // Main Component
 const ProductDetail = () => {
   const { productId } = useParams();
-  console.log('productId: ', getProductID(productId));
   const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
@@ -41,6 +40,7 @@ const ProductDetail = () => {
       refetchOnMountOrArgChange: true,
     }
   );
+  console.log('data: ', data?.data?.title);
 
   const items = useMemo(
     () => [
@@ -125,7 +125,6 @@ const ProductDetail = () => {
   const onSubmit = (data) => {
     setTypeImages(data?.specification?.value?.images);
   };
-
   useEffect(() => {
     document.body.classList.add("bg-white");
     return () => {
@@ -135,6 +134,7 @@ const ProductDetail = () => {
 
   return (
     <>
+      
       {isLoading && (
         <div className="fixed inset-0 z-50 w-[100vw] h-[100vh] flex justify-center items-center bg-black/20">
           <Loader />

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import OrderDeliveryDetails from "./OrderDeliveryDetails";
 import { useSelector } from "react-redux";
+import SEO from "../../atom/seo/SEO";
 
 // Define a pattern for mobile number validation
 const mobileNumberPattern = /^[0-9]{10}$/;
@@ -323,6 +324,8 @@ function AddNewAddress({ selectedAddress }) {
   return (
     <>
       <Basicheader num={2} title={"Add New Address"} />
+      <SEO title={'Checkout'} />
+
       <section className="w-full mt-20 flex flex-col gap-3 border-b-2 pb-2">
         {/* <Card />
         <h3 className="text-left font-semibold text-slate-600 mt-3 mb-2 px-3">

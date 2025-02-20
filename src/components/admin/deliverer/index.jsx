@@ -14,6 +14,7 @@ import DeliveryBoyModal from "./modal/DeliveryBoyModal";
 import ResetPasswordModal from "./modal/ResetPasswordModal";
 import OtpInput from "../../../atom/inputs/OtpInput";
 import getCookie from "../../../atom/utils/getCookies";
+import SEO from "../../../atom/seo/SEO";
 
 const DeliveryBoysManagement = () => {
   const [users, setUsers] = useState([]);
@@ -142,6 +143,8 @@ const DeliveryBoysManagement = () => {
       logoAlt="King Baker Logo"
       title="KING BAKER"
     >
+      <SEO title={'Delivery Boys'} />
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

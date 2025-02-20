@@ -90,8 +90,7 @@ const Default = {
 const AddressData = () => {
   const { data } = useGetAddressQuery();
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
-  const [reicipientAddress, setReicipientAddress] = useState([]);
-  console.log("reicipientAddress: ", reicipientAddress);
+  const [recipientAddress, setRecipientAddress] = useState([]);
 
   const [openAddAddress, setOpenAddAddress] = useState(false);
 
@@ -128,7 +127,7 @@ const AddressData = () => {
 
     try {
       const response = addAddress(newAddress);
-      setReicipientAddress((prev) => {
+      setRecipientAddress((prev) => {
         const newArr = [...prev];
         const addressIndex = newArr.findIndex(
           (item) => item?._id === data?._id
@@ -150,7 +149,14 @@ const AddressData = () => {
 
   useEffect(() => {
     if (data) {
-      setReicipientAddress(data?.delivery_address ?? []);
+      console.log("data: ", data?.delivery_address);
+      const addressess = data?.delivery_address?.map((item) => ({
+        ...item,
+        recipientEmail: item?.alternateEmail || "",
+        recipientMobile: item?.recipientMobnumber || "",
+        recipientAltMobile: item?.alternateMobileNo || "",
+      })) || [];
+      setRecipientAddress(addressess);
     }
   }, [data]);
   return (
@@ -166,7 +172,7 @@ const AddressData = () => {
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {reicipientAddress?.map((address, index) =>
+          {recipientAddress?.map((address, index) =>
             !!address ? (
               <AddressCard
                 key={address?._id}

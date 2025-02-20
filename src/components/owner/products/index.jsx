@@ -15,6 +15,7 @@ import {
 } from "@react-pdf/renderer";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import AddProductModal from "../product/addProductModal";
+import SEO from "../../../atom/seo/SEO";
 
 const styles = StyleSheet.create({
   page: {
@@ -259,6 +260,7 @@ const OwnerProducts = () => {
   return (
     <>
       <OwnerHeader isActive="Products">
+      <SEO title={'Products'} />
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           {/* Search Section */}
           <div className="flex flex-wrap gap-3 mb-6">

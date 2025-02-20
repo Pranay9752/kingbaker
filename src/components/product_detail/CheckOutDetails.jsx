@@ -32,6 +32,7 @@ import getCookie from "../../atom/utils/getCookies";
 import OrderDeliveryDetails from "./OrderDeliveryDetails";
 import { toast } from "sonner";
 import SenderDetailsForm from "./senderDetails";
+import SEO from "../../atom/seo/SEO";
 
 const options1 = [
   { value: "birthday", label: "Birthday" },
@@ -537,6 +538,8 @@ function CheckOutDetails() {
   return (
     <>
       <Basicheader link={"/"} num={2} title={"Order & Delivery Details"} />
+      <SEO title={'Checkout'} />
+
       <div className="md:hidden">
         {isOpen === 0 ? (
           <>
