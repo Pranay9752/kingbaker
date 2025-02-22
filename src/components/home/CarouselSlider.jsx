@@ -1,30 +1,47 @@
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const Carousel = ({ slides, data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const swiperRef = useRef(null);
+
   const navigate = useNavigate();
+  // const nextSlide = () => {
+  //   setCurrentIndex((prevIndex) =>
+  //     prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+  //   );
+  // };
+
+  // const prevSlide = () => {
+  //   setCurrentIndex((prevIndex) =>
+  //     prevIndex === 0 ? slides.length - 1 : prevIndex - 1
+  //   );
+  // };
+
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-    );
+    if (swiperRef.current) swiperRef.current.swiper.slideNext();
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-    );
+    if (swiperRef.current) swiperRef.current.swiper.slidePrev();
   };
 
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, []);
+
+  // useEffect(() => {
+  //   const interval = setInterval(nextSlide, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
-    <div style={data?.boxStyle} className="relative w-full overflow-x-auto mx -auto">
-      <div className="overflow-hidden rounded-lg shadow-lg ">
+    <div
+      style={data?.boxStyle}
+      className="relative w-full overflow-x-auto mx -auto"
+    >
+      {/* <div className="overflow-hidden rounded-lg shadow-lg ">
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -43,8 +60,28 @@ const Carousel = ({ slides, data }) => {
             </div>
           ))}
         </div>
-      </div>
-
+      </div> */}
+      <Swiper
+        ref={swiperRef}
+        loop={true}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        pagination={{ el: ".swiper-pagination", type: "progressbar" }}
+        modules={[Pagination, Autoplay]}
+        className="swiper-container -z-0"
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide
+            key={index}
+            onClick={() => navigate(`/search/${slide.route}`)}
+          >
+            <img
+              src={slide.image}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-[22svh] md:h-fit object-fill"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow hover:bg-white"
