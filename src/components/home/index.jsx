@@ -1626,33 +1626,17 @@ const Home = () => {
     };
     return components[data.type] || "hiiiii";
   };
+
   const main = JSON.parse(localStorage.getItem("homeDesk")) ?? {};
   const mainMob = JSON.parse(localStorage.getItem("homeMob")) ?? {};
-  // useEffect(() => {
-  //   if (!localStorage.getItem("homeDesk")) {
-  //     localStorage.setItem("homeDesk", JSON.stringify(mainStructure));
-  //     location.reload();
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   if (!localStorage.getItem("homeMob")) {
-  //     localStorage.setItem("homeMob", JSON.stringify(mainmobileStructure));
-  //     location.reload();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   document.body.classList.add((window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data?.backgroundColor ?? "#f2f2f2");
-  //   return () => {
-  //     document.body.classList.remove((window.innerWidth > 768 ? mainStructure : mainmobileStructure).data.meta_data?.backgroundColor ?? "#f2f2f2");
-  //   }
-  // }, []);
+ 
   useEffect(() => {
     if (data && !!!localStorage.getItem(key)) {
       localStorage.setItem(key, data.data[key]);
       location.reload()
     }
   }, [data]);
+  
   return (
     <>
       <TopNavbar

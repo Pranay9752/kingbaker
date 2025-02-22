@@ -19,8 +19,6 @@ import OrderDetailsCard from "./components/admin/order/OrderDetail";
 import MyTicket from "./components/admin/order/MyTickets";
 import DeliveryBoysManagement from "./components/admin/deliverer";
 import CheckOutPayment from "./components/product_detail/CheckOutPayment";
-import { useSelector } from "react-redux";
-import MaintenancePage from "./atom/maintain";
 import OwnerTickets from "./components/owner/tickets";
 import OwnerOrders from "./components/owner/orders";
 import OwnerVendors from "./components/owner/vendors";
@@ -31,7 +29,6 @@ import OwnerProducts from "./components/owner/products/index.jsx";
 
 
 function App() {
-  const location = useLocation();
   //   // return <MaintenancePage />;
   window.global = window;
   return (

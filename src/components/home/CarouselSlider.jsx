@@ -10,6 +10,15 @@ const Carousel = ({ slides, data }) => {
   const swiperRef = useRef(null);
 
   const navigate = useNavigate();
+  
+  const nextSlide = () => {
+    if (swiperRef.current) swiperRef.current.swiper.slideNext();
+  };
+  
+  const prevSlide = () => {
+    if (swiperRef.current) swiperRef.current.swiper.slidePrev();
+  };
+  
   // const nextSlide = () => {
   //   setCurrentIndex((prevIndex) =>
   //     prevIndex === slides.length - 1 ? 0 : prevIndex + 1
@@ -21,15 +30,6 @@ const Carousel = ({ slides, data }) => {
   //     prevIndex === 0 ? slides.length - 1 : prevIndex - 1
   //   );
   // };
-
-  const nextSlide = () => {
-    if (swiperRef.current) swiperRef.current.swiper.slideNext();
-  };
-
-  const prevSlide = () => {
-    if (swiperRef.current) swiperRef.current.swiper.slidePrev();
-  };
-
 
   // useEffect(() => {
   //   const interval = setInterval(nextSlide, 5000);
