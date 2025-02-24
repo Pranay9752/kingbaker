@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 const NavSidebar = ({ id, menuItems, isOpen = false }) => {
@@ -12,10 +13,10 @@ const NavSidebar = ({ id, menuItems, isOpen = false }) => {
         <ul className="space-y-2 font-medium">
           {menuItems.map((item, index) => (
             <li key={index}>
-              <a
-                href={item.link}
+              <Link
+                to={item.link}
                 className={twMerge(
-                  "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100  group ",
+                  "flex items-center p-2 w-full text-gray-900 rounded-lg hover:bg-gray-100  group ",
                   `${
                     id === item?.id &&
                     "bg-gray-600 text-white font-semibold hover:bg-gray-600"
@@ -41,7 +42,7 @@ const NavSidebar = ({ id, menuItems, isOpen = false }) => {
                 <span className="ms-3 group-hover:translate-x-2">
                   {item.label}
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

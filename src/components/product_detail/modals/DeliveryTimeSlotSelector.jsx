@@ -55,13 +55,12 @@ const DeliveryTimeSlotSelector = ({
       id: "express",
       title: "Express Delivery",
       price: 49,
-      description: "Choose from any 3-hour slot during the day",
+      description: "Choose from any slot during the day",
       expressSlots: [
-        { id: 1, time: "08:00 AM - 09:00 PM" },
-        { id: 2, time: "09:00 AM - 02:00 PM" },
-        { id: 3, time: "12:00 PM - 05:00 PM" },
-        { id: 4, time: "04:00 PM - 09:00 PM" },
-        { id: 5, time: "05:00 PM - 11:00 PM" },
+        { id: 1, time: "09:00 AM - 01:00 PM" },
+        { id: 2, time: "01:00 PM - 05:00 PM" },
+        { id: 3, time: "05:00 PM - 09:00 PM" },
+        { id: 4, time: "07:00 PM - 11:00 PM" },
       ],
     },
     {

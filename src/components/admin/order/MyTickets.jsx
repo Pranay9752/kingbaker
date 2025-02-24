@@ -65,7 +65,7 @@ const MyTicket = () => {
   return (
     <>
       <HeaderLayout
-        id={1}
+        id={5}
         logoSrc="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
         logoAlt="King Baker Logo"
         title="KING BAKER"

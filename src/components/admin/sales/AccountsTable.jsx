@@ -11,7 +11,7 @@ const AccountsTable = ({ accounts }) => {
 
   return (
     <div className="mt-6 flex flex-col gap-4">
-      <div className="w-fit ml-auto ">
+      <div className="w-fit md:w-[23.8vw] ml-auto ">
         <DateRangeOneFilter handleDateChange={(date) => console.log(date)} />
       </div>
       <div className="bg-white shadow-md rounded-lg overflow-hidden ">

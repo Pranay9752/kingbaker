@@ -236,14 +236,14 @@ function ReactDateRangePicker({
         </div>
 
         <BasicButton2
-          className={"w-1/4 py-2 "}
+          className={"px-4 py-2 "}
           title={"Apply"}
           onClick={() => {
             handleApply();
           }}
         />
         <BasicButton2
-          className={"w-1/4 py-2 bg-gray-800 text-gray-50"}
+          className={"px-4 py-2 bg-gray-800 text-gray-50"}
           title={"Reset"}
           onClick={() => {
             setstartDate(subDays(new Date(), 1));
