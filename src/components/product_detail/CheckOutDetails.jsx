@@ -435,7 +435,6 @@ function CheckOutDetails() {
       return data || [];
     }
     return orderData?.filter((item) => item?.mainItem.order_id === searchParams.get("orderid")) || []
-
   }
 
   const handleOccation = ({ index, data }) => {
