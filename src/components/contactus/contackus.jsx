@@ -25,7 +25,7 @@ const ContactUs = () => {
             d="M15.75 19.5 8.25 12l7.5-7.5"
           />
         </svg>
-        <div className="text-lg font-bold">King Baker</div>
+        <div className="text-lg font-bold">Jojo Cart</div>
       </div>
 
       {/* Content */}

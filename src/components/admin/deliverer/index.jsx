@@ -140,8 +140,8 @@ const DeliveryBoysManagement = () => {
     <HeaderLayout
       _id={-1}
       logoSrc="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
-      logoAlt="King Baker Logo"
-      title="KING BAKER"
+      logoAlt="Jojo Cart Logo"
+      title="JOJO CART"
     >
       <SEO title={'Delivery Boys'} />
 

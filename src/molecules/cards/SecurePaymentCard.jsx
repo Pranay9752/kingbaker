@@ -3,7 +3,7 @@ import React from 'react';
 const SecurePaymentCard = () => {
   return (
     <div className="bg-gray-100 p-4 rounded-lg max-w-md text-left mt-2">
-      <h2 className="text-lg font-bold mb-4 text-gray-700">KING BAKER SECURE</h2>
+      <h2 className="text-lg font-bold mb-4 text-gray-700">JOJO CART SECURE</h2>
       
       <div className="flex justify-start gap-1 items-center mb-2">
         <img 

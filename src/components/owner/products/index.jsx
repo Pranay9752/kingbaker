@@ -129,7 +129,7 @@ const PDFDocument = ({ data }) => {
         {/* Modern Header */}
         <View style={styles.headerContainer}>
           <Text style={styles.headerAccent}>PREMIUM COLLECTION</Text>
-          <Text style={styles.header}>King Baker</Text>
+          <Text style={styles.header}>Jojo Cart</Text>
           <View style={styles.headerDivider} />
         </View>
 

@@ -15,7 +15,7 @@ const MobileHeader = () => (
           clipRule="evenodd"
         />
       </svg>
-      <h1 className="text-lg font-semibold">King Baker</h1>
+      <h1 className="text-lg font-semibold">Jojo Cart</h1>
     </div>
     <div className="flex justify-end items-center gap-6">
       <svg

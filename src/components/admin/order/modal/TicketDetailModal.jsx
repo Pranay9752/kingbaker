@@ -318,7 +318,7 @@ const TicketDetailsModal = ({ ticket, onClose, darkMode= false, isOwner = false 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       const dataBody = {
-        Updated_By: isOwner ? "King Baker" : "By You",
+        Updated_By: isOwner ? "Jojo Cart" : "By You",
         user_name: getCookie("user"),
         text: newMessage,
         reference_number: ticket.reference_number,

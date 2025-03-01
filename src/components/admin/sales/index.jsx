@@ -17,8 +17,8 @@ function AdminSales() {
       <HeaderLayout
         id={2}
         logoSrc="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
-        logoAlt="King Baker Logo"
-        title="KING BAKER"
+        logoAlt="Jojo Cart Logo"
+        title="JOJO CART"
       >
       <SEO title={'Sales'} />
 

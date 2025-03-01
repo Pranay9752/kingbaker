@@ -99,7 +99,7 @@ const BecomeAPartner = () => {
         </svg>
 
         <div className="mx-auto">
-          <h1 className="text-3xl font-bold">King Bakers Partners</h1>
+          <h1 className="text-3xl font-bold">Jojo Carts Partners</h1>
           <p className="text-sm mt-1">Join Us to Expand Your Business!</p>
         </div>
       </header>
@@ -107,10 +107,10 @@ const BecomeAPartner = () => {
       {/* Hero Section */}
       <section className="bg-gray-100 py-12 px-6 text-center">
         <h2 className="text-4xl font-bold mb-6 text-gray-800">
-          Become an King Bakers Partner Today!
+          Become an Jojo Carts Partner Today!
         </h2>
         <p className="text-lg text-gray-600">
-          Partner with King Bakers to grow your business with our extensive
+          Partner with Jojo Carts to grow your business with our extensive
           brand network and timely support.
         </p>
         <div className="grid grid-cols-2 md:flex flex-wrap justify-center gap-8 mt-8 max-w-4xl mx-auto">
@@ -198,7 +198,7 @@ const BecomeAPartner = () => {
             Get in Touch with Us
           </h3>
           <p className="text-sm text-gray-600 mb-6">
-            Fill out the form below to join the King Bakers partner program.
+            Fill out the form below to join the Jojo Carts partner program.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
@@ -334,7 +334,7 @@ const BecomeAPartner = () => {
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
-        <p>© 2024 King Bakers. All Rights Reserved.</p>
+        <p>© 2024 Jojo Carts. All Rights Reserved.</p>
       </footer>
     </div>
   );
