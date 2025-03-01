@@ -551,9 +551,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 
   const handleImageUpload = useCallback(
     (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        uploadImages([file], (uploadedUrls) => {
+      const files = Array.from(event.target.files)
+      if (files) {
+        uploadImages(files, (uploadedUrls) => {
           const imageUrl = uploadedUrls[0];
           handleUpdate((item) => ({ ...item, image: imageUrl }));
         });
