@@ -284,10 +284,12 @@ const PriceDetails = ({ orderId, className }) => {
     if (!orderId || orderId == "") {
       return orderData || [];
     }
-    return orderData?.filter((item) => item?.mainItem.order_id === orderId) || []
-  }
+    return (
+      orderData?.filter((item) => item?.mainItem.order_id === orderId) || []
+    );
+  };
   const totalDelivery =
-  handleBuyNowData(data)?.reduce((acc, curr) => {
+    handleBuyNowData(data)?.reduce((acc, curr) => {
       return acc + curr?.deliveryDetails?.fee;
     }, 0) ?? 0;
 
@@ -311,6 +313,16 @@ const PriceDetails = ({ orderId, className }) => {
   }, [data, orderId]);
 
   const handleProceedToPay = async () => {
+    let addPresent = true;
+    data?.forEach((order) => {
+      if (!order?.deliveryDetails?.delivery_address) {
+        addPresent = false;
+      }
+    });
+    if (!addPresent) {
+      toast.error("Please select Address of your order!");
+      return;
+    }
     try {
       handleBuyNowData(data).forEach(async (item) => {
         const { mainItem, addons, deliveryDetails } = item;
@@ -319,10 +331,12 @@ const PriceDetails = ({ orderId, className }) => {
           order_status: "PENDING",
           payment_status: "PENDING",
           location: {
-            latitude: 18.996559,
-            longitude: 72.821319,
+            latitude: getCookie("lat") ? parseFloat(getCookie("lat")) : null,
+            longitude: getCookie("lng") ? parseFloat(getCookie("lng")) : null,
           },
-          pincode: 12345,
+          pincode: getCookie("pincode")
+            ? parseInt(getCookie("pincode"))
+            : 12345,
           delivery_details: {
             product_id: mainItem?.productDetails?.[0]?._id,
             delivery_address: deliveryDetails?.delivery_address,
@@ -347,9 +361,9 @@ const PriceDetails = ({ orderId, className }) => {
             },
             addOn: Array.isArray(addons)
               ? addons?.map((item) => ({
-                addOn_id: item?.id,
-                count: item?.quantity,
-              }))
+                  addOn_id: item?.id,
+                  count: item?.quantity,
+                }))
               : [],
           },
         };
@@ -358,8 +372,10 @@ const PriceDetails = ({ orderId, className }) => {
       });
       // await createOrder(newOrder);
       toast.success("Order created successfully");
-      navigate(`/checkout/payment/?orderid=${encodeURIComponent(orderId || "")}`);
-    } catch (error) { }
+      navigate(
+        `/checkout/payment/?orderid=${encodeURIComponent(orderId || "")}`
+      );
+    } catch (error) {}
   };
 
   return (
@@ -430,12 +446,16 @@ function CheckOutDetails() {
   const orderData = useSelector((state) => state.order);
 
   const handleBuyNowData = (data) => {
-    const orderId = searchParams.get("orderid")
+    const orderId = searchParams.get("orderid");
     if (!orderId || orderId == "") {
       return data || [];
     }
-    return orderData?.filter((item) => item?.mainItem.order_id === searchParams.get("orderid")) || []
-  }
+    return (
+      orderData?.filter(
+        (item) => item?.mainItem.order_id === searchParams.get("orderid")
+      ) || []
+    );
+  };
 
   const handleOccation = ({ index, data }) => {
     setOccationIndex(index);
@@ -494,17 +514,6 @@ function CheckOutDetails() {
     }, 1000);
   }, []);
 
-  // useEffect(() => {
-  //   const isLogin = getCookie("_id") ? true : false;
-  //   if (!isLogin) {
-  //     if(localStorage.getItem("isAccount") === "true") {
-  //       localStorage.removeItem("isAccount");
-  //       navigate("/");
-  //     }
-  //     localStorage.setItem("isAccount", "true");
-  //     navigate("/checkout/account");
-  //   }
-  // }, []);
   useEffect(() => {
     const isLogin = Boolean(getCookie("_id"));
 
@@ -537,48 +546,57 @@ function CheckOutDetails() {
   return (
     <>
       <Basicheader link={"/"} num={2} title={"Order & Delivery Details"} />
-      <SEO title={'Checkout'} />
+      <SEO title={"Checkout"} />
 
       <div className="md:hidden">
         {isOpen === 0 ? (
           <>
             <div className="mt-14 p-2">
               {orderData?.map((order, index) => {
-                const orderId = searchParams.get("orderid")
+                const orderId = searchParams.get("orderid");
                 if (!orderId || orderId == "") {
-                  return <OrderDeliveryDetails
-                    key={order?.mainItem?.id}
-                    index={index}
-                    addons={order?.addons ?? []}
-                    deliveryDetails={order?.deliveryDetails ?? {}}
-                    mainItem={order?.mainItem ?? {}}
-                    occasion={order?.occasion ?? null}
-                    addresses={data?.delivery_address ?? []}
-                    handleOccation={handleOccation}
-                  />;
+                  return (
+                    <OrderDeliveryDetails
+                      refetchCartOrder={refetchCartOrder}
+                      key={order?.mainItem?.id}
+                      index={index}
+                      addons={order?.addons ?? []}
+                      deliveryDetails={order?.deliveryDetails ?? {}}
+                      mainItem={order?.mainItem ?? {}}
+                      occasion={order?.occasion ?? null}
+                      addresses={data?.delivery_address ?? []}
+                      handleOccation={handleOccation}
+                    />
+                  );
                 }
 
-
-                if (order.mainItem.order_id === searchParams.get("orderid") && orderId !== null) {
-                  return <OrderDeliveryDetails
-                    key={order?.mainItem?.id}
-                    index={index}
-                    addons={order?.addons ?? []}
-                    deliveryDetails={order?.deliveryDetails ?? {}}
-                    mainItem={order?.mainItem ?? {}}
-                    occasion={order?.occasion ?? null}
-                    addresses={data?.delivery_address ?? []}
-                    handleOccation={handleOccation}
-                  />
+                if (
+                  order.mainItem.order_id === searchParams.get("orderid") &&
+                  orderId !== null
+                ) {
+                  return (
+                    <OrderDeliveryDetails
+                      refetchCartOrder={refetchCartOrder}
+                      key={order?.mainItem?.id}
+                      index={index}
+                      addons={order?.addons ?? []}
+                      deliveryDetails={order?.deliveryDetails ?? {}}
+                      mainItem={order?.mainItem ?? {}}
+                      occasion={order?.occasion ?? null}
+                      addresses={data?.delivery_address ?? []}
+                      handleOccation={handleOccation}
+                    />
+                  );
                 }
-                return (
-                  <></>
-                );
+                return <></>;
               })}
             </div>
             <SenderDetailsForm />
 
-            <PriceDetails  orderId={searchParams?.get("orderid") || null} className={`w-full max-w-full`} />
+            <PriceDetails
+              orderId={searchParams?.get("orderid") || null}
+              className={`w-full max-w-full`}
+            />
           </>
         ) : isOpen == 1 ? (
           <AddOccation
@@ -598,45 +616,50 @@ function CheckOutDetails() {
           {/* Card 2 */}
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS">
             {orderData?.map((order, index) => {
-              const orderId = searchParams.get("orderid")
-                if (!orderId || orderId == "") {
-                  return <>
-                  <OrderDeliveryDetails
-                    className={"border-none shadow-none "}
-                    key={order?.mainItem?.id}
-                    index={index}
-                    addons={order?.addons ?? []}
-                    deliveryDetails={order?.deliveryDetails ?? {}}
-                    addresses={data?.delivery_address ?? []}
-                    mainItem={order?.mainItem ?? {}}
-                    occasion={order?.occasion ?? null}
-                    handleOccation={handleOccation}
-                  />
-                  <div className="border" />
-                  </>
-                }
-
-
-                if (order.mainItem.order_id === searchParams.get("orderid") && orderId !== null) {
-                  return <>
-                  <OrderDeliveryDetails
-                    className={"border-none shadow-none "}
-                    key={order?.mainItem?.id}
-                    index={index}
-                    addons={order?.addons ?? []}
-                    deliveryDetails={order?.deliveryDetails ?? {}}
-                    addresses={data?.delivery_address ?? []}
-                    mainItem={order?.mainItem ?? {}}
-                    occasion={order?.occasion ?? null}
-                    handleOccation={handleOccation}
-                  />
-                  <div className="border" />
-                  </>
-                }
+              const orderId = searchParams.get("orderid");
+              if (!orderId || orderId == "") {
                 return (
-                  <></>
+                  <>
+                    <OrderDeliveryDetails
+                      refetchCartOrder={refetchCartOrder}
+                      className={"border-none shadow-none "}
+                      key={order?.mainItem?.id}
+                      index={index}
+                      addons={order?.addons ?? []}
+                      deliveryDetails={order?.deliveryDetails ?? {}}
+                      addresses={data?.delivery_address ?? []}
+                      mainItem={order?.mainItem ?? {}}
+                      occasion={order?.occasion ?? null}
+                      handleOccation={handleOccation}
+                    />
+                    <div className="border" />
+                  </>
                 );
-             
+              }
+
+              if (
+                order.mainItem.order_id === searchParams.get("orderid") &&
+                orderId !== null
+              ) {
+                return (
+                  <>
+                    <OrderDeliveryDetails
+                      refetchCartOrder={refetchCartOrder}
+                      className={"border-none shadow-none "}
+                      key={order?.mainItem?.id}
+                      index={index}
+                      addons={order?.addons ?? []}
+                      deliveryDetails={order?.deliveryDetails ?? {}}
+                      addresses={data?.delivery_address ?? []}
+                      mainItem={order?.mainItem ?? {}}
+                      occasion={order?.occasion ?? null}
+                      handleOccation={handleOccation}
+                    />
+                    <div className="border" />
+                  </>
+                );
+              }
+              return <></>;
             })}
             <SenderDetailsForm />
           </CheckoutCard>
@@ -644,7 +667,7 @@ function CheckOutDetails() {
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
         </div>
         <div className="sticky">
-          <PriceDetails orderId={searchParams?.get("orderid") || null}/>
+          <PriceDetails orderId={searchParams?.get("orderid") || null} />
           <SecurePaymentCard />
         </div>
       </div>

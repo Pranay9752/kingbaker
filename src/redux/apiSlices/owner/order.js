@@ -24,8 +24,22 @@ const OwnerOrderAPI = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateOrder: builder.mutation({
+      query: ({ orderId, body }) => ({
+        url: `/order/updateOrder?order_id=${orderId}`,
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetOrderOfVendorQuery, useUpdateOrderByOwnerMutation } = OwnerOrderAPI;
+export const {
+  useGetOrderOfVendorQuery,
+  useUpdateOrderByOwnerMutation,
+  useUpdateOrderMutation,
+} = OwnerOrderAPI;

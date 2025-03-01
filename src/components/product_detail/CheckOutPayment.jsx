@@ -43,6 +43,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
 
       Array.isArray(orderIds) &&
         orderIds.forEach(async (item, index) => {
+          console.log('item: ', item);
           await placeOrder({ order_id: item }).unwrap();
           index == 0 &&
             toast.success("Order added successfully with order id: " + item);
@@ -55,6 +56,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
         window.location.href = "/";
       }, 5000);
     } catch (error) {
+      console.log('error: ', error);
       setIsLoading(false);
     }
   };

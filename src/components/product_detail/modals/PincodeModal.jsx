@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import setCookie from "../../../atom/utils/setCookies";
+import LocationAutocomplete from "../../../molecules/location/LocationAutocomplete";
 
 const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
-  const { register } = useFormContext();
-
-  const [pincode, setPincode] = useState("");
+  const [locationData, setLocationData] = useState(null);
 
   return (
-    <section className="h-[90vh] md:h-[30vh] flex flex-col justify-start item-center w-full md:w-[20vw]  ">
+    <section className="h-[90vh] md:h-fit [30vh] flex flex-col justify-start item-center w-full md:w-[20vw]  ">
       <div className="pb-3 border-b flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Deliver To</h2>{" "}
         <button onClick={closeModal} className="text-gray-500">
@@ -26,53 +25,29 @@ const PincodeModal = ({ closeModal, handleSwitchToLocation }) => {
           </svg>
         </button>
       </div>
-      <div className="relative">
-        <div className="absolute inset-0 animate-glow rounded-lg"></div>
-        <div className="relative bg-white border border-orange-300 rounded-lg overflow-hidden">
-          <div className="flex items-center p-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5 text-orange-500 mr-2"
-            >
-              <path
-                fillRule="evenodd"
-                d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
-                clipRule="evenodd"
-              />
-            </svg>
 
-            <input
-              type="text"
-              placeholder="Enter Pincode"
-              value={pincode}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (/^\d{0,6}$/.test(value)) {
-                  setPincode(value);
-                }
-              }}
-              className="w-full outline-none text-gray-700 placeholder-gray-500"
-            />
-          </div>
-        </div>
-      </div>
-      <button
+      <LocationAutocomplete onLocationSelect={setLocationData}  regionRestriction={"IN"} />
+
+      {/* <button
         onClick={handleSwitchToLocation}
         className="text-blue-600 text-sm mt-2 text-left"
       >
         Don't Know Pincode?
-      </button>
+      </button> */}
       <button
         onClick={() => {
-          setCookie("pincode", pincode);
+          if (!locationData) return;
+          setCookie("pincode", locationData.pincode);
+          setCookie("city", locationData.city);
+          setCookie("region", locationData.state);
+          setCookie("lat", locationData.lat);
+          setCookie("lng", locationData.lng);
           closeModal();
           window.location.reload();
         }}
         className="bg-orange-400 px-4 py-3 rounded-md text-white font-medium mt-5"
       >
-        Update Pincode
+        Update Location
       </button>
     </section>
   );

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import LocationAutocomplete from "../../../molecules/location/LocationAutocomplete";
+import setCookie from "../../../atom/utils/setCookies";
 
 const DeliveryLocationComponent = ({ closeModal }) => {
   const { register } = useFormContext();
-
+  const [locationData, setLocationData] = useState(null);
   const [location, setLocation] = useState("");
 
   return (
@@ -28,43 +30,26 @@ const DeliveryLocationComponent = ({ closeModal }) => {
       <h1 className="text-2xl font-bold mb-2 md:mb-0 mt-5">
         Choose Your Delivery Location
       </h1>
-      <p className="text-gray-600 mb-6">
-        Enter area or locality to get the Pincode.
-      </p>
+      <p className="text-gray-600 mb-6">Enter area or locality.</p>
 
       <div className="relative mb-6">
-        <div className="absolute inset-0 animate-glow rounded-lg"></div>
-        <div className="relative bg-white border border-orange-300 rounded-lg overflow-hidden">
-          <div className="flex items-center p-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5 text-gray-400 mr-2"
-            >
-              <path
-                fillRule="evenodd"
-                d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <input
-              type="text"
-              placeholder="* Enter Area or Locality"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              {...register("address")}
-              className="w-full outline-none text-gray-700 placeholder-gray-500"
-            />
-          </div>
-        </div>
+        <LocationAutocomplete onLocationSelect={setLocationData} regionRestriction={"IN"} />
       </div>
 
       <button
-        onClick={closeModal}
+        onClick={() => {
+          if (!locationData) return;
+          setCookie("pincode", locationData.pincode);
+          setCookie("city", locationData.city);
+          setCookie("region", locationData.state);
+          setCookie("lat", locationData.lat);
+          setCookie("lng", locationData.lng);
+          closeModal();
+          window.location.reload();
+        }}
         className="bg-orange-300 text-white py-3 rounded-lg font-semibold"
       >
-        CONTINUE
+        Update Location
       </button>
     </section>
   );

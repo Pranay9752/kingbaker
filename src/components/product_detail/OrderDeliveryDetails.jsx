@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useAddAddressMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import {
+  useAddAddressMutation,
+  useGetCartItemQuery,
+} from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import { twMerge } from "tailwind-merge";
 import {
   addDeliveryAddress,
@@ -17,6 +20,8 @@ import DeliveryTimeSlotSelector from "./modals/DeliveryTimeSlotSelector";
 import { AddressForm } from "./AddAddress";
 import getCookie from "../../atom/utils/getCookies";
 import AddressCard from "../../molecules/cards/AddressCard";
+import { toast } from "sonner";
+import { useUpdateOrderMutation } from "../../redux/apiSlices/owner/order";
 
 const OrderDeliveryDetails = ({
   index,
@@ -30,6 +35,7 @@ const OrderDeliveryDetails = ({
   isCart = false,
   dense = false,
   viewOnly = false,
+  refetchCartOrder = () => {},
 }) => {
   const [reicipientAddress, setReicipientAddress] = useState([]);
   const [openAddAddress, setOpenAddAddress] = useState(false);
@@ -48,13 +54,15 @@ const OrderDeliveryDetails = ({
   const [deliveryModal, setDeliveryModal] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState(false);
 
+  const data = useSelector((state) => state.order);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
+  const [updateOrder] = useUpdateOrderMutation();
 
   const handleQuantityChange = (id, change) => {
-    console.log('id, change: ', id, change);
     dispatch(updateAddonQuantity({ id, change, orderIndex: index }));
   };
 
@@ -72,10 +80,10 @@ const OrderDeliveryDetails = ({
       _id: data?._id ?? null,
       delivery_address: {
         pincode: getCookie("pincode"),
-        city: "Mumbai",
+        city: getCookie("city"),
         country: "India",
         landmark: data?.landmark ?? "",
-        area: "Mumbai",
+        area: getCookie("region"),
         addressType: data?.addressType ?? "home",
         recipientName: data?.recipientName ?? "",
         recipientMobnumber: data?.recipientMobile ?? "",
@@ -108,9 +116,30 @@ const OrderDeliveryDetails = ({
     }
   };
 
-  const handleSelectAddress = (id) => {
-    dispatch(updateShipping({ index, name: "delivery_address", value: id }));
-    // dispatch(addDeliveryAddress({ id, index }));
+  const handleSelectAddress = async (id) => {
+    try {
+      await updateOrder({
+        orderId: mainItem?.order_id,
+        body: { delivery_address: id },
+      }).unwrap();
+
+      dispatch(updateShipping({ index, name: "delivery_address", value: id }));
+      toast.success("Address updated successfully!");
+      refetchCartOrder();
+    } catch (error) {
+      console.error("Failed to update order:", error);
+
+      // Check for known API errors
+      if (error?.status === 400) {
+        toast.error("Invalid address selection. Please try again.");
+      } else if (error?.status === 404) {
+        toast.error("Order not found. Refresh and try again.");
+      } else if (error?.status === 500) {
+        toast.error("Server error. Try again later.");
+      } else {
+        toast.error("Failed to select address. Try again later!");
+      }
+    }
   };
 
   const handleSelectDate = (day) => {
@@ -136,6 +165,17 @@ const OrderDeliveryDetails = ({
       setReicipientAddress(addresses);
     }
   }, [addresses]);
+
+  useEffect(() => {
+    if (mainItem && reicipientAddress?.length > 0) {
+      const addressId = mainItem?.deliveryAddresses?.[0]?._id;
+
+      if (!addressId) return;
+      dispatch(
+        updateShipping({ index, name: "delivery_address", value: addressId })
+      );
+    }
+  }, [reicipientAddress, mainItem]);
 
   return (
     <>
@@ -164,10 +204,10 @@ const OrderDeliveryDetails = ({
             </div>
             <button
               onClick={handleDeleteOrder}
-              className={
-                twMerge("ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5",
-                viewOnly && "hidden")
-              }
+              className={twMerge(
+                "ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5",
+                viewOnly && "hidden"
+              )}
             >
               DELETE
             </button>
@@ -192,7 +232,12 @@ const OrderDeliveryDetails = ({
                   <p className="text-[13px]">
                     ₹{addon.price} x {addon.quantity}
                   </p>
-                  <div className={twMerge("flex rounded-md overflow-hidden divide-x border",viewOnly && "hidden")}>
+                  <div
+                    className={twMerge(
+                      "flex rounded-md overflow-hidden divide-x border",
+                      viewOnly && "hidden"
+                    )}
+                  >
                     <button
                       className={twMerge("bg-[#555555]/20 p-1")}
                       onClick={() => handleQuantityChange(addon.id, -1)}
@@ -230,7 +275,12 @@ const OrderDeliveryDetails = ({
                   </div>
                 </div>
               </div>
-              <div className={twMerge("ml-auto flex items-center",viewOnly && "hidden")}>
+              <div
+                className={twMerge(
+                  "ml-auto flex items-center",
+                  viewOnly && "hidden"
+                )}
+              >
                 <button
                   onClick={() => handleDelete(addon.id)}
                   className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
@@ -242,7 +292,9 @@ const OrderDeliveryDetails = ({
           ))}
         </div>
         <div
-          className={`w-full px-4 flex flex-col gap-2 mb-10 ${isCart && "hidden"}`}
+          className={`w-full px-4 flex flex-col gap-2 mb-10 ${
+            isCart && "hidden"
+          }`}
         >
           {openAddAddress ? (
             <div className="border rounded-md bg-yellow-300/20">
@@ -285,24 +337,24 @@ const OrderDeliveryDetails = ({
           ))}
         </div>
         <div
-            className={`w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg  justify-start items-center px-4 hidden md:flex`}
+          className={`w-full text-lg border-gray-500 bg-slate-100 text-black py-2 rounded-lg  justify-start items-center px-4 hidden md:flex`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="size-6 text-orange-600"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-orange-600"
-            >
-              <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-              <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-            </svg>
+            <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+            <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+          </svg>
 
-            <input
-              placeholder="Free Message Card"
-              className="outline-none bg-transparent border-none ml-2"
-              maxLength={25}
-            />
-          </div>
+          <input
+            placeholder="Free Message Card"
+            className="outline-none bg-transparent border-none ml-2"
+            maxLength={25}
+          />
+        </div>
 
         <div
           className={`bg-white text-black rounded-lg  ${
@@ -416,7 +468,10 @@ const OrderDeliveryDetails = ({
         maxHeight={"101vh"}
         className={`p-3 text-gray-800`}
       >
-        <DeliveryDatePicker onClose={() => setDateModal(false)} handleSelectDate={handleSelectDate} />
+        <DeliveryDatePicker
+          onClose={() => setDateModal(false)}
+          handleSelectDate={handleSelectDate}
+        />
       </ModalWrapper>
       <ModalWrapper
         className={`p-3 text-gray-800`}

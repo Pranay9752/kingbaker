@@ -165,7 +165,7 @@ function AccountAuth({ className, handleOnLogin }) {
             order_status: "PENDING",
             payment_status: "PENDING",
             location: mainItem?.location ?? {},
-            pincode: 12345,
+            pincode: getCookie("pincode") ? parseInt(getCookie("pincode")) : 12345,
             delivery_details: {
               product_id: productDetails?._id,
               delivery_address: null,
@@ -208,7 +208,7 @@ function AccountAuth({ className, handleOnLogin }) {
           order_status: "PENDING",
           payment_status: "PENDING",
           location: mainItem?.location ?? {},
-          pincode: 12345,
+          pincode: getCookie("pincode") ? parseInt(getCookie("pincode")) : 12345,
           delivery_details: {
             product_id: productDetails?._id,
             delivery_address: null,

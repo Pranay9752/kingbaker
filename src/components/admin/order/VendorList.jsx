@@ -119,15 +119,17 @@ function OrderList() {
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const [updatePrintStatus] = useUpdatePrintStatusMutation();
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     try {
-      selectedOrders?.forEach((item) => {
-        updateOrderStatus({
-          order_id: item?.order_id,
-          user_id: item?.user_id,
-          vendor_id: getCookie("_id"),
-        });
-      });
+      await Promise.all(
+        selectedOrders?.map((item) => {
+          return updateOrderStatus({
+            order_id: item?.order_id,
+            user_id: item?.user_id,
+            vendor_id: getCookie("_id"),
+          });
+        })
+      );
 
       window.location.href = "/admin/dashboard";
       toast.success("All Selected Orders Accepted");
@@ -139,13 +141,15 @@ function OrderList() {
   const printChallan = async () => {
     if (selectedOrders?.length == 0) return;
     try {
-      selectedOrders?.forEach(async (item) => {
-        await updatePrintStatus({
-          order_ids: [item?.order_id],
-          user_id: item?.user_id,
-          vendor_id: getCookie("_id"),
-        });
-      });
+      await Promise.all(
+        selectedOrders?.map((item) => {
+          updatePrintStatus({
+            order_ids: [item?.order_id],
+            user_id: item?.user_id,
+            vendor_id: getCookie("_id"),
+          });
+        })
+      );
 
       const order_ids = selectedOrders?.map((item) => item?.order_id);
 
@@ -155,7 +159,8 @@ function OrderList() {
       console.log("filteredOrders: ", filteredOrders);
 
       const blob = await ReactPDF.pdf(
-        <BrandingChallanPDF data={filteredOrders} />
+        // <BrandingChallanPDF data={filteredOrders} />
+        <ChallanPDF data={filteredOrders} />
       ).toBlob();
       {
         /* <ChallanPDF data={filteredOrders} /> */
@@ -171,7 +176,7 @@ function OrderList() {
       document.body.removeChild(link);
 
       window.location.href = "/admin/dashboard";
-      // toast.success("All Selected Orders Accepted");
+      toast.success("All Selected Orders Accepted");
     } catch (error) {
       toast.error("Something went wrong!");
     }

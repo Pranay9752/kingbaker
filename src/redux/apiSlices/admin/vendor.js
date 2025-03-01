@@ -48,7 +48,7 @@ const VendorAPI = apiSlice.injectEndpoints({
 
         body: {
           isPrinted: order_ids,
-          date: new Date(),
+          delivery_date: new Date(),
           user_id: user_id,
           vendor_id: vendor_id,
         },

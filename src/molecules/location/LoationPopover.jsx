@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
-import { X, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import LocationAutocomplete from "./LocationAutocomplete";
+import setCookie from "../../atom/utils/setCookies";
 
 const LocationPopover = () => {
   const [open, setOpen] = useState(true);
-  const [location, setLocation] = useState('');
-  const [region, setRegion] = useState('within');
+  const [region, setRegion] = useState("within");
+  const [locationData, setLocationData] = useState(null);
 
+  const storeLocation = async () => {
+    if (!locationData?.pincode) return;
+    try {
+      const fetchedCountry = {
+        flag: `https://flagsapi.com/${locationData.countryCode}/shiny/64.png`,
+        code: locationData.countryCode,
+        name: locationData.country,
+      };
+
+      setCookie("country", JSON.stringify(fetchedCountry));
+      setCookie("pincode", locationData.pincode);
+      setCookie("city", locationData.city);
+      setCookie("region", locationData.state);
+      setCookie("lat", locationData.lat);
+      setCookie("lng", locationData.lng);
+      location.reload();
+    } catch (error) {
+      console.error("Error fetching the user country:", error);
+    }
+  };
 
   return (
     <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">        
-
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
         {/* Header */}
         <div className="mb-6">
           <h2 className="text-xl font-bold">
@@ -28,7 +48,7 @@ const LocationPopover = () => {
               type="radio"
               name="region"
               value="within"
-              checked={region === 'within'}
+              checked={region === "within"}
               onChange={(e) => setRegion(e.target.value)}
               className="w-4 h-4 text-orange-300 border-gray-300 focus:ring-orange-200"
             />
@@ -39,7 +59,7 @@ const LocationPopover = () => {
               type="radio"
               name="region"
               value="outside"
-              checked={region === 'outside'}
+              checked={region === "outside"}
               onChange={(e) => setRegion(e.target.value)}
               className="w-4 h-4 text-orange-300 border-gray-300 focus:ring-orange-200"
             />
@@ -47,21 +67,18 @@ const LocationPopover = () => {
           </label>
         </div>
 
-        {/* Location Input */}
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter delivery location or pincode"
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-200"
-          />
-        </div>
+        {/* Location Autocomplete Input */}
+        <LocationAutocomplete
+          apiKey="YOUR_GOOGLE_API_KEY"
+          onLocationSelect={setLocationData}
+          regionRestriction={region === "within" ? "IN" : undefined}
+        />
+
+      
 
         {/* Continue Button */}
-        <button 
-          onClick={() => setOpen(false)}
+        <button
+          onClick={storeLocation}
           className="w-full mt-6 py-2 bg-orange-200 hover:bg-orange-300 text-black rounded-md font-medium transition-colors"
         >
           CONTINUE SHOPPING

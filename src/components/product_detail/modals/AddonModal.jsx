@@ -193,10 +193,10 @@ const ProductAddOns = ({
       order_status: "PENDING",
       payment_status: "PENDING",
       location: {
-        latitude: 18.996559,
-        longitude: 72.821319,
+        latitude: getCookie("lat") ? parseFloat(getCookie("lat")) : null,
+        longitude: getCookie("lng") ? parseFloat(getCookie("lng")) : null,
       },
-      pincode: 12345,
+      pincode: getCookie("pincode") ? parseInt(getCookie("pincode")) : 12345,
       delivery_details: {
         product_id: selectedProductId,
         delivery_address: null,
@@ -218,7 +218,7 @@ const ProductAddOns = ({
     };
 
     const convertedData = convertData(newOrder, addonsArr ?? []);
-    console.log(convertedData);
+
     if (!isLogin) {
       if (action === "BN") {
         localStorage.setItem("buynow", JSON.stringify(convertedData));
@@ -247,7 +247,7 @@ const ProductAddOns = ({
           return;
         }
         toast.success("Order created successfully");
-        await addToCartItem();
+        // await addToCartItem();
         location.reload();
       } catch (error) {}
     }
