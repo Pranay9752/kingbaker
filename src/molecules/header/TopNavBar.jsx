@@ -14,6 +14,7 @@ import SuggestionSearch from "../search/SuggestionSearch";
 import ModalWrapper from "../wrappers/ModalWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { addInit } from "../../redux/slices/ecom/orderSlice";
+import LocationIndicator from "../location/LocationIndicator";
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },
@@ -156,6 +157,7 @@ const TopNavbar = ({
             )}
             <div className="flex gap-4">
               <SuggestionSearch />
+              <LocationIndicator />
               {/* <button claWorldwide Delivery
  */}
             </div>

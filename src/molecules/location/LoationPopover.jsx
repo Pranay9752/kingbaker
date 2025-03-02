@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import LocationAutocomplete from "./LocationAutocomplete";
 import setCookie from "../../atom/utils/setCookies";
+import { X } from "lucide-react";
 
-const LocationPopover = () => {
+const LocationPopover = ({onClose}) => {
   const [open, setOpen] = useState(true);
   const [region, setRegion] = useState("within");
   const [locationData, setLocationData] = useState(null);
@@ -29,7 +30,7 @@ const LocationPopover = () => {
   };
 
   return (
-    <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="fixed text-gray-800 z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
         {/* Header */}
         <div className="mb-6">
@@ -83,6 +84,10 @@ const LocationPopover = () => {
         >
           CONTINUE SHOPPING
         </button>
+
+        {
+          onClose ? <button className="absolute top-3 right-3" type="button" onClick={onClose}><X className="" /></button> :<></>
+        }
       </div>
     </div>
   );
