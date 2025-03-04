@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import useImageUpload from "../../../atom/utils/useUploadImages";
 import { useUpdateCarosolMutation } from "../../../redux/apiSlices/owner/landing";
 import SEO from "../../../atom/seo/SEO";
+import { CheckCircle, Loader2, XCircle } from "lucide-react";
 
 const styleIcons = {
   containerStyle: (
@@ -482,15 +483,9 @@ const Switch = ({
           onChange={(e) => onChange(e.target.checked)}
         />
         <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600 "></div>
-        <span className="ms-3 text-sm font-medium text-gray-700 ">
-          {label}
-        </span>
+        <span className="ms-3 text-sm font-medium text-gray-700 ">{label}</span>
       </label>
-      {helper && (
-        <p className="mt-1 text-sm text-gray-500">
-          {helper}
-        </p>
-      )}
+      {helper && <p className="mt-1 text-sm text-gray-500">{helper}</p>}
     </div>
   );
 };
@@ -551,7 +546,7 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 
   const handleImageUpload = useCallback(
     (event) => {
-      const files = Array.from(event.target.files)
+      const files = Array.from(event.target.files);
       if (files) {
         uploadImages(files, (uploadedUrls) => {
           const imageUrl = uploadedUrls[0];
@@ -766,6 +761,9 @@ const Landing = () => {
   const [selectedSection, setSelectedSection] = useState(0);
   const [selectedKey, setSelectedKey] = useState("containerStyle");
   const [selectedView, setSelectedView] = useState("homeDesk");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalState, setModalState] = useState("idle");
+
   const [updateCarosol, { data, isLoading, error }] =
     useUpdateCarosolMutation();
 
@@ -895,7 +893,9 @@ const Landing = () => {
           />
         </div>
       ),
-      customGrid: ({ data }) => <CustomGrid cards={data} isMobileView={selectedView === "homeMob"} />,
+      customGrid: ({ data }) => (
+        <CustomGrid cards={data} isMobileView={selectedView === "homeMob"} />
+      ),
     }),
     [selectedView]
   );
@@ -909,17 +909,47 @@ const Landing = () => {
   );
 
   const handlePublish = async () => {
-    const main = JSON.parse(localStorage.getItem(selectedView));
-    const newMain = {
-      data: {
-        data: struct,
-        meta_data: main.data.meta_data,
-      },
-    };
-    localStorage.setItem(selectedView, JSON.stringify(newMain));
+    try {
+      setIsModalOpen(true);
+      setModalState("loading");
 
-    await updateCarosol({ key: selectedView, value: JSON.stringify(newMain) });
-    toast.success("Your Page updated successfully!");
+      const main = JSON.parse(localStorage.getItem(selectedView));
+      const newMain = {
+        data: {
+          data: struct,
+          meta_data: main.data.meta_data,
+        },
+      };
+      localStorage.setItem(selectedView, JSON.stringify(newMain));
+
+      await updateCarosol({
+        key: selectedView,
+        value: JSON.stringify(newMain),
+      });
+
+      // Set to success state
+      setModalState("success");
+
+      // Optional: Auto-close after 2 seconds
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setModalState("idle");
+      }, 2000);
+    } catch (error) {
+      setModalState("error");
+      console.error("Publish failed", err);
+    }
+    // const main = JSON.parse(localStorage.getItem(selectedView));
+    // const newMain = {
+    //   data: {
+    //     data: struct,
+    //     meta_data: main.data.meta_data,
+    //   },
+    // };
+    // localStorage.setItem(selectedView, JSON.stringify(newMain));
+
+    // await updateCarosol({ key: selectedView, value: JSON.stringify(newMain) });
+    // toast.success("Your Page updated successfully!");
   };
 
   useEffect(() => {
@@ -932,7 +962,7 @@ const Landing = () => {
   return (
     <>
       <div className="grid grid-cols-[15%,60%,25%] absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-      <SEO title={'Landing'} />
+        <SEO title={"Landing"} />
 
         {/* Sidebar */}
         <div className="p-5">
@@ -948,7 +978,7 @@ const Landing = () => {
             ))}
             <BasicButton
               onClick={handlePublish}
-              className={`bg-green-700 w-full  text-white rounded-lg mt-3`}
+              className={`bg-green-700 w-full text-white rounded-lg  mt-3 transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95`}
             >
               Publish
             </BasicButton>
@@ -957,9 +987,12 @@ const Landing = () => {
 
         {/* Main Content */}
         <div className="p-5">
-          <div className={twMerge("bg-white h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden",
-          selectedView == "homeDesk" ? "w-full" :"w-[500px] mx-auto"
-          )}>
+          <div
+            className={twMerge(
+              "bg-white h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden",
+              selectedView == "homeDesk" ? "w-full" : "w-[500px] mx-auto"
+            )}
+          >
             {struct?.map((section, index) => (
               <section
                 key={index}
@@ -1268,6 +1301,37 @@ const Landing = () => {
           </svg>
         )}
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div className="flex flex-col items-center">
+              {modalState === 'loading' && (
+                <>
+                  <Loader2 className="h-12 w-12 animate-spin text-green-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Publishing...</h2>
+                  <p className="text-gray-600">Updating your page, please wait</p>
+                </>
+              )}
+
+              {modalState === 'success' && (
+                <>
+                  <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Published Successfully</h2>
+                  <p className="text-gray-600">Your page has been updated</p>
+                </>
+              )}
+
+              {modalState === 'error' && (
+                <>
+                  <XCircle className="h-12 w-12 text-red-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Publish Failed</h2>
+                  <p className="text-gray-600">An error occurred. Please try again.</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
