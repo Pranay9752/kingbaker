@@ -16,8 +16,9 @@ const LandingAPI = apiSlice.injectEndpoints({
         method: 'GET',
       }),
     }),
+   
   }),
   overrideExisting: false,
 });
 
-export const { useUpdateCarosolMutation, useGetCarosolQuery } = LandingAPI;
+export const { useUpdateCarosolMutation, useGetCarosolQuery, useLazyGetCarosolQuery  } = LandingAPI;

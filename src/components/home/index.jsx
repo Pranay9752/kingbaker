@@ -18,10 +18,11 @@ import getCookie from "../../atom/utils/getCookies";
 import setCookie from "../../atom/utils/setCookies";
 import { useGetCarosolQuery } from "../../redux/apiSlices/owner/landing";
 import SEO from "../../atom/seo/SEO";
+import { isBefore, parseISO } from "date-fns";
 
 export const getCard = ({ data, isMobileView = false }) => {
   const cards = {
-    card3: <CardThree data={data}  isMobileView={isMobileView} />,
+    card3: <CardThree data={data} isMobileView={isMobileView} />,
   };
 
   return cards[data?.type] ?? <></>;
@@ -1577,9 +1578,17 @@ const useScreenSizeKey = () => {
 
 const Home = () => {
   const key = useScreenSizeKey();
-  const { data, error, isLoading } = useGetCarosolQuery(key, {
+  const otherKey = key === "homeDesk" ? "homeMob" : "homeDesk"; // Opposite key
+
+  const { data, error, isLoading, refetch } = useGetCarosolQuery(key, {
     refetchOnMountOrArgChange: true,
   });
+  const { data: otherData, refetch: refetchOther } = useGetCarosolQuery(
+    otherKey,
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const GetComponents = ({ data }) => {
     const components = {
@@ -1629,14 +1638,39 @@ const Home = () => {
 
   const main = JSON.parse(localStorage.getItem("homeDesk")) ?? {};
   const mainMob = JSON.parse(localStorage.getItem("homeMob")) ?? {};
- 
+
+  // useEffect(() => {
+  //   if (data && !!!localStorage.getItem(key)) {
+  //     localStorage.setItem(key, data.data[key]);
+  //     location.reload()
+  //   }
+  // }, [data]);
+
   useEffect(() => {
-    if (data && !!!localStorage.getItem(key)) {
-      localStorage.setItem(key, data.data[key]);
-      location.reload()
+    if (!data) return;
+
+    const storedUpdatedAt = localStorage.getItem("updatedAt");
+    const homeDesk = localStorage.getItem("homeDesk");
+    const homeMob = localStorage.getItem("homeMob");
+    const apiUpdatedAt = data.data.updatedAt;
+
+    // Ensure both are valid dates before comparison
+    const storedDate = storedUpdatedAt ? parseISO(storedUpdatedAt) : null;
+    const apiDate = parseISO(apiUpdatedAt);
+    if (!storedDate || !homeDesk || !homeMob || isBefore(storedDate, apiDate)) {
+      console.log("isBefore", isBefore(storedDate, apiDate));
+      if (data?.data[key]) {
+        localStorage.setItem(key, data.data[key]);
+        localStorage.setItem("updatedAt", apiUpdatedAt);
+      }
+      if (otherData?.data[otherKey]) {
+        localStorage.setItem(otherKey, otherData.data[otherKey]);
+        localStorage.setItem("updatedAt", apiUpdatedAt);
+      }
+
     }
-  }, [data]);
-  
+  }, [data, otherData, refetch, refetchOther, key, otherKey]);
+
   return (
     <>
       <TopNavbar
@@ -1654,7 +1688,7 @@ const Home = () => {
         ]}
         userGreeting="Hi Guest"
       />
-       <SEO  />
+      <SEO />
       <NavBar />
       <div
         style={
