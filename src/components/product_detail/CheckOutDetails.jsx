@@ -371,7 +371,7 @@ const PriceDetails = ({ orderId, className }) => {
         // await createOrder(newOrder);
       });
       // await createOrder(newOrder);
-      toast.success("Order created successfully");
+      toast.success("Order updated successfully");
       navigate(
         `/checkout/payment/?orderid=${encodeURIComponent(orderId || "")}`
       );

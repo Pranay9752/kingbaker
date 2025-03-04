@@ -33,33 +33,73 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
     setSelectedOption(option);
   };
 
-  const handleSubmit = () => {
-    if (orderIds?.length == 0) {
+  // const handleSubmit = () => {
+  //   if (orderIds?.length == 0) {
+  //     toast.info("No Order available to place!");
+  //     return;
+  //   }
+  //   try {
+  //     setIsLoading(true);
+
+  //     Array.isArray(orderIds) &&
+  //       orderIds.forEach(async (item, index) => {
+  //         const message = await placeOrder({ order_id: item }).unwrap();
+  //         console.log(message);
+  //         // index == 0 &&
+  //         //   toast.success("Order added successfully with order id: " + item);
+  //       });
+
+  //     // setCookie("cart", [], true);
+  //     // dispatch(addInit([]));
+  //     // setTimeout(() => {
+  //     //   setIsLoading(false);
+  //     //   window.location.href = "/";
+  //     // }, 5000);
+  //   } catch (error) {
+  //     console.log('errorjjj: ', error.message);
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+    if (!orderIds?.length) {
       toast.info("No Order available to place!");
       return;
     }
+  
+    setIsLoading(true);
+  
     try {
-      setIsLoading(true);
-
-      Array.isArray(orderIds) &&
-        orderIds.forEach(async (item, index) => {
-          console.log('item: ', item);
-          await placeOrder({ order_id: item }).unwrap();
-          index == 0 &&
-            toast.success("Order added successfully with order id: " + item);
-        });
-
-      setCookie("cart", [], true);
-      dispatch(addInit([]));
-      setTimeout(() => {
-        setIsLoading(false);
-        window.location.href = "/";
-      }, 5000);
+      const responses = await Promise.all(
+        orderIds.map(async (order_id) => {
+          try {
+            return await placeOrder({ order_id }).unwrap();
+          } catch (error) {
+            console.error(`Failed to place order ${order_id}:`, error.data.message);
+            toast.error(error?.data?.message || `Failed to place order ${order_id}`);
+            return null;
+          }
+        })
+      );
+  
+      const successOrders = responses.filter(Boolean); // Remove failed/null responses
+  
+      if (successOrders.length > 0) {
+        toast.success("Orders placed successfully!");
+        // setCookie("cart", [], true);
+        // dispatch(addInit([]));
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 5000);
+      }
     } catch (error) {
-      console.log('error: ', error);
+      console.error("Unexpected error:", error.message);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <>

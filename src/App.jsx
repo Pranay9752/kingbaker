@@ -81,7 +81,7 @@ function App() {
           <Route path="/owner/landing" element={<Landing />} />
         </Routes>
       </div>
-      <Toaster duration={2} position="top-center" richColors />
+      <Toaster duration={3000} position="top-center" richColors />
     </>
   );
 }

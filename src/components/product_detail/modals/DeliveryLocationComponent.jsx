@@ -42,8 +42,10 @@ const DeliveryLocationComponent = ({ closeModal }) => {
           setCookie("pincode", locationData.pincode);
           setCookie("city", locationData.city);
           setCookie("region", locationData.state);
-          setCookie("lat", locationData.lat);
-          setCookie("lng", locationData.lng);
+          setCookie("lat", 19.4166761);
+          setCookie("lng", 72.79837049999999);
+          // setCookie("lat", locationData.lat);
+          // setCookie("lng", locationData.lng);
           closeModal();
           window.location.reload();
         }}
