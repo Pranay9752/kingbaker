@@ -6,7 +6,7 @@ function Basicheader({ title, num, link }) {
   const navigate = useNavigate();
 
   return (
-    <BasicNav className={`flex justify-between items-center`}>
+    <BasicNav className={`flex h-fit justify-between items-center`}>
       <svg
         onClick={() => navigate(link ?? -1)}
         xmlns="http://www.w3.org/2000/svg"

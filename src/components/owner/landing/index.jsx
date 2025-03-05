@@ -492,6 +492,8 @@ const Switch = ({
 
 const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
   const { uploadImages, loading, error } = useImageUpload();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handleUpdate = useCallback(
     (updateFn) => {
       setStruct((prev) => {
@@ -548,9 +550,14 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
     (event) => {
       const files = Array.from(event.target.files);
       if (files) {
+        setIsModalVisible(true);
+
         uploadImages(files, (uploadedUrls) => {
           const imageUrl = uploadedUrls[0];
           handleUpdate((item) => ({ ...item, image: imageUrl }));
+
+          setTimeout(() => setIsModalVisible(false), 2000);
+
         });
       }
     },
@@ -558,6 +565,8 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
   );
 
   return (
+    <>
+
     <div className="w-full max-w-2xl p-6 space-y-6 bg-white rounded-xl shadow-sm border border-gray-100">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-100">
@@ -754,6 +763,34 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
         </div>
       </div>
     </div>
+    {isModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div className="flex flex-col items-center">
+              {loading ? (
+                <>
+                  <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Uploading...</h2>
+                  <p className="text-gray-600">Uploading your image, please wait</p>
+                </>
+              ) : error ? (
+                <>
+                  <XCircle className="h-12 w-12 text-red-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Upload Failed</h2>
+                  <p className="text-gray-600">{error}</p>
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">Upload Successful</h2>
+                  <p className="text-gray-600">Your image has been uploaded</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

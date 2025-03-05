@@ -297,12 +297,11 @@ const OrderDeliveryDetails = ({
           }`}
         >
           {openAddAddress ? (
-            <div className="border rounded-md bg-yellow-300/20">
               <AddressForm
                 defaultValues={defaultAddress}
                 onSubmit={onAddAddress}
+                // className={"rounded"}
               />
-            </div>
           ) : (
             <button
               onClick={() => {
