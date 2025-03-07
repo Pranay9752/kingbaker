@@ -7,8 +7,8 @@ import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
 import getCookie from "../../../atom/utils/getCookies";
 
-
 import { Eye, EyeOff } from "lucide-react";
+import LocationAutocomplete from "../../../molecules/location/LocationAutocomplete";
 
 export const Input = ({
   name,
@@ -54,7 +54,6 @@ export const Input = ({
   );
 };
 
-
 const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   const isUpdate = !!initialData;
 
@@ -72,11 +71,13 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
       country: "",
       pincode: "",
     },
-    coordinates: {
-      longitude: "",
-      latitude: "",
-    },
+    coordinates: [],
+    // coordinates: {
+    //   longitude: "",
+    //   latitude: "",
+    // },
   });
+  console.log("formData: ", formData);
 
   const [dirtyFields, setDirtyFields] = useState(new Set());
   const [errors, setErrors] = useState({});
@@ -157,6 +158,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     if (!validateForm()) return;
 
     try {
+      console.log("formData: ", formData);
       const payload = {
         name: formData.name,
         email: formData.email,
@@ -172,9 +174,11 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         },
         geoLocation: {
           type: "Point",
-          coordinates: [72.868725, 19.027004],
+          // coordinates: [72.868725, 19.027004],
+          coordinates: [formData.coordinates?.[0], formData.coordinates?.[1]],
         },
       };
+      console.log("payload: ", payload);
 
       if (isUpdate) {
         // For update, only include dirty fields
@@ -221,6 +225,67 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
       console.error("Operation failed:", error);
       // You might want to show an error message to the user here
     }
+  };
+
+  const handleLocationSelect = (locationData) => {
+    console.log('locationData: ', locationData);
+    handleChange({
+      target: { name: "address.pincode", value: locationData?.pincode || "" },
+    });
+    handleChange({
+      target: { name: "address.country", value: locationData.country || "" },
+    });
+    handleChange({
+      target: { name: "address.state", value: locationData.state || "" },
+    });
+    handleChange({
+      target: { name: "address.city", value: locationData.city || "" },
+    });
+    handleChange({
+      target: {
+        name: "address.street",
+        value: [
+          locationData?.allAddressComponents?.premise?.long_name,
+          locationData?.allAddressComponents?.route?.long_name,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      },
+    });
+    handleChange({
+      target: {
+        name: "address.landmark",
+        value:
+          locationData?.allAddressComponents?.landmark?.long_name ||
+          "",
+      },
+    });
+    handleChange({
+      target: {
+        name: "address.area",
+        value:
+          locationData?.allAddressComponents?.neighborhood?.long_name || "",
+      },
+    });
+    handleChange({
+      target: {
+        name: "coordinates",
+        value: [locationData?.lng || 0, locationData?.lat || 0],
+      },
+    });
+
+    // handleChange({
+    //   target: {
+    //     name: "coordinates.latitude",
+    //     value: locationData?.lat || "",
+    //   },
+    // });
+    // handleChange({
+    //   target: {
+    //     name: "coordinates.longitude",
+    //     value: locationData?.lng || "",
+    //   },
+    // });
   };
 
   return (
@@ -326,6 +391,22 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
             <p className="text-sm text-gray-400 mb-4">
               Provide your detailed address for records.
             </p>
+            <div className="mb-4">
+              <label className="text-sm font-medium mb-2 block">
+                Search Address
+              </label>
+              <LocationAutocomplete
+                className={
+                  "bg-[#161b22] border-gray-800 text-gray-300 max-w-md"
+                }
+                onLocationSelect={handleLocationSelect}
+                regionRestriction="" // Optional: Add country restriction like "in" for India
+              />
+              <p className="text-xs text-gray-400 mt-1">
+                Search for your address to automatically fill city, state,
+                country and pincode
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Street</label>

@@ -21,10 +21,10 @@ const LocationPopover = ({ onClose }) => {
       setCookie("pincode", locationData.pincode);
       setCookie("city", locationData.city);
       setCookie("region", locationData.state);
-      setCookie("lat", 19.4166761);
-      setCookie("lng", 72.79837049999999);
-      // setCookie("lat", locationData.lat);
-      // setCookie("lng", locationData.lng);
+      // setCookie("lat", 19.4166761);
+      // setCookie("lng", 72.79837049999999);
+      setCookie("lat", locationData.lat);
+      setCookie("lng", locationData.lng);
       location.reload();
     } catch (error) {
       console.error("Error fetching the user country:", error);

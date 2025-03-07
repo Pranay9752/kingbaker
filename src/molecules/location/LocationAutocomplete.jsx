@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Autocomplete from "react-google-autocomplete";
 import { MapPin } from "lucide-react";
 import { cn } from "../../atom/utils/cn";
+
 const LocationAutocomplete = ({ onLocationSelect, regionRestriction, className }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handlePlaceSelect = (place) => {
-    console.log("place: ", place);
+
     if (!place || !place.address_components || !place.geometry) return;
 
+    // Keep original variables
     let city = "";
     let pincode = "";
     let country = "";
@@ -17,7 +19,11 @@ const LocationAutocomplete = ({ onLocationSelect, regionRestriction, className }
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
 
+    // Create a new field for all address components
+    const allAddressComponents = {};
+    
     place.address_components.forEach((component) => {
+      // Fill the original fields as before
       if (component.types.includes("locality")) {
         city = component.long_name;
       }
@@ -31,10 +37,32 @@ const LocationAutocomplete = ({ onLocationSelect, regionRestriction, className }
       if (component.types.includes("administrative_area_level_1")) {
         state = component.long_name;
       }
+      
+      // Store all address component types
+      component.types.forEach(type => {
+        allAddressComponents[type] = {
+          long_name: component.long_name,
+          short_name: component.short_name
+        };
+      });
     });
 
+    // Original structure with added allAddressComponents
+    const locationData = {
+      city,
+      state,
+      pincode,
+      country,
+      countryCode,
+      lat,
+      lng,
+      formatted_address: place.formatted_address,
+      place_id: place.place_id,
+      allAddressComponents
+    };
+
     setInputValue(place.formatted_address); // Set input field with selected place
-    onLocationSelect({ city, state, pincode, country, countryCode, lat, lng });
+    onLocationSelect(locationData);
   };
 
   useEffect(() => {
@@ -53,10 +81,10 @@ const LocationAutocomplete = ({ onLocationSelect, regionRestriction, className }
         apiKey={import.meta.env.VITE_REACT_APP_GOOGLE_API_KEY}
         onPlaceSelected={handlePlaceSelect}
         options={{
-          types: ["geocode"],
+          types: ["geocode", "establishment"],
           componentRestrictions: regionRestriction ? { country: regionRestriction } : undefined,
         }}
-        className={cn("w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-200 ", className)}
+        className={cn("w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-200", className)}
         placeholder="Enter location or pincode"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
