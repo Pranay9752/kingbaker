@@ -28,8 +28,8 @@
 //           <h2 className="text-lg font-semibold">Sender's Details</h2>
 //           <p className="text-sm text-gray-500">Order related communication will also be sent on these details.</p>
 //         </div>
-//         <button 
-//           onClick={handleEditToggle} 
+//         <button
+//           onClick={handleEditToggle}
 //           className="text-gray-700 border px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none"
 //         >
 //           {isEditable ? 'Save' : 'Edit'}
@@ -86,25 +86,53 @@
 // };
 
 // export default SenderDetailsForm;
-import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Edit2 } from 'lucide-react';
-import getCookie from '../../atom/utils/getCookies';
+import React, { useState, useEffect, useCallback } from "react";
+import { User, Mail, Phone, MapPin, Edit2 } from "lucide-react";
+import getCookie from "../../atom/utils/getCookies";
+import { useUpdateOrderMutation } from "../../redux/apiSlices/owner/order";
+import { debounce } from "lodash";
 
-const SenderDetailsForm = () => {
+const SenderDetailsForm = ({ orderIds }) => {
   const [formData, setFormData] = useState({
-    name: '',
+    name: "",
     email: getCookie("email") ?? "",
-    phone: '+91 - ',
-    location: `${getCookie("city")}, ${getCookie("region")}`
+    phone: "+91 - ",
+    location: `${getCookie("city")}, ${getCookie("region")}`,
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const [updateOrder] = useUpdateOrderMutation();
+
+  const handleInputChange = useCallback(
+    debounce(async (e) => {
+      const { name, value } = e.target;
+  
+      setFormData((prev) => ({ ...prev, [name]: value }));
+  
+      if (Array.isArray(orderIds) && orderIds.length > 0) {
+        try {
+          await Promise.all(
+            orderIds.map((orderId) =>
+              updateOrder({
+                orderId,
+                body: { sender_details: { ...formData, [name]: value } },
+              })
+            )
+          );
+        } catch (error) {
+          console.error("Error updating order:", error);
+        }
+      }
+    }, 1000),
+    [updateOrder, orderIds]
+  );
+  
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
   return (
     <div className="bg-white md:shadow-lg rounded-md md:rounded-2xl p-6 max-w-2xl mx-auto mb-3 md:mt-3">
@@ -127,7 +155,7 @@ const SenderDetailsForm = () => {
             type="text"
             name="name"
             placeholder="Full Name"
-            value={formData.name === "undefined" ? "" : formData.name}
+            defaultValue={formData.name === "undefined" ? "" : formData.name}
             onChange={handleInputChange}
             className="
               w-full 
@@ -156,7 +184,7 @@ const SenderDetailsForm = () => {
             type="email"
             name="email"
             placeholder="Email Address"
-            value={formData.email === "undefined" ? "" : formData.email}
+            defaultValue={formData.email === "undefined" ? "" : formData.email}
             onChange={handleInputChange}
             className="
               w-full 
@@ -185,7 +213,7 @@ const SenderDetailsForm = () => {
             type="text"
             name="phone"
             placeholder="Phone Number"
-            value={formData.phone === "undefined" ? "" : formData.phone}
+            defaultValue={formData.phone === "undefined" ? "" : formData.phone}
             onChange={handleInputChange}
             className="
               w-full 
@@ -214,7 +242,7 @@ const SenderDetailsForm = () => {
             type="text"
             name="location"
             placeholder="Location"
-            value={formData.location === "undefined" ? "" : formData.location}
+            defaultValue={formData.location === "undefined" ? "" : formData.location}
             onChange={handleInputChange}
             className="
               w-full 

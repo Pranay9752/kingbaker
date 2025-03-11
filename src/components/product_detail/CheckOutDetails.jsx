@@ -445,6 +445,12 @@ function CheckOutDetails() {
   const { data: cartOrder, refetch: refetchCartOrder } = useGetCartItemQuery();
   const orderData = useSelector((state) => state.order);
 
+  const orderIds = useMemo(() => {
+    return Array.isArray(orderData)
+    ? orderData.map((order) => order.mainItem.order_id)
+    : [];
+  }, [orderData]);
+
   const handleBuyNowData = (data) => {
     const orderId = searchParams.get("orderid");
     if (!orderId || orderId == "") {
@@ -591,7 +597,7 @@ function CheckOutDetails() {
                 return <></>;
               })}
             </div>
-            <SenderDetailsForm />
+            <SenderDetailsForm orderIds={orderIds || []} />
 
             <PriceDetails
               orderId={searchParams?.get("orderid") || null}
@@ -661,7 +667,7 @@ function CheckOutDetails() {
               }
               return <></>;
             })}
-            <SenderDetailsForm />
+            <SenderDetailsForm orderIds={orderIds || []} />
           </CheckoutCard>
 
           <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />

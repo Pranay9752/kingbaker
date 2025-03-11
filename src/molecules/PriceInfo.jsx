@@ -104,7 +104,8 @@ const PriceInfo = ({ price, taxInfo }) => (
       </div>
     </div>
     <div
-      onClick={() => scrollToDiv("productMeta")}
+      onClick={() => scrollToDiv("productMetaSection")}
+      // onClick={() => scrollToDiv("productMeta")}
       className="text-blue-500 hover:underline text-left cursor-pointer hidden md:flex justify-start items-start gap-2 text-sm"
     >
       <svg
