@@ -13,6 +13,7 @@ import setCookie from "../../atom/utils/setCookies";
 import Loader from "../../atom/loader/loader";
 import getCookie from "../../atom/utils/getCookies";
 import { useCreateOrderMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import GoogleAuth from "./GoogleAuth";
 
 function AccountAuth({ className, handleOnLogin }) {
   const [isExistingUser, setIsExistingUser] = useState(null);
@@ -128,6 +129,7 @@ function AccountAuth({ className, handleOnLogin }) {
       //   navigate('/owner/vendors')
       //   return;
       // }
+      
       const response = isExistingUser
         ? await loginUser({
             email: data.email,
@@ -638,16 +640,9 @@ function AccountAuth({ className, handleOnLogin }) {
         <span class="flex-shrink mx-4 text-gray-400">OR</span>
         <div class="flex-grow border-t border-gray-400"></div>
       </div>
-      <button
+      {/* <button
         aria-label="Sign in with Google"
-        className="flex items-center gap-3 rounded-md p-0.5 pr-3 transition-colors duration-300 w-fit mx-auto"
-        style={{ backgroundColor: "#1a73e8" }} // Google button blue
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.backgroundColor = "#5195ee")
-        } // Hover color
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.backgroundColor = "#1a73e8")
-        }
+        className="flex items-center gap-3 rounded-md p-0.5 pr-3 transition-colors duration-300 w-fit mx-auto hover:bg-[#5195ee] bg-[#1a73e8] "
       >
         <div className="flex items-center justify-center bg-white w-9 h-9 rounded-l">
           <svg
@@ -679,7 +674,8 @@ function AccountAuth({ className, handleOnLogin }) {
         <span className="text-sm text-white tracking-wider">
           Sign in with Google
         </span>
-      </button>
+      </button> */}
+      <GoogleAuth />
     </div>
   );
 }

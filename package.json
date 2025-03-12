@@ -21,6 +21,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "draft-js": "^0.11.7",
+    "firebase": "^11.4.0",
     "framer-motion": "^11.3.29",
     "html-react-parser": "^5.1.18",
     "iframe-resizer-react": "^5.1.5",
