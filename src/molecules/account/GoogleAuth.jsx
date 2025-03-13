@@ -8,17 +8,21 @@ import {
 import setCookie from "../../atom/utils/setCookies";
 import getCookie from "../../atom/utils/getCookies";
 import { useCreateOrderMutation } from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function GoogleAuth() {
   const [loginUser] = useLoginUserMutation();
   const [createUser] = useCreateUserMutation();
   const [createOrder] = useCreateOrderMutation();
 
+  const navigate = useNavigate();
+
   const handleGoogleAuth = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const token = await user.getIdToken(); // Get secure token
+      const token = user?.uid; // Get secure token
 
       const userData = {
         address: "",
@@ -29,9 +33,11 @@ function GoogleAuth() {
         dob: user?.birthdate || "",
         email: user?.email || "",
         gender: "NA",
-        isExistingUser: result.additionalUserInfo?.isNewUser === false,
+        isExistingUser: !(result?._tokenResponse?.isNewUser || false),
         mobile: user?.phoneNumber || "",
         name: user?.displayName || "",
+        google_token: token,
+        login_type: "Google",
         password: token,
         pincode: "",
         title: user?.title || "Mr",
@@ -42,13 +48,15 @@ function GoogleAuth() {
       if (userData.isExistingUser) {
         response = await loginUser({
           email: userData.email,
-          password: userData.password,
+          login_type: "Google",
+          google_token: token,
         }).unwrap();
       } else {
-        await createUser(userData);
+        await createUser({ user_details: userData });
         response = await loginUser({
           email: userData.email,
-          password: userData.password,
+          login_type: "Google",
+          google_token: token,
         }).unwrap();
       }
 
@@ -71,9 +79,11 @@ function GoogleAuth() {
       _id,
       role,
     });
+    console.log("first");
     await processCartOrders(_id);
+    console.log("second");
     await processBuyNowOrder(_id);
-
+    console.log("third");
     toast.success(message || "Operation successful");
     handleNavigation(role);
   };
@@ -148,8 +158,8 @@ function GoogleAuth() {
     };
   };
 
-
   const handleNavigation = (role) => {
+    console.log("role: ", role);
     if (role === "Vendor") {
       navigate("/admin/dashboard");
     } else if (role === "Owner") {
