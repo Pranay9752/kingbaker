@@ -16,11 +16,12 @@ import Footer from "../../molecules/footer/footer";
 import NavBar from "../home/NavBar";
 import { setAdvFilter } from "../../redux/slices/ecom/advFilters";
 import filterNonEmptyValues from "../../atom/utils/filterNonEmptyvalues";
+import ScreenLoader from "../../atom/loader/screenLoader";
 
 //PROD6756,PROD3181,PROD2465
 const ProductSearch = () => {
   const [sortKeys, setSortKeys] = useState({ label: "New", value: "new" });
- 
+
   const birthdayGiftsData = {
     title: "Memorable Birthday Gifts",
     rating: 4.0,
@@ -37,13 +38,7 @@ const ProductSearch = () => {
       subtitle: "on orders worth ₹1500 & above.",
       code: "JOJO",
     },
-    categories: [
-      "Flowers",
-      "Cakes",
-      "Personalised Gifts",
-      "Plants",
-      "Combos",
-    ],
+    categories: ["Flowers", "Cakes", "Personalised Gifts", "Plants", "Combos"],
     products: [
       {
         name: "Rose Bouquet",
@@ -234,13 +229,15 @@ const ProductSearch = () => {
             sortKeys={sortKeys}
           />
         </div>
-        <MobileFilterSort filters={advFilter} tag={tag?.tag}  handleSortChange={handleSortChange} />
+        <MobileFilterSort
+          filters={advFilter}
+          tag={tag?.tag}
+          handleSortChange={handleSortChange}
+        />
       </div>
-      {(isLoading || filterLoading) && (
-        <Modal>
-          <Loader />
-        </Modal>
-      )}
+
+      <ScreenLoader isLoading={isLoading || filterLoading} />
+
       <Footer />
     </>
   );

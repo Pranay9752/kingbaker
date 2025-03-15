@@ -8,7 +8,7 @@ import OrderDeliveryDetails from "../product_detail/OrderDeliveryDetails";
 import setCookie from "../../atom/utils/setCookies";
 
 const AddToCartModal = ({ onClose = () => {} }) => {
-  const { data, isLoading, isError } = useGetCartItemQuery();
+  const { data, isLoading, isError, refetch } = useGetCartItemQuery();
 
   const cartData = useSelector((state) => state.order);
   const dispatch = useDispatch();
@@ -30,7 +30,6 @@ const AddToCartModal = ({ onClose = () => {} }) => {
     cartData.reduce((acc, curr) => {
       let total = 0;
       curr?.addons?.forEach((item) => {
-        console.log("item: ", item);
         total += (item?.quantity || 0) * (item?.price || 0);
       });
       return acc + total;
@@ -66,6 +65,7 @@ const AddToCartModal = ({ onClose = () => {} }) => {
           price: addon?.price ?? 0,
           quantity: addon?.count?.count ?? 0,
           image: addon?.images?.[0] ?? "",
+          baseData: addon?.count || {},
         })),
         deliveryDetails: {
           method: main?.shipping?.method,
@@ -146,6 +146,7 @@ const AddToCartModal = ({ onClose = () => {} }) => {
                       isCart={true}
                       dense={true}
                       handleOccation={() => {}}
+                      refetchCartOrder={refetch}
                     />
                     <div className="absolute bg-[#7D8035] rounded-br-lg py-1 px-1.5 text-xs text-white font-semibold left-0 top-0">
                       {index + 1}

@@ -40,7 +40,6 @@ const FlowerBouquetCard = ({
   reviews,
   deliveryInfo,
 }) => {
-  console.log('images: ', images, title);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef(null);

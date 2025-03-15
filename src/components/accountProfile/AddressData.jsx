@@ -9,6 +9,7 @@ import getCookie from "../../atom/utils/getCookies";
 import Modal from "../../atom/popovers/Modal";
 import Loader from "../../atom/loader/loader";
 import { Pencil, Home, Building2, MapPin } from "lucide-react";
+import ScreenLoader from "../../atom/loader/screenLoader";
 
 const AddressCard = ({ address, onSelect, onEdit, isShow = false }) => {
   const getAddressTypeIcon = (type) => {
@@ -201,11 +202,7 @@ const AddressData = () => {
         <AddressForm defaultValues={defaultAddress} onSubmit={onAddAddress} />{" "}
       </ModalWrapper>
 
-      {isLoading && (
-        <Modal>
-          <Loader />
-        </Modal>
-      )}
+      <ScreenLoader  isLoading={isLoading} />
     </>
   );
 };

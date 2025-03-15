@@ -89,7 +89,6 @@ const ChallanPDF = ({ data = [] }) => {
   return (
     <Document>
       {data?.map((item, index) => {
-        console.log("item: ", item);
         // console.log("item: ", item);
         const deliveryAddress = item?.deliveryAddresses?.[0] ?? {};
         const addOn = item?.addOn;

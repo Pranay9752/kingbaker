@@ -17,6 +17,7 @@ import Footer from "../../molecules/footer/footer";
 import Breadcrumb from "../../atom/breadcrumb";
 import Loader from "../../atom/loader/loader";
 import { Helmet } from "react-helmet-async";
+import ScreenLoader from "../../atom/loader/screenLoader";
 
 const getProductID = (id) => {
   return `PROD${id?.split("_")?.pop()}`;
@@ -135,11 +136,9 @@ const ProductDetail = () => {
   return (
     <>
       
-      {isLoading && (
-        <div className="fixed inset-0 z-50 w-[100vw] h-[100vh] flex justify-center items-center bg-black/20">
-          <Loader />
-        </div>
-      )}
+
+            <ScreenLoader isLoading={isLoading} />
+
       <FormProvider {...methods}>
         <TopNavbar
           className={`fixed top-0 z-50 w-full md:hidden`}

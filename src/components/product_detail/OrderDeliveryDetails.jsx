@@ -23,6 +23,8 @@ import AddressCard from "../../molecules/cards/AddressCard";
 import { toast } from "sonner";
 import { useUpdateOrderMutation } from "../../redux/apiSlices/owner/order";
 import { debounce } from "lodash";
+import Loader from "../../atom/loader/loader";
+import ScreenLoader from "../../atom/loader/screenLoader";
 
 const OrderDeliveryDetails = ({
   index,
@@ -61,10 +63,38 @@ const OrderDeliveryDetails = ({
   const dispatch = useDispatch();
 
   const [addAddress, { isLoading, isError }] = useAddAddressMutation();
-  const [updateOrder] = useUpdateOrderMutation();
+  const [updateOrder, { isLoading: updateOrderLoading }] =
+    useUpdateOrderMutation();
 
-  const handleQuantityChange = (id, change) => {
-    dispatch(updateAddonQuantity({ id, change, orderIndex: index }));
+  const handleQuantityChange = async (id, change, baseData) => {
+    console.log(baseData, change);
+    try {
+      await updateOrder({
+        orderId: mainItem?.order_id,
+        body: {
+          addOn: [
+            { ...baseData, count: (baseData?.count || 0) + (change || 0) },
+          ],
+        },
+      }).unwrap();
+
+      dispatch(updateAddonQuantity({ id, change, orderIndex: index }));
+      // toast.success("Address updated successfully!");
+      refetchCartOrder();
+    } catch (error) {
+      console.error("Failed to update order:", error);
+
+      // Check for known API errors
+      if (error?.status === 400) {
+        toast.error("Invalid address selection. Please try again.");
+      } else if (error?.status === 404) {
+        toast.error("Order not found. Refresh and try again.");
+      } else if (error?.status === 500) {
+        toast.error("Server error. Try again later.");
+      } else {
+        toast.error("Failed to select address. Try again later!");
+      }
+    }
   };
 
   const handleDelete = (id) => {
@@ -190,6 +220,8 @@ const OrderDeliveryDetails = ({
 
   return (
     <>
+      <ScreenLoader isLoading={updateOrderLoading} />
+      
       <div
         className={twMerge(
           ` text-gray-800 py-4 text-left border shadow-xl`,
@@ -251,7 +283,9 @@ const OrderDeliveryDetails = ({
                   >
                     <button
                       className={twMerge("bg-[#555555]/20 p-1")}
-                      onClick={() => handleQuantityChange(addon.id, -1)}
+                      onClick={() =>
+                        handleQuantityChange(addon.id, -1, addon?.baseData)
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +306,9 @@ const OrderDeliveryDetails = ({
                     </p>
                     <button
                       className="bg-[#555555]/20 p-1"
-                      onClick={() => handleQuantityChange(addon.id, 1)}
+                      onClick={() =>
+                        handleQuantityChange(addon.id, 1, addon?.baseData)
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -9,6 +9,7 @@ import Loader from "../../../atom/loader/loader";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import TicketDetailsModal from "./modal/TicketDetailModal";
 import SEO from "../../../atom/seo/SEO";
+import ScreenLoader from "../../../atom/loader/screenLoader";
 
 const MyTicket = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -260,11 +261,8 @@ const MyTicket = () => {
       >
         <TicketDetailsModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
       </ModalWrapper>
-      {isLoading && (
-        <Modal>
-          <Loader />
-        </Modal>
-      )}
+
+      <ScreenLoader isLoading={isLoading} />
     </>
   );
 };

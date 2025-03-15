@@ -70,7 +70,6 @@ const ImageCarousel = ({
   autoSlide = true,
   slideInterval = 3000,
 }) => {
-  console.log('images: ', images);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const scrollContainerRef = useRef(null);
 

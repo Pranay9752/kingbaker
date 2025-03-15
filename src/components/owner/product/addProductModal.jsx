@@ -154,6 +154,7 @@ import remarkGfm from "remark-gfm";
 import RichTextEditor from "./richTextEditor";
 import { X } from "lucide-react";
 import useImageUpload from "../../../atom/utils/useUploadImages";
+import ScreenLoader from "../../../atom/loader/screenLoader";
 
 export const Input = forwardRef(
   ({ name, className = "", error, type = "text", step, ...props }, ref) => {
@@ -981,10 +982,11 @@ function AddProductModal({ postSubmit, defaultData, onClose }) {
     }
   };
 
-  if (createLoading || UpdateLoading) return <Loader />;
 
   return (
     <>
+          <ScreenLoader isLoading={createLoading || UpdateLoading} />
+    
       <div className="p-3 md:max-w-2xl relative">
         <div
           onClick={onClose}
