@@ -23,6 +23,19 @@ const CheckoutApi = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    verifyPayment: builder.mutation({
+      query: ({ taxId }) => ({
+        url: `/verify?txnid=${taxId}`,
+        method: "POST",
+      }),
+    }),
+    initiatePayment: builder.mutation({
+      query: (paymentDetails) => ({
+        url: 'get-payment',
+        method: 'POST',
+        body: paymentDetails,
+      }),
+    }),
     getAddress: builder.query({
       query: () => ({
         url: `/user/getAddress/`, // + getCookie("user_id"),
@@ -59,4 +72,6 @@ export const {
   useGetAddressQuery,
   useGetOccationQuery,
   useGetCartItemQuery,
+  useVerifyPaymentMutation,
+  useInitiatePaymentMutation 
 } = CheckoutApi;

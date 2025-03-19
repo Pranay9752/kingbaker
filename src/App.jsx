@@ -26,6 +26,7 @@ import Landing from "./components/owner/landing";
 import BecomeAPartner from "./components/partner/partner.jsx";
 import ContactUs from "./components/contactus/contackus.jsx";
 import OwnerProducts from "./components/owner/products/index.jsx";
+import PaymentStatus from "./components/product_detail/PaymentStatus.jsx";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
             <Route path="/checkout/details" element={<CheckOutDetails />} />
             <Route path="/checkout/payment" element={<CheckOutPayment />} />
             <Route path="/search/:tag" element={<ProductSearch />} />
+            <Route path="/status/:taxId" element={<PaymentStatus />} />
           </Route>
 
           <Route element={<BodyBackgroud color={"bg-[#2f2f2]"} />}>
@@ -83,7 +85,7 @@ function App() {
       </div>
       <Toaster duration={3000} position="top-center" richColors />
     </>
-  );
+  )
 }
 
 export default App;

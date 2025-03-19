@@ -8,6 +8,7 @@ import Basicheader from "./header/Basicheader";
 import {
   useGetAddressQuery,
   useGetCartItemQuery,
+  useInitiatePaymentMutation,
   usePlaceOrderMutation,
 } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import CheckoutCard from "../../molecules/cards/CheckoutCard";
@@ -18,6 +19,8 @@ import { addInit } from "../../redux/slices/ecom/orderSlice";
 import createOrderAnimationData from "./create_order_animation.json";
 import Lottie from "lottie-react";
 import SEO from "../../atom/seo/SEO";
+import axios from "axios";
+import getCookie from "../../atom/utils/getCookies";
 const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [selectedOption, setSelectedOption] = useState("cod");
   const [cardNumber, setCardNumber] = useState("");
@@ -26,12 +29,15 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   const [loading, setIsLoading] = useState(false);
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
+  const [form, setForm] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [placeOrder] = usePlaceOrderMutation();
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
+  const [initiatePayment, { isLoading }] = useInitiatePaymentMutation();
 
   // const handleSubmit = () => {
   //   if (orderIds?.length == 0) {
@@ -66,32 +72,48 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       toast.info("No Order available to place!");
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     try {
-      const responses = await Promise.all(
-        orderIds.map(async (order_id) => {
-          try {
-            return await placeOrder({ order_id }).unwrap();
-          } catch (error) {
-            console.error(`Failed to place order ${order_id}:`, error.data.message);
-            toast.error(error?.data?.message || `Failed to place order ${order_id}`);
-            return null;
-          }
-        })
-      );
-  
-      const successOrders = responses.filter(Boolean); // Remove failed/null responses
-  
-      if (successOrders.length > 0) {
-        toast.success("Orders placed successfully!");
-        // setCookie("cart", [], true);
-        // dispatch(addInit([]));
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 5000);
-      }
+      // const responses = await Promise.all(
+      //   orderIds.map(async (order_id) => {
+      //     try {
+      //       return await placeOrder({ order_id }).unwrap();
+      //     } catch (error) {
+      //       console.error(
+      //         `Failed to place order ${order_id}:`,
+      //         error.data.message
+      //       );
+      //       toast.error(
+      //         error?.data?.message || `Failed to place order ${order_id}`
+      //       );
+      //       return null;
+      //     }
+      //   })
+      // );
+
+      // const successOrders = responses.filter(Boolean); // Remove failed/null responses
+
+      // if (successOrders.length > 0) {
+      //   toast.success("Orders placed successfully!");
+      //   // setCookie("cart", [], true);
+      //   // dispatch(addInit([]));
+      //   // setTimeout(() => {
+      //   //   window.location.href = "/";
+      //   // }, 5000);
+      // }
+
+      const data = await initiatePayment({
+        amount: 1, //totalPrice,
+        product: {
+          orderIds: orderIds,
+        },
+        firstname: "Pranay Ambre",
+        email: getCookie("email"),
+        mobile: "8788373686",
+      });
+      setForm(data?.data?.payment_url);
     } catch (error) {
       console.error("Unexpected error:", error.message);
       toast.error("An unexpected error occurred. Please try again.");
@@ -99,13 +121,33 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       setIsLoading(false);
     }
   };
-  
+
+  useEffect(() => {
+    const formData = document.getElementById("payment_post");
+    if (formData) {
+      formData.submit();
+    }
+  }, [form]);
 
   return (
     <>
-     {loading && (
+      {form && (
+        <div
+          dangerouslySetInnerHTML={{ __html: form }}
+          style={{
+            marginTop: "20px",
+            border: "1px solid #ddd",
+            padding: "10px",
+          }}
+        />
+      )}
+      {loading && (
         <div className="fixed inset-0 bg-black/30 z-50  flex justify-center items-center">
-          <Lottie className="size-[600px]" animationData={createOrderAnimationData} loop={false} />
+          <Lottie
+            className="size-[600px]"
+            animationData={createOrderAnimationData}
+            loop={false}
+          />
         </div>
       )}
       <div className="w-full p-3">
@@ -346,7 +388,6 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
           )}
         </div>
       </div>
-     
     </>
   );
 };
@@ -473,7 +514,7 @@ function CheckOutPayment() {
   return (
     <>
       <Basicheader num={2} title={"Payment Details"} />
-      <SEO title={'Checkout'} />
+      <SEO title={"Checkout"} />
 
       <div className="hidden md:flex justify-center items-start gap-4 py-20 mx-auto max-w-[1600px]">
         <div className="flex flex-col gap-4 overflow-y-auto h-[90vh] hide-scrollbar">
