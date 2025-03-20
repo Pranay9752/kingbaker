@@ -7,6 +7,7 @@ function PaymentStatus() {
   const { taxId } = useParams();
   const [verifyPayment, { data, isLoading, error }] =
     useVerifyPaymentMutation();
+  const [isPostRequest, setIsPostRequest] = useState(false);
 
   const navigate = useNavigate();
   const txnData = data?.data || {};
@@ -16,6 +17,29 @@ function PaymentStatus() {
       const data = verifyPayment({ taxId });
     }
   }, [taxId, verifyPayment]);
+
+  useEffect(() => {
+    // Detect if the request was a POST request
+    if (window.performance?.navigation?.type === 1) {
+      // User refreshed the page, so it's a GET request now
+      return;
+    }
+
+    if (window.history.length === 1) {
+      // Browser history length of 1 indicates a direct entry (likely a POST)
+      setIsPostRequest(true);
+    }
+  }, []);
+
+    // If it's a POST request, submit a GET request using a hidden form
+    if (isPostRequest) {
+      return (
+        <form method="GET" action={`/status/${taxId}`} id="redirectForm">
+          <p>Redirecting...</p>
+          <script>document.getElementById('redirectForm').submit();</script>
+        </form>
+      );
+    }
 
   if (isLoading) {
     return (
