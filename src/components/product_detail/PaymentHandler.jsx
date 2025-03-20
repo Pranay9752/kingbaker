@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 
 const POSTHandler = () => {
   const { taxId } = useParams();
-
+  
   useEffect(() => {
+      console.log('taxId: ', taxId);
     // Auto-submit a hidden form to send POST data to your backend
     const form = document.createElement("form");
     form.method = "POST";
