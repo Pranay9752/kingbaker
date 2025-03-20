@@ -52,7 +52,7 @@ function App() {
             <Route path="/checkout/details" element={<CheckOutDetails />} />
             <Route path="/checkout/payment" element={<CheckOutPayment />} />
             <Route path="/search/:tag" element={<ProductSearch />} />
-            <Route path="/status/:taxId" element={<POSTHandler />} />
+            <Route path="/status/:taxId" element={<PaymentStatus />} />
           </Route>
 
           <Route element={<BodyBackgroud color={"bg-[#2f2f2]"} />}>
