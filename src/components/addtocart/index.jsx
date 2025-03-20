@@ -95,7 +95,6 @@ const AddToCartModal = ({ onClose = () => {} }) => {
     }
     if (data) {
       const transformedData = transformData(data?.data?.delivery_details);
-
       dispatch(addInit(transformedData));
     }
   }, [data]);
@@ -105,6 +104,12 @@ const AddToCartModal = ({ onClose = () => {} }) => {
       setCookie("cart", cartData, true);
     }
   }, [cartData]);
+
+  useEffect(() => {
+    if(isError) {
+      dispatch(addInit([]));
+    }
+  },[isError])
 
   return (
     <>

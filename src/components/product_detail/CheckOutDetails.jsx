@@ -442,13 +442,17 @@ function CheckOutDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isError, isLoading } = useGetAddressQuery();
-  const { data: cartOrder, refetch: refetchCartOrder } = useGetCartItemQuery();
+  const {
+    data: cartOrder,
+    refetch: refetchCartOrder,
+    isError: cartError,
+  } = useGetCartItemQuery();
   const orderData = useSelector((state) => state.order);
 
   const orderIds = useMemo(() => {
     return Array.isArray(orderData)
-    ? orderData.map((order) => order.mainItem.order_id)
-    : [];
+      ? orderData.map((order) => order.mainItem.order_id)
+      : [];
   }, [orderData]);
 
   const handleBuyNowData = (data) => {
@@ -488,6 +492,7 @@ function CheckOutDetails() {
           price: addon?.price ?? 0,
           quantity: addon?.count?.count ?? 0,
           image: addon?.images?.[0] ?? "",
+          baseData: addon?.count || {},
         })),
         deliveryDetails: {
           method: main?.shipping?.method,
@@ -548,6 +553,12 @@ function CheckOutDetails() {
       dispatch(addInit(transformedData));
     }
   }, [cartOrder]);
+
+  useEffect(() => {
+    if (cartError) {
+      dispatch(addInit([]));
+    }
+  }, [cartError]);
 
   return (
     <>

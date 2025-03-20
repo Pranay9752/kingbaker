@@ -67,7 +67,6 @@ const OrderDeliveryDetails = ({
     useUpdateOrderMutation();
 
   const handleQuantityChange = async (id, change, baseData) => {
-    console.log(baseData, change);
     try {
       await updateOrder({
         orderId: mainItem?.order_id,
@@ -97,12 +96,59 @@ const OrderDeliveryDetails = ({
     }
   };
 
-  const handleDelete = (id) => {
-    dispatch(deleteAddon({ id, orderIndex: index }));
+  const handleDelete = async (id, baseData) => {
+    try {
+      await updateOrder({
+        orderId: mainItem?.order_id,
+        body: {
+          addOn: [{ ...baseData, count: 0 }],
+        },
+      }).unwrap();
+
+      dispatch(deleteAddon({ id, orderIndex: index }));
+
+      refetchCartOrder();
+    } catch (error) {
+      console.error("Failed to update order:", error);
+
+      // Check for known API errors
+      if (error?.status === 400) {
+        toast.error("Invalid address selection. Please try again.");
+      } else if (error?.status === 404) {
+        toast.error("Order not found. Refresh and try again.");
+      } else if (error?.status === 500) {
+        toast.error("Server error. Try again later.");
+      } else {
+        toast.error("Failed to select address. Try again later!");
+      }
+    }
   };
 
-  const handleDeleteOrder = () => {
-    dispatch(deleteOrder({ id: mainItem?.id }));
+  const handleDeleteOrder = async () => {
+    try {
+      await updateOrder({
+        orderId: mainItem?.order_id,
+        delete_ord: 1,
+        body: {},
+      }).unwrap();
+
+      // dispatch(deleteOrder({ id: mainItem?.id }));
+
+      refetchCartOrder();
+    } catch (error) {
+      console.error("Failed to update order:", error);
+
+      // Check for known API errors
+      if (error?.status === 400) {
+        toast.error("Invalid address selection. Please try again.");
+      } else if (error?.status === 404) {
+        toast.error("Order not found. Refresh and try again.");
+      } else if (error?.status === 500) {
+        toast.error("Server error. Try again later.");
+      } else {
+        toast.error("Failed to select address. Try again later!");
+      }
+    }
   };
 
   const onAddAddress = (data) => {
@@ -221,7 +267,7 @@ const OrderDeliveryDetails = ({
   return (
     <>
       <ScreenLoader isLoading={updateOrderLoading} />
-      
+
       <div
         className={twMerge(
           ` text-gray-800 py-4 text-left border shadow-xl`,
@@ -256,7 +302,9 @@ const OrderDeliveryDetails = ({
             </button>
           </div>
 
-          <h3 className={`${dense ? "" : "mb-2"}`}>Addons</h3>
+          {addons?.length > 0 && (
+            <h3 className={`${dense ? "" : "mb-2"}`}>Addons</h3>
+          )}
           {addons.map((addon) => (
             <div
               key={addon.id}
@@ -329,7 +377,7 @@ const OrderDeliveryDetails = ({
                 )}
               >
                 <button
-                  onClick={() => handleDelete(addon.id)}
+                  onClick={() => handleDelete(addon.id, addon?.baseData)}
                   className="ml-auto text-gray-600 border rounded border-gray-600 hover:bg-gray-300 text-sm px-1 py-0.5"
                 >
                   DELETE

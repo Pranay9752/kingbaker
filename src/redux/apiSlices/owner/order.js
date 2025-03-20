@@ -25,8 +25,8 @@ const OwnerOrderAPI = apiSlice.injectEndpoints({
       }),
     }),
     updateOrder: builder.mutation({
-      query: ({ orderId, body }) => ({
-        url: `/order/updateOrder?order_id=${orderId}`,
+      query: ({ orderId, body, delete_ord = 0 }) => ({
+        url: `/order/updateOrder?order_id=${orderId}&delete_ord=${delete_ord}`,
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
