@@ -31,10 +31,13 @@ const CheckoutApi = apiSlice.injectEndpoints({
     }),
     initiatePayment: builder.mutation({
       query: (paymentDetails) => ({
-        url: 'get-payment',
-        method: 'POST',
+        url: "get-payment",
+        method: "POST",
         body: paymentDetails,
       }),
+    }),
+    getPaymentStatus: builder.query({
+      query: (taxId) => `/status/${taxId}`,
     }),
     getAddress: builder.query({
       query: () => ({
@@ -73,5 +76,6 @@ export const {
   useGetOccationQuery,
   useGetCartItemQuery,
   useVerifyPaymentMutation,
-  useInitiatePaymentMutation 
+  useInitiatePaymentMutation,
+  useGetPaymentStatusQuery,
 } = CheckoutApi;
