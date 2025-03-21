@@ -2,15 +2,13 @@ import React, { useState, useEffect, useMemo } from "react";
 import TopNavbar from "../../molecules/header/TopNavBar";
 import { useParams } from "react-router-dom";
 import { useGetPaymentStatusQuery } from "../../redux/apiSlices/ecom/checkoutApiSlice";
+import { motion } from "framer-motion";
+import { Truck, Calendar, ShoppingCart, Package } from "lucide-react"; // Icons for a playful touch
 
 const PaymentStatus = () => {
   const { taxId } = useParams();
 
-  const {
-    data,
-    error,
-    isLoading,
-  } = useGetPaymentStatusQuery(taxId, {
+  const { data, error, isLoading } = useGetPaymentStatusQuery(taxId, {
     skip: !taxId, // Avoid making the request if taxId is empty
   });
 
@@ -54,13 +52,14 @@ const PaymentStatus = () => {
         ]}
         userGreeting="Hi Guest"
       />
-      <MobileView orderDetails={orderDetails} />
-      <DesktopView orderDetails={orderDetails} />
+      <MobileView data={data?.data} orderDetails={orderDetails} />
+      <DesktopView data={data?.data} orderDetails={orderDetails} />
     </>
   );
 };
 
-const DesktopView = ({ orderDetails }) => {
+const DesktopView = ({ orderDetails, data }) => {
+  console.log("data: ", data);
   return (
     <div className="max-w-6xl mx-auto p-6 hidden md:block">
       {/* Main Content */}
@@ -164,22 +163,54 @@ const DesktopView = ({ orderDetails }) => {
         </div>
 
         {/* Order Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
             <h3 className="text-xl font-bold mb-4">Order Details</h3>
-            <div className="flex items-center mb-4">
-              <img
-                src="/api/placeholder/80/80"
-                alt="Product"
-                className="mr-4 rounded-md"
-              />
-              <div>
-                <h4 className="font-bold">{orderDetails.product}</h4>
-                <p className="text-gray-700">
-                  ₹ {orderDetails.price} - Milk Chocolate
-                </p>
-              </div>
-            </div>
+            {data?.orderDetails?.map((item, index) => {
+              console.log("item: ", item);
+              return (
+                <>
+                  <div key={index} className="flex items-center mb-4">
+                    <img
+                      src={item.productDetails?.[0]?.imageLink?.[0]}
+                      alt="Product"
+                      className="mr-4 rounded-md size-[80px]"
+                    />
+                    <div>
+                      <h4 className="font-bold">
+                        {item.productDetails?.[0]?.title || ""}
+                      </h4>
+                      <p className="text-gray-700">
+                        ₹ {item.productDetails?.[0]?.prices || 0}
+                      </p>
+                    </div>
+                  </div>
+                  {item?.addOn?.map((addon, addIndex) => {
+                    console.log('addon: ', addon);
+                    return (
+                      <div
+                        key={`${addIndex} - ${index}`}
+                        className="flex items-center mb-4 p-1"
+                      >
+                        <img
+                          src={addon?.images?.[0]}
+                          alt="Product"
+                          className="mr-4 rounded-md size-[60px]"
+                        />
+                        <div>
+                          <h4 className="font-bold">
+                            {addon?.title || ""}
+                          </h4>
+                          <p className="text-gray-700">
+                            ₹ {addon?.price ||  0} x {addon?.count?.count || 0}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              );
+            })}
 
             <div className="border-t border-gray-200 pt-4 mt-4">
               <div className="flex justify-between mb-2">
@@ -229,6 +260,120 @@ const DesktopView = ({ orderDetails }) => {
               </div>
             </div>
           </div>
+        </div> */}
+        {/* Order Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Order Details */}
+          <motion.div
+            className="bg-white/70 backdro p-blur-lg p-6 rounded-2xl shadow-lg border border-gray-200"
+            whileHover={{ scale: 1.02 }}
+          >
+            <h3 className="text-2xl font-bold text-emerald-600 mb-4">
+              Order Details
+            </h3>
+            {data?.orderDetails?.map((item, index) => (
+              <div key={index} className="mb-6">
+                {/* Product */}
+                <div className="flex items-center gap-4 p-3 rounded-lg bg-gray-100/50">
+                  <motion.img
+                    src={item.productDetails?.[0]?.imageLink?.[0]}
+                    alt="Product"
+                    className="rounded-lg size-[80px] shadow-md"
+                    whileHover={{ scale: 1.1 }}
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">
+                      {item.productDetails?.[0]?.title || ""}
+                    </h4>
+                    <p className="text-gray-700">
+                      ₹ {item.productDetails?.[0]?.prices || 0}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Add-ons */}
+                {item?.addOn?.length > 0 && (
+                  <div className="mt-3 ml-6 bord er-l-4 bor der-emerald-500 pl-4 space-y-3">
+                    <h5 className="text-gray-800 font-semibold flex items-center gap-2">
+                      <Package size={18} className="text-emerald-600" /> Add-ons
+                    </h5>
+                    {item?.addOn?.map((addon, addIndex) => (
+                      <div
+                        key={`${addIndex} - ${index}`}
+                        className="flex items-center gap-4 p-2 rounded-lg bg-gray-50 shadow-sm"
+                      >
+                        <motion.img
+                          src={addon?.images?.[0]}
+                          alt="Addon"
+                          className="rounded-lg size-[60px] shadow-md"
+                          whileHover={{ scale: 1.1 }}
+                        />
+                        <div>
+                          <h4 className="font-semibold text-gray-700">
+                            {addon?.title || ""}
+                          </h4>
+                          <p className="text-gray-600">
+                            ₹ {addon?.price || 0} x {addon?.count?.count || 0}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Price Breakdown */}
+            <div className="border-t border-gray-300 pt-4 mt-4 space-y-2">
+              <div className="flex justify-between text-gray-700">
+                <span className="flex items-center gap-2">
+                  <ShoppingCart size={18} /> Product Price:
+                </span>
+                <span className="font-medium">₹ {orderDetails.price}</span>
+              </div>
+              <div className="flex justify-between text-gray-700">
+                <span className="flex items-center gap-2">
+                  <Truck size={18} /> Shipping:
+                </span>
+                <span className="font-medium">₹ {orderDetails.shipping}</span>
+              </div>
+              <div className="flex justify-between text-gray-700">
+                <span className="flex items-center gap-2">
+                  📦 Convenience Charge:
+                </span>
+                <span className="font-medium">
+                  ₹ {orderDetails.convenience}
+                </span>
+              </div>
+              <div className="flex justify-between font-bold text-lg border-t border-gray-400 pt-3 text-gray-800">
+                <span>Total:</span>
+                <span className="text-emerald-600">₹ {orderDetails.total}</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Delivery Information */}
+          <motion.div
+            className="bg-white/70 backdrop-blur-lg h-fit p-6 rounded-2xl shadow-lg border border-gray-200"
+            whileHover={{ scale: 1.02 }}
+          >
+            <h3 className="text-2xl font-bold text-emerald-600 mb-4">
+              Delivery Information
+            </h3>
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-800">Recipient:</h4>
+              <p className="text-gray-700">{orderDetails.recipient.name}</p>
+              <p className="text-gray-600">{orderDetails.recipient.address}</p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-gray-800">Delivery Date:</h4>
+              <div className="flex items-center gap-2 text-gray-700">
+                <Calendar size={18} className="text-emerald-600" />
+                <p>{orderDetails.deliveryDate}</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Action Buttons */}
