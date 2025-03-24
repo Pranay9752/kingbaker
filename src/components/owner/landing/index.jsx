@@ -11,6 +11,7 @@ import useImageUpload from "../../../atom/utils/useUploadImages";
 import { useUpdateCarosolMutation } from "../../../redux/apiSlices/owner/landing";
 import SEO from "../../../atom/seo/SEO";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
+import CustomSizedGrid from "../../home/CustomSizedGrid";
 
 const styleIcons = {
   containerStyle: (
@@ -367,9 +368,8 @@ const StyleSection = ({
   IconComponent,
 }) => (
   <div
-    className={`border-b last:border-b-0 ${
-      isActive ? "bg-blue-50" : "bg-white"
-    }`}
+    className={`border-b last:border-b-0 ${isActive ? "bg-blue-50" : "bg-white"
+      }`}
   >
     <div>
       <button
@@ -518,14 +518,14 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
         items: newArr[selectedSection].items.map((itm, i) =>
           i === index
             ? {
-                image: "",
-                type: "card3",
-                route: "",
-                text: "",
-                cardStyle: {
-                  borderRadius: "30px",
-                },
-              }
+              image: "",
+              type: "card3",
+              route: "",
+              text: "",
+              cardStyle: {
+                borderRadius: "30px",
+              },
+            }
             : itm
         ),
       };
@@ -567,203 +567,203 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
   return (
     <>
 
-    <div className="w-full max-w-2xl p-6 space-y-6 bg-white rounded-xl shadow-sm border border-gray-100">
-      {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800">
-          Card {index + 1}
-        </h3>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onDelete}
-            className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
-          >
+      <div className="w-full max-w-2xl p-6 space-y-6 bg-white rounded-xl shadow-sm border border-gray-100">
+        {/* Header */}
+        <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-800">
+            Card {index + 1}
+          </h3>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onDelete}
+              className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="size-5"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="space-y-4">
+          {/* Title Input */}
+          <div className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="ext-gray-400 size-5"
             >
-              <path
-                fillRule="evenodd"
-                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                clipRule="evenodd"
-              />
+              <polyline points="4 7 4 4 20 4 20 7" />
+              <line x1="9" x2="15" y1="20" y2="20" />
+              <line x1="12" x2="12" y1="4" y2="20" />
             </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="space-y-4">
-        {/* Title Input */}
-        <div className="flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="ext-gray-400 size-5"
-          >
-            <polyline points="4 7 4 4 20 4 20 7" />
-            <line x1="9" x2="15" y1="20" y2="20" />
-            <line x1="12" x2="12" y1="4" y2="20" />
-          </svg>
-          <input
-            value={item?.text ?? ""}
-            onChange={(e) =>
-              handleUpdate((item) => ({ ...item, text: e.target.value }))
-            }
-            className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter card title"
-          />
-        </div>
-
-        {/* Image Upload */}
-        <div className="flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 text-gray-400"
-          >
-            <path
-              fillRule="evenodd"
-              d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
-              clipRule="evenodd"
-            />
-          </svg>
-
-          <label className="flex-1 cursor-pointer">
-            <div className="relative group">
-              <img
-                src={item?.image}
-                onError={(e) => {
-                  e.target.src =
-                    "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
-                }}
-                alt={`Card ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg bg-gray-100"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity">
-                <span className="text-white text-sm">
-                  Click to upload image
-                </span>
-              </div>
-            </div>
             <input
-              type="file"
-              onChange={handleImageUpload}
-              className="hidden"
-              accept="image/*"
+              value={item?.text ?? ""}
+              onChange={(e) =>
+                handleUpdate((item) => ({ ...item, text: e.target.value }))
+              }
+              className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="Enter card title"
             />
-          </label>
-        </div>
+          </div>
 
-        {/* Tag Input */}
-        <div className="flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5 text-gray-400"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4.5 2A2.5 2.5 0 0 0 2 4.5v3.879a2.5 2.5 0 0 0 .732 1.767l7.5 7.5a2.5 2.5 0 0 0 3.536 0l3.878-3.878a2.5 2.5 0 0 0 0-3.536l-7.5-7.5A2.5 2.5 0 0 0 8.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-              clipRule="evenodd"
-            />
-          </svg>
-
-          <input
-            type="text"
-            value={item?.route || ""}
-            onChange={(e) =>
-              handleUpdate((item) => ({
-                ...item,
-                route: e.target.value?.trim(),
-              }))
-            }
-            className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter tags"
-          />
-        </div>
-
-        {/* Style Controls */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 mb-3">
+          {/* Image Upload */}
+          <div className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
               className="size-5 text-gray-400"
             >
-              <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
+              <path
+                fillRule="evenodd"
+                d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
+                clipRule="evenodd"
+              />
             </svg>
 
-            <span className="text-sm font-medium text-gray-700">
-              Style Controls
-            </span>
+            <label className="flex-1 cursor-pointer">
+              <div className="relative group">
+                <img
+                  src={item?.image}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
+                  }}
+                  alt={`Card ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg bg-gray-100"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity">
+                  <span className="text-white text-sm">
+                    Click to upload image
+                  </span>
+                </div>
+              </div>
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                className="hidden"
+                accept="image/*"
+              />
+            </label>
           </div>
 
-          <InputControl
-            initialInput={parseInt(item?.cardStyle?.borderRadius) || 0}
-            title="Border Radius"
-            updateInput={(value) =>
-              handleStyleUpdate("borderRadius", `${value}px`)
-            }
-            max={50}
-          />
+          {/* Tag Input */}
+          <div className="flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5 text-gray-400"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4.5 2A2.5 2.5 0 0 0 2 4.5v3.879a2.5 2.5 0 0 0 .732 1.767l7.5 7.5a2.5 2.5 0 0 0 3.536 0l3.878-3.878a2.5 2.5 0 0 0 0-3.536l-7.5-7.5A2.5 2.5 0 0 0 8.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                clipRule="evenodd"
+              />
+            </svg>
 
-          <InputControl
-            initialInput={parseInt(item?.cardStyle?.padding) || 0}
-            title="Padding"
-            updateInput={(value) => handleStyleUpdate("padding", `${value}px`)}
-            max={40}
-          />
+            <input
+              type="text"
+              value={item?.route || ""}
+              onChange={(e) =>
+                handleUpdate((item) => ({
+                  ...item,
+                  route: e.target.value?.trim(),
+                }))
+              }
+              className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="Enter tags"
+            />
+          </div>
 
-          {/* <InputControl
+          {/* Style Controls */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="size-5 text-gray-400"
+              >
+                <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
+              </svg>
+
+              <span className="text-sm font-medium text-gray-700">
+                Style Controls
+              </span>
+            </div>
+
+            <InputControl
+              initialInput={parseInt(item?.cardStyle?.borderRadius) || 0}
+              title="Border Radius"
+              updateInput={(value) =>
+                handleStyleUpdate("borderRadius", `${value}px`)
+              }
+              max={50}
+            />
+
+            <InputControl
+              initialInput={parseInt(item?.cardStyle?.padding) || 0}
+              title="Padding"
+              updateInput={(value) => handleStyleUpdate("padding", `${value}px`)}
+              max={40}
+            />
+
+            {/* <InputControl
             initialInput={parseInt(item?.cardStyle?.gap) || 0}
             title="Gap"
             updateInput={(value) => handleStyleUpdate("gap", `${value}px`)}
             max={40}
           /> */}
 
-          {/* Shadow Control */}
-          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <label className="text-sm font-medium text-gray-700">Shadow</label>
-            <select
-              value={item?.cardStyle?.boxShadow || "none"}
-              onChange={(e) => handleStyleUpdate("boxShadow", e.target.value)}
-              className="px-3 py-1 text-sm border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            >
-              <option value="none">None</option>
-              <option value="0 1px 3px rgba(0,0,0,0.12)">Small</option>
-              <option value="0 4px 6px rgba(0,0,0,0.1)">Medium</option>
-              <option value="0 10px 15px rgba(0,0,0,0.1)">Large</option>
-            </select>
-          </div>
+            {/* Shadow Control */}
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <label className="text-sm font-medium text-gray-700">Shadow</label>
+              <select
+                value={item?.cardStyle?.boxShadow || "none"}
+                onChange={(e) => handleStyleUpdate("boxShadow", e.target.value)}
+                className="px-3 py-1 text-sm border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="none">None</option>
+                <option value="0 1px 3px rgba(0,0,0,0.12)">Small</option>
+                <option value="0 4px 6px rgba(0,0,0,0.1)">Medium</option>
+                <option value="0 10px 15px rgba(0,0,0,0.1)">Large</option>
+              </select>
+            </div>
 
-          {/* Background Color */}
-          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <label className="text-sm font-medium text-gray-700">
-              Background
-            </label>
-            <ColorInput
-              value={item?.cardStyle?.backgroundColor || "#ffffff"}
-              onChange={(value) => handleStyleUpdate("backgroundColor", value)}
-            />
+            {/* Background Color */}
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <label className="text-sm font-medium text-gray-700">
+                Background
+              </label>
+              <ColorInput
+                value={item?.cardStyle?.backgroundColor || "#ffffff"}
+                onChange={(value) => handleStyleUpdate("backgroundColor", value)}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {isModalVisible && (
+      {isModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
             <div className="flex flex-col items-center">
@@ -849,7 +849,6 @@ const Landing = () => {
   const handleUpdate = ({ label, value }, styleTag) => {
     setStruct((prev) => {
       const newArr = [...prev];
-      console.log("newArr[selectedSection]: ", newArr[selectedSection]);
       newArr[selectedSection] = {
         ...newArr[selectedSection],
         [styleTag]: {
@@ -933,6 +932,9 @@ const Landing = () => {
       customGrid: ({ data }) => (
         <CustomGrid cards={data} isMobileView={selectedView === "homeMob"} />
       ),
+      customSizedGrid: ({ data }) => (
+        <CustomSizedGrid cards={data} isMobileView={selectedView === "homeMob"} />
+      )
     }),
     [selectedView]
   );
@@ -950,7 +952,7 @@ const Landing = () => {
       setIsModalOpen(true);
       setModalState("loading");
 
-      const main = JSON.parse(localStorage.getItem(selectedView));
+      const main = JSON.parse(localStorage.getItem("homeMob"));
       const newMain = {
         data: {
           data: struct,
@@ -992,7 +994,1783 @@ const Landing = () => {
   useEffect(() => {
     if (selectedView) {
       const main = JSON.parse(localStorage.getItem(selectedView));
+      console.log(main?.data?.data[6])
       setStruct(main?.data?.data);
+//       setStruct([
+//         {
+//           "item_ranked": 2,
+//           "title": ``,
+//           "type": "carusel_full",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             // display: "grid",
+//             // gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             // gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "20px",
+
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 // height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+
+//           ]
+//         },
+//         {
+//           "item_ranked": 3,
+//           "title": `Celebrate Occasions with India's #1
+// Online Gift Store`,
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Occasion-Banner_01.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Birthday",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Anniversary_Banner_02_01.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Anniversary",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/best_wishes_slider_3april.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Congratulations",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 4,
+//           "title": "Popular in Gifting",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-02-31-oct-2022.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Get Today",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-01-31-oct-2022.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Best Seller",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-03-31-oct-2022.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "New Arrival",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 5,
+//           "title": "Celebrations Calendar",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/International-day-of-happiness_Upcoming-Occasion_Mob-03-02-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Diwali",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/Eid_Upcoming_Occasion_Mob-15-01-25.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Eid",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/calendar/Easter_Upcoming_Occasion_Mob-15-02-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Easter",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+
+//         {
+//           "item_ranked": 6,
+//           "title": "Unwrap Festive Joy",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Gift_hampers_Holi_to_ramadan_Mob_17-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Gift Hamper",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Dryfruit_Hampers_holi_to_ramadan_Mob_17-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Dry Fruit",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Sweets_Holi_to_ramadan_Mob_17-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Sweets",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Fruit_hampers_Unwrap_festive_joy_Mob_17-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Fruits",
+//               cardStyle: {
+//                 gridColumnStart: "2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Chocolates_Unwpp_festive_joy_Mob_17-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Chocolates",
+//               cardStyle: {
+//                 gridColumnStart: "3",
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             }
+//           ]
+//         },
+//         {
+//           "item_ranked": 7,
+//           "title": "Birthday Gifts that Wow",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Flowers.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flowers",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Birthday_Mob_Cakes-27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Cakes",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/combo.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Combos",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Personalised.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Personalized",
+//               cardStyle: {
+//                 gridColumnStart: "2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/experience.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Experience",
+//               cardStyle: {
+//                 gridColumnStart: "3",
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             }
+//           ]
+//         },
+//         {
+//           "item_ranked": 8,
+//           "title": "Most Loved Gifts",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "750px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(3, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "text": "Luxe Flower",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Exotic-flowers_SBB_Mob-27-11-24.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "Luxe Cake",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Cakes_SBB_Mob-08-01-2025.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "Luxe Plant",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Plants_SBB_Mob_18.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "For Her",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_her-01-10-24.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "All Gifts",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/All%20gifts.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "For Him",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_him-01-10-24.jpeg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "Chocolate",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Chocolates_SBB_Mob_copy_18-03-2025.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "text": "Send A Guitar",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Guitarist_SBB_Mob_copy_18-03-2025.jpg",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Kids_Corner_SBB_Mob_copy_18-03-2025.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Kids",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 9,
+//           "title": "Anniversary Gifts, Wrapped in Love",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Flowers--27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flowers",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Premium-Gifts-27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Luxe Gifts",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Cakes-27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Cakes",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_252x300_Home&living.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Home & Living",
+//               cardStyle: {
+//                 gridColumnStart: "2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Plants_11_02.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Plants",
+//               cardStyle: {
+//                 gridColumnStart: "3",
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             }
+//           ]
+//         },
+//         {
+//           "item_ranked": 10,
+//           "title": "Pick Their Fav Flowers",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Flowers_Mob_Roses-530x300-27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flowers",
+//               cardStyle: {
+//                 gridColumn: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Persnaolised.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Luxe Gifts",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumnStart: "3",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/ORCHIDS.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Cakes",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridRowStart: "2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Carnation.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Home & Living",
+//               cardStyle: {
+//                 gridColumn: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 11,
+//           "title": "Bakery-Fresh Cakes",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_Chocolates-27-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Clocolate",
+//               cardStyle: {
+//                 gridColumn: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Flower-N-Cake.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flower & Cake",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumnStart: "3",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Eggless.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "EggLess",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridRowStart: "2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Pineapple.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Pineapple",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridRowStart: "2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Butterscotch.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Butterscotch",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 12,
+//           "title": "Freshly Curated",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Flowers-06-01-23.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flowers",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Cakes-06-01-23.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Cakes",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Personalised-06-01-23.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Personalized",
+//               cardStyle: {
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Hampers-06-01-23.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Hamper",
+//               cardStyle: {
+//                 gridColumnStart: "2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Plants-06-01-23.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Plant",
+//               cardStyle: {
+//                 gridColumnStart: "3",
+//                 borderRadius: "10px",
+
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             }
+//           ]
+//         },
+//         {
+//           "item_ranked": 13,
+//           "title": "For Every Relationship",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Men_Mob_41224.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Men",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Women_Mob_41224.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Women",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Kids_Mob_41224.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Kids",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               imageStyle: {
+//                 borderRadius: "10px",
+//                 overflow: "hidden",
+//                 height: "85%"
+//               },
+//               textStyle: {
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 14,
+//           "title": "Gifts worth waiting for",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_Mob-18-11-24.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Spirital Gits",
+//               cardStyle: {
+//                 gridColumn: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_toys.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Toys & Games",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumnStart: "3",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_fashion&lifestyle.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Fashion & Lifestyle",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridRowStart: "2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_expirential.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Experimental Gifts",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridRowStart: "2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_bestsellers.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Bestseller Gifts",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 15,
+//           "title": "Gifts that Go together",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_250x634_FLowers&Cakes.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flowers & Cakes",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_Gift%20Hampers.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Gift Hamper",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumn: "span 2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_FLowers&Chocolates.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Flower N Chocolate",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumn: "span 2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 16,
+//           "title": "Gifts That Tell Stories",
+//           "type": "customSizedGrid",
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Stationary%20.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Stationary Gifts",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/cushion.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Cushions",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Frame.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Photo Frame",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/mug.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Mugs",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumn: "span 2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//         {
+//           "item_ranked": 17,
+//           "title": "Plants For Every Vibe",
+//           "type": "customSizedGrid",
+
+//           "containerStyle": {
+//             height: "500px",
+//             marginTop: "20px"
+//           },
+//           "innerContainerStyle": {
+//             display: "grid",
+//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+//             gap: "0.5rem",
+//           },
+//           "boxStyle": {
+//             "backgroundColor": "white",
+//             "borderRadius": "0px",
+//           },
+//           "items": [
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Jade-Plants.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Jade Plant",
+//               cardStyle: {
+//                 gridRow: "span 2",
+//                 borderRadius: "10px",
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Lucky-Bamboo.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Lucky Bamboo",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumn: "span 2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//             {
+//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Money-Plants.jpg",
+//               "type": "sized-card",
+//               "route": "chocolate",
+//               "text": "Money Plant",
+//               cardStyle: {
+//                 borderRadius: "10px",
+//                 gridColumn: "span 2"
+//               },
+//               textStyle: {
+//                 position: "absolute",
+//                 bottom: "-0.5rem",
+//                 left: "0.75rem",
+//                 right: "0.75rem",
+//                 paddingTop: "0.25rem",
+//                 paddingBottom: "0.25rem",
+//                 borderRadius: "0.5rem",
+//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+//               }
+//             },
+//           ]
+//         },
+//       ])
     }
   }, [selectedView]);
 

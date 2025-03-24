@@ -19,10 +19,14 @@ import setCookie from "../../atom/utils/setCookies";
 import { useGetCarosolQuery } from "../../redux/apiSlices/owner/landing";
 import SEO from "../../atom/seo/SEO";
 import { isBefore, parseISO } from "date-fns";
+import SizedCard from "./SizedCard";
+import CustomSizedGrid from "./CustomSizedGrid";
+import { cn } from "../../atom/utils/cn";
 
 export const getCard = ({ data, isMobileView = false }) => {
   const cards = {
     card3: <CardThree data={data} isMobileView={isMobileView} />,
+    "sized-card": <SizedCard data={data} isMobileView={isMobileView} />,
   };
 
   return cards[data?.type] ?? <></>;
@@ -1632,6 +1636,9 @@ const Home = () => {
           <BirthdayCollection data={data} />
         </div>
       ),
+      customSizedGrid: (
+        <CustomSizedGrid cards={data} />
+      )
     };
     return components[data.type] || "hiiiii";
   };
@@ -1658,7 +1665,6 @@ const Home = () => {
     const storedDate = storedUpdatedAt ? parseISO(storedUpdatedAt) : null;
     const apiDate = parseISO(apiUpdatedAt);
     if (!storedDate || !homeDesk || !homeMob || isBefore(storedDate, apiDate)) {
-      console.log("isBefore", isBefore(storedDate, apiDate));
       if (data?.data[key]) {
         localStorage.setItem(key, data.data[key]);
         localStorage.setItem("updatedAt", apiUpdatedAt);
@@ -1671,6 +1677,7 @@ const Home = () => {
     }
   }, [data, otherData, refetch, refetchOther, key, otherKey]);
 
+   
   return (
     <>
       <TopNavbar
@@ -1694,26 +1701,23 @@ const Home = () => {
         style={
           (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         }
-        className={twMerge(
-          "",
-          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
+        className={cn(
+          "bg-white h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden",
+          // (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         )}
       >
         {(window.innerWidth > 768 ? main : mainMob)?.data?.data.map(
-          (section, index) => {
-            return (
-              <section
-                key={index}
-                style={section.containerStyle}
-                className={twMerge(
-                  index > 0 && "p-0 mx-auto max-w-[1600px] w-full"
-                )}
-              >
-                <GetComponents data={section} />
-              </section>
-            );
-          }
-        ) ?? <></>}
+          (section, index) => (
+            <section
+              key={index}
+              style={section.containerStyle}
+              className={twMerge(
+                index > 0 && "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
+              )}
+            >
+              <GetComponents data={section} />
+            </section>
+          )) ?? <></>}
       </div>
       <Footer />
     </>

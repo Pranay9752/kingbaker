@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       {/* <TopNavbar /> */}
-      <div className="bg-[#f2f2f2] trun">
+      <div className="bg-white md:bg-[#f2f2f2] trun">
         <Routes>
           <Route element={<CountryWrapper />}>
             <Route path="/account/login" element={<Login />} />
