@@ -1636,9 +1636,7 @@ const Home = () => {
           <BirthdayCollection data={data} />
         </div>
       ),
-      customSizedGrid: (
-        <CustomSizedGrid cards={data} />
-      )
+      customSizedGrid: <CustomSizedGrid cards={data} />,
     };
     return components[data.type] || "hiiiii";
   };
@@ -1673,11 +1671,9 @@ const Home = () => {
         localStorage.setItem(otherKey, otherData.data[otherKey]);
         localStorage.setItem("updatedAt", apiUpdatedAt);
       }
-
     }
   }, [data, otherData, refetch, refetchOther, key, otherKey]);
 
-   
   return (
     <>
       <TopNavbar
@@ -1698,11 +1694,11 @@ const Home = () => {
       <SEO />
       <NavBar />
       <div
-        style={
-          (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
-        }
+        // style={
+        //   (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
+        // }
         className={cn(
-          "bg-white h-[95svh] border rounded-2xl p-3 flex flex-col overflow-y-auto overflow-x-hidden",
+          "bg-white h-[95svh] border rounded-2xl px-0.5 md:p-3 flex flex-col overflow-y-auto overflow-x-hidden"
           // (window.innerWidth > 768 ? main : mainMob)?.data?.meta_data ?? {}
         )}
       >
@@ -1717,7 +1713,8 @@ const Home = () => {
             >
               <GetComponents data={section} />
             </section>
-          )) ?? <></>}
+          )
+        ) ?? <></>}
       </div>
       <Footer />
     </>
