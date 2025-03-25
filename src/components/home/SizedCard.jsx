@@ -25,7 +25,7 @@ const SizedCard = ({ data, isMobileView = false }) => {
       style={data?.textStyle}
         className={cn(` ${data.price == null ? "text-center" : "text-left"}`)}
       >
-        <h3 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-2">
+        <h3 className="text-xs md:text-sm font-semibold text-gray-700 mb-2 line-clamp-2">
           {data.text}
         </h3>
         {data?.price && (
