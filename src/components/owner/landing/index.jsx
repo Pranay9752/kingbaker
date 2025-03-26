@@ -976,6 +976,10 @@ const Landing = () => {
       }, 2000);
     } catch (error) {
       setModalState("error");
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setModalState("idle");
+      }, 2000);
       console.error("Publish failed", error);
     }
     // const main = JSON.parse(localStorage.getItem(selectedView));
