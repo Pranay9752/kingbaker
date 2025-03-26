@@ -797,7 +797,7 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 const Landing = () => {
   const [selectedSection, setSelectedSection] = useState(0);
   const [selectedKey, setSelectedKey] = useState("containerStyle");
-  const [selectedView, setSelectedView] = useState("homeMob");
+  const [selectedView, setSelectedView] = useState("homeDesk");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalState, setModalState] = useState("idle");
 
@@ -999,1787 +999,3812 @@ const Landing = () => {
     if (selectedView) {
       const main = JSON.parse(localStorage.getItem(selectedView));
       setStruct(main?.data?.data);
-//       setStruct([
-//         {
-//           "item_ranked": 2,
-//           "title": ``,
-//           "type": "carusel_full",
+      //       setStruct([
+      //         {
+      //           "item_ranked": 2,
+      //           "title": ``,
+      //           "type": "carusel_full",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             // display: "grid",
-//             // gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             // gridTemplateRows: "repeat(1, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "20px",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             // display: "grid",
+      //             // gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             // gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "20px",
 
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 // height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Dryfruit_Hampers_Mob_copy_18.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/hero-banners/Floral_Gifts_Mob-27-01-25.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 // height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
 
-//           ]
-//         },
-//         {
-//           "item_ranked": 3,
-//           "title": `Celebrate Occasions with India's #1
-// Online Gift Store`,
-//           "type": "customSizedGrid",
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 3,
+      //           "title": `Celebrate Occasions with India's #1
+      // Online Gift Store`,
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Occasion-Banner_01.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Birthday",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Anniversary_Banner_02_01.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Anniversary",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/best_wishes_slider_3april.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Congratulations",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 4,
-//           "title": "Popular in Gifting",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Occasion-Banner_01.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Birthday",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/Anniversary_Banner_02_01.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Anniversary",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/occassion/best_wishes_slider_3april.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Congratulations",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 4,
+      //           "title": "Popular in Gifting",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-02-31-oct-2022.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Get Today",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-01-31-oct-2022.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Best Seller",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-03-31-oct-2022.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "New Arrival",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 5,
-//           "title": "Celebrations Calendar",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-02-31-oct-2022.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Get Today",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-01-31-oct-2022.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Best Seller",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/featured/Featured-Banner-03-31-oct-2022.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "New Arrival",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 5,
+      //           "title": "Celebrations Calendar",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/International-day-of-happiness_Upcoming-Occasion_Mob-03-02-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Diwali",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/Eid_Upcoming_Occasion_Mob-15-01-25.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Eid",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/calendar/Easter_Upcoming_Occasion_Mob-15-02-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Easter",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/International-day-of-happiness_Upcoming-Occasion_Mob-03-02-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Diwali",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com//assets/images/custom/new-mobile-home/new-ui/calendar/Eid_Upcoming_Occasion_Mob-15-01-25.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Eid",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/calendar/Easter_Upcoming_Occasion_Mob-15-02-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Easter",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
 
-//         {
-//           "item_ranked": 6,
-//           "title": "Unwrap Festive Joy",
-//           "type": "customSizedGrid",
+      //         {
+      //           "item_ranked": 6,
+      //           "title": "Unwrap Festive Joy",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Gift_hampers_Holi_to_ramadan_Mob_17-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Gift Hamper",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Dryfruit_Hampers_holi_to_ramadan_Mob_17-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Dry Fruit",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //           "containerStyle": {
+      //             height: "500px",
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Gift_hampers_Holi_to_ramadan_Mob_17-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Gift Hamper",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Dryfruit_Hampers_holi_to_ramadan_Mob_17-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Dry Fruit",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Sweets_Holi_to_ramadan_Mob_17-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Sweets",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Sweets_Holi_to_ramadan_Mob_17-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Sweets",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Fruit_hampers_Unwrap_festive_joy_Mob_17-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Fruits",
-//               cardStyle: {
-//                 gridColumnStart: "2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Chocolates_Unwpp_festive_joy_Mob_17-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Chocolates",
-//               cardStyle: {
-//                 gridColumnStart: "3",
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Fruit_hampers_Unwrap_festive_joy_Mob_17-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Fruits",
+      //               cardStyle: {
+      //                 gridColumnStart: "2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/Chocolates_Unwpp_festive_joy_Mob_17-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Chocolates",
+      //               cardStyle: {
+      //                 gridColumnStart: "3",
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             }
-//           ]
-//         },
-//         {
-//           "item_ranked": 7,
-//           "title": "Birthday Gifts that Wow",
-//           "type": "customSizedGrid",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             }
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 7,
+      //           "title": "Birthday Gifts that Wow",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Flowers.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flowers",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Birthday_Mob_Cakes-27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Cakes",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Flowers.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flowers",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Birthday_Mob_Cakes-27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Cakes",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/combo.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Combos",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/combo.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Combos",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Personalised.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Personalized",
-//               cardStyle: {
-//                 gridColumnStart: "2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/experience.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Experience",
-//               cardStyle: {
-//                 gridColumnStart: "3",
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/Personalised.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Personalized",
+      //               cardStyle: {
+      //                 gridColumnStart: "2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/birthday/2023/experience.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Experience",
+      //               cardStyle: {
+      //                 gridColumnStart: "3",
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             }
-//           ]
-//         },
-//         {
-//           "item_ranked": 8,
-//           "title": "Most Loved Gifts",
-//           "type": "customSizedGrid",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             }
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 8,
+      //           "title": "Most Loved Gifts",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "750px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(3, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "text": "Luxe Flower",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Exotic-flowers_SBB_Mob-27-11-24.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "Luxe Cake",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Cakes_SBB_Mob-08-01-2025.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "Luxe Plant",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Plants_SBB_Mob_18.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "For Her",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_her-01-10-24.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "All Gifts",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/All%20gifts.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "For Him",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_him-01-10-24.jpeg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "Chocolate",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Chocolates_SBB_Mob_copy_18-03-2025.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "text": "Send A Guitar",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Guitarist_SBB_Mob_copy_18-03-2025.jpg",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Kids_Corner_SBB_Mob_copy_18-03-2025.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Kids",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 9,
-//           "title": "Anniversary Gifts, Wrapped in Love",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "750px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(3, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "text": "Luxe Flower",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Exotic-flowers_SBB_Mob-27-11-24.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "Luxe Cake",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Cakes_SBB_Mob-08-01-2025.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "Luxe Plant",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Luxe_Plants_SBB_Mob_18.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "For Her",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_her-01-10-24.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "All Gifts",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/All%20gifts.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "For Him",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/for_him-01-10-24.jpeg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "Chocolate",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Chocolates_SBB_Mob_copy_18-03-2025.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "text": "Send A Guitar",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Guitarist_SBB_Mob_copy_18-03-2025.jpg",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/explore/new/Kids_Corner_SBB_Mob_copy_18-03-2025.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Kids",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 9,
+      //           "title": "Anniversary Gifts, Wrapped in Love",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Flowers--27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flowers",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Premium-Gifts-27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Luxe Gifts",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Flowers--27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flowers",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Premium-Gifts-27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Luxe Gifts",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Cakes-27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Cakes",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Cakes-27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Cakes",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_252x300_Home&living.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Home & Living",
-//               cardStyle: {
-//                 gridColumnStart: "2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Plants_11_02.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Plants",
-//               cardStyle: {
-//                 gridColumnStart: "3",
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_252x300_Home&living.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Home & Living",
+      //               cardStyle: {
+      //                 gridColumnStart: "2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/anniversary/Anniversary_Mob_Plants_11_02.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Plants",
+      //               cardStyle: {
+      //                 gridColumnStart: "3",
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             }
-//           ]
-//         },
-//         {
-//           "item_ranked": 10,
-//           "title": "Pick Their Fav Flowers",
-//           "type": "customSizedGrid",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             }
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 10,
+      //           "title": "Pick Their Fav Flowers",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Flowers_Mob_Roses-530x300-27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flowers",
-//               cardStyle: {
-//                 gridColumn: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Persnaolised.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Luxe Gifts",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumnStart: "3",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/ORCHIDS.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Cakes",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridRowStart: "2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Carnation.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Home & Living",
-//               cardStyle: {
-//                 gridColumn: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 11,
-//           "title": "Bakery-Fresh Cakes",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Flowers_Mob_Roses-530x300-27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flowers",
+      //               cardStyle: {
+      //                 gridColumn: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Persnaolised.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Luxe Gifts",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumnStart: "3",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/ORCHIDS.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Cakes",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridRowStart: "2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/flowers/2023/Carnation.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Home & Living",
+      //               cardStyle: {
+      //                 gridColumn: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 11,
+      //           "title": "Bakery-Fresh Cakes",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_Chocolates-27-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Clocolate",
-//               cardStyle: {
-//                 gridColumn: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Flower-N-Cake.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flower & Cake",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumnStart: "3",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Eggless.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "EggLess",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridRowStart: "2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Pineapple.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Pineapple",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridRowStart: "2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Butterscotch.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Butterscotch",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 12,
-//           "title": "Freshly Curated",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_Chocolates-27-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Clocolate",
+      //               cardStyle: {
+      //                 gridColumn: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Flower-N-Cake.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flower & Cake",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumnStart: "3",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Eggless.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "EggLess",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridRowStart: "2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Pineapple.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Pineapple",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridRowStart: "2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/cakes/2023/Cakes_Mob_252x300_Butterscotch.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Butterscotch",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 12,
+      //           "title": "Freshly Curated",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Flowers-06-01-23.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flowers",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Cakes-06-01-23.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Cakes",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Flowers-06-01-23.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flowers",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Cakes-06-01-23.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Cakes",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Personalised-06-01-23.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Personalized",
-//               cardStyle: {
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Personalised-06-01-23.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Personalized",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Hampers-06-01-23.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Hamper",
-//               cardStyle: {
-//                 gridColumnStart: "2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Plants-06-01-23.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Plant",
-//               cardStyle: {
-//                 gridColumnStart: "3",
-//                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Hampers-06-01-23.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Hamper",
+      //               cardStyle: {
+      //                 gridColumnStart: "2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/New_Arrivals_Mob_Plants-06-01-23.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Plant",
+      //               cardStyle: {
+      //                 gridColumnStart: "3",
+      //                 borderRadius: "10px",
 
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             }
-//           ]
-//         },
-//         {
-//           "item_ranked": 13,
-//           "title": "For Every Relationship",
-//           "type": "customSizedGrid",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             }
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 13,
+      //           "title": "For Every Relationship",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Men_Mob_41224.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Men",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Women_Mob_41224.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Women",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Kids_Mob_41224.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Kids",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               imageStyle: {
-//                 borderRadius: "10px",
-//                 overflow: "hidden",
-//                 height: "85%"
-//               },
-//               textStyle: {
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 14,
-//           "title": "Gifts worth waiting for",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Men_Mob_41224.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Men",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Women_Mob_41224.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Women",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/relationship/Recipient_Kids_Mob_41224.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Kids",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               imageStyle: {
+      //                 borderRadius: "10px",
+      //                 overflow: "hidden",
+      //                 height: "85%"
+      //               },
+      //               textStyle: {
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 14,
+      //           "title": "Gifts worth waiting for",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_Mob-18-11-24.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Spirital Gits",
-//               cardStyle: {
-//                 gridColumn: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_toys.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Toys & Games",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumnStart: "3",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_fashion&lifestyle.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Fashion & Lifestyle",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridRowStart: "2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_expirential.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Experimental Gifts",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridRowStart: "2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_bestsellers.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Bestseller Gifts",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 15,
-//           "title": "Gifts that Go together",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_Mob-18-11-24.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Spirital Gits",
+      //               cardStyle: {
+      //                 gridColumn: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_toys.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Toys & Games",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumnStart: "3",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_fashion&lifestyle.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Fashion & Lifestyle",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridRowStart: "2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_expirential.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Experimental Gifts",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridRowStart: "2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/gifts/GWWF_252x300_bestsellers.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Bestseller Gifts",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 15,
+      //           "title": "Gifts that Go together",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_250x634_FLowers&Cakes.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flowers & Cakes",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_Gift%20Hampers.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Gift Hamper",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumn: "span 2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_FLowers&Chocolates.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Flower N Chocolate",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumn: "span 2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 16,
-//           "title": "Gifts That Tell Stories",
-//           "type": "customSizedGrid",
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Stationary%20.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Stationary Gifts",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/cushion.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Cushions",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Frame.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Photo Frame",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/mug.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Mugs",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumn: "span 2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//         {
-//           "item_ranked": 17,
-//           "title": "Plants For Every Vibe",
-//           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_250x634_FLowers&Cakes.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flowers & Cakes",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_Gift%20Hampers.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Gift Hamper",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumn: "span 2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/combos/2023/GTGT_Mob_530x300_FLowers&Chocolates.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Flower N Chocolate",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumn: "span 2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 16,
+      //           "title": "Gifts That Tell Stories",
+      //           "type": "customSizedGrid",
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Stationary%20.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Stationary Gifts",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/cushion.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Cushions",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/Frame.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Photo Frame",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/personalised/2023/new/mug.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Mugs",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumn: "span 2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //         {
+      //           "item_ranked": 17,
+      //           "title": "Plants For Every Vibe",
+      //           "type": "customSizedGrid",
 
-//           "containerStyle": {
-//             height: "500px",
-//             marginTop: "20px"
-//           },
-//           "innerContainerStyle": {
-//             display: "grid",
-//             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-//             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-//             gap: "0.5rem",
-//           },
-//           "boxStyle": {
-//             "backgroundColor": "white",
-//             "borderRadius": "0px",
-//           },
-//           "items": [
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Jade-Plants.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Jade Plant",
-//               cardStyle: {
-//                 gridRow: "span 2",
-//                 borderRadius: "10px",
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Lucky-Bamboo.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Lucky Bamboo",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumn: "span 2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//             {
-//               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Money-Plants.jpg",
-//               "type": "sized-card",
-//               "route": "chocolate",
-//               "text": "Money Plant",
-//               cardStyle: {
-//                 borderRadius: "10px",
-//                 gridColumn: "span 2"
-//               },
-//               textStyle: {
-//                 position: "absolute",
-//                 bottom: "-0.5rem",
-//                 left: "0.75rem",
-//                 right: "0.75rem",
-//                 paddingTop: "0.25rem",
-//                 paddingBottom: "0.25rem",
-//                 borderRadius: "0.5rem",
-//                 backgroundColor: "rgba(255, 255, 255, 0.75)"
-//               }
-//             },
-//           ]
-//         },
-//       ])
+      //           "containerStyle": {
+      //             height: "500px",
+      //             marginTop: "20px"
+      //           },
+      //           "innerContainerStyle": {
+      //             display: "grid",
+      //             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //             gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //             gap: "0.5rem",
+      //           },
+      //           "boxStyle": {
+      //             "backgroundColor": "white",
+      //             "borderRadius": "0px",
+      //           },
+      //           "items": [
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Jade-Plants.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Jade Plant",
+      //               cardStyle: {
+      //                 gridRow: "span 2",
+      //                 borderRadius: "10px",
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Lucky-Bamboo.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Lucky Bamboo",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumn: "span 2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //             {
+      //               "image": "https://www.fnp.com/assets/images/custom/new-mobile-home/new-ui/plants/2023/Plants-For-Every-Vibe_mob_Money-Plants.jpg",
+      //               "type": "sized-card",
+      //               "route": "chocolate",
+      //               "text": "Money Plant",
+      //               cardStyle: {
+      //                 borderRadius: "10px",
+      //                 gridColumn: "span 2"
+      //               },
+      //               textStyle: {
+      //                 position: "absolute",
+      //                 bottom: "-0.5rem",
+      //                 left: "0.75rem",
+      //                 right: "0.75rem",
+      //                 paddingTop: "0.25rem",
+      //                 paddingBottom: "0.25rem",
+      //                 borderRadius: "0.5rem",
+      //                 backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //               }
+      //             },
+      //           ]
+      //         },
+      //       ])
+
+      // setStruct([
+      //   {
+      //     "item_ranked": 1,
+      //     "title": ``,
+      //     "type": "carousel",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/hero-banners/Hatke-i_Homepage-Banner_NEW-UI-25-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "24px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "45vh",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/hero-banners/Luxe_HomepageBanner_Desk_140125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "24px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "45vh",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/hero-banners/Dryfruit_Hampers_Homepage_Banner_NEW_UI_copy_18.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "24px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "45vh",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+ 
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 2,
+      //     "title": ``,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(9, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Hatke_gifts_Desk.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Birthday",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%"
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 4,
+      //     "title": `Popular in Gifting`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "1rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/deliveries/Needtoday_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": " ",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/deliveries/Needtoday_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": " ",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/deliveries/Needtoday_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": " ",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/deliveries/Needtoday_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": " ",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/deliveries/Needtoday_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": " ",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+
+
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 5,
+      //     "title": `Unwrap Festive Joy`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/new-category/Gift_Hampers_Holi_to_ramadan_New_UI_17-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/new-category/Gift_Hampers_Holi_to_ramadan_New_UI_17-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/new-category/Gift_Hampers_Holi_to_ramadan_New_UI_17-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/new-category/Gift_Hampers_Holi_to_ramadan_New_UI_17-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/new-category/Gift_Hampers_Holi_to_ramadan_New_UI_17-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 6,
+      //     "title": `Anniversary Gifts, Wrapped in Love`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Hampers150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //           gridColumn: "span 2",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 7,
+      //     "title": `Birthday Gifts that Wow`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Plants_Anniversasry_gifts-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/anniversary/Hampers150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //           gridColumn: "span 2",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 8,
+      //     "title": `Celebrations Calendar`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/calendar/Eid_Upcoming_Occasion_Desk-15-01-25.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com//assets/images/custom/new-desk-home/calendar/Easter_Upcoming_Occasion_Desk-15-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/calendar/Mothers_Day_Upcoming_Occasion_Desk-09-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/calendar/Mothers_Day_Upcoming_Occasion_Desk-09-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-desk-home/calendar/Mothers_Day_Upcoming_Occasion_Desk-09-03-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 9,
+      //     "title": `Pick Their Fav Flowers`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/roses_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/gerberas_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/Orchids_Desk_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/lilies_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/Flowers_Carnations_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/flowers/Flowers_Luxe_Desk_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Gift Hamper",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 10,
+      //     "title": ``,
+      //     "type": "carousel",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/offers/Cred-25-02-2025.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "24px",
+      //           overflow: "hidden",
+      //           height: "190px",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+ 
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 11,
+      //     "title": `For Every Relationship`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(8, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/relationship/Men_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Men",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 12,
+      //     "title": `Bakery-Fresh Cakes`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/cakes/Butterscotch_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Chocolate",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/cakes/Butterscotch_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Chocolate",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/cakes/Butterscotch_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Chocolate",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/cakes/Butterscotch_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Chocolate",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/cakes/Butterscotch_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Chocolate",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 13,
+      //     "title": `Personalise your moments`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/personalise/Jewellery_150125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Jewellery",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 13,
+      //     "title": `Plants For Every Vibe`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/plants/Table-Plam170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Indoor Plants",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/plants/Table-Plam170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Indoor Plants",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/plants/Table-Plam170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Indoor Plants",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/plants/Table-Plam170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Indoor Plants",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/plants/Table-Plam170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Indoor Plants",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 14,
+      //     "title": `Same Day Surprises`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(1, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/same-day/Flowers_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Flowers",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/same-day/Flowers_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Flowers",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/same-day/Flowers_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Flowers",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/same-day/Flowers_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Flowers",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/same-day/Flowers_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Flowers",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //           aspectRatio: '1 / 1'
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "item_ranked": 14,
+      //     "title": `Same Day Surprises`,
+      //     "type": "customSizedGrid",
+
+      //     "containerStyle": {
+      //       // height: "500px",
+      //       marginTop: "20px"
+      //     },
+      //     "innerContainerStyle": {
+      //       display: "grid",
+      //       gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      //       gridTemplateRows: "repeat(2, minmax(0, 1fr))",
+      //       gap: "3rem",
+      //     },
+      //     "boxStyle": {
+      //       "backgroundColor": "white",
+      //       "borderRadius": "0px",
+      //     },
+      //     "items": [
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+      //       {
+      //         "image": "https://www.fnp.com/assets/images/custom/new-home-2025/home-living/homedecor_170125.jpg",
+      //         "type": "sized-card",
+      //         "route": "chocolate",
+      //         "text": "Home Decor",
+      //         cardStyle: {
+      //           borderRadius: "16px",
+      //         },
+      //         imageStyle: {
+      //           borderRadius: "16px",
+      //           overflow: "hidden",
+      //           height: "85%",
+      //         },
+      //         textStyle: {
+      //           paddingTop: "0.25rem",
+      //           paddingBottom: "0.25rem",
+      //           borderRadius: "0.5rem",
+      //           backgroundColor: "rgba(255, 255, 255, 0.75)"
+      //         }
+      //       },
+        
+      //     ]
+      //   },
+      // ])
     }
   }, [selectedView]);
 
   return (
     <>
-      <div className="grid grid-cols-[15%,60%,25%] absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+      <div className="grid grid-cols-[15%,60%,25%] absolute   inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <SEO title={"Landing"} />
 
         {/* Sidebar */}
@@ -3168,7 +5193,7 @@ export default Landing;
 //         type: "image",
 //         route: "chocolate",
 //         text: "",
-//         cardStyle: { height: "30vh" },
+//         cardStyle: { height: "45vh" },
 //       },
 //       {
 //         image:
@@ -3176,7 +5201,7 @@ export default Landing;
 //         type: "image",
 //         route: "cake",
 //         text: "",
-//         cardStyle: { height: "30vh" },
+//         cardStyle: { height: "45vh" },
 //       },
 //       {
 //         image:
@@ -3184,7 +5209,7 @@ export default Landing;
 //         type: "image",
 //         route: "flower",
 //         text: "",
-//         cardStyle: { height: "30vh" },
+//         cardStyle: { height: "45vh" },
 //       },
 //       {
 //         image:
@@ -3192,7 +5217,7 @@ export default Landing;
 //         type: "image",
 //         route: "cherry",
 //         text: "",
-//         cardStyle: { height: "30vh" },
+//         cardStyle: { height: "45vh" },
 //       },
 //       {
 //         image:
@@ -3200,7 +5225,7 @@ export default Landing;
 //         type: "image",
 //         route: "cakes",
 //         text: "",
-//         cardStyle: { height: "30vh" },
+//         cardStyle: { height: "45vh" },
 //       },
 //     ],
 //   },

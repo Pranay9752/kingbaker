@@ -1708,7 +1708,7 @@ const Home = () => {
               key={index}
               style={section.containerStyle}
               className={twMerge(
-                index > 0 && "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
+                 "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
               )}
             >
               <GetComponents data={section} />
