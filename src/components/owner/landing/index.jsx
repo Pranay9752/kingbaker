@@ -797,7 +797,7 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 const Landing = () => {
   const [selectedSection, setSelectedSection] = useState(0);
   const [selectedKey, setSelectedKey] = useState("containerStyle");
-  const [selectedView, setSelectedView] = useState("homeDesk");
+  const [selectedView, setSelectedView] = useState("homeMob");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalState, setModalState] = useState("idle");
 
@@ -952,11 +952,11 @@ const Landing = () => {
       setIsModalOpen(true);
       setModalState("loading");
 
-      const main = JSON.parse(localStorage.getItem("homeMob"));
+      const main = JSON.parse(localStorage.getItem(selectedView));
       const newMain = {
         data: {
           data: struct,
-          meta_data: main.data.meta_data,
+          meta_data: main?.data.meta_data || {},
         },
       };
       localStorage.setItem(selectedView, JSON.stringify(newMain));
@@ -976,7 +976,7 @@ const Landing = () => {
       }, 2000);
     } catch (error) {
       setModalState("error");
-      console.error("Publish failed", err);
+      console.error("Publish failed", error);
     }
     // const main = JSON.parse(localStorage.getItem(selectedView));
     // const newMain = {
@@ -994,7 +994,6 @@ const Landing = () => {
   useEffect(() => {
     if (selectedView) {
       const main = JSON.parse(localStorage.getItem(selectedView));
-      console.log(main?.data?.data[6])
       setStruct(main?.data?.data);
 //       setStruct([
 //         {
