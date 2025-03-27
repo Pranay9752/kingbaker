@@ -29,7 +29,6 @@ import OwnerProducts from "./components/owner/products/index.jsx";
 import PaymentStatus from "./components/product_detail/PaymentStatus.jsx";
 import POSTHandler from "./components/product_detail/PaymentHandler.jsx";
 
-
 function App() {
   //   // return <MaintenancePage />;
   window.global = window;
@@ -82,11 +81,112 @@ function App() {
           <Route path="/owner/products" element={<OwnerProducts />} />
           <Route path="/owner/orders" element={<OwnerOrders />} />
           <Route path="/owner/landing" element={<Landing />} />
+          <Route path="/test" element={<TestComp />} />
         </Routes>
       </div>
       <Toaster duration={3000} position="top-center" richColors />
     </>
-  )
+  );
 }
 
 export default App;
+
+import * as XLSX from "xlsx";
+import { useState } from "react";
+
+const TestComp = () => {
+  const [excelData, setExcelData] = useState(null);
+
+  const arrangeData = (data) => {
+    const product_details = {
+      prices: "",
+      imageLink: [],
+      title: "",
+      description: "",
+      specifications: "",
+      details: [],
+      amenities: {
+        Delivery: "",
+      },
+      event: [],
+      rating: 1,
+      reviews: [
+        {
+          user_id: "",
+          reviews: "",
+        },
+      ],
+      tags: [],
+      weight: [],
+      brand: "",
+      color: "",
+      is_veg: true,
+      is_image: true,
+      is_message: true,
+    };
+
+    const finalData = data.reduce((acc, item) => {
+      if (item["Title"]) acc.index += 1;
+      acc.result[acc.index] = [item, ...(acc.result[acc.index] || [])];
+      return acc;
+    }, { result: {}, index: 0 }).result;
+    
+    console.log("finalData: ", finalData);
+  };
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      // Read the file as a binary string
+      const binaryString = event.target.result;
+
+      // Parse the Excel file
+      const workbook = XLSX.read(binaryString, { type: "binary" });
+
+      // Get the first sheet name
+      const worksheetName = workbook.SheetNames[0];
+
+      // Get the first worksheet
+      const worksheet = workbook.Sheets[worksheetName];
+      console.log("worksheet: ", worksheet);
+
+      // Convert worksheet to JSON
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      arrangeData(jsonData);
+      console.log("jsonData: ", jsonData);
+
+      // Set the parsed data in state
+    };
+
+    // Read the file as a binary string
+    reader.readAsBinaryString(file);
+  };
+
+  return (
+    <div className="p-4 max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4">Excel File Reader</h2>
+
+      <input
+        type="file"
+        accept=".xlsx, .xls"
+        onChange={handleFileUpload}
+        className="mb-4 block w-full text-sm text-slate-500
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-violet-50 file:text-violet-700
+          hover:file:bg-violet-100"
+      />
+
+      {excelData && (
+        <div className="mt-4">
+          <h3 className="font-semibold mb-2">Excel Data:</h3>
+          <pre className="bg-gray-100 p-2 rounded overflow-auto max-h-64">
+            {JSON.stringify(excelData, null, 2)}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+};
