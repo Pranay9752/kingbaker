@@ -1703,17 +1703,19 @@ const Home = () => {
         )}
       >
         {(window.innerWidth > 768 ? main : mainMob)?.data?.data.map(
-          (section, index) => (
-            <section
-              key={index}
-              style={section.containerStyle}
-              className={twMerge(
-                 "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
-              )}
-            >
-              <GetComponents data={section} />
-            </section>
-          )
+          (section, index) => {
+            return (
+              <section
+                key={index}
+                style={section.containerStyle}
+                className={twMerge(
+                  "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
+                )}
+              >
+                <GetComponents data={section} />
+              </section>
+            );
+          }
         ) ?? <></>}
       </div>
       <Footer />

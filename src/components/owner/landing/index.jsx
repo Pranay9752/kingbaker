@@ -999,6 +999,7 @@ const Landing = () => {
     if (selectedView) {
       const main = JSON.parse(localStorage.getItem(selectedView));
       setStruct(main?.data?.data);
+
       //       setStruct([
       //         {
       //           "item_ranked": 2,

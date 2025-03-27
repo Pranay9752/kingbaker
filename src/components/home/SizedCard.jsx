@@ -5,7 +5,6 @@ import { twMerge } from "tailwind-merge";
 import { cn } from "../../atom/utils/cn";
 
 const SizedCard = ({ data, isMobileView = false }) => {
-  console.log(data?.cardStyle)
   return (
     <div
       className="relative bg-white w-full h-full rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
