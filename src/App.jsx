@@ -97,25 +97,19 @@ import { useState } from "react";
 const TestComp = () => {
   const [excelData, setExcelData] = useState(null);
 
-  const arrangeData = (data) => {
+  const getProductData = (data) => {
     const product_details = {
       prices: "",
+      pp: "",
       imageLink: [],
       title: "",
       description: "",
       specifications: "",
       details: [],
-      amenities: {
-        Delivery: "",
-      },
+      amenities: { Delivery: "" },
       event: [],
       rating: 1,
-      reviews: [
-        {
-          user_id: "",
-          reviews: "",
-        },
-      ],
+      reviews: [{ user_id: "", reviews: "" }],
       tags: [],
       weight: [],
       brand: "",
@@ -124,15 +118,61 @@ const TestComp = () => {
       is_image: true,
       is_message: true,
     };
-
-    const finalData = data.reduce((acc, item) => {
-      if (item["Title"]) acc.index += 1;
-      acc.result[acc.index] = [item, ...(acc.result[acc.index] || [])];
-      return acc;
-    }, { result: {}, index: 0 }).result;
-    
-    console.log("finalData: ", finalData);
+  
+    data?.forEach((element) => {
+      if (element["Title"]) {
+        Object.assign(product_details, {
+          title: element["Title"],
+          prices: element["Price"],
+          pp: element["pp"],
+          specifications: element["Specifications"],
+          is_veg: element["Is_Veg"],
+          is_image: element["Is_Image"],
+          is_message: element["Is_Message"],
+          brand: element["Brand"],
+          tags: element["Tags"]?.split(",") || [],
+          event: element["events"]?.split(",") || [],
+        });
+      }
+  
+      if (element["Image Links"]) product_details.imageLink.push(element["Image Links"]);
+  
+      if (element["detail_key"] && element["detail_value"]) {
+        product_details.details.push({
+          key: element["detail_key"],
+          value: element["detail_value"],
+        });
+      }
+  
+      if (element["weight"]) {
+        const weightEntry = {
+          weight: element["weight"],
+          price: element["weight_price"],
+          images: element["weight_image"] ? [element["weight_image"]] : [],
+        };
+        product_details.weight.push(weightEntry);
+      } else if (element["weight_image"] && product_details.weight.length > 0) {
+        // Ensure the last weight entry exists before pushing an image
+        product_details.weight[product_details.weight.length - 1].images.push(element["weight_image"]);
+      }
+    });
+  
+    return product_details;
   };
+  
+  const arrangeData = (data) => {
+    const groupedData = data.reduce(
+      (acc, item) => {
+        if (item["Title"]) acc.index++;
+        acc.result[acc.index] = [...(acc.result[acc.index] || []), item];
+        return acc;
+      },
+      { result: {}, index: 0 }
+    ).result;
+  
+    return Object.values(groupedData).map(getProductData);
+  };
+  
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -149,13 +189,11 @@ const TestComp = () => {
 
       // Get the first worksheet
       const worksheet = workbook.Sheets[worksheetName];
-      console.log("worksheet: ", worksheet);
 
       // Convert worksheet to JSON
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-      arrangeData(jsonData);
-      console.log("jsonData: ", jsonData);
-
+      const products = arrangeData(jsonData);
+      console.log(products)
       // Set the parsed data in state
     };
 
