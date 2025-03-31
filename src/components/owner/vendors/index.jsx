@@ -15,6 +15,7 @@ const OwnerVendors = ({ }) => {
   const [endDate, setEndDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [vendorMapping, setVendorMapping] = useState(null)
+  console.log('vendorMapping: ', vendorMapping);
 
   const { data, error, isLoading, refetch } = useGetAllVendorQuery();
 
@@ -63,7 +64,7 @@ const OwnerVendors = ({ }) => {
         <SEO title={"Vendors"} />
 
         {
-          vendorMapping ? <VendorMapping onBack={toggleVendorMapping}/> :
+          vendorMapping ? <VendorMapping vendor_id={vendorMapping?._id} onBack={toggleVendorMapping}/> :
             <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
               <div className="flex justify-between items-center gap-3 mb-6">
                 <div className="relative flex-grow max-w-md">

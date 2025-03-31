@@ -23,6 +23,16 @@ const OwnerVendorAPI = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    mapProductByVendor: builder.mutation({
+      query: ({ mapproduct, vendor_id }) => ({
+        url: 'product/mapProductByVendor',
+        method: 'POST',
+        body: { mapproduct, vendor_id },
+      }),
+    }),
+    getMapProductByVendorId: builder.query({
+      query: (vendorId) => `/product/getMapProductByVendorid?vendor_id=${vendorId}`,
+    }),
   }),
   overrideExisting: false,
 });
@@ -31,4 +41,6 @@ export const {
   useGetAllVendorQuery,
   useCreateVendorMutation,
   useUpdateOwnerOrVendorMutation,
+  useMapProductByVendorMutation,
+  useGetMapProductByVendorIdQuery 
 } = OwnerVendorAPI;

@@ -16,6 +16,7 @@ import {
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
 import AddProductModal from "../product/addProductModal";
 import SEO from "../../../atom/seo/SEO";
+import { Edit, Pencil, Plus, Trash, Trash2, X } from "lucide-react";
 
 const styles = StyleSheet.create({
   page: {
@@ -260,7 +261,7 @@ const OwnerProducts = () => {
   return (
     <>
       <OwnerHeader isActive="Products">
-      <SEO title={'Products'} />
+        <SEO title={"Products"} />
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           {/* Search Section */}
           <div className="flex flex-wrap gap-3 mb-6">
@@ -386,80 +387,143 @@ const OwnerProducts = () => {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6  mx-auto">
-              {data.map((item, index) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6  mx-auto">
+              {data.map((product, index) => (
+                // <div
+                //   key={item.id}
+                //   className="bg-[#161b22] rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 group"
+                // >
+                //   <div className="relative">
+                //     <img
+                //       src={item.imageLink?.[0]}
+                //       alt={item.title}
+                //       onError={(e) => {
+                //         e.target.src =
+                //           "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
+                //       }}
+                //       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                //     />
+                //     <span className="absolute top-3 left-3 bg-emerald-500 px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
+                //       {item.productId || ""}
+                //     </span>
+                //     <div className="absolute top-3 right-2 px-3 py-1  text-sm font-medium text-white flex items-center justify-end gap-3">
+                //       <button
+                //         type="button"
+                //         onClick={() => setUpdateProduct(index)}
+                //         className="bg-blue-500 rounded-full p-1 active:scale-95"
+                //       >
+                //         <svg
+                //           xmlns="http://www.w3.org/2000/svg"
+                //           fill="none"
+                //           viewBox="0 0 24 24"
+                //           strokeWidth={1.5}
+                //           stroke="currentColor"
+                //           className="size-5 text-white"
+                //         >
+                //           <path
+                //             strokeLinecap="round"
+                //             strokeLinejoin="round"
+                //             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                //           />
+                //         </svg>
+                //       </button>
+                //       <button
+                //         type="button"
+                //         className="bg-red-500 rounded-full p-1 active:scale-95"
+                //       >
+                //         <svg
+                //           xmlns="http://www.w3.org/2000/svg"
+                //           fill="none"
+                //           viewBox="0 0 24 24"
+                //           strokeWidth={1.5}
+                //           stroke="currentColor"
+                //           className="size-5 text-white"
+                //         >
+                //           <path
+                //             strokeLinecap="round"
+                //             strokeLinejoin="round"
+                //             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                //           />
+                //         </svg>
+                //       </button>
+                //     </div>
+                //   </div>
+                //   <div className="p-4">
+                //     <h3 className="text-lg font-semibold text-gray-400 mb-2 truncate">
+                //       {item.title || ""}
+                //     </h3>
+                //     <div className="flex items-center justify-between">
+                //       <span className="text-xl font-bold text-emerald-600">
+                //         {(item.weight?.[0]?.price || "0.00")?.toLocaleString(
+                //           "en-IN",
+                //           {
+                //             currency: "inr",
+                //           }
+                //         )}
+                //       </span>
+                //     </div>
+                //   </div>
+                // </div>
                 <div
-                  key={item.id}
-                  className="bg-[#161b22] rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 group"
+                  key={product.productId}
+                  className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 transition-transform hover:scale-102 flex flex-col"
                 >
-                  <div className="relative">
+                  <div className="relative h-40 overflow-hidden">
                     <img
-                      src={item.imageLink?.[0]}
-                      alt={item.title}
+                      src={product.imageLink?.[0]}
+                      alt={product.title}
+                      className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.src =
                           "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
                       }}
-                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
-                    <span className="absolute top-3 left-3 bg-emerald-500 px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
-                      {item.productId || ""}
-                    </span>
-                    <div className="absolute top-3 right-2 px-3 py-1  text-sm font-medium text-white flex items-center justify-end gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setUpdateProduct(index)}
-                        className="bg-blue-500 rounded-full p-1 active:scale-95"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-5 text-white"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        type="button"
-                        className="bg-red-500 rounded-full p-1 active:scale-95"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-5 text-white"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                          />
-                        </svg>
-                      </button>
+                    <div
+                      className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
+                        product.isMapped
+                          ? "bg-green-900/70 text-green-300"
+                          : "bg-gray-900/70 text-gray-300"
+                      }`}
+                    >
+                      {product.isMapped ? "Mapped" : "Unmapped"}
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-400 mb-2 truncate">
-                      {item.title || ""}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold text-emerald-600">
-                        {(item.weight?.[0]?.price || "0.00")?.toLocaleString(
-                          "en-IN",
-                          {
-                            currency: "inr",
-                          }
-                        )}
+
+                  <div className="p-4 flex-1 flex flex-col">
+                    <div className="mb-2">
+                      <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-700 text-gray-300">
+                        {product.productId}
                       </span>
+                    </div>
+                    <h3 className="font-medium text-lg mb-1">
+                      {product.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm mb-3 flex-1">
+                      {product.specifications}
+                    </p>
+
+                    <div className="flex justify-between items-center mt-auto">
+                      <span className="font-medium text-lg">
+                        ₹{product.prices}
+                      </span>
+                      <div className="flex justify-end items-center gap-3">
+                        <button
+                          onClick={() => setUpdateProduct(index)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 bg-blue-900/20 text-blue-400 hover:bg-blue-900/40`}
+                        >
+                     
+                              <Pencil className="h-3.5 w-3.5" />
+                     
+                        </button>
+                        <button
+                          onClick={() => toggleMapping(product._id)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 bg-red-900/20 text-red-400 hover:bg-red-900/40`}
+                        >
+                       
+                              <Trash2 className="h-3.5 w-3.5" /> 
+                           
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
