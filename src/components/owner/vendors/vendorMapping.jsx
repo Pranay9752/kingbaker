@@ -108,27 +108,26 @@ const VendorMapping = ({ vendor_id, onBack }) => {
   const [suggestionProduct, { isLoading }] = useSuggestionProductMutation();
   const [filterProduct, { isLoading: productLoading }] =
     useFilterProductMutation();
+  const [mappedVendors, setMappedVendors] = useState([])
 
   const [mapProductByVendor, { isLoading: mapProductByVendorLoading }] =
     useMapProductByVendorMutation();
-  const { data: mapDatabyProductId } = useGetMapProductByVendorIdQuery(
+  const { data: mapDatabyProductId, refetch } = useGetMapProductByVendorIdQuery(
     vendor_id,
     {
       refetchOnMountOrArgChange: vendor_id,
     }
   );
-  console.log("mapDatabyProductId: ", mapDatabyProductId);
 
   const modeData = useMemo(() => {
     if (viewMode == "unmapped" && data) {
       return data;
     } else if (viewMode == "mapped" && mapDatabyProductId) {
-      return mapDatabyProductId?.data || [];
+      return mapDatabyProductId?.data.map(item => item?.productDetails) || [];
     } else {
       return [];
     }
   }, [viewMode, data, mapDatabyProductId]);
-  console.log("modeData: ", modeData);
 
   // Filter products based on mapped status, search query, and category
   const filteredProducts = products.filter((product) => {
@@ -162,6 +161,8 @@ const VendorMapping = ({ vendor_id, onBack }) => {
             : product
         )
       );
+      refetch()
+
     } catch (error) {}
   };
 
@@ -175,6 +176,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
       try {
         const result = await suggestionProduct({ query: term }).unwrap();
         setSuggestions(result?.suggestions || []);
+
       } catch (error) {
         console.error("Failed to fetch suggestions:", error);
         setSuggestions([]);
@@ -222,6 +224,12 @@ const VendorMapping = ({ vendor_id, onBack }) => {
   useEffect(() => {
     handleSuggestionClick("cake");
   }, []);
+
+  useEffect(() => {
+    if(mapDatabyProductId && mapDatabyProductId?.data) {
+        setMappedVendors(mapDatabyProductId?.data.map(item => item?.productDetails?._id))
+    }
+  },[mapDatabyProductId])
 
   return (
     <div className="flex flex-col min-h-screen bg- [#1a1f25] text-gray-100">
@@ -313,7 +321,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
           <div className="flex-1 overflow-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {modeData.map((product) => {
-                console.log('product: ', product);
+                const isMapped = mappedVendors?.includes(product?._id)
                 return (
                   <div
                     key={product.productId}
@@ -331,12 +339,12 @@ const VendorMapping = ({ vendor_id, onBack }) => {
                       />
                       <div
                         className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
-                          product.isMapped
+                          isMapped
                             ? "bg-green-900/70 text-green-300"
                             : "bg-gray-900/70 text-gray-300"
                         }`}
                       >
-                        {product.isMapped ? "Mapped" : "Unmapped"}
+                        {isMapped ? "Mapped" : "Unmapped"}
                       </div>
                     </div>
 
@@ -360,12 +368,12 @@ const VendorMapping = ({ vendor_id, onBack }) => {
                         <button
                           onClick={() => toggleMapping(product._id)}
                           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
-                            product.isMapped
+                            isMapped
                               ? "bg-red-900/20 text-red-400 hover:bg-red-900/40"
                               : "bg-green-900/20 text-green-400 hover:bg-green-900/40"
                           }`}
                         >
-                          {product.isMapped ? (
+                          {isMapped ? (
                             <>
                               <X className="h-3.5 w-3.5" /> Unmap
                             </>

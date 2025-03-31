@@ -478,7 +478,7 @@ const OwnerProducts = () => {
                           "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
                       }}
                     />
-                    <div
+                    {/* <div
                       className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
                         product.isMapped
                           ? "bg-green-900/70 text-green-300"
@@ -486,7 +486,7 @@ const OwnerProducts = () => {
                       }`}
                     >
                       {product.isMapped ? "Mapped" : "Unmapped"}
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="p-4 flex-1 flex flex-col">
