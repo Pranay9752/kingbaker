@@ -40,12 +40,12 @@ export default function ActionPopover({ onProductMapping }) {
                 {open && (
                     <div className="absolute z-10 right-0 mt-2 w-44 bg-gray-900 border border-gray-700 rounded-md shadow-lg overflow-hidden animate-fadeIn">
                         <ul className="text-sm text-white divide-y divide-gray-700">
-                            <li
+                            {/* <li
                                 className="p-3 hover:bg-gray-700 cursor-pointer flex items-center gap-2 transition duration-300"
                                 onClick={() => console.log("Deactivate Vendor")}
                             >
                                 <span className="text-red-400">🚫</span> Deactivate Vendor
-                            </li>
+                            </li> */}
                             <li
                                 className="p-3 hover:bg-gray-700 cursor-pointer flex items-center gap-2 transition duration-300"
                                 onClick={(e) => {

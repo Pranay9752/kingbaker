@@ -80,6 +80,7 @@ function App() {
           <Route path="/owner/tickets" element={<OwnerTickets />} />
           <Route path="/owner/products" element={<OwnerProducts />} />
           <Route path="/owner/orders" element={<OwnerOrders />} />
+          <Route path="/owner/bulk-update" element={<OwnerBulkUpdate />} />
           <Route path="/owner/landing" element={<Landing />} />
           <Route path="/test" element={<TestComp />} />
         </Routes>
@@ -93,6 +94,7 @@ export default App;
 
 import * as XLSX from "xlsx";
 import { useState } from "react";
+import OwnerBulkUpdate from "./components/owner/bulk-update/index.jsx";
 
 const TestComp = () => {
   const [excelData, setExcelData] = useState(null);
