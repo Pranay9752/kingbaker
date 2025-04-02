@@ -13,7 +13,6 @@ const PaymentStatus = () => {
   });
 
 
-  const navigate = useNavigate()
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.data?.msg || "Failed to fetch"}</p>;
 
@@ -59,7 +58,7 @@ const PaymentStatus = () => {
 };
 
 const DesktopView = ({ orderDetails, data }) => {
-  console.log("data: ", data);
+  const navigate = useNavigate()
   return (
     <div className="max-w-6xl mx-auto p-6 hidden md:block">
       {/* Main Content */}
