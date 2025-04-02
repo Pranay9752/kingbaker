@@ -96,16 +96,16 @@ const Footer = () => {
             <h4 className="font-bold mb-2">POLICY INFO</h4>
             <ul className="text-sm">
               <li>
-                <a href="#" className="hover:text-gray-800">
+                <a href="/terms-and-conditions" className="hover:text-gray-800">
                   Terms & Conditions
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-800">
+                <a href="/privacy-policy" className="hover:text-gray-800">
                   Privacy Policy
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="hover:text-gray-800">
                   Terms of Use
                 </a>
@@ -114,15 +114,15 @@ const Footer = () => {
                 <a href="#" className="hover:text-gray-800">
                   Disclaimer
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
-          <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
+          {/* <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
             <h4 className="font-bold mb-2">ABOUT COMPANY</h4>
             <ul className="text-sm">
               <li>
-                <a href="#" className="hover:text-gray-800">
-                  About Us
+                <a href="contact-us" className="hover:text-gray-800">
+                  Contact Us
                 </a>
               </li>
               <li>
@@ -146,7 +146,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
           {/* <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
                         <h4 className="font-bold mb-2">BUSINESS</h4>
                         <ul className="text-sm">
@@ -168,7 +168,7 @@ const Footer = () => {
               {/* <li><a href="#" className="hover:text-gray-800">FAQs</a></li> */}
             </ul>
           </div>
-          <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
+          {/* <div className="w-full sm:w-1/2 md:w-1/5 mb-4">
             <h4 className="font-bold mb-2">USEFUL LINKS</h4>
             <ul className="text-sm">
               <li>
@@ -197,7 +197,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Subscribe Section */}

@@ -28,6 +28,8 @@ import ContactUs from "./components/contactus/contackus.jsx";
 import OwnerProducts from "./components/owner/products/index.jsx";
 import PaymentStatus from "./components/product_detail/PaymentStatus.jsx";
 import POSTHandler from "./components/product_detail/PaymentHandler.jsx";
+import TermsAndConditions from "./components/terms-and-conditions/TermsAndConditions.jsx";
+import PrivacyPolicy from "./components/privacy-policy/PrivacyPolicy.jsx";
 
 function App() {
   //   // return <MaintenancePage />;
@@ -41,6 +43,8 @@ function App() {
             <Route path="/account/login" element={<Login />} />
             <Route path="/become-a-partner" element={<BecomeAPartner />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route element={<PrivateRoute />}>
               <Route path="/account/details/:phase?" element={<MyAccount />} />
             </Route>
@@ -95,6 +99,7 @@ export default App;
 import * as XLSX from "xlsx";
 import { useState } from "react";
 import OwnerBulkUpdate from "./components/owner/bulk-update/index.jsx";
+
 
 const TestComp = () => {
   const [excelData, setExcelData] = useState(null);
