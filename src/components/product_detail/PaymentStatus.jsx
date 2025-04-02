@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import TopNavbar from "../../molecules/header/TopNavBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetPaymentStatusQuery } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import { motion } from "framer-motion";
 import { Truck, Calendar, ShoppingCart, Package } from "lucide-react"; // Icons for a playful touch
@@ -12,8 +12,8 @@ const PaymentStatus = () => {
     skip: !taxId, // Avoid making the request if taxId is empty
   });
 
-  console.log("data: ", data);
 
+  const navigate = useNavigate()
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.data?.msg || "Failed to fetch"}</p>;
 
@@ -162,105 +162,7 @@ const DesktopView = ({ orderDetails, data }) => {
           </div>
         </div>
 
-        {/* Order Details */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-bold mb-4">Order Details</h3>
-            {data?.orderDetails?.map((item, index) => {
-              console.log("item: ", item);
-              return (
-                <>
-                  <div key={index} className="flex items-center mb-4">
-                    <img
-                      src={item.productDetails?.[0]?.imageLink?.[0]}
-                      alt="Product"
-                      className="mr-4 rounded-md size-[80px]"
-                    />
-                    <div>
-                      <h4 className="font-bold">
-                        {item.productDetails?.[0]?.title || ""}
-                      </h4>
-                      <p className="text-gray-700">
-                        ₹ {item.productDetails?.[0]?.prices || 0}
-                      </p>
-                    </div>
-                  </div>
-                  {item?.addOn?.map((addon, addIndex) => {
-                    console.log('addon: ', addon);
-                    return (
-                      <div
-                        key={`${addIndex} - ${index}`}
-                        className="flex items-center mb-4 p-1"
-                      >
-                        <img
-                          src={addon?.images?.[0]}
-                          alt="Product"
-                          className="mr-4 rounded-md size-[60px]"
-                        />
-                        <div>
-                          <h4 className="font-bold">
-                            {addon?.title || ""}
-                          </h4>
-                          <p className="text-gray-700">
-                            ₹ {addon?.price ||  0} x {addon?.count?.count || 0}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </>
-              );
-            })}
-
-            <div className="border-t border-gray-200 pt-4 mt-4">
-              <div className="flex justify-between mb-2">
-                <span>Product Price:</span>
-                <span>₹ {orderDetails.price}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span>Shipping:</span>
-                <span>₹ {orderDetails.shipping}</span>
-              </div>
-              <div className="flex justify-between mb-4">
-                <span>Convenience Charge:</span>
-                <span>₹ {orderDetails.convenience}</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg border-t border-gray-300 pt-2">
-                <span>Total:</span>
-                <span>₹ {orderDetails.total}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-bold mb-4">Delivery Information</h3>
-            <div className="mb-6">
-              <h4 className="font-bold text-gray-700 mb-2">Recipient:</h4>
-              <p className="text-gray-700">{orderDetails.recipient.name}</p>
-              <p className="text-gray-600">{orderDetails.recipient.address}</p>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-gray-700 mb-2">Delivery Date:</h4>
-              <div className="flex items-center">
-                <svg
-                  className="h-5 w-5 text-green-600 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <p className="text-gray-700">{orderDetails.deliveryDate}</p>
-              </div>
-            </div>
-          </div>
-        </div> */}
+       
         {/* Order Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Order Details */}
@@ -378,10 +280,10 @@ const DesktopView = ({ orderDetails, data }) => {
 
         {/* Action Buttons */}
         <div className="flex justify-center mt-8 gap-4">
-          <button className="px-6 py-3 border border-olive-600 text-olive-600 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+          {/* <button className="px-6 py-3 border border-olive-600 text-olive-600 rounded-lg hover:bg-gray-50 transition-colors font-medium">
             VIEW FULL DETAILS
-          </button>
-          <button className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
+          </button> */}
+          <button onClick={() => navigate('/')} className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
             CONTINUE SHOPPING
           </button>
         </div>
