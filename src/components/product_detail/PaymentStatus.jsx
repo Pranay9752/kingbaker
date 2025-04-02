@@ -12,7 +12,6 @@ const PaymentStatus = () => {
     skip: !taxId, // Avoid making the request if taxId is empty
   });
 
-
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.data?.msg || "Failed to fetch"}</p>;
 
@@ -58,7 +57,7 @@ const PaymentStatus = () => {
 };
 
 const DesktopView = ({ orderDetails, data }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div className="max-w-6xl mx-auto p-6 hidden md:block">
       {/* Main Content */}
@@ -161,7 +160,6 @@ const DesktopView = ({ orderDetails, data }) => {
           </div>
         </div>
 
-       
         {/* Order Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Order Details */}
@@ -178,7 +176,7 @@ const DesktopView = ({ orderDetails, data }) => {
                 <div className="flex items-center gap-4 p-3 rounded-lg bg-gray-100/50">
                   <motion.img
                     src={item.productDetails?.[0]?.imageLink?.[0]}
-                    alt="Product"
+                    alt={item.productDetails?.[0]?.title || ""}
                     className="rounded-lg size-[80px] shadow-md"
                     whileHover={{ scale: 1.1 }}
                   />
@@ -282,7 +280,10 @@ const DesktopView = ({ orderDetails, data }) => {
           {/* <button className="px-6 py-3 border border-olive-600 text-olive-600 rounded-lg hover:bg-gray-50 transition-colors font-medium">
             VIEW FULL DETAILS
           </button> */}
-          <button onClick={() => navigate('/')} className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
+          <button
+            onClick={() => navigate("/")}
+            className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
+          >
             CONTINUE SHOPPING
           </button>
         </div>
@@ -299,7 +300,7 @@ const DesktopView = ({ orderDetails, data }) => {
   );
 };
 
-const MobileView = ({ orderDetails }) => {
+const MobileView = ({ orderDetails, data }) => {
   // State for order status
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -307,6 +308,7 @@ const MobileView = ({ orderDetails }) => {
 
   // Animation for progress bar
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate()
 
   // Tracking steps
   const steps = [
@@ -509,19 +511,53 @@ const MobileView = ({ orderDetails }) => {
             <h3 className="font-bold  text-lg">Order Information</h3>
           </div>
           <div className="p-4">
-            <div className="flex items-center mb-4">
-              <img
-                src="/api/placeholder/60/60"
-                alt="Product"
-                className="mr-3 rounded-md"
-              />
-              <div>
-                <h4 className="font-bold">{orderDetails.product}</h4>
-                <p className="text-gray-600">
-                  ₹ {orderDetails.price} - Milk Chocolate
-                </p>
+            {data?.orderDetails?.map((item, index) => (
+              <div key={index} className="mb-6">
+                <div className="flex items-center mb-4">
+                  <img
+                    src={item.productDetails?.[0]?.imageLink?.[0]}
+                    alt={item.productDetails?.[0]?.title || ""}
+                    className="mr-3 rounded-md size-[80px]"
+                  />
+                  <div>
+                    <h4 className="font-bold">
+                      {item.productDetails?.[0]?.title || ""}
+                    </h4>
+                    <p className="text-gray-600">
+                      ₹ {item.productDetails?.[0]?.prices || 0}
+                    </p>
+                  </div>
+                </div>
+                {item?.addOn?.length > 0 && (
+                  <div className="mt-3 ml-0 pl-2 space-y-1">
+                    <h5 className="text-gray-800 font-semibold flex items-center gap-2">
+                      <Package size={18} className="text-emerald-600" /> Add-ons
+                    </h5>
+                    {item?.addOn?.map((addon, addIndex) => (
+                      <div
+                        key={`${addIndex} - ${index}`}
+                        className="flex items-center gap-4 p-2 rounded-lg bg-gray-50 shadow-sm"
+                      >
+                        <motion.img
+                          src={addon?.images?.[0]}
+                          alt="Addon"
+                          className="rounded-lg size-[60px] shadow-md"
+                          whileHover={{ scale: 1.1 }}
+                        />
+                        <div>
+                          <h4 className="font-semibold text-gray-700">
+                            {addon?.title || ""}
+                          </h4>
+                          <p className="text-gray-600">
+                            ₹ {addon?.price || 0} x {addon?.count?.count || 0}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
+            ))}
             <div className="border-t border-gray-200 pt-3 mt-2">
               <div className="flex justify-between mb-1 text-gray-600">
                 <span>Total:</span>
@@ -548,10 +584,10 @@ const MobileView = ({ orderDetails }) => {
 
         {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <button className="py-3 border-2 border-olive-600 text-olive-600 rounded-xl font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm">
+          {/* <button className="py-3 border-2 border-olive-600 text-olive-600 rounded-xl font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm">
             VIEW ORDER DETAILS
-          </button>
-          <button className="py-3 bg-orange-500 text-white rounded-xl font-medium text-sm hover:bg-orange-600 transition-colors shadow-sm">
+          </button> */}
+          <button onClick={() => navigate('/')} className="py-3 bg-orange-500 text-white rounded-xl font-medium text-sm hover:bg-orange-600 transition-colors shadow-sm">
             CONTINUE SHOPPING
           </button>
         </div>
