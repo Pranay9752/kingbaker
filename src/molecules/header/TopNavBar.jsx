@@ -150,7 +150,7 @@ const TopNavbar = ({
             {logo && (
               <img
                 onClick={() => navigate("/")}
-                src={"https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"}
+                src={"https://i.ibb.co/0jR3TNvS/jojo-cart-logo-03-3.png"}
                 alt={`${title} Logo`}
                 className="h-10"
               />

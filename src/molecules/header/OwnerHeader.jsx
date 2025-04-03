@@ -78,33 +78,12 @@ const OwnerHeader = ({ isActive, children }) => {
             {/* Top Navigation */}
             <div className="px-6 h-14 flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                {/* Logo */}
-                <svg
-                  className="h-5 w-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 2l9 21H3L12 2z"
-                  />
-                </svg>
-
-                {/* Project Selector */}
-                <div className="flex items-center space-x-2">
-                  <button className="flex items-center space-x-2 text-gray-400 hover:text-gray-300">
-                    <div className="w-5 h-5 bg-purple-600 rounded-full flex items-center justify-center">
-                      <span className="text-xs text-white">P</span>
-                    </div>
-                    {/* <span className="text-sm text-white">
-                    pranay9752's projects
-                  </span> */}
-                  </button>
-                </div>
+                <img
+                  onClick={() => navigate("/")}
+                  src={"https://i.ibb.co/0jR3TNvS/jojo-cart-logo-03-3.png"}
+                  alt={`Jojo Cart Logo`}
+                  className="h-14"
+                />
               </div>
 
               {/* Right Side Navigation */}
