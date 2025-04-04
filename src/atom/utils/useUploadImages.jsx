@@ -19,7 +19,7 @@ const useImageUpload = () => {
       const result = await uploadImages(formData).unwrap();
       onSuccess(result?.url); // Call onSuccess with the array of image URLs
     } catch (error) {
-      setError(error.data?.message || error.message);
+      setError(error.data?.message || error.message || "Server Error");
     } finally {
       setLoading(false);
     }

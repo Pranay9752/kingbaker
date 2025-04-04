@@ -1,8 +1,19 @@
 import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import SEO from "../../../atom/seo/SEO";
 
-import React, { useState } from 'react';
-import { Upload, X, Check, AlertTriangle, Loader, Trash2, FileText, Eye, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Upload,
+  X,
+  Check,
+  AlertTriangle,
+  Loader,
+  Trash2,
+  FileText,
+  Eye,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import * as XLSX from "xlsx";
 import BulkUploadPreviewCard from "./BulkUploadPreviewCard";
 import { useCreateProductMutation } from "../../../redux/apiSlices/owner/product";
@@ -14,11 +25,11 @@ const BulkUpdateScreen = () => {
   const [previewData, setPreviewData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploadState, setUploadState] = useState(null); // 'loading', 'success', 'error'
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const [createProduct, { isLoading: createLoading }] =
-      useCreateProductMutation();
+    useCreateProductMutation();
 
   // Mock function to parse file data (in a real app, you'd implement actual file parsing)
   const parseFileData = (file) => {
@@ -28,57 +39,62 @@ const BulkUpdateScreen = () => {
         // Mock data that would come from file
         const mockData = [
           {
-            id: 'NEW-001',
-            name: 'Strawberry Shortcake',
-            category: 'Cakes',
-            price: '$49.99',
-            description: 'Fresh strawberries layered with light sponge and cream',
-            image: '/api/placeholder/120/80',
-            status: 'new'
+            id: "NEW-001",
+            name: "Strawberry Shortcake",
+            category: "Cakes",
+            price: "$49.99",
+            description:
+              "Fresh strawberries layered with light sponge and cream",
+            image: "/api/placeholder/120/80",
+            status: "new",
           },
           {
-            id: 'UPD-102',
-            name: 'Premium Gift Box',
-            category: 'Gift Boxes',
-            price: '$89.99',
-            description: 'Luxury assortment of chocolates and specialty items',
-            image: '/api/placeholder/120/80',
-            status: 'update'
+            id: "UPD-102",
+            name: "Premium Gift Box",
+            category: "Gift Boxes",
+            price: "$89.99",
+            description: "Luxury assortment of chocolates and specialty items",
+            image: "/api/placeholder/120/80",
+            status: "update",
           },
           {
-            id: 'NEW-003',
-            name: 'Black Forest Gateau',
-            category: 'Cakes',
-            price: '$54.99',
-            description: 'Classic chocolate sponge with cherries and cream',
-            image: '/api/placeholder/120/80',
-            status: 'new'
+            id: "NEW-003",
+            name: "Black Forest Gateau",
+            category: "Cakes",
+            price: "$54.99",
+            description: "Classic chocolate sponge with cherries and cream",
+            image: "/api/placeholder/120/80",
+            status: "new",
           },
           {
-            id: 'UPD-245',
-            name: 'Birthday Special Cake',
-            category: 'Cakes',
-            price: '$59.99',
-            description: 'Customizable celebration cake with colorful decorations',
-            image: '/api/placeholder/120/80',
-            status: 'update',
-            error: 'Product ID not found in database'
+            id: "UPD-245",
+            name: "Birthday Special Cake",
+            category: "Cakes",
+            price: "$59.99",
+            description:
+              "Customizable celebration cake with colorful decorations",
+            image: "/api/placeholder/120/80",
+            status: "update",
+            error: "Product ID not found in database",
           },
           {
-            id: 'NEW-005',
-            name: 'Anniversary Gift Set',
-            category: 'Gift Boxes',
-            price: '$129.99',
-            description: 'Romantic gift package with champagne and handmade chocolates',
-            image: '/api/placeholder/120/80',
-            status: 'new'
+            id: "NEW-005",
+            name: "Anniversary Gift Set",
+            category: "Gift Boxes",
+            price: "$129.99",
+            description:
+              "Romantic gift package with champagne and handmade chocolates",
+            image: "/api/placeholder/120/80",
+            status: "new",
           },
         ];
 
-        if (file.name.endsWith('.csv') || file.name.endsWith('.xlsx')) {
+        if (file.name.endsWith(".csv") || file.name.endsWith(".xlsx")) {
           resolve(mockData);
         } else {
-          reject(new Error('Invalid file format. Please upload a CSV or Excel file.'));
+          reject(
+            new Error("Invalid file format. Please upload a CSV or Excel file.")
+          );
         }
       }, 1500);
     });
@@ -103,7 +119,7 @@ const BulkUpdateScreen = () => {
       is_veg: true,
       is_image: true,
       is_message: true,
-      index
+      index,
     };
 
     data?.forEach((element) => {
@@ -122,7 +138,8 @@ const BulkUpdateScreen = () => {
         });
       }
 
-      if (element["Image Links"]) product_details.imageLink.push(element["Image Links"]);
+      if (element["Image Links"])
+        product_details.imageLink.push(element["Image Links"]);
 
       if (element["detail_key"] && element["detail_value"]) {
         product_details.details.push({
@@ -140,7 +157,9 @@ const BulkUpdateScreen = () => {
         product_details.weight.push(weightEntry);
       } else if (element["weight_image"] && product_details.weight.length > 0) {
         // Ensure the last weight entry exists before pushing an image
-        product_details.weight[product_details.weight.length - 1].images.push(element["weight_image"]);
+        product_details.weight[product_details.weight.length - 1].images.push(
+          element["weight_image"]
+        );
       }
     });
 
@@ -198,7 +217,7 @@ const BulkUpdateScreen = () => {
         // Convert worksheet to JSON
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
         const products = arrangeData(jsonData);
-        console.log(products)
+        console.log(products);
         setPreviewData(products);
         setLoading(false);
         // Set the parsed data in state
@@ -209,18 +228,17 @@ const BulkUpdateScreen = () => {
     }
   };
 
-
   // Handle bulk upload process
   const handleBulkUpload = async () => {
     setShowModal(true);
-    setUploadState('loading');
-  
+    setUploadState("loading");
+
     const concurrencyLimit = 10; // Limit to 10 concurrent requests
     let index = 0;
-  
+
     const processNext = async () => {
       if (index >= previewData.length) return;
-  
+
       const currentIndex = index++;
       try {
         await createProduct({
@@ -229,39 +247,39 @@ const BulkUpdateScreen = () => {
       } catch (error) {
         console.error(`Failed to upload item at index ${currentIndex}`, error);
       }
-  
+
       await processNext(); // Start the next request
     };
-  
+
     // Start `concurrencyLimit` parallel requests
     await Promise.all(new Array(concurrencyLimit).fill(null).map(processNext));
-  
-    setUploadState('success');
+
+    setUploadState("success");
   };
-  
-  
 
   const handleRemove = (productIndex) => {
     setPreviewData((prev) => {
       const index = prev.findIndex((item) => item.index === productIndex);
       if (index === -1) return prev; // If not found, return unchanged
-  
+
       const newData = [...prev];
       const lastIndex = newData.length - 1;
-  
+
       // Swap with the last element and remove
-      [newData[index], newData[lastIndex]] = [newData[lastIndex], newData[index]];
+      [newData[index], newData[lastIndex]] = [
+        newData[lastIndex],
+        newData[index],
+      ];
       newData.pop(); // Remove the last element
-  
+
       return newData;
     });
   };
-  
 
   // Close modal and reset states as needed
   const closeModal = () => {
     setShowModal(false);
-    if (uploadState === 'success') {
+    if (uploadState === "success") {
       // Reset everything after successful upload
       setFile(null);
       setPreviewData([]);
@@ -269,22 +287,54 @@ const BulkUpdateScreen = () => {
     setUploadState(null);
   };
 
+  const handleDownload = () => {
+    const files = [
+      { url: "/Product Template .xlsx", name: "Product Template .xlsx" },
+      { url: "/Image Tempate.xlsx", name: "Image Tempate.xlsx" },
+    ];
+
+    files.forEach((file) => {
+      const link = document.createElement("a");
+      link.href = file.url;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
+
   return (
     <div className="flex flex-col min-h- screen bg -[#1a1f25] text-gray-100">
       {/* Header */}
-
 
       {/* Main Content */}
       <main className="flex-1 p-6 overflow-auto">
         {/* File Upload Section */}
         <div className="mb-8">
-          <div className={`border-2 border-dashed rounded-lg p-8 text-center ${fileError ? 'border-red-500 bg-red-900/10' : 'border-gray-700 hover:border-purple-500/50'
-            }`}>
+          <div className="w-full flex justify-end items-center pb-5">
+            <button
+              onClick={handleDownload}
+              className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors ml-auto"
+            >
+              Dowload Template
+            </button>
+          </div>
+          <div
+            className={`border-2 border-dashed rounded-lg p-8 text-center ${
+              fileError
+                ? "border-red-500 bg-red-900/10"
+                : "border-gray-700 hover:border-purple-500/50"
+            }`}
+          >
             {!file && !loading ? (
               <div className="flex flex-col items-center">
                 <Upload className="h-12 w-12 text-gray-500 mb-3" />
-                <h2 className="text-xl font-medium mb-2">Drop your file here or click to browse</h2>
-                <p className="text-gray-400 mb-4">Supports CSV and Excel files</p>
+                <h2 className="text-xl font-medium mb-2">
+                  Drop your file here or click to browse
+                </h2>
+                <p className="text-gray-400 mb-4">
+                  Supports CSV and Excel files
+                </p>
                 <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
                   Select File
                   <input
@@ -313,7 +363,9 @@ const BulkUpdateScreen = () => {
                   <FileText className="h-10 w-10 text-purple-400" />
                   <div className="text-left">
                     <h3 className="font-medium">{file.name}</h3>
-                    <p className="text-gray-400 text-sm">{previewData.length} products found</p>
+                    <p className="text-gray-400 text-sm">
+                      {previewData.length} products found
+                    </p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -347,18 +399,22 @@ const BulkUpdateScreen = () => {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-medium">Preview Products</h2>
               <div className="text-sm text-gray-400">
-                {previewData.filter(item => item.status === 'new').length} new •
-                {previewData.filter(item => item.status === 'update').length} updates •
-                {previewData.filter(item => item.error).length} with errors
+                {previewData.filter((item) => item.status === "new").length} new
+                •{previewData.filter((item) => item.status === "update").length}{" "}
+                updates •{previewData.filter((item) => item.error).length} with
+                errors
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               {previewData.map((item) => (
-                  <BulkUploadPreviewCard key={item?.title} product={item} onRemove={() => handleRemove(item.index)} />
+                <BulkUploadPreviewCard
+                  key={item?.title}
+                  product={item}
+                  onRemove={() => handleRemove(item.index)}
+                />
               ))}
             </div>
-
 
             <div className="mt-6 flex justify-end">
               <button
@@ -378,24 +434,32 @@ const BulkUpdateScreen = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
-            {uploadState === 'loading' && (
+            {uploadState === "loading" && (
               <div className="text-center">
                 <Loader className="h-16 w-16 text-purple-500 animate-spin mx-auto mb-4" />
                 <h2 className="text-xl font-medium mb-2">Uploading Products</h2>
-                <p className="text-gray-400 mb-4">Please wait while we process your products...</p>
+                <p className="text-gray-400 mb-4">
+                  Please wait while we process your products...
+                </p>
                 <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
-                  <div className="bg-purple-600 h-2 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+                  <div
+                    className="bg-purple-600 h-2 rounded-full animate-pulse"
+                    style={{ width: "70%" }}
+                  ></div>
                 </div>
               </div>
             )}
 
-            {uploadState === 'success' && (
+            {uploadState === "success" && (
               <div className="text-center">
                 <div className="bg-green-900/30 p-3 rounded-full inline-flex mb-4">
                   <Check className="h-16 w-16 text-green-500" />
                 </div>
                 <h2 className="text-xl font-medium mb-2">Upload Successful</h2>
-                <p className="text-gray-400 mb-6">All {previewData.length} products have been successfully uploaded.</p>
+                <p className="text-gray-400 mb-6">
+                  All {previewData.length} products have been successfully
+                  uploaded.
+                </p>
                 <button
                   onClick={closeModal}
                   className="w-full px-4 py-2.5 bg-purple-700 hover:bg-purple-600 rounded-lg transition-colors"
@@ -405,7 +469,7 @@ const BulkUpdateScreen = () => {
               </div>
             )}
 
-            {uploadState === 'error' && (
+            {uploadState === "error" && (
               <div className="text-center">
                 <div className="bg-red-900/30 p-3 rounded-full inline-flex mb-4">
                   <AlertTriangle className="h-16 w-16 text-red-500" />
@@ -421,8 +485,8 @@ const BulkUpdateScreen = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setUploadState('loading');
-                      setTimeout(() => setUploadState('success'), 2000);
+                      setUploadState("loading");
+                      setTimeout(() => setUploadState("success"), 2000);
                     }}
                     className="flex-1 px-4 py-2.5 bg-purple-700 hover:bg-purple-600 rounded-lg transition-colors"
                   >
@@ -440,23 +504,18 @@ const BulkUpdateScreen = () => {
         <div className="text-sm text-gray-400 text-center">
           {previewData.length > 0
             ? `${previewData.length} products ready for upload`
-            : 'Upload a file to get started'}
+            : "Upload a file to get started"}
         </div>
       </footer>
     </div>
   );
 };
 
-
-
-
-const OwnerBulkUpdate = ({ }) => {
-
-
+const OwnerBulkUpdate = ({}) => {
   return (
     <>
       <OwnerHeader isActive={"Bulk Update"}>
-        <SEO title={'Bulk Update'} />
+        <SEO title={"Bulk Update"} />
 
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           <BulkUpdateScreen />

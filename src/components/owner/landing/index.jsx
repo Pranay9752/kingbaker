@@ -368,8 +368,9 @@ const StyleSection = ({
   IconComponent,
 }) => (
   <div
-    className={`border-b last:border-b-0 ${isActive ? "bg-blue-50" : "bg-white"
-      }`}
+    className={`border-b last:border-b-0 ${
+      isActive ? "bg-blue-50" : "bg-white"
+    }`}
   >
     <div>
       <button
@@ -518,14 +519,14 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
         items: newArr[selectedSection].items.map((itm, i) =>
           i === index
             ? {
-              image: "",
-              type: "card3",
-              route: "",
-              text: "",
-              cardStyle: {
-                borderRadius: "30px",
-              },
-            }
+                image: "",
+                type: "card3",
+                route: "",
+                text: "",
+                cardStyle: {
+                  borderRadius: "30px",
+                },
+              }
             : itm
         ),
       };
@@ -546,27 +547,22 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
     [handleUpdate]
   );
 
-  const handleImageUpload = useCallback(
-    (event) => {
-      const files = Array.from(event.target.files);
-      if (files) {
-        setIsModalVisible(true);
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    if (files) {
+      setIsModalVisible(true);
 
-        uploadImages(files, (uploadedUrls) => {
-          const imageUrl = uploadedUrls[0];
-          handleUpdate((item) => ({ ...item, image: imageUrl }));
+      uploadImages(files, (uploadedUrls) => {
+        const imageUrl = uploadedUrls[0];
+        handleUpdate((item) => ({ ...item, image: imageUrl }));
 
-          setTimeout(() => setIsModalVisible(false), 2000);
-
-        });
-      }
-    },
-    [handleUpdate]
-  );
+        setTimeout(() => setIsModalVisible(false), 2000);
+      });
+    }
+  };
 
   return (
     <>
-
       <div className="w-full max-w-2xl p-6 space-y-6 bg-white rounded-xl shadow-sm border border-gray-100">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
@@ -724,7 +720,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
             <InputControl
               initialInput={parseInt(item?.cardStyle?.padding) || 0}
               title="Padding"
-              updateInput={(value) => handleStyleUpdate("padding", `${value}px`)}
+              updateInput={(value) =>
+                handleStyleUpdate("padding", `${value}px`)
+              }
               max={40}
             />
 
@@ -737,7 +735,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
 
             {/* Shadow Control */}
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <label className="text-sm font-medium text-gray-700">Shadow</label>
+              <label className="text-sm font-medium text-gray-700">
+                Shadow
+              </label>
               <select
                 value={item?.cardStyle?.boxShadow || "none"}
                 onChange={(e) => handleStyleUpdate("boxShadow", e.target.value)}
@@ -757,7 +757,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
               </label>
               <ColorInput
                 value={item?.cardStyle?.backgroundColor || "#ffffff"}
-                onChange={(value) => handleStyleUpdate("backgroundColor", value)}
+                onChange={(value) =>
+                  handleStyleUpdate("backgroundColor", value)
+                }
               />
             </div>
           </div>
@@ -771,7 +773,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
                 <>
                   <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
                   <h2 className="text-xl font-semibold mb-2">Uploading...</h2>
-                  <p className="text-gray-600">Uploading your image, please wait</p>
+                  <p className="text-gray-600">
+                    Uploading your image, please wait
+                  </p>
                 </>
               ) : error ? (
                 <>
@@ -782,7 +786,9 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
               ) : (
                 <>
                   <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
-                  <h2 className="text-xl font-semibold mb-2">Upload Successful</h2>
+                  <h2 className="text-xl font-semibold mb-2">
+                    Upload Successful
+                  </h2>
                   <p className="text-gray-600">Your image has been uploaded</p>
                 </>
               )}
@@ -933,8 +939,11 @@ const Landing = () => {
         <CustomGrid cards={data} isMobileView={selectedView === "homeMob"} />
       ),
       customSizedGrid: ({ data }) => (
-        <CustomSizedGrid cards={data} isMobileView={selectedView === "homeMob"} />
-      )
+        <CustomSizedGrid
+          cards={data}
+          isMobileView={selectedView === "homeMob"}
+        />
+      ),
     }),
     [selectedView]
   );
@@ -2857,7 +2866,7 @@ const Landing = () => {
       //           backgroundColor: "rgba(255, 255, 255, 0.75)"
       //         }
       //       },
- 
+
       //     ]
       //   },
       //   {
@@ -3184,7 +3193,6 @@ const Landing = () => {
       //           backgroundColor: "rgba(255, 255, 255, 0.75)"
       //         }
       //       },
-
 
       //     ]
       //   },
@@ -3933,7 +3941,7 @@ const Landing = () => {
       //           backgroundColor: "rgba(255, 255, 255, 0.75)"
       //         }
       //       },
- 
+
       //     ]
       //   },
       //   {
@@ -4796,7 +4804,7 @@ const Landing = () => {
       //           backgroundColor: "rgba(255, 255, 255, 0.75)"
       //         }
       //       },
-        
+
       //     ]
       //   },
       // ])
@@ -5149,27 +5157,33 @@ const Landing = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
             <div className="flex flex-col items-center">
-              {modalState === 'loading' && (
+              {modalState === "loading" && (
                 <>
                   <Loader2 className="h-12 w-12 animate-spin text-green-600 mb-4" />
                   <h2 className="text-xl font-semibold mb-2">Publishing...</h2>
-                  <p className="text-gray-600">Updating your page, please wait</p>
+                  <p className="text-gray-600">
+                    Updating your page, please wait
+                  </p>
                 </>
               )}
 
-              {modalState === 'success' && (
+              {modalState === "success" && (
                 <>
                   <CheckCircle className="h-12 w-12 text-green-600 mb-4" />
-                  <h2 className="text-xl font-semibold mb-2">Published Successfully</h2>
+                  <h2 className="text-xl font-semibold mb-2">
+                    Published Successfully
+                  </h2>
                   <p className="text-gray-600">Your page has been updated</p>
                 </>
               )}
 
-              {modalState === 'error' && (
+              {modalState === "error" && (
                 <>
                   <XCircle className="h-12 w-12 text-red-600 mb-4" />
                   <h2 className="text-xl font-semibold mb-2">Publish Failed</h2>
-                  <p className="text-gray-600">An error occurred. Please try again.</p>
+                  <p className="text-gray-600">
+                    An error occurred. Please try again.
+                  </p>
                 </>
               )}
             </div>
