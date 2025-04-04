@@ -495,21 +495,18 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
   const { uploadImages, loading, error } = useImageUpload();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleUpdate = useCallback(
-    (updateFn) => {
-      setStruct((prev) => {
-        const newArr = [...prev];
-        newArr[selectedSection] = {
-          ...newArr[selectedSection],
-          items: newArr[selectedSection].items.map((itm, i) =>
-            i === index ? updateFn(itm) : itm
-          ),
-        };
-        return newArr;
-      });
-    },
-    [setStruct, selectedSection, index]
-  );
+  const handleUpdate = (updateFn) => {
+    setStruct((prev) => {
+      const newArr = [...prev];
+      newArr[selectedSection] = {
+        ...newArr[selectedSection],
+        items: newArr[selectedSection].items.map((itm, i) =>
+          i === index ? updateFn(itm) : itm
+        ),
+      };
+      return newArr;
+    });
+  };
 
   const onDelete = () => {
     setStruct((prev) => {
