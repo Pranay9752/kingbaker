@@ -349,8 +349,8 @@ const BulkUpdateScreen = () => {
 
   const handleDownload = () => {
     const files = [
-      { url: "/Product Template .xlsx", name: "Product Template .xlsx" },
-      { url: "/Image Tempate.xlsx", name: "Image Tempate.xlsx" },
+      { url: "/Product Template.xlsx", name: "Product Template.xlsx" },
+      // { url: "/Image Tempate.xlsx", name: "Image Tempate.xlsx" },
     ];
 
     files.forEach((file) => {
@@ -396,7 +396,7 @@ const BulkUpdateScreen = () => {
                   Supports CSV and Excel files
                 </p>
                 <div className="space-x-4">
-                  {!imageFile && (
+                  {/* {!imageFile && (
                     <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
                       Select Image File
                       <input
@@ -406,8 +406,8 @@ const BulkUpdateScreen = () => {
                         onChange={handleImageFileChange}
                       />
                     </label>
-                  )}
-                  {imageFile && <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
+                  )} */}
+                  <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
                     Select File
                     <input
                       type="file"
@@ -415,7 +415,7 @@ const BulkUpdateScreen = () => {
                       accept=".csv,.xlsx,.xls"
                       onChange={handleFileChange}
                     />
-                  </label>}
+                  </label>
                 </div>
 
                 {fileError && (
