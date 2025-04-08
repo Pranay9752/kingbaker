@@ -141,7 +141,7 @@ const BulkUploadPreviewCard = ({ onRemove, product }) => {
                   </div>
                   <div className="bg-gray-800 p-2 rounded">
                     <span className="text-gray-400">Original Price:</span>
-                    <span className="text-white ml-1">₹{product.pp}</span>
+                    <span className="text-white ml-1">₹{product.prices}</span>
                   </div>
                 </div>
               </div>

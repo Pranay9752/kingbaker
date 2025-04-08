@@ -17,10 +17,15 @@ import {
 import * as XLSX from "xlsx";
 import BulkUploadPreviewCard from "./BulkUploadPreviewCard";
 import { useCreateProductMutation } from "../../../redux/apiSlices/owner/product";
+import { cn } from "../../../atom/utils/cn";
+import { toast } from "sonner";
 
 const BulkUpdateScreen = () => {
   // States for different parts of the flow
   const [file, setFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageData, setImageData] = useState({});
+  console.log('imageData: ', imageData);
   const [fileError, setFileError] = useState(null);
   const [previewData, setPreviewData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -178,6 +183,17 @@ const BulkUpdateScreen = () => {
 
     return Object.values(groupedData).map(getProductData);
   };
+  const arrangeImageData = (data) => {
+    console.log("data: ", data);
+
+    const imageObject = {};
+
+    data.forEach((element) => {
+      imageObject[element?.weight_image] = element;
+    });
+
+    return imageObject;
+  };
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -220,6 +236,50 @@ const BulkUpdateScreen = () => {
         console.log(products);
         setPreviewData(products);
         setLoading(false);
+        // Set the parsed data in state
+      };
+
+      // Read the file as a binary string
+      reader.readAsBinaryString(selectedFile);
+    }
+  };
+  const handleImageFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const reader = new FileReader();
+
+    if (selectedFile) {
+      setImageFile(selectedFile);
+
+      // // Process file data
+      // parseFileData(selectedFile)
+      //   .then(data => {
+      //     setPreviewData(data);
+      //     setLoading(false);
+      //   })
+      //   .catch(error => {
+      //     setFileError(error.message);
+      //     setFile(null);
+      //     setLoading(false);
+      //   });
+
+      reader.onload = (event) => {
+        // Read the file as a binary string
+        const binaryString = event.target.result;
+
+        // Parse the Excel file
+        const workbook = XLSX.read(binaryString, { type: "binary" });
+
+        // Get the first sheet name
+        const worksheetName = workbook.SheetNames[0];
+
+        // Get the first worksheet
+        const worksheet = workbook.Sheets[worksheetName];
+
+        // Convert worksheet to JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        const images = arrangeImageData(jsonData);
+        setImageData(images);
+        toast.success("Image file Added!")
         // Set the parsed data in state
       };
 
@@ -335,15 +395,29 @@ const BulkUpdateScreen = () => {
                 <p className="text-gray-400 mb-4">
                   Supports CSV and Excel files
                 </p>
-                <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
-                  Select File
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept=".csv,.xlsx,.xls"
-                    onChange={handleFileChange}
-                  />
-                </label>
+                <div className="space-x-4">
+                  {!imageFile && (
+                    <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
+                      Select Image File
+                      <input
+                        type="file"
+                        className={"hidden"}
+                        accept=".csv,.xlsx,.xls"
+                        onChange={handleImageFileChange}
+                      />
+                    </label>
+                  )}
+                  {imageFile && <label className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-lg cursor-pointer transition-colors">
+                    Select File
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept=".csv,.xlsx,.xls"
+                      onChange={handleFileChange}
+                    />
+                  </label>}
+                </div>
+
                 {fileError && (
                   <div className="mt-4 text-red-400 flex items-center gap-2">
                     <AlertTriangle className="h-4 w-4" />
@@ -358,37 +432,39 @@ const BulkUpdateScreen = () => {
                 <p className="text-gray-400 mt-2">This may take a moment</p>
               </div>
             ) : (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <FileText className="h-10 w-10 text-purple-400" />
-                  <div className="text-left">
-                    <h3 className="font-medium">{file.name}</h3>
-                    <p className="text-gray-400 text-sm">
-                      {previewData.length} products found
-                    </p>
+              <>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <FileText className="h-10 w-10 text-purple-400" />
+                    <div className="text-left">
+                      <h3 className="font-medium">{file.name}</h3>
+                      <p className="text-gray-400 text-sm">
+                        {previewData.length} products found
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setFile(null);
+                        setPreviewData([]);
+                      }}
+                      className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center gap-1.5 transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                      <span>Remove</span>
+                    </button>
+                    <button
+                      onClick={handleBulkUpload}
+                      className="px-4 py-1.5 bg-purple-700 hover:bg-purple-600 rounded-lg flex items-center gap-1.5 transition-colors"
+                      disabled={previewData.length === 0}
+                    >
+                      <Upload className="h-4 w-4" />
+                      <span>Upload All</span>
+                    </button>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => {
-                      setFile(null);
-                      setPreviewData([]);
-                    }}
-                    className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center gap-1.5 transition-colors"
-                  >
-                    <X className="h-4 w-4" />
-                    <span>Remove</span>
-                  </button>
-                  <button
-                    onClick={handleBulkUpload}
-                    className="px-4 py-1.5 bg-purple-700 hover:bg-purple-600 rounded-lg flex items-center gap-1.5 transition-colors"
-                    disabled={previewData.length === 0}
-                  >
-                    <Upload className="h-4 w-4" />
-                    <span>Upload All</span>
-                  </button>
-                </div>
-              </div>
+              </>
             )}
           </div>
         </div>

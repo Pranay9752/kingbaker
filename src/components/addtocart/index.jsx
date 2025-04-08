@@ -106,10 +106,10 @@ const AddToCartModal = ({ onClose = () => {} }) => {
   }, [cartData]);
 
   useEffect(() => {
-    if(isError) {
+    if (isError) {
       dispatch(addInit([]));
     }
-  },[isError])
+  }, [isError]);
 
   return (
     <>
@@ -164,15 +164,15 @@ const AddToCartModal = ({ onClose = () => {} }) => {
             <div className=" text-gray-700 grid grid-cols-2 w-full mb-4">
               <p className="text-gray-500  ">
                 Base Items:{" "}
-                <span className="font-bold">{cartData?.length ?? 0}</span>
+                <span className="font-bold">{cartData?.length || 0}</span>
               </p>
               <p className="text-lg text-gray-500 font-mwdium text-right">
                 Total:{" "}
                 <span className="font-bold">
                   ₹{" "}
                   {(
-                    totalPriceAddons + totalDelivery + totalPrice ?? 0
-                  )?.toLocaleString("en-IN") ?? 0}
+                    totalPriceAddons + totalDelivery + totalPrice || 0
+                  )?.toLocaleString("en-IN") || 0}
                 </span>
               </p>
               <p className="text-gray-500  ">
