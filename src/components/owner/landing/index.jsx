@@ -1156,7 +1156,6 @@ const Landing = () => {
       //           "title": `Celebrate Occasions with India's #1
       // Online Gift Store`,
       //           "type": "customSizedGrid",
-
       //           "containerStyle": {
       //             height: "500px",
       //             marginTop: "20px"
