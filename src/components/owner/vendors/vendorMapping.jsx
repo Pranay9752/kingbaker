@@ -17,6 +17,7 @@ import {
   useGetMapProductByVendorIdQuery,
   useMapProductByVendorMutation,
 } from "../../../redux/apiSlices/owner/vendor";
+import ScreenLoader from "../../../atom/loader/screenLoader";
 
 const VendorMapping = ({ vendor_id, onBack }) => {
   // Sample cake and gift product data
@@ -108,10 +109,11 @@ const VendorMapping = ({ vendor_id, onBack }) => {
   const [suggestionProduct, { isLoading }] = useSuggestionProductMutation();
   const [filterProduct, { isLoading: productLoading }] =
     useFilterProductMutation();
-  const [mappedVendors, setMappedVendors] = useState([])
+  const [mappedVendors, setMappedVendors] = useState([]);
 
   const [mapProductByVendor, { isLoading: mapProductByVendorLoading }] =
     useMapProductByVendorMutation();
+
   const { data: mapDatabyProductId, refetch } = useGetMapProductByVendorIdQuery(
     vendor_id,
     {
@@ -123,7 +125,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
     if (viewMode == "unmapped" && data) {
       return data;
     } else if (viewMode == "mapped" && mapDatabyProductId) {
-      return mapDatabyProductId?.data.map(item => item?.productDetails) || [];
+      return mapDatabyProductId?.data.map((item) => item?.productDetails) || [];
     } else {
       return [];
     }
@@ -161,8 +163,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
             : product
         )
       );
-      refetch()
-
+      refetch();
     } catch (error) {}
   };
 
@@ -176,7 +177,6 @@ const VendorMapping = ({ vendor_id, onBack }) => {
       try {
         const result = await suggestionProduct({ query: term }).unwrap();
         setSuggestions(result?.suggestions || []);
-
       } catch (error) {
         console.error("Failed to fetch suggestions:", error);
         setSuggestions([]);
@@ -226,10 +226,12 @@ const VendorMapping = ({ vendor_id, onBack }) => {
   }, []);
 
   useEffect(() => {
-    if(mapDatabyProductId && mapDatabyProductId?.data) {
-        setMappedVendors(mapDatabyProductId?.data.map(item => item?.productDetails?._id))
+    if (mapDatabyProductId && mapDatabyProductId?.data) {
+      setMappedVendors(
+        mapDatabyProductId?.data.map((item) => item?.productDetails?._id)
+      );
     }
-  },[mapDatabyProductId])
+  }, [mapDatabyProductId]);
 
   return (
     <div className="flex flex-col min-h-screen bg- [#1a1f25] text-gray-100">
@@ -321,7 +323,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
           <div className="flex-1 overflow-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {modeData.map((product) => {
-                const isMapped = mappedVendors?.includes(product?._id)
+                const isMapped = mappedVendors?.includes(product?._id);
                 return (
                   <div
                     key={product.productId}
@@ -392,6 +394,7 @@ const VendorMapping = ({ vendor_id, onBack }) => {
           </div>
         )}
       </main>
+      <ScreenLoader isLoading={mapProductByVendorLoading} />
     </div>
   );
 };
