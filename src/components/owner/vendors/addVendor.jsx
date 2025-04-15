@@ -62,6 +62,8 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     email: "",
     password: "",
     phone: "",
+    alt_phone: "",
+    gst_no: "",
     address: {
       street: "",
       landmark: "",
@@ -77,7 +79,6 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     //   latitude: "",
     // },
   });
-  console.log("formData: ", formData);
 
   const [dirtyFields, setDirtyFields] = useState(new Set());
   const [errors, setErrors] = useState({});
@@ -158,11 +159,12 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     if (!validateForm()) return;
 
     try {
-      console.log("formData: ", formData);
       const payload = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        alt_phone: formData.alt_phone,
+        gst_no: formData.gst_no,
         address: {
           street: formData.address.street,
           landmark: formData.address.landmark,
@@ -178,7 +180,6 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
           coordinates: [formData.coordinates?.[0], formData.coordinates?.[1]],
         },
       };
-      console.log("payload: ", payload);
 
       if (isUpdate) {
         // For update, only include dirty fields
@@ -228,7 +229,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   };
 
   const handleLocationSelect = (locationData) => {
-    console.log('locationData: ', locationData);
+    console.log("locationData: ", locationData);
     handleChange({
       target: { name: "address.pincode", value: locationData?.pincode || "" },
     });
@@ -255,9 +256,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     handleChange({
       target: {
         name: "address.landmark",
-        value:
-          locationData?.allAddressComponents?.landmark?.long_name ||
-          "",
+        value: locationData?.allAddressComponents?.landmark?.long_name || "",
       },
     });
     handleChange({
@@ -345,23 +344,10 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                       </span>
                     )}
                   </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Phone</label>
-                    <Input
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="bg-[#161b22] border-gray-800 text-gray-300"
-                      error={errors.phone}
-                    />
-                    {errors.phone && (
-                      <span className="text-xs text-red-400">
-                        {errors.phone}
-                      </span>
-                    )}
-                  </div>
-
+                </>
+              )}
+              {!isUpdate && (
+                <>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Password</label>
                     <Input
@@ -380,6 +366,47 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                   </div>
                 </>
               )}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Phone</label>
+                <Input
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.phone}
+                />
+                {errors.phone && (
+                  <span className="text-xs text-red-400">{errors.phone}</span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Alt Phone</label>
+                <Input
+                  name="alt_phone"
+                  value={formData.alt_phone}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.alt_phone}
+                />
+                {errors.alt_phone && (
+                  <span className="text-xs text-red-400">
+                    {errors.alt_phone}
+                  </span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Gst no</label>
+                <Input
+                  name="gst_no"
+                  value={formData.gst_no}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.gst_no}
+                />
+                {errors.gst_no && (
+                  <span className="text-xs text-red-400">{errors.gst_no}</span>
+                )}
+              </div>
             </div>
           </div>
 
