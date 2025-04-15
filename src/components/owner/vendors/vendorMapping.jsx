@@ -114,12 +114,13 @@ const VendorMapping = ({ vendor_id, onBack }) => {
   const [mapProductByVendor, { isLoading: mapProductByVendorLoading }] =
     useMapProductByVendorMutation();
 
-  const { data: mapDatabyProductId, refetch } = useGetMapProductByVendorIdQuery(
-    vendor_id,
-    {
-      refetchOnMountOrArgChange: vendor_id,
-    }
-  );
+  const {
+    data: mapDatabyProductId,
+    refetch,
+    isLoading: getMapProductByVendoridLoading,
+  } = useGetMapProductByVendorIdQuery(vendor_id, {
+    refetchOnMountOrArgChange: vendor_id,
+  });
 
   const modeData = useMemo(() => {
     if (viewMode == "unmapped" && data) {
@@ -394,7 +395,13 @@ const VendorMapping = ({ vendor_id, onBack }) => {
           </div>
         )}
       </main>
-      <ScreenLoader isLoading={mapProductByVendorLoading} />
+      <ScreenLoader
+        isLoading={
+          mapProductByVendorLoading ||
+          getMapProductByVendoridLoading ||
+          productLoading
+        }
+      />
     </div>
   );
 };
