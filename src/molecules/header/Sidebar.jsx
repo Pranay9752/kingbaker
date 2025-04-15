@@ -432,7 +432,7 @@ const Sidebar = ({ isOpen, onClose, filterItems, mode, textTop, isNew }) => {
       </div>
       <div className="fixed bottom-1 h-32 w-72 bg-white">
         <img
-          src="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
+          src="https://i.ibb.co/b5GBCFpx/jojo-cart-logo-updated-05.png"
           alt="logo Logo"
           className="object-cover h-32"
           // class="h-8"

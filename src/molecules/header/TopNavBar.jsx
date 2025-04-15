@@ -147,7 +147,8 @@ const TopNavbar = ({
             {logo && (
               <img
                 onClick={() => navigate("/")}
-                src={"https://i.ibb.co/0jR3TNvS/jojo-cart-logo-03-3.png"}
+                src={"https://i.ibb.co/b5GBCFpx/jojo-cart-logo-updated-05.png"}
+                // src={"https://i.ibb.co/0jR3TNvS/jojo-cart-logo-03-3.png"}
                 alt={`${title} Logo`}
                 className="h-10"
               />
@@ -300,7 +301,7 @@ const TopNavbar = ({
                 className="flex items-center space-x-2"
               >
                 <img
-                  src={"https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"}
+                  src={"https://i.ibb.co/b5GBCFpx/jojo-cart-logo-updated-05.png"}
                   alt={`${title} Logo`}
                   className="h-8"
                 />

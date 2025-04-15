@@ -16,7 +16,7 @@ function AdminSales() {
     <div>
       <HeaderLayout
         id={2}
-        logoSrc="https://i.ibb.co/LdtMrSfq/jojo-cart-logo-02.png"
+        logoSrc="https://i.ibb.co/b5GBCFpx/jojo-cart-logo-updated-05.png"
         logoAlt="Jojo Cart Logo"
         title="JOJO CART"
       >

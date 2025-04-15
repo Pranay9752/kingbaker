@@ -22,6 +22,7 @@ import { isBefore, parseISO } from "date-fns";
 import SizedCard from "./SizedCard";
 import CustomSizedGrid from "./CustomSizedGrid";
 import { cn } from "../../atom/utils/cn";
+import SameDayDeliveryTimer from "../owner/landing/SameDayDeliveryTimer";
 
 export const getCard = ({ data, isMobileView = false }) => {
   const cards = {
@@ -1705,15 +1706,18 @@ const Home = () => {
         {(window.innerWidth > 768 ? main : mainMob)?.data?.data.map(
           (section, index) => {
             return (
-              <section
-                key={index}
-                style={section.containerStyle}
-                className={twMerge(
-                  "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
-                )}
-              >
-                <GetComponents data={section} />
-              </section>
+              <>
+                <section
+                  key={index}
+                  style={section.containerStyle}
+                  className={twMerge(
+                    "p-0 mx-auto max-w-[1600px]  w-full px-3 bg-white"
+                  )}
+                >
+                  <GetComponents data={section} />
+                </section>
+                {window.innerWidth < 768 && index == 8 && <SameDayDeliveryTimer />}
+              </>
             );
           }
         ) ?? <></>}
