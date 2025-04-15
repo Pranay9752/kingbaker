@@ -6,7 +6,6 @@ import Carousel from "../../home/CarouselSlider";
 import { twMerge } from "tailwind-merge";
 import CustomGrid from "../../home/CustomGrid";
 import BasicButton from "../../../atom/button/BasicButton";
-import { toast } from "sonner";
 import useImageUpload from "../../../atom/utils/useUploadImages";
 import { useUpdateCarosolMutation } from "../../../redux/apiSlices/owner/landing";
 import SEO from "../../../atom/seo/SEO";
@@ -545,17 +544,44 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
   );
 
   const handleImageUpload = (event) => {
+    // Grab files from the input
     const files = Array.from(event.target.files);
-    if (files) {
-      setIsModalVisible(true);
 
-      uploadImages(files, (uploadedUrls) => {
-        const imageUrl = uploadedUrls[0];
-        handleUpdate((item) => ({ ...item, image: imageUrl }));
+    // Log the files for debugging purposes
+    console.log("Selected files: ", files);
 
-        setTimeout(() => setIsModalVisible(false), 2000);
-      });
+    // Ensure that files are selected
+    if (files.length === 0) {
+      console.log("No files selected.");
+      return;
     }
+
+    setIsModalVisible(true);
+
+    // Call the upload function with the selected files
+    uploadImages(files, (uploadedUrls) => {
+      // Log the response to ensure it's working properly
+      console.log("Uploaded URLs: ", uploadedUrls);
+
+      // Ensure that the upload returns valid URLs
+      if (!uploadedUrls || uploadedUrls.length === 0) {
+        console.error("Failed to upload images.");
+        setIsModalVisible(false);
+        return;
+      }
+
+      const imageUrl = uploadedUrls[0];
+
+      // Check that selectedSection and index are valid
+      if (selectedSection !== undefined && index !== undefined) {
+        handleUpdate((item) => ({ ...item, image: imageUrl }));
+      } else {
+        console.error("Invalid selectedSection or index.");
+      }
+
+      // Hide modal after a short delay
+      setTimeout(() => setIsModalVisible(false), 2000);
+    });
   };
 
   return (
@@ -651,10 +677,12 @@ const ItemEditor = ({ item, index, selectedSection, setStruct }) => {
                 </div>
               </div>
               <input
+                key={Math.floor(Math.random() * 10000)}
                 type="file"
                 onChange={handleImageUpload}
                 className="hidden"
-                accept="image/*"
+                accept=".jpg,.jpeg,.png,.avif,.webp"
+                multiple={false}
               />
             </label>
           </div>
@@ -4877,12 +4905,12 @@ const Landing = () => {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           {["containerStyle", "boxStyle", "innerContainerStyle", "items"].map(
-            (styleTag) => {
+            (styleTag, index) => {
               const IconComponent = styleIcons[styleTag];
               return (
                 <>
                   <StyleSection
-                    key={styleTag}
+                    key={styleTag + index}
                     title={styleTag}
                     isActive={selectedKey === styleTag}
                     onToggle={() => toggleStyleTag(styleTag)}
@@ -5088,11 +5116,11 @@ const Landing = () => {
                           />
                           <div className="space-y-4 h-[60vh] overflow-y-auto hide-scrollbar">
                             {struct[selectedSection]?.items?.map(
-                              (item, index) => (
+                              (item, itemIndex) => (
                                 <ItemEditor
-                                  key={index}
+                                  key={itemIndex}
                                   item={item}
-                                  index={index}
+                                  index={itemIndex}
                                   selectedSection={selectedSection}
                                   setStruct={setStruct}
                                 />

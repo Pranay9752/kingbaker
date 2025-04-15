@@ -1,14 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import EventBar from "./EventBar";
 import AddToCartModal from "../../components/addtocart";
 import { twMerge } from "tailwind-merge";
-import Modal from "../../atom/popovers/Modal";
 import Sidebar from "./Sidebar";
 import getCookie from "../../atom/utils/getCookies";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logoking.png";
 import deleteAllCookies from "../../atom/utils/deleteAllCookies";
 import SuggestionSearch from "../search/SuggestionSearch";
 import ModalWrapper from "../wrappers/ModalWrapper";

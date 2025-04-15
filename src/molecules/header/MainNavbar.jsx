@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from "react";
 import EventBar from "./EventBar";
 import { useLocation, useNavigate } from "react-router-dom";
-import logo from '../../assets/logoking.png'
 const currencies = [
   { code: "USD", name: "United States Dollar" },
   { code: "THB", name: "Thailand Baht" },

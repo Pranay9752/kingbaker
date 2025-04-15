@@ -1,7 +1,7 @@
 // src/components/MaintenancePage.js
 import React from "react";
 import { motion } from "framer-motion";
-import logo from "../assets/logoking.png";
+
 const MaintenancePage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-center">
@@ -13,7 +13,7 @@ const MaintenancePage = () => {
         className="mb-8"
       >
         <img
-          src={logo} // Add your logo file here
+          src={'https://i.ibb.co/0jR3TNvS/jojo-cart-logo-03-3.png'} // Add your logo file here
           alt="Brand Logo"
           className=" h-52"
         />
