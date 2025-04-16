@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LocationAutocomplete from "./LocationAutocomplete";
 import setCookie from "../../atom/utils/setCookies";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 
 const LocationPopover = ({ onClose }) => {
   const [open, setOpen] = useState(true);
@@ -9,7 +10,10 @@ const LocationPopover = ({ onClose }) => {
   const [locationData, setLocationData] = useState(null);
 
   const storeLocation = async () => {
-    if (!locationData?.pincode) return;
+    if (!locationData?.pincode) {
+      toast.info("Location too vague — please be more specific.");
+      return;
+    }
     try {
       const fetchedCountry = {
         flag: `https://flagsapi.com/${locationData.countryCode}/shiny/64.png`,
@@ -77,8 +81,6 @@ const LocationPopover = ({ onClose }) => {
           regionRestriction={region === "within" ? "IN" : undefined}
         />
 
-
-
         {/* Continue Button */}
         <button
           onClick={storeLocation}
@@ -87,9 +89,17 @@ const LocationPopover = ({ onClose }) => {
           CONTINUE SHOPPING
         </button>
 
-        {
-          onClose ? <button className="absolute top-3 right-3" type="button" onClick={onClose}><X className="" /></button> : <></>
-        }
+        {onClose ? (
+          <button
+            className="absolute top-3 right-3"
+            type="button"
+            onClick={onClose}
+          >
+            <X className="" />
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
