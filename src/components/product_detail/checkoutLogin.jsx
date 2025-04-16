@@ -54,7 +54,7 @@ function CheckOutLogin() {
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS" />
 
           {/* Card 3 */}
-          <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
+          <CheckoutCard stepNumber={3} title="PAYMENT" />
         </div>
         <SecurePaymentCard />
       </div>

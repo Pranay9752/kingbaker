@@ -64,6 +64,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     phone: "",
     alt_phone: "",
     gst_no: "",
+    gst_name: "",
     address: {
       street: "",
       landmark: "",
@@ -165,6 +166,7 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         phone: formData.phone,
         alt_phone: formData.alt_phone,
         gst_no: formData.gst_no,
+        gst_name: formData.gst_name,
         address: {
           street: formData.address.street,
           landmark: formData.address.landmark,
@@ -405,6 +407,19 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                 />
                 {errors.gst_no && (
                   <span className="text-xs text-red-400">{errors.gst_no}</span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Gst Name</label>
+                <Input
+                  name="gst_name"
+                  value={formData.gst_name}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.gst_name}
+                />
+                {errors.gst_name && (
+                  <span className="text-xs text-red-400">{errors.gst_name}</span>
                 )}
               </div>
             </div>

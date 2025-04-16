@@ -33,6 +33,12 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {
+    data: cartOrder,
+    refetch: refetchCartOrder,
+    isError: cartError,
+  } = useGetCartItemQuery();
   const [placeOrder] = usePlaceOrderMutation();
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -76,25 +82,25 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
     setIsLoading(true);
 
     try {
-      // const responses = await Promise.all(
-      //   orderIds.map(async (order_id) => {
-      //     try {
-      //       return await placeOrder({ order_id }).unwrap();
-      //     } catch (error) {
-      //       console.error(
-      //         `Failed to place order ${order_id}:`,
-      //         error.data.message
-      //       );
-      //       toast.error(
-      //         error?.data?.message || `Failed to place order ${order_id}`
-      //       );
-      //       return null;
-      //     }
-      //   })
-      // );
-
+      const sendor_details =
+        cartOrder?.data?.delivery_details?.[0]?.mainItem?.sender_details;
+      const responses = await Promise.all(
+        orderIds.map(async (order_id) => {
+          try {
+            return await placeOrder({ order_id }).unwrap();
+          } catch (error) {
+            console.error(
+              `Failed to place order ${order_id}:`,
+              error.data.message
+            );
+            toast.error(
+              error?.data?.message || `Failed to place order ${order_id}`
+            );
+            return null;
+          }
+        })
+      );
       // const successOrders = responses.filter(Boolean); // Remove failed/null responses
-
       // if (successOrders.length > 0) {
       //   toast.success("Orders placed successfully!");
       //   // setCookie("cart", [], true);
@@ -103,15 +109,14 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       //   //   window.location.href = "/";
       //   // }, 5000);
       // }
-
       const data = await initiatePayment({
         amount: 1, //totalPrice,
         product: {
           orderIds: orderIds,
         },
-        firstname: "Pranay Ambre",
-        email: getCookie("email"),
-        mobile: "8788373686",
+        firstname: sendor_details?.name || getCookie("user"),
+        email: sendor_details?.email || getCookie("email"),
+        mobile: sendor_details?.phone || "9999999999",
       });
       setForm(data?.data?.payment_url);
     } catch (error) {
@@ -153,7 +158,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
       <div className="w-full p-3">
         <div className="w-full space-y-4">
           {/* Wallets Option */}
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <input
               type="radio"
               id="cod"
@@ -165,20 +170,19 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
             <label htmlFor="cod" className="font-medium">
               Pay
             </label>
-          </div>
+          </div> */}
           {selectedOption === "cod" && (
             <div className="ml-6 space-y-4">
               <button
                 onClick={handleSubmit}
-                className="w-full bg-orange-500 text-white py-2 rounded"
+                className="w-full md:w-fit px-8 bg-orange-500 text-white py-2 rounded"
               >
                 PAY ₹{totalPrice}
               </button>
             </div>
           )}
 
-          {/* UPI Option */}
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <input
               type="radio"
               id="upi"
@@ -235,7 +239,6 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
             </div>
           )}
 
-          {/* Credit/Debit Card Option */}
           <div className="flex items-center space-x-2">
             <input
               type="radio"
@@ -289,7 +292,6 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
             </div>
           )}
 
-          {/* Wallets Option */}
           <div className="flex items-center space-x-2">
             <input
               type="radio"
@@ -338,7 +340,6 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
             </div>
           )}
 
-          {/* Net Banking Option */}
           <div className="flex items-center space-x-2">
             <input
               type="radio"
@@ -385,7 +386,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
                 PAY ₹ {totalPrice}
               </button>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>
@@ -524,7 +525,7 @@ function CheckOutPayment() {
           {/* Card 2 */}
           <CheckoutCard stepNumber={2} title="ORDER & DELIVERY DETAILS" done />
 
-          <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS">
+          <CheckoutCard stepNumber={3} title="PAYMENT">
             <PaymentOptions
               orderIds={orderIds}
               totalPrice={

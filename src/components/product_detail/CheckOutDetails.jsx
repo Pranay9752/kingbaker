@@ -681,7 +681,7 @@ function CheckOutDetails() {
             <SenderDetailsForm orderIds={orderIds || []} />
           </CheckoutCard>
 
-          <CheckoutCard stepNumber={3} title="PAYMENT OPTIONS" />
+          <CheckoutCard stepNumber={3} title="PAYMENT" />
         </div>
         <div className="sticky">
           <PriceDetails orderId={searchParams?.get("orderid") || null} />
