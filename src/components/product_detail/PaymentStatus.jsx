@@ -114,9 +114,9 @@ const DesktopView = ({ orderDetails, data }) => {
               </div>
               <div className="text-center mt-2">
                 <p className="font-medium text-green-700">Confirmed</p>
-                <p className="text-sm text-gray-500">
+                {/* <p className="text-sm text-gray-500">
                   {orderDetails.orderDate}
-                </p>
+                </p> */}
               </div>
             </div>
 
@@ -152,9 +152,9 @@ const DesktopView = ({ orderDetails, data }) => {
               </div>
               <div className="text-center mt-2">
                 <p className="font-medium text-gray-500">Delivered</p>
-                <p className="text-sm text-gray-500">
+                {/* <p className="text-sm text-gray-500">
                   {orderDetails.deliveryDate}
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
