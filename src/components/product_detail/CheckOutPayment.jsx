@@ -73,59 +73,106 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
   //   }
   // };
 
+  // const handleSubmit = async () => {
+  //   if (!orderIds?.length) {
+  //     toast.info("No Order available to place!");
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+
+  //   try {
+  //     const sendor_details =
+  //       cartOrder?.data?.delivery_details?.[0]?.mainItem?.sender_details;
+  //     const responses = await Promise.all(
+  //       orderIds.map(async (order_id) => {
+  //         try {
+  //           return await placeOrder({ order_id }).unwrap();
+  //         } catch (error) {
+  //           console.error(
+  //             `Failed to place order ${order_id}:`,
+  //             error.data.message
+  //           );
+  //           toast.error(
+  //             error?.data?.message || `Failed to place order ${order_id}`
+  //           );
+  //           return null;
+  //         }
+  //       })
+  //     );
+    
+  //     const data = await initiatePayment({
+  //       amount: 1, //totalPrice,
+  //       product: {
+  //         orderIds: orderIds,
+  //       },
+  //       firstname: sendor_details?.name || getCookie("user"),
+  //       email: sendor_details?.email || getCookie("email"),
+  //       mobile: sendor_details?.phone || "9999999999",
+  //     });
+  //     setForm(data?.data?.payment_url);
+  //   } catch (error) {
+  //     console.error("Unexpected error:", error.message);
+  //     toast.error("An unexpected error occurred. Please try again.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const handleSubmit = async () => {
     if (!orderIds?.length) {
-      toast.info("No Order available to place!");
+      toast.info("No orders available to place!");
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
-      const sendor_details =
+      const senderDetails =
         cartOrder?.data?.delivery_details?.[0]?.mainItem?.sender_details;
-      const responses = await Promise.all(
-        orderIds.map(async (order_id) => {
-          try {
-            return await placeOrder({ order_id }).unwrap();
-          } catch (error) {
-            console.error(
-              `Failed to place order ${order_id}:`,
-              error.data.message
-            );
-            toast.error(
-              error?.data?.message || `Failed to place order ${order_id}`
-            );
-            return null;
-          }
-        })
+  
+      const placedOrders = await Promise.allSettled(
+        orderIds.map((order_id) =>
+          placeOrder({ order_id }).unwrap()
+        )
       );
-      // const successOrders = responses.filter(Boolean); // Remove failed/null responses
-      // if (successOrders.length > 0) {
-      //   toast.success("Orders placed successfully!");
-      //   // setCookie("cart", [], true);
-      //   // dispatch(addInit([]));
-      //   // setTimeout(() => {
-      //   //   window.location.href = "/";
-      //   // }, 5000);
-      // }
-      const data = await initiatePayment({
-        amount: 1, //totalPrice,
-        product: {
-          orderIds: orderIds,
-        },
-        firstname: sendor_details?.name || getCookie("user"),
-        email: sendor_details?.email || getCookie("email"),
-        mobile: sendor_details?.phone || "9999999999",
+  
+      const failedOrders = placedOrders.filter(
+        (res) => res.status === "rejected"
+      );
+  
+      if (failedOrders.length > 0) {
+        failedOrders.forEach((res, index) => {
+          const error = res.reason;
+          console.error(`Failed to place order ${orderIds[index]}:`, error);
+          toast.error(
+            error?.data?.message ||
+              `Failed to place order ${orderIds[index]}`
+          );
+        });
+        return; // stop further actions like payment if some orders failed
+      }
+  
+      const paymentResponse = await initiatePayment({
+        amount: 1, // totalPrice
+        product: { orderIds },
+        firstname: senderDetails?.name || getCookie("user"),
+        email: senderDetails?.email || getCookie("email"),
+        mobile: senderDetails?.phone || "9999999999",
       });
-      setForm(data?.data?.payment_url);
+  
+      if (paymentResponse?.data?.payment_url) {
+        setForm(paymentResponse.data.payment_url);
+      } else {
+        throw new Error("Payment URL not returned.");
+      }
     } catch (error) {
-      console.error("Unexpected error:", error.message);
+      console.error("Unexpected error:", error?.message || error);
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     const formData = document.getElementById("payment_post");
