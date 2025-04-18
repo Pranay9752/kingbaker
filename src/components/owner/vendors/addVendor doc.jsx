@@ -7,12 +7,10 @@ import BasicButton from "../../../atom/button/BasicButton";
 import { toast } from "sonner";
 import getCookie from "../../../atom/utils/getCookies";
 
-
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Upload, X, FileText, CheckCircle, Loader } from "lucide-react";
 import LocationAutocomplete from "../../../molecules/location/LocationAutocomplete";
+import useImageUpload from "../../../atom/utils/useUploadImages";
 
-const baseClasses =
-  "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
 export const Input = ({
   name,
   value,
@@ -26,6 +24,8 @@ export const Input = ({
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
+  const baseClasses =
+    "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors";
   const errorClasses = error ? "border-red-500" : "";
 
   return (
@@ -55,15 +55,107 @@ export const Input = ({
   );
 };
 
+// New Document Upload Component
+const DocumentUpload = ({ name, label, value, onChange, error, uploadInProgress }) => {
+  const fileInputRef = React.useRef(null);
+  
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      onChange({
+        target: {
+          name: name,
+          value: file,
+          type: "file"
+        },
+      });
+    }
+  };
+
+  const removeFile = () => {
+    onChange({
+      target: {
+        name: name,
+        value: "",
+        type: "text"
+      },
+    });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const isFileObject = value instanceof File;
+  const hasValue = value && typeof value === 'string' && value.trim() !== "";
+
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-medium">{label}</label>
+      <div className="relative">
+        {!hasValue && !isFileObject ? (
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-md cursor-pointer bg-[#161b22] hover:bg-gray-800 transition-colors"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <Upload size={20} className="text-gray-400" />
+              <span className="text-sm text-gray-400">
+                Click to upload {label}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between w-full p-3 rounded-md bg-gray-800/50 border border-gray-700">
+            <div className="flex items-center gap-2">
+              <FileText size={18} className="text-blue-400" />
+              <span className="text-sm text-gray-300 truncate max-w-[200px]">
+                {isFileObject ? value.name : value.split('/').pop()}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              {uploadInProgress ? (
+                <Loader size={16} className="text-yellow-400 animate-spin" />
+              ) : (
+                <CheckCircle size={16} className="text-green-400" />
+              )}
+              <button
+                type="button"
+                onClick={removeFile}
+                className="text-gray-400 hover:text-red-400"
+                disabled={uploadInProgress}
+              >
+                <X size={18} />
+              </button>
+            </div>
+          </div>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          name={name}
+          onChange={handleFileChange}
+          className="hidden"
+          accept=".pdf,.jpg,.jpeg,.png"
+          disabled={uploadInProgress}
+        />
+      </div>
+      {error && <span className="text-xs text-red-400">{error}</span>}
+    </div>
+  );
+};
 
 const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   const isUpdate = !!initialData;
+  const { uploadImages, loading: uploading, error: uploadError } = useImageUpload();
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
+    alt_phone: "",
+    gst_no: "",
+    gst_name: "",
     address: {
       street: "",
       landmark: "",
@@ -73,10 +165,22 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
       country: "",
       pincode: "",
     },
-    coordinates: {
-      longitude: "",
-      latitude: "",
-    },
+    coordinates: [],
+    // Document fields
+    aadharCard: "",
+    panCard: "", 
+    fssaiLicense: "",
+    msmeCertificate: "",
+    canceledCheck: "",
+  });
+
+  // Keep track of documents being uploaded
+  const [uploadsInProgress, setUploadsInProgress] = useState({
+    aadharCard: false,
+    panCard: false,
+    fssaiLicense: false,
+    msmeCertificate: false,
+    canceledCheck: false
   });
 
   const [dirtyFields, setDirtyFields] = useState(new Set());
@@ -89,14 +193,54 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
   // Transform and set initial data if in update mode
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      // Map document URLs from initialData
+      setFormData({
+        ...initialData,
+        aadharCard: initialData.aadharCard || "",
+        panCard: initialData.panCard || "",
+        fssaiLicense: initialData.fssaiLicense || "",
+        msmeCertificate: initialData.msmeCertificate || "",
+        canceledCheck: initialData.canceledCheck || "",
+      });
     }
   }, [initialData]);
 
+  const handleDocumentUpload = (fieldName, file) => {
+    // Mark this document as uploading
+    setUploadsInProgress(prev => ({ ...prev, [fieldName]: true }));
+    
+    // Upload the file
+    uploadImages([file], (uploadedUrls) => {
+      if (uploadedUrls && uploadedUrls.length > 0) {
+        // Update the form data with the URL
+        setFormData(prev => ({
+          ...prev,
+          [fieldName]: uploadedUrls[0]
+        }));
+        
+        // Mark the field as dirty
+        setDirtyFields(prev => new Set(prev).add(fieldName));
+      } else {
+        toast.error(`Failed to upload ${fieldName}`);
+      }
+      
+      // Mark upload as complete
+      setUploadsInProgress(prev => ({ ...prev, [fieldName]: false }));
+    });
+  };
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setDirtyFields((prev) => new Set(prev).add(name));
 
+    // Handle file uploads
+    if (type === "file" && value instanceof File) {
+      const fieldName = name.split('.')[1]; // Extract field name from "documents.fieldName"
+      handleDocumentUpload(fieldName, value);
+      return;
+    }
+
+    // Handle regular form fields
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
       setFormData((prev) => ({
@@ -149,6 +293,11 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
     if (!formData.address.pincode)
       newErrors["address.pincode"] = "Pincode is required";
 
+    // Check if any uploads are in progress
+    if (Object.values(uploadsInProgress).some(value => value)) {
+      newErrors["upload"] = "Please wait for document uploads to complete";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -162,10 +311,13 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        alt_phone: formData.alt_phone || "",
+        gst_no: formData.gst_no || "",
+        gst_name: formData.gst_name || "",
         address: {
           street: formData.address.street,
-          landmark: formData.address.landmark,
-          area: formData.address.area,
+          landmark: formData.address.landmark || "",
+          area: formData.address.area || "",
           city: formData.address.city,
           state: formData.address.state,
           country: formData.address.country,
@@ -173,8 +325,14 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         },
         geoLocation: {
           type: "Point",
-          coordinates: [72.868725, 19.027004],
+          coordinates: [formData.coordinates?.[0] || 0, formData.coordinates?.[1] || 0],
         },
+        // Add document URLs
+        aadharCard: formData.aadharCard || "",
+        panCard: formData.panCard || "",
+        fssaiLicense: formData.fssaiLicense || "",
+        msmeCertificate: formData.msmeCertificate || "",
+        canceledCheck: formData.canceledCheck || "",
       };
 
       if (isUpdate) {
@@ -191,22 +349,16 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
             dirtyFieldsPayload[field] = payload[field];
           }
         });
+        
         await updateVendor({
-          email:
-            "email" in dirtyFieldsPayload
-              ? dirtyFieldsPayload["email"]
-              : formData.email,
+          email: dirtyFieldsPayload.email || formData.email,
           ...dirtyFieldsPayload,
         }).unwrap();
+        
         toast.success("Vendor updated successfully");
-
         onSubmit({
-          name: dirtyFieldsPayload?.name || formData.name,
-          ...payload,
-          address: {
-            ...payload.address,
-            ...dirtyFieldsPayload?.address,
-          },
+          ...formData,
+          ...dirtyFieldsPayload,
         });
       } else {
         // For create, include owner_id and password
@@ -215,62 +367,64 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
           password: formData.password,
           ...payload,
         }).unwrap();
+        
         toast.success("Vendor created successfully");
         onSubmit(payload);
       }
     } catch (error) {
       console.error("Operation failed:", error);
-      // You might want to show an error message to the user here
+      toast.error("Operation failed: " + (error.data?.message || "Unknown error"));
     }
   };
 
   const handleLocationSelect = (locationData) => {
-    // Update address fields based on Google Autocomplete data
-    const addressUpdates = {
-      city: locationData.city || formData.address.city,
-      state: locationData.state || formData.address.state,
-      country: locationData.country || formData.address.country,
-      pincode: locationData.pincode || formData.address.pincode,
-    };
-
-    // Update coordinates
-    const coordinatesUpdates = {
-      longitude: locationData.lng || formData.coordinates.longitude,
-      latitude: locationData.lat || formData.coordinates.latitude,
-    };
-
-    // Mark the updated fields as dirty
-    Object.keys(addressUpdates).forEach(field => {
-      if (addressUpdates[field] !== formData.address[field]) {
-        setDirtyFields(prev => new Set(prev).add(`address.${field}`));
-      }
+    console.log("locationData: ", locationData);
+    handleChange({
+      target: { name: "address.pincode", value: locationData?.pincode || "" },
     });
-
-    Object.keys(coordinatesUpdates).forEach(field => {
-      if (coordinatesUpdates[field] !== formData.coordinates[field]) {
-        setDirtyFields(prev => new Set(prev).add(`coordinates.${field}`));
-      }
+    handleChange({
+      target: { name: "address.country", value: locationData.country || "" },
     });
-
-    // Update the form data
-    setFormData(prev => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        ...addressUpdates
+    handleChange({
+      target: { name: "address.state", value: locationData.state || "" },
+    });
+    handleChange({
+      target: { name: "address.city", value: locationData.city || "" },
+    });
+    handleChange({
+      target: {
+        name: "address.street",
+        value: [
+          locationData?.allAddressComponents?.premise?.long_name,
+          locationData?.allAddressComponents?.route?.long_name,
+        ]
+          .filter(Boolean)
+          .join(", "),
       },
-      coordinates: coordinatesUpdates
-    }));
-
-    // Clear any errors for fields that are now populated
-    const newErrors = { ...errors };
-    Object.keys(addressUpdates).forEach(field => {
-      if (addressUpdates[field] && newErrors[`address.${field}`]) {
-        delete newErrors[`address.${field}`];
-      }
     });
-    setErrors(newErrors);
+    handleChange({
+      target: {
+        name: "address.landmark",
+        value: locationData?.allAddressComponents?.landmark?.long_name || "",
+      },
+    });
+    handleChange({
+      target: {
+        name: "address.area",
+        value:
+          locationData?.allAddressComponents?.neighborhood?.long_name || "",
+      },
+    });
+    handleChange({
+      target: {
+        name: "coordinates",
+        value: [locationData?.lng || 0, locationData?.lat || 0],
+      },
+    });
   };
+
+  // Check if any document uploads are in progress
+  const isAnyUploadInProgress = Object.values(uploadsInProgress).some(value => value);
 
   return (
     <div>
@@ -286,7 +440,6 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
         {isUpdate ? "Edit Vendor" : "Add New Vendor"}
       </h2>
 
-      {/* Rest of the form JSX remains the same */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-8">
           {/* Basic Information Section */}
@@ -329,23 +482,10 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                       </span>
                     )}
                   </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Phone</label>
-                    <Input
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="bg-[#161b22] border-gray-800 text-gray-300"
-                      error={errors.phone}
-                    />
-                    {errors.phone && (
-                      <span className="text-xs text-red-400">
-                        {errors.phone}
-                      </span>
-                    )}
-                  </div>
-
+                </>
+              )}
+              {!isUpdate && (
+                <>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Password</label>
                     <Input
@@ -364,6 +504,60 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
                   </div>
                 </>
               )}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Phone</label>
+                <Input
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.phone}
+                />
+                {errors.phone && (
+                  <span className="text-xs text-red-400">{errors.phone}</span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Alt Phone</label>
+                <Input
+                  name="alt_phone"
+                  value={formData.alt_phone}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.alt_phone}
+                />
+                {errors.alt_phone && (
+                  <span className="text-xs text-red-400">
+                    {errors.alt_phone}
+                  </span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">GST No.</label>
+                <Input
+                  name="gst_no"
+                  value={formData.gst_no}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.gst_no}
+                />
+                {errors.gst_no && (
+                  <span className="text-xs text-red-400">{errors.gst_no}</span>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">GST Name</label>
+                <Input
+                  name="gst_name"
+                  value={formData.gst_name}
+                  onChange={handleChange}
+                  className="bg-[#161b22] border-gray-800 text-gray-300"
+                  error={errors.gst_name}
+                />
+                {errors.gst_name && (
+                  <span className="text-xs text-red-400">{errors.gst_name}</span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -375,17 +569,20 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
             <p className="text-sm text-gray-400 mb-4">
               Provide your detailed address for records.
             </p>
-
-            {/* Google Autocomplete */}
             <div className="mb-4">
-              <label className="text-sm font-medium mb-2 block">Search Address</label>
+              <label className="text-sm font-medium mb-2 block">
+                Search Address
+              </label>
               <LocationAutocomplete
-                className={baseClasses}
+                className={
+                  "bg-[#161b22] border-gray-800 text-gray-300 max-w-md"
+                }
                 onLocationSelect={handleLocationSelect}
                 regionRestriction="" // Optional: Add country restriction like "in" for India
               />
               <p className="text-xs text-gray-400 mt-1">
-                Search for your address to automatically fill city, state, country and pincode
+                Search for your address to automatically fill city, state,
+                country and pincode
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -490,8 +687,77 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
               </div>
             </div>
           </div>
+
+          {/* Document Upload Section */}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-300 mb-2">
+              Document Verification
+            </h2>
+            <p className="text-sm text-gray-400 mb-4">
+              Upload essential documents for vendor verification.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <DocumentUpload
+                name="documents.aadharCard"
+                label="Aadhaar Card"
+                value={formData.aadharCard}
+                onChange={handleChange}
+                error={errors["aadharCard"]}
+                uploadInProgress={uploadsInProgress.aadharCard}
+              />
+              
+              <DocumentUpload
+                name="documents.panCard"
+                label="PAN Card"
+                value={formData.panCard}
+                onChange={handleChange}
+                error={errors["panCard"]}
+                uploadInProgress={uploadsInProgress.panCard}
+              />
+              
+              <DocumentUpload
+                name="documents.fssaiLicense"
+                label="FSSAI License"
+                value={formData.fssaiLicense}
+                onChange={handleChange}
+                error={errors["fssaiLicense"]}
+                uploadInProgress={uploadsInProgress.fssaiLicense}
+              />
+              
+              <DocumentUpload
+                name="documents.msmeCertificate"
+                label="MSME Certificate"
+                value={formData.msmeCertificate}
+                onChange={handleChange}
+                error={errors["msmeCertificate"]}
+                uploadInProgress={uploadsInProgress.msmeCertificate}
+              />
+              
+              <DocumentUpload
+                name="documents.canceledCheck"
+                label="Canceled Check"
+                value={formData.canceledCheck}
+                onChange={handleChange}
+                error={errors["canceledCheck"]}
+                uploadInProgress={uploadsInProgress.canceledCheck}
+              />
+            </div>
+            
+            {errors["upload"] && (
+              <div className="mt-2">
+                <span className="text-xs text-red-400">{errors["upload"]}</span>
+              </div>
+            )}
+            
+            {isUpdate && (
+              <p className="text-xs text-blue-400 mt-3">
+                Note: Only upload documents that you want to update. Existing documents will remain unchanged if no new file is selected.
+              </p>
+            )}
+          </div>
         </div>
-        {/* Just update the submit button text */}
+        
+        {/* Action Buttons */}
         <div className="flex justify-end items-center gap-3">
           <BasicButton
             type="button"
@@ -503,13 +769,15 @@ const VendorModal = ({ onClose, onSubmit, initialData = null }) => {
           <BasicButton
             type="submit"
             className="border-gray-300 text-gray-300 px-4 py-2 bg-green-800/50 rounded-lg"
-            disabled={isCreating || isUpdating}
+            disabled={isCreating || isUpdating || isAnyUploadInProgress}
           >
             {isCreating || isUpdating
               ? "Processing..."
+              : isAnyUploadInProgress
+              ? "Uploading documents..."
               : isUpdate
-                ? "Update Vendor"
-                : "Create Vendor"}
+              ? "Update Vendor"
+              : "Create Vendor"}
           </BasicButton>
         </div>
       </form>

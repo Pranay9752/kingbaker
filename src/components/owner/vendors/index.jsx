@@ -3,7 +3,7 @@ import OwnerHeader from "../../../molecules/header/OwnerHeader";
 import { useGetAllVendorQuery } from "../../../redux/apiSlices/owner/vendor";
 import BasicButton from "../../../atom/button/BasicButton";
 import ModalWrapper from "../../../molecules/wrappers/ModalWrapper";
-import AddVendorModal from "./addVendor";
+import AddVendorModal from "./addVendor doc";
 import SEO from "../../../atom/seo/SEO";
 import ActionPopover from "./actionPopover";
 import VendorMapping from "./vendorMapping";
