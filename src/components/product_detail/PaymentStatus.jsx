@@ -57,6 +57,17 @@ const PaymentStatus = () => {
 };
 
 const DesktopView = ({ orderDetails, data }) => {
+  const total = data?.orderDetails.reduce((acc, item) => {
+    let addonTotal = 0;
+    item?.addOn?.forEach((addon) => {
+      addonTotal += addon?.price * (addon?.count?.count || 1);
+    });
+    return (item?.productDetails?.[0]?.prices || 0) + (addonTotal || 0) + acc;
+  }, 0);
+
+  const shipping = data?.orderDetails.reduce((acc, item) => {
+    return (item?.shipping?.shipping_amount || 0) + acc;
+  }, 0);
   const navigate = useNavigate();
   return (
     <div className="max-w-6xl mx-auto p-6 hidden md:block">
@@ -228,25 +239,27 @@ const DesktopView = ({ orderDetails, data }) => {
                 <span className="flex items-center gap-2">
                   <ShoppingCart size={18} /> Product Price:
                 </span>
-                <span className="font-medium">₹ {orderDetails.price}</span>
+                <span className="font-medium">₹ {total || 0}</span>
               </div>
               <div className="flex justify-between text-gray-700">
                 <span className="flex items-center gap-2">
                   <Truck size={18} /> Shipping:
                 </span>
-                <span className="font-medium">₹ {orderDetails.shipping}</span>
+                <span className="font-medium">₹ {shipping || 0}</span>
               </div>
-              <div className="flex justify-between text-gray-700">
+              {/* <div className="flex justify-between text-gray-700">
                 <span className="flex items-center gap-2">
                   📦 Convenience Charge:
                 </span>
                 <span className="font-medium">
                   ₹ {orderDetails.convenience}
                 </span>
-              </div>
+              </div> */}
               <div className="flex justify-between font-bold text-lg border-t border-gray-400 pt-3 text-gray-800">
                 <span>Total:</span>
-                <span className="text-emerald-600">₹ {orderDetails.total}</span>
+                <span className="text-emerald-600">
+                  ₹ {(shipping || 0) + (total || 0)}
+                </span>
               </div>
             </div>
           </motion.div>
@@ -308,7 +321,7 @@ const MobileView = ({ orderDetails, data }) => {
 
   // Animation for progress bar
   const [progress, setProgress] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Tracking steps
   const steps = [
@@ -344,6 +357,18 @@ const MobileView = ({ orderDetails, data }) => {
     ...step,
     completed: step.id <= currentStep,
   }));
+
+  const total = data?.orderDetails.reduce((acc, item) => {
+    let addonTotal = 0;
+    item?.addOn?.forEach((addon) => {
+      addonTotal += addon?.price * (addon?.count?.count || 1);
+    });
+    return (item?.productDetails?.[0]?.prices || 0) + (addonTotal || 0) + acc;
+  }, 0);
+
+  const shipping = data?.orderDetails.reduce((acc, item) => {
+    return (item?.shipping?.shipping_amount || 0) + acc;
+  }, 0);
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg md:hidden">
@@ -561,7 +586,9 @@ const MobileView = ({ orderDetails, data }) => {
             <div className="border-t border-gray-200 pt-3 mt-2">
               <div className="flex justify-between mb-1 text-gray-600">
                 <span>Total:</span>
-                <span className="font-bold">₹ {orderDetails.total}</span>
+                <span className="font-bold">
+                  ₹ {(shipping || 0) + (total || 0)}
+                </span>
               </div>
               <div className="flex justify-between mb-1 text-gray-600">
                 <span>Payment Method:</span>
@@ -587,7 +614,10 @@ const MobileView = ({ orderDetails, data }) => {
           {/* <button className="py-3 border-2 border-olive-600 text-olive-600 rounded-xl font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm">
             VIEW ORDER DETAILS
           </button> */}
-          <button onClick={() => navigate('/')} className="py-3 bg-orange-500 text-white rounded-xl font-medium text-sm hover:bg-orange-600 transition-colors shadow-sm">
+          <button
+            onClick={() => navigate("/")}
+            className="py-3 bg-orange-500 text-white rounded-xl font-medium text-sm hover:bg-orange-600 transition-colors shadow-sm"
+          >
             CONTINUE SHOPPING
           </button>
         </div>
