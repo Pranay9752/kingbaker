@@ -18,12 +18,14 @@ const OrderDetailsCard = ({
   darkMode = false,
   isPrintChallan=true
 }) => {
+  console.log('order: ', order);
   const [updatePrintStatus] = useUpdatePrintStatusMutation();
   const deliveryAddress = order?.deliveryAddresses?.[0] ?? {};
   const addOn = order?.addOn;
   const shipping = order?.shipping ?? {};
   const user = order?.user?.[0] ?? {};
   const productDetails = order?.productDetails?.[0];
+  const senderDetails = order.sender_details ?? {}
 
   const printChallan = async () => {
     try {
@@ -363,19 +365,19 @@ const OrderDetailsCard = ({
             className={`text-sm ${darkMode ? "text-gray-200" : "text-gray-800"
               }`}
           >
-            {user?.name ?? ""}
+            {senderDetails?.name || ""}
           </p>
           <p
-            className={`text-sm ${darkMode ? "text-gray-200" : "text-gray-800"
+            className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-800"
               }`}
           >
-            {user?.mobile ?? ""}
+            {senderDetails?.phone || ""}
           </p>
           <p
-            className={`text-sm ${darkMode ? "text-gray-200" : "text-gray-800"
+            className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-800"
               }`}
           >
-            {user?.email ?? ""}
+            {senderDetails?.email || ""}
           </p>
         </div>
       </div>

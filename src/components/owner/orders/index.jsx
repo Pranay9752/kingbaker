@@ -394,8 +394,8 @@ const OwnerOrders = ({}) => {
     }
   };
 
-
   const transformOrderData = (data) => {
+    console.log("data: ", data?.sender_details || {});
     return {
       order_id: data?.order_id || null,
       deliveryAddresses: data?.deliveryAddresses?.map((address) => ({
@@ -430,6 +430,7 @@ const OwnerOrders = ({}) => {
         prices: product?.prices?.toString() || null,
         imageLink: product?.imageLink || [],
       })),
+      sender_details: { ...(data?.sender_details || {}) },
       timeDifference: data?.shipping?.time || null, // assuming a fixed value; replace as necessary
       allocationTime: "10:00 AM", // assuming a fixed time; replace as necessary
       acceptanceTime: "12:00 PM", // assuming a fixed time; replace as necessary
@@ -448,7 +449,7 @@ const OwnerOrders = ({}) => {
   return (
     <>
       <OwnerHeader isActive={"Orders"}>
-      <SEO title={'Orders'} />
+        <SEO title={"Orders"} />
 
         <div className="w-full bg-black text-gray-300 p-4 rounded-lg">
           {orderDetailIndex !== null ? (
@@ -481,7 +482,10 @@ const OwnerOrders = ({}) => {
           isOpen={showUpdatePanel}
           onClose={() => setShowUpdatePanel(null)}
         >
-          <UpdateOrderModal data={transformOrderData(data?.data?.[orderDetailIndex]) ?? {}} onClose={() => setShowUpdatePanel(null)} />
+          <UpdateOrderModal
+            data={transformOrderData(data?.data?.[orderDetailIndex]) ?? {}}
+            onClose={() => setShowUpdatePanel(null)}
+          />
         </ModalWrapper>
       </OwnerHeader>
     </>
