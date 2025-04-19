@@ -176,10 +176,9 @@ const MyAccount = () => {
       ),
       color: "text-pink-600",
       title: "My Orders",
-      description: "View Order Status, Track Order & Download Invoice",
+      description: "",
       page: "orders",
     },
-
     {
       Icon: (
         <>
