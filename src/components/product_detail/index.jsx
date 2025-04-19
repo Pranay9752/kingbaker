@@ -234,7 +234,7 @@ const ProductDetail = () => {
               title={"What customers are saying"}
             />
             <div className="w-full">
-              {/* <ProductCarousel
+              {/* <c
                 title="Recently viewed by you"
                 products={products}
                 className="my-custom-class"

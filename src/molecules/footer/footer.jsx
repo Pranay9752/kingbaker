@@ -21,7 +21,7 @@ const Footer = () => {
               <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
             </svg>
             <h3 className="font-semibold mb-1">Nationwide Delivery</h3>
-            <p className="text-sm">We deliver gifts to over 70 countries</p>
+            <p className="text-sm">We deliver gifts to all 28 states and 8 Union Territories</p>
           </div>
           <div className="w-full sm:w-1/2 md:w-1/4 text-center mb-4">
             <svg
@@ -220,7 +220,7 @@ const Footer = () => {
 
         <div className="flex flex-wrap items-center justify-between pt-8 border-t border-gray-200">
           <p className="text-sm">
-            &copy; 1994-2024 kingbaker.com. All rights reserved.
+            &copy; 1994-2024 Jojocart.com. All rights reserved.
           </p>
           <div className="flex space-x-4">
             <Link

@@ -159,7 +159,7 @@ const PDFDocument = ({ data }) => {
                 <Text style={styles.price}>${product.price.toFixed(2)}</Text>
               )}
               <Link
-                src={`https://kingbaker.vercel.com/product/${product?.title
+                src={`https://jojocart.com/product/${product?.title
                   .split(" ")
                   .join("_")}_${String(product?.productId || "").replace(
                   "PROD",

@@ -110,7 +110,7 @@ const ProductDetails = ({
             reviews={data?.reviews ?? []}
             title={"What customers are saying"}
           />
-          <ProductCarousel
+          {/* <ProductCarousel
             title=""
             products={products}
             className="my-custom-class"
@@ -127,7 +127,7 @@ const ProductDetails = ({
             products={products}
             className="my-custom-class"
             cardClassName="my-card-class"
-          />
+          /> */}
           <div className="h-32" />
         </div>
       </div>
