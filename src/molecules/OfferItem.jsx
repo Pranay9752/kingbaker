@@ -19,9 +19,9 @@ const OfferItem = ({ logo, description, code, terms }) => {
     <>
       <div className="grid grid-cols-[25%,65%,10%] px-5 py-4 md:py-3 border text-left place-items-center gap-2">
         <img
-          src={logo}
+          src={"https://i.ibb.co/m5LqhCv5/jojo-cart-logo-updated-04.png"}
           alt="Offer logo"
-          className="w-20 mr-2 place-content-start"
+          className="w-24 mr-2 place-content-start"
         />
         <div className="w-full">
           <p className="text-sm">{description}</p>

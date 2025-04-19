@@ -149,7 +149,7 @@ const PaymentOptions = ({ orderIds = [], totalPrice = 0 }) => {
               `Failed to place order ${orderIds[index]}`
           );
         });
-        return; // stop further actions like payment if some orders failed
+        return;
       }
   
       const paymentResponse = await initiatePayment({
