@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetPaymentStatusQuery } from "../../redux/apiSlices/ecom/checkoutApiSlice";
 import { motion } from "framer-motion";
 import { Truck, Calendar, ShoppingCart, Package } from "lucide-react"; // Icons for a playful touch
+import { format, parseISO } from "date-fns";
 
 const PaymentStatus = () => {
   const { taxId } = useParams();
@@ -57,6 +58,13 @@ const PaymentStatus = () => {
 };
 
 const DesktopView = ({ orderDetails, data }) => {
+  const orderId = data?.orderDetails?.[0]?.order_id || ""
+  const shippingData = data?.orderDetails?.[0]?.shipping
+  const address = data?.orderDetails?.[0]?.deliveryAddresses?.[0]
+  const formattedDate = shippingData?.delivary_date
+  ? format(parseISO(shippingData.delivary_date), 'dd MMM yy')
+  : '';
+
   const total = data?.orderDetails.reduce((acc, item) => {
     let addonTotal = 0;
     item?.addOn?.forEach((addon) => {
@@ -94,13 +102,13 @@ const DesktopView = ({ orderDetails, data }) => {
           <p className="text-lg">
             YOUR ORDER{" "}
             <span className="text-blue-500 font-bold">
-              #{orderDetails.orderNumber}
+              #{orderId}
             </span>{" "}
             IS CONFIRMED
           </p>
-          <p className="text-gray-600 mt-2">
+          {/* <p className="text-gray-600 mt-2">
             You will receive an email and SMS confirmation shortly.
-          </p>
+          </p> */}
         </div>
 
         {/* Order Status Timeline */}
@@ -274,15 +282,15 @@ const DesktopView = ({ orderDetails, data }) => {
             </h3>
             <div className="mb-6">
               <h4 className="font-semibold text-gray-800">Recipient:</h4>
-              <p className="text-gray-700">{orderDetails.recipient.name}</p>
-              <p className="text-gray-600">{orderDetails.recipient.address}</p>
+              <p className="text-gray-700">{address?.recipientName || ""}</p>
+              <p className="text-gray-600">{[address?.recipientAddress,  address?.area, address?.city, address?.pincode].filter(Boolean).join(", ")}</p>
             </div>
 
             <div>
               <h4 className="font-semibold text-gray-800">Delivery Date:</h4>
               <div className="flex items-center gap-2 text-gray-700">
                 <Calendar size={18} className="text-emerald-600" />
-                <p>{orderDetails.deliveryDate}</p>
+                <p>{[formattedDate,shippingData?.time].filter(Boolean).join(", ")}</p>
               </div>
             </div>
           </motion.div>
@@ -357,6 +365,14 @@ const MobileView = ({ orderDetails, data }) => {
     ...step,
     completed: step.id <= currentStep,
   }));
+  const orderId = data?.orderDetails?.[0]?.order_id || ""
+
+  const shippingData = data?.orderDetails?.[0]?.shipping
+  const address = data?.orderDetails?.[0]?.deliveryAddresses?.[0]
+  const formattedDate = shippingData?.delivary_date
+  ? format(parseISO(shippingData.delivary_date), 'dd MMM yy')
+  : '';
+
 
   const total = data?.orderDetails.reduce((acc, item) => {
     let addonTotal = 0;
@@ -393,7 +409,7 @@ const MobileView = ({ orderDetails, data }) => {
           </div>
           <h2 className="text-2xl font-bold mb-2">
             YOUR ORDER{" "}
-            <span className="text-blue-500">#{orderDetails.orderNumber}</span>
+            <span className="text-blue-500">#{orderId}</span>
           </h2>
           <p className="text-lg font-bold mb-2">IS CONFIRMED</p>
           <p className="text-gray-600">THANK YOU FOR SHOPPING WITH US</p>
@@ -472,15 +488,13 @@ const MobileView = ({ orderDetails, data }) => {
               {updatedSteps.map((step, index) => (
                 <div
                   key={step.id}
-                  className={`flex mb-4 ${
-                    index === updatedSteps.length - 1 ? "mb-0" : ""
-                  }`}
+                  className={`flex mb-4 ${index === updatedSteps.length - 1 ? "mb-0" : ""
+                    }`}
                 >
                   <div className="mr-4 relative">
                     <div
-                      className={`h-6 w-6 rounded-full flex items-center justify-center ${
-                        step.completed ? "bg-green-600" : "bg-gray-300"
-                      }`}
+                      className={`h-6 w-6 rounded-full flex items-center justify-center ${step.completed ? "bg-green-600" : "bg-gray-300"
+                        }`}
                     >
                       {step.completed ? (
                         <svg
@@ -504,19 +518,17 @@ const MobileView = ({ orderDetails, data }) => {
                     </div>
                     {index < updatedSteps.length - 1 && (
                       <div
-                        className={`absolute top-6 left-3 w-0.5 h-full ${
-                          step.completed && updatedSteps[index + 1].completed
+                        className={`absolute top-6 left-3 w-0.5 h-full ${step.completed && updatedSteps[index + 1].completed
                             ? "bg-green-600"
                             : "bg-gray-300"
-                        }`}
+                          }`}
                       ></div>
                     )}
                   </div>
                   <div className="flex-1">
                     <p
-                      className={`font-bold ${
-                        step.completed ? "text-green-700" : "text-gray-500"
-                      }`}
+                      className={`font-bold ${step.completed ? "text-green-700" : "text-gray-500"
+                        }`}
                     >
                       {step.name}
                     </p>
@@ -604,8 +616,8 @@ const MobileView = ({ orderDetails, data }) => {
             <h3 className="font-bold text-lg">Recipient</h3>
           </div>
           <div className="p-4">
-            <p className="font-bold">{orderDetails.recipient.name}</p>
-            <p className="text-gray-600">{orderDetails.recipient.address}</p>
+            <p className="font-bold">{address?.recipientName || ""}</p>
+            <p className="text-gray-600">{[address?.recipientAddress,  address?.area, address?.city, address?.pincode].filter(Boolean).join(", ")}</p>
           </div>
         </div>
 
